@@ -1,3 +1,5 @@
 Tools/
 .idea/
+target/
+lib/
 *.iml
