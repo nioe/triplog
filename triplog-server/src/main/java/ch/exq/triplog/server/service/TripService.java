@@ -1,5 +1,10 @@
 package ch.exq.triplog.server.service;
 
+import ch.exq.triplog.server.entity.Trip;
+import ch.exq.triplog.server.entity.dao.TripDAO;
+import ch.exq.triplog.server.util.JsonUtil;
+
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,19 +18,27 @@ import javax.ws.rs.core.UriInfo;
  */
 @Path("/")
 public class TripService {
+    @Inject
+    private TripDAO tripDAO;
+
     @Context
     private UriInfo context;
 
     @GET
     @Path("/trip/{tripId : [0-9]*}")
-    public Response getTrip(@PathParam("tripId") String tripId) {
-        String json = "{ tripId : " + tripId + " }";
-        return Response.ok(json, MediaType.APPLICATION_JSON).build();
+    public Response getTrip(@PathParam("tripId") int tripId) {
+        Trip trip = tripDAO.getTripById(tripId);
+
+        if (trip == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(JsonUtil.toJsonString(trip), MediaType.APPLICATION_JSON).build();
     }
 
     @GET
-    @Path("/trip/get-all")
+    @Path("/trips")
     public Response getAllTrips() {
-        return Response.ok("{ all trips }", MediaType.APPLICATION_JSON).build();
+        return Response.ok(JsonUtil.toJsonArray(tripDAO.getAllTrips()), MediaType.APPLICATION_JSON).build();
     }
 }
