@@ -13,7 +13,7 @@ public class AdminAuthentication implements Serializable {
     private static final String SYSTEM_PROPERTY_ADMIN_USER = "triplog.admin.user";
     private static final String SYSTEM_PROPERTY_ADMIN_PASSWORD = "triplog.admin.password";
     private static final String DEFAULT_ADMIN_USER = "admin";
-    private static final String DEFALUT_ADMIN_PASSWORD = "password";
+    private static final String DEFAULT_ADMIN_PASSWORD = "password";
 
     public boolean isValid(String user, String password) {
         return getAdminUser().equals(user) && getAdminPassword().equals(password);
@@ -24,6 +24,6 @@ public class AdminAuthentication implements Serializable {
     }
 
     private String getAdminPassword() {
-        return SystemPropertyUtil.getSystemProperty(SYSTEM_PROPERTY_ADMIN_PASSWORD, DEFALUT_ADMIN_PASSWORD);
+        return SystemPropertyUtil.getSystemProperty(SYSTEM_PROPERTY_ADMIN_PASSWORD, DEFAULT_ADMIN_PASSWORD);
     }
 }

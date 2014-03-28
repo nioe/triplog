@@ -33,6 +33,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         if (authHeader == null || authHeader.isEmpty()) {
             context.abortWith(FORBIDDEN);
+            return;
         }
 
         authHeader = authHeader.replaceFirst(AUTHENTICATION_TYPE + " ", "");
@@ -40,6 +41,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         StringTokenizer tokenizer = new StringTokenizer(new String(Base64.getDecoder().decode(authHeader)), ":");
         if (tokenizer.countTokens() != 2) {
             context.abortWith(FORBIDDEN);
+            return;
         }
 
         String username = tokenizer.nextToken();

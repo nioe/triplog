@@ -1,7 +1,5 @@
 package ch.exq.triplog.server.service;
 
-import ch.exq.triplog.server.service.security.AuthenticationRequired;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -20,7 +18,6 @@ public class TripService {
 
     @GET
     @Path("/trip/{tripId : [0-9]*}")
-    @AuthenticationRequired
     public Response getTrip(@PathParam("tripId") String tripId) {
         String json = "{ tripId : " + tripId + " }";
         return Response.ok(json, MediaType.APPLICATION_JSON).build();
