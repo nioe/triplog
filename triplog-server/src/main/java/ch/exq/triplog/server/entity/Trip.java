@@ -1,18 +1,23 @@
 package ch.exq.triplog.server.entity;
 
-import ch.exq.triplog.server.util.JsonObjectProvider;
-
-import javax.json.Json;
-import javax.json.JsonObject;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 28.03.2014.
  */
-public class Trip implements JsonObjectProvider {
+public class Trip {
 
+    @XmlElement
     private int tripId;
+
+    @XmlElement
     private String tripName;
+
+    @XmlElement
     private String tripDescription;
+
+    public Trip() {
+    }
 
     public Trip(int tripId, String tripName, String tripDescription) {
         this.tripId = tripId;
@@ -42,15 +47,6 @@ public class Trip implements JsonObjectProvider {
 
     public void setTripDescription(String tripDescription) {
         this.tripDescription = tripDescription;
-    }
-
-    @Override
-    public JsonObject toJson() {
-        return Json.createObjectBuilder()
-                .add("tripId", tripId)
-                .add("tripName", tripName)
-                .add("tripDescription", tripDescription)
-                .build();
     }
 
     @Override

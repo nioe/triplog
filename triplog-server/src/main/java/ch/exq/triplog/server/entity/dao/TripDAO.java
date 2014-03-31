@@ -1,13 +1,12 @@
 package ch.exq.triplog.server.entity.dao;
 
 import ch.exq.triplog.server.entity.Trip;
+import ch.exq.triplog.server.entity.data.TripData;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 28.03.2014.
@@ -15,20 +14,18 @@ import java.util.Map;
 @Stateless
 public class TripDAO {
 
-    private Map<Integer, Trip> trips;
-
-    @PostConstruct
-    public void setUp() {
-        trips = new HashMap<>();
-        trips.put(1, new Trip(1, "First Trip", "This is my very first trip! :)"));
-        trips.put(2, new Trip(2, "Maldives", "Diving on the Maldives!"));
-    }
+    @Inject
+    TripData trips;
 
     public List<Trip> getAllTrips() {
-        return new ArrayList<>(trips.values());
+        return new ArrayList<>(trips.getTrips().values());
     }
 
     public Trip getTripById(int tripId) {
-        return trips.get(tripId);
+        return trips.getTrips().get(tripId);
+    }
+
+    public Trip createTrip(Trip trip) {
+        return trips.addTrip(trip);
     }
 }
