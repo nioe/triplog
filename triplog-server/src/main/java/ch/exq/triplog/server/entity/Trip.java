@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Trip {
 
     @XmlElement
-    private final String tripId;
+    private String tripId;
 
     @XmlElement
     private String tripName;
@@ -23,18 +23,26 @@ public class Trip {
     private List<String> legs;
 
     public Trip() {
-        tripId = UUID.randomUUID().toString();
         legs = new ArrayList<>();
     }
 
     public Trip(String tripName, String tripDescription) {
+        this(UUID.randomUUID().toString(), tripName, tripDescription);
+    }
+
+    public Trip(String tripId, String tripName, String tripDescription) {
         this();
+        this.tripId = tripId;
         this.tripName = tripName;
         this.tripDescription = tripDescription;
     }
 
     public String getTripId() {
         return tripId;
+    }
+
+    public void setTripId(String tripId) {
+        this.tripId = tripId;
     }
 
     public String getTripName() {

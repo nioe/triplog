@@ -19,6 +19,16 @@ public class LegDAO {
     @Inject
     TripLogData data;
 
+    public Leg getLeg(String tripId, String legId) {
+        Trip trip = tripDAO.getTripById(tripId);
+
+        if (trip == null || !trip.getLegs().contains(legId)) {
+            return null;
+        }
+
+        return data.getLegs().get(legId);
+    }
+
     public List<Leg> getAllLegsOfTrip(String tripId) {
         Trip trip = tripDAO.getTripById(tripId);
 

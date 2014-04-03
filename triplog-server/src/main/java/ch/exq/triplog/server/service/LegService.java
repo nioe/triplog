@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.service;
 
+import ch.exq.triplog.server.entity.Leg;
 import ch.exq.triplog.server.entity.dao.LegDAO;
 
 import javax.inject.Inject;
@@ -18,6 +19,19 @@ public class LegService {
 
     @Inject
     LegDAO legDAO;
+
+    @GET
+    @Path("/trip/{tripId : [0-9a-f\\-]*}/leg/{legId : [0-9a-f\\-]*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getLeg(@PathParam("tripId") String tripId, @PathParam("legId") String legId) {
+        Leg leg = legDAO.getLeg(tripId, legId);
+
+        if (leg == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(leg).build();
+    }
 
     @GET
     @Path("/trip/{tripId : [0-9a-f\\-]*}/legs")

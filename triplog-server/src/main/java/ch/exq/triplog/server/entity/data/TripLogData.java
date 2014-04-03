@@ -21,21 +21,23 @@ public class TripLogData {
 
     @PostConstruct
     public void setUp() {
+        //Sample Trips
         trips = new HashMap<>();
-        legs = new HashMap<>();
-
-        Leg leg1 = new Leg("1st Leg", "This is the first leg of my first Trip", null);
-        legs.put(leg1.getLegId(), leg1);
-
-        Leg leg2 = new Leg("2nd Leg", "Foo", null);
-        legs.put(leg2.getLegId(), leg2);
-
         Trip trip1 = new Trip("First Trip", "This is my very first trip! :)");
         trips.put(trip1.getTripId(), trip1);
-        trips.get(trip1.getTripId()).getLegs().addAll(Arrays.asList(leg1.getLegId(), leg2.getLegId()));
 
         Trip trip2 = new Trip("Maldives", "Diving on the Maldives!");
         trips.put(trip2.getTripId(), trip2);
+
+        //Sample Legs
+        legs = new HashMap<>();
+        Leg leg1 = new Leg(trip1.getTripId(), "1st Leg", "This is the first leg of my first Trip", null);
+        legs.put(leg1.getLegId(), leg1);
+
+        Leg leg2 = new Leg(trip1.getTripId(), "2nd Leg", "Foo", null);
+        legs.put(leg2.getLegId(), leg2);
+
+        trips.get(trip1.getTripId()).getLegs().addAll(Arrays.asList(leg1.getLegId(), leg2.getLegId()));
     }
 
     public HashMap<String, Trip> getTrips() {
@@ -51,12 +53,12 @@ public class TripLogData {
         return trip;
     }
 
-    public Leg addLeg(String tripId, Leg leg) {
-        if (!trips.containsKey(tripId)) {
+    public Leg addLeg(Leg leg) {
+        if (!trips.containsKey(leg.getTripId())) {
             return null;
         }
 
-        trips.get(tripId).getLegs().add(leg.getLegId());
+        trips.get(leg.getTripId()).getLegs().add(leg.getLegId());
         legs.put(leg.getLegId(), leg);
 
         return leg;

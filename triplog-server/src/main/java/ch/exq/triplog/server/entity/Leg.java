@@ -11,7 +11,10 @@ import java.util.UUID;
 public class Leg {
 
     @XmlElement
-    private final String legId;
+    private String legId;
+
+    @XmlElement
+    private String tripId;
 
     @XmlElement
     private String legName;
@@ -26,12 +29,16 @@ public class Leg {
     private List<String> images;
 
     public Leg() {
-        legId = UUID.randomUUID().toString();
         images = new ArrayList<>();
     }
 
-    public Leg(String legName, String legText, String mapUrl) {
+    public Leg(String tripId, String legName, String legText, String mapUrl) {
+        this(UUID.randomUUID().toString(), tripId, legName, legText, mapUrl);
+    }
+
+    public Leg(String legId, String tripId, String legName, String legText, String mapUrl) {
         this();
+        this.legId = legId;
         this.legName = legName;
         this.legText = legText;
         this.mapUrl = mapUrl;
@@ -39,6 +46,18 @@ public class Leg {
 
     public String getLegId() {
         return legId;
+    }
+
+    public void setLegId(String legId) {
+        this.legId = legId;
+    }
+
+    public String getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(String tripId) {
+        this.tripId = tripId;
     }
 
     public String getLegName() {
