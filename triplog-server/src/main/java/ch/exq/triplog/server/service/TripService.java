@@ -18,28 +18,31 @@ public class TripService {
     private TripDAO tripDAO;
 
     @GET
-    @Path("/trip/{tripId : [0-9]*}")
-    public Response getTrip(@PathParam("tripId") int tripId) {
+    @Path("/trip/{tripId : [0-9a-f\\-]*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTrip(@PathParam("tripId") String tripId) {
         Trip trip = tripDAO.getTripById(tripId);
 
         if (trip == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(trip, MediaType.APPLICATION_JSON).build();
+        return Response.ok(trip).build();
     }
 
     @GET
     @Path("/trips")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllTrips() {
-        return Response.ok(tripDAO.getAllTrips(), MediaType.APPLICATION_JSON).build();
+        return Response.ok(tripDAO.getAllTrips()).build();
     }
 
     @POST
     @Path("/trip")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
     public Response createTrip(Trip trip) {
-        return Response.ok(tripDAO.createTrip(trip), MediaType.APPLICATION_JSON).build();
+        return Response.ok(tripDAO.createTrip(trip)).build();
     }
 }

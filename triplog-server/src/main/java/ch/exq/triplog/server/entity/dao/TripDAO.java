@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.entity.dao;
 
 import ch.exq.triplog.server.entity.Trip;
-import ch.exq.triplog.server.entity.data.TripData;
+import ch.exq.triplog.server.entity.data.TripLogData;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,13 +15,13 @@ import java.util.List;
 public class TripDAO {
 
     @Inject
-    TripData trips;
+    TripLogData trips;
 
     public List<Trip> getAllTrips() {
         return new ArrayList<>(trips.getTrips().values());
     }
 
-    public Trip getTripById(int tripId) {
+    public Trip getTripById(String tripId) {
         return trips.getTrips().get(tripId);
     }
 

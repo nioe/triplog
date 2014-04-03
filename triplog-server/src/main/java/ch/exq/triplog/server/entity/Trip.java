@@ -1,6 +1,9 @@
 package ch.exq.triplog.server.entity;
 
 import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 28.03.2014.
@@ -8,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class Trip {
 
     @XmlElement
-    private int tripId;
+    private final String tripId;
 
     @XmlElement
     private String tripName;
@@ -16,21 +19,22 @@ public class Trip {
     @XmlElement
     private String tripDescription;
 
+    @XmlElement
+    private List<String> legs;
+
     public Trip() {
+        tripId = UUID.randomUUID().toString();
+        legs = new ArrayList<>();
     }
 
-    public Trip(int tripId, String tripName, String tripDescription) {
-        this.tripId = tripId;
+    public Trip(String tripName, String tripDescription) {
+        this();
         this.tripName = tripName;
         this.tripDescription = tripDescription;
     }
 
-    public int getTripId() {
+    public String getTripId() {
         return tripId;
-    }
-
-    public void setTripId(int tripId) {
-        this.tripId = tripId;
     }
 
     public String getTripName() {
@@ -49,6 +53,14 @@ public class Trip {
         this.tripDescription = tripDescription;
     }
 
+    public List<String> getLegs() {
+        return legs;
+    }
+
+    public void setLegs(List<String> legs) {
+        this.legs = legs;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,13 +68,13 @@ public class Trip {
 
         Trip trip = (Trip) o;
 
-        if (tripId != trip.tripId) return false;
+        if (tripId != null ? !tripId.equals(trip.tripId) : trip.tripId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return tripId;
+        return tripId != null ? tripId.hashCode() : 0;
     }
 }
