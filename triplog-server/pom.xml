@@ -25,9 +25,9 @@
     <dependencies>
         <!-- Necessary for build -->
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>2.11.4</version>
         </dependency>
 
         <!-- Provided -->
