@@ -1,9 +1,10 @@
 package ch.exq.triplog.server.entity;
 
+import ch.exq.triplog.server.util.UUIDUtil;
+
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
@@ -33,7 +34,7 @@ public class Leg {
     }
 
     public Leg(String tripId, String legName, String legText, String mapUrl) {
-        this(UUID.randomUUID().toString(), tripId, legName, legText, mapUrl);
+        this(UUIDUtil.getRandumUUID(), tripId, legName, legText, mapUrl);
     }
 
     public Leg(String legId, String tripId, String legName, String legText, String mapUrl) {

@@ -1,8 +1,10 @@
 package ch.exq.triplog.server.service.security;
 
-import ch.exq.triplog.server.util.SystemPropertyUtil;
+import ch.exq.triplog.server.util.Config;
+import ch.exq.triplog.server.util.SystemProperty;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -10,20 +12,17 @@ import java.io.Serializable;
  */
 @RequestScoped
 public class AdminAuthentication implements Serializable {
-    private static final String SYSTEM_PROPERTY_ADMIN_USER = "triplog.admin.user";
-    private static final String SYSTEM_PROPERTY_ADMIN_PASSWORD = "triplog.admin.password";
-    private static final String DEFAULT_ADMIN_USER = "admin";
-    private static final String DEFAULT_ADMIN_PASSWORD = "password";
+
+    @Inject
+    @Config(key = "triplog.admin.user", fallback = "admin")
+    SystemProperty adminUser;
+
+    @Inject
+    @Config(key = "triplog.admin.password", fallback = "password")
+    SystemProperty adminPassword;
 
     public boolean isValid(String user, String password) {
-        return getAdminUser().equals(user) && getAdminPassword().equals(password);
-    }
-
-    private String getAdminUser() {
-        return SystemPropertyUtil.getSystemProperty(SYSTEM_PROPERTY_ADMIN_USER, DEFAULT_ADMIN_USER);
-    }
-
-    private String getAdminPassword() {
-        return SystemPropertyUtil.getSystemProperty(SYSTEM_PROPERTY_ADMIN_PASSWORD, DEFAULT_ADMIN_PASSWORD);
+        System.out.println(adminUser.getString() + " : " + adminPassword.getString());
+        return adminUser.getString().equals(user) && adminPassword.getString().equals(password);
     }
 }

@@ -2,6 +2,7 @@ package ch.exq.triplog.server.entity.data;
 
 import ch.exq.triplog.server.entity.Leg;
 import ch.exq.triplog.server.entity.Trip;
+import ch.exq.triplog.server.util.UUIDUtil;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -49,6 +50,9 @@ public class TripLogData {
     }
 
     public Trip addTrip(Trip trip) {
+        if (trip.getTripId() == null) {
+            trip.setTripId(UUIDUtil.getRandumUUID());
+        }
         trips.put(trip.getTripId(), trip);
         return trip;
     }
