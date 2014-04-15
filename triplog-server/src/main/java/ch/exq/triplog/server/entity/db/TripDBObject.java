@@ -3,6 +3,7 @@ package ch.exq.triplog.server.entity.db;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.ListIterator;
 public class TripDBObject extends BasicDBObject {
 
     public static final String COLLECTION_NAME = "trip";
-    public static final String TRIP_ID = "tripId";
+    public static final String TRIP_ID = "_id";
     public static final String TRIP_NAME = "tripName";
     public static final String TRIP_DESCRIPTION = "tripDescription";
     public static final String LEGS = "legs";
@@ -35,7 +36,7 @@ public class TripDBObject extends BasicDBObject {
     }
 
     public void setTripId(String tripId) {
-        put(TRIP_ID, tripId);
+        put(TRIP_ID, tripId != null ? new ObjectId(tripId) : new ObjectId());
     }
 
     public String getTripName() {

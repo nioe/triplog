@@ -4,9 +4,9 @@ import ch.exq.triplog.server.entity.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDb;
 import ch.exq.triplog.server.entity.mapper.TriplogMapper;
-import ch.exq.triplog.server.util.UUIDUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,14 +33,15 @@ public class TripDAO {
 
         DBCursor cursor = db.getDb().getCollection(TripDBObject.COLLECTION_NAME).find();
         while (cursor.hasNext()) {
-            trips.add(mapper.map(TripDBObject.from(cursor.next()), Trip.class));
+            TripDBObject tripDBObject = TripDBObject.from(cursor.next());
+            trips.add(mapper.map(tripDBObject, Trip.class));
         }
 
         return trips;
     }
 
     public Trip getTripById(String tripId) {
-        DBCursor cursor = db.getDb().getCollection(TripDBObject.COLLECTION_NAME).find(new BasicDBObject(TripDBObject.TRIP_ID, tripId));
+        DBCursor cursor = db.getDb().getCollection(TripDBObject.COLLECTION_NAME).find(new BasicDBObject(TripDBObject.TRIP_ID, new ObjectId(tripId)));
         if (cursor.count() == 0) {
             return null;
         } else if (cursor.count() > 1) {
@@ -51,12 +52,9 @@ public class TripDAO {
     }
 
     public Trip createTrip(Trip trip) {
-        if (trip.getTripId() == null) {
-            trip.setTripId(UUIDUtil.getRandumUUID());
-        }
+        TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
+        db.getDb().getCollection(TripDBObject.COLLECTION_NAME).insert(tripDBObject);
 
-        db.getDb().getCollection(TripDBObject.COLLECTION_NAME).insert(mapper.map(trip, TripDBObject.class));
-
-        return trip;
+        return mapper.map(tripDBObject, Trip.class);
     }
 }
