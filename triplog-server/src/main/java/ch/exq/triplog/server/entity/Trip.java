@@ -1,7 +1,5 @@
 package ch.exq.triplog.server.entity;
 
-import ch.exq.triplog.server.util.UUIDUtil;
-
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +26,7 @@ public class Trip {
     }
 
     public Trip(String tripName, String tripDescription) {
-        this(UUIDUtil.getRandumUUID(), tripName, tripDescription);
-    }
-
-    public Trip(String tripId, String tripName, String tripDescription) {
         this();
-        this.tripId = tripId;
         this.tripName = tripName;
         this.tripDescription = tripDescription;
     }

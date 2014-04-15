@@ -3,17 +3,23 @@ package ch.exq.triplog.server.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.inject.Alternative;
+
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
  * Date: 04.04.14
  * Time: 09:03
  */
+@Alternative
 public class SystemProperty {
 
     private final static Logger logger = LoggerFactory.getLogger(SystemProperty.class);
 
     private String key;
     private String fallback;
+
+    //Only used for tests!
+    SystemProperty() {}
 
     public SystemProperty(Config config) {
         this.key = config.key();

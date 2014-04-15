@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.service.security;
 
+import ch.exq.triplog.server.util.Hardcoded;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +21,7 @@ public class AdminAuthenticationTest {
     @Before
     public void setUp() {
         toTest = new AdminAuthentication();
+        Hardcoded.enableDefaults(toTest);
     }
 
     @Test
