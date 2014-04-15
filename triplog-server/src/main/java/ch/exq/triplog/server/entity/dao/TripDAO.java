@@ -33,8 +33,7 @@ public class TripDAO {
 
         DBCursor cursor = db.getDb().getCollection(TripDBObject.COLLECTION_NAME).find();
         while (cursor.hasNext()) {
-            TripDBObject tripDBObject = TripDBObject.from(cursor.next());
-            trips.add(mapper.map(tripDBObject, Trip.class));
+            trips.add(mapper.map(TripDBObject.from(cursor.next()), Trip.class));
         }
 
         return trips;
@@ -48,7 +47,7 @@ public class TripDAO {
             logger.warn("More than one trip with id {} found!", tripId);
         }
 
-        return mapper.map(cursor.next(), Trip.class);
+        return mapper.map(TripDBObject.from(cursor.next()), Trip.class);
     }
 
     public Trip createTrip(Trip trip) {
