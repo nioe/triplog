@@ -22,7 +22,6 @@ public class AdminAuthentication implements Serializable {
     SystemProperty adminPassword;
 
     public boolean isValid(String user, String password) {
-        System.out.println(adminUser.getString() + " : " + adminPassword.getString());
         return adminUser.getString().equals(user) && adminPassword.getString().equals(password);
     }
 }
