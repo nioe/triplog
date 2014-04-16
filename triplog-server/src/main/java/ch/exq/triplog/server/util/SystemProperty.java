@@ -23,7 +23,7 @@ public class SystemProperty {
 
     public SystemProperty(Config config) {
         this.key = config.key();
-        this.fallback = config.key();
+        this.fallback = config.fallback();
     }
 
     public String getString() {
@@ -39,6 +39,10 @@ public class SystemProperty {
 
     public Integer getInteger() {
         return isNullOrEmpty() ? null : Integer.valueOf(getString());
+    }
+
+    public Long getLong() {
+        return isNullOrEmpty() ? null : Long.valueOf(getString());
     }
 
     public boolean getBoolean() {

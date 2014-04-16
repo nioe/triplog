@@ -34,7 +34,7 @@ public class Leg {
     }
 
     public Leg(String tripId, String legName, String legText, String mapUrl) {
-        this(UUIDUtil.getRandumUUID(), tripId, legName, legText, mapUrl);
+        this(UUIDUtil.getRandomUUID(), tripId, legName, legText, mapUrl);
     }
 
     public Leg(String legId, String tripId, String legName, String legText, String mapUrl) {

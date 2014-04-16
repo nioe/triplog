@@ -51,7 +51,7 @@ public class TripLogData {
 
     public Trip addTrip(Trip trip) {
         if (trip.getTripId() == null) {
-            trip.setTripId(UUIDUtil.getRandumUUID());
+            trip.setTripId(UUIDUtil.getRandomUUID());
         }
         trips.put(trip.getTripId(), trip);
         return trip;

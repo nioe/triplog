@@ -1,20 +1,21 @@
 package ch.exq.triplog.server.entity.mapper.mappings;
 
-import ch.exq.triplog.server.service.dto.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;
-import junit.framework.TestCase;
+import ch.exq.triplog.server.service.dto.Trip;
 import org.junit.Before;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.*;
+
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
  * Date: 16.04.14
  * Time: 08:28
  */
-public class DBObjectToTripMapTest extends TestCase {
+public class DBObjectToTripMapTest {
 
     private ModelMapper mapper;
 
