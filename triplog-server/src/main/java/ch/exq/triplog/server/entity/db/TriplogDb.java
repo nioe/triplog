@@ -19,9 +19,9 @@ import java.net.UnknownHostException;
  * Time: 10:23
  */
 @RequestScoped
-public class TriplogDb {
+public class TriplogDB {
 
-    private final static Logger logger = LoggerFactory.getLogger(TriplogDb.class);
+    private final static Logger logger = LoggerFactory.getLogger(TriplogDB.class);
 
     @Inject
     @Config(key = "triplog.mongodb.host", fallback = "localhost")

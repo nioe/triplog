@@ -12,10 +12,7 @@ import org.modelmapper.PropertyMap;
 public class TripToDBObjectMap extends PropertyMap<Trip, TripDBObject> {
     @Override
     protected void configure() {
-        if (source.getTripId() != null) {
-            map().setTripId(source.getTripId());
-        }
-
+        map().setTripId(source.getTripId());
         map().setTripName(source.getTripName());
         map().setTripDescription(source.getTripDescription());
         map().setLegs(source.getLegs());
