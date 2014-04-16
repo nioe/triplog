@@ -2,12 +2,10 @@ package ch.exq.triplog.server.service;
 
 import ch.exq.triplog.server.entity.Leg;
 import ch.exq.triplog.server.entity.dao.LegDAO;
+import ch.exq.triplog.server.service.security.AuthenticationRequired;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,7 +19,7 @@ public class LegService {
     LegDAO legDAO;
 
     @GET
-    @Path("/trip/{tripId : [0-9a-f\\-]*}/leg/{legId : [0-9a-f\\-]*}")
+    @Path("/trip/{tripId : [0-9a-f]*}/leg/{legId : [0-9a-f]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLeg(@PathParam("tripId") String tripId, @PathParam("legId") String legId) {
         Leg leg = legDAO.getLeg(tripId, legId);
@@ -34,9 +32,25 @@ public class LegService {
     }
 
     @GET
-    @Path("/trip/{tripId : [0-9a-f\\-]*}/legs")
+    @Path("/trip/{tripId : [0-9a-f]*}/legs")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllLegsOfTrip(@PathParam("tripId") String tripId) {
         return Response.ok(legDAO.getAllLegsOfTrip(tripId)).build();
+    }
+
+    @POST
+    @Path("/trip/{tripId : [0-9a-f]*}/leg")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @AuthenticationRequired
+    public Response createLeg(@PathParam("tripId") String tripId, Leg leg) {
+        leg.setTripId(tripId);
+        Leg createdLeg = legDAO.createLeg(leg);
+
+        if (createdLeg == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(createdLeg).build();
     }
 }

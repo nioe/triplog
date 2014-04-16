@@ -1,6 +1,8 @@
 package ch.exq.triplog.server.entity.mapper;
 
+import ch.exq.triplog.server.entity.mapper.mappings.DBObjectToLegMap;
 import ch.exq.triplog.server.entity.mapper.mappings.DBObjectToTripMap;
+import ch.exq.triplog.server.entity.mapper.mappings.LegToDBObjectMap;
 import ch.exq.triplog.server.entity.mapper.mappings.TripToDBObjectMap;
 import org.modelmapper.ModelMapper;
 
@@ -21,7 +23,12 @@ public class TriplogMapper extends ModelMapper {
 
     @PostConstruct
     public void conf() {
+        //Trip
         addMappings(new DBObjectToTripMap());
         addMappings(new TripToDBObjectMap());
+
+        //Leg
+        addMappings(new DBObjectToLegMap());
+        addMappings(new LegToDBObjectMap());
     }
 }

@@ -54,14 +54,23 @@ public class TripDBObject extends BasicDBObject {
         put(TRIP_DESCRIPTION, tripDescription);
     }
 
+    public BasicDBList getLegList() {
+        Object legsObject = get(LEGS);
+        return legsObject != null ? (BasicDBList) legsObject : null;
+    }
+
+    public void setLegList(BasicDBList legList) {
+        put(LEGS, legList);
+    }
+
     public List<String> getLegs() {
         List<String> legs = new ArrayList<>();
 
-        Object legsObject = get(LEGS);
-        if (legsObject != null) {
-            ListIterator<Object> legList = ((BasicDBList) legsObject).listIterator();
-            while (legList.hasNext()) {
-                legs.add((String) legList.next());
+        BasicDBList legList = getLegList();
+        if (legList != null) {
+            ListIterator<Object> legIterator = legList.listIterator();
+            while (legIterator.hasNext()) {
+                legs.add((String) legIterator.next());
             }
         }
 

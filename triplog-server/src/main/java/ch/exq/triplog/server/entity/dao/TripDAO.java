@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Stateless
 public class TripDAO {
-    private final static Logger logger = LoggerFactory.getLogger(TripDAO.class);
+    private static final Logger logger = LoggerFactory.getLogger(TripDAO.class);
 
     @Inject
     TriplogDB db;
@@ -31,30 +31,52 @@ public class TripDAO {
     public List<Trip> getAllTrips() {
         List<Trip> trips = new ArrayList<>();
 
-        DBCursor cursor = db.getDb().getCollection(TripDBObject.COLLECTION_NAME).find();
+        DBCursor cursor = db.getTripCollection().find();
         while (cursor.hasNext()) {
-            TripDBObject tripDBObject = TripDBObject.from(cursor.next());
-            trips.add(mapper.map(tripDBObject, Trip.class));
+            trips.add(mapper.map(TripDBObject.from(cursor.next()), Trip.class));
         }
 
         return trips;
     }
 
     public Trip getTripById(String tripId) {
-        DBCursor cursor = db.getDb().getCollection(TripDBObject.COLLECTION_NAME).find(new BasicDBObject(TripDBObject.TRIP_ID, new ObjectId(tripId)));
+        TripDBObject tripDBObject = getTripDBObjectById(tripId);
+        return tripDBObject == null ? null : mapper.map(tripDBObject, Trip.class);
+    }
+
+    public Trip createTrip(Trip trip) {
+        TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
+
+        //We never add legs directly!
+        tripDBObject.setLegs(null);
+
+        db.getTripCollection().insert(tripDBObject);
+
+        return mapper.map(tripDBObject, Trip.class);
+    }
+
+    public Trip addLeg(String tripId, String legId) {
+        TripDBObject tripDBObject = getTripDBObjectById(tripId);
+        tripDBObject.getLegList().add(legId);
+
+        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+
+        return mapper.map(tripDBObject, Trip.class);
+    }
+
+
+    private TripDBObject getTripDBObjectById(String tripId) {
+        DBCursor cursor = db.getTripCollection().find(idDBObject(tripId));
         if (cursor.count() == 0) {
             return null;
         } else if (cursor.count() > 1) {
             logger.warn("More than one trip with id {} found!", tripId);
         }
 
-        return mapper.map(TripDBObject.from(cursor.next()), Trip.class);
+        return TripDBObject.from(cursor.next());
     }
 
-    public Trip createTrip(Trip trip) {
-        TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
-        db.getDb().getCollection(TripDBObject.COLLECTION_NAME).insert(tripDBObject);
-
-        return mapper.map(tripDBObject, Trip.class);
+    private BasicDBObject idDBObject(String tripId) {
+        return new BasicDBObject(TripDBObject.TRIP_ID, new ObjectId(tripId));
     }
 }

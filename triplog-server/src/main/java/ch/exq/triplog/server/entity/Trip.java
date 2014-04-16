@@ -12,7 +12,7 @@ public class Trip {
     @XmlElement
     private String tripId;
 
-    @XmlElement
+    @XmlElement(required = true)
     private String tripName;
 
     @XmlElement

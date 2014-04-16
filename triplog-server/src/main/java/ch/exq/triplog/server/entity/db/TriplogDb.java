@@ -3,6 +3,7 @@ package ch.exq.triplog.server.entity.db;
 import ch.exq.triplog.server.util.Config;
 import ch.exq.triplog.server.util.SystemProperty;
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +58,13 @@ public class TriplogDB {
 
     public DB getDb() {
         return db;
+    }
+
+    public DBCollection getTripCollection() {
+        return db.getCollection(TripDBObject.COLLECTION_NAME);
+    }
+
+    public DBCollection getLegCollection() {
+        return db.getCollection(LegDBObject.COLLECTION_NAME);
     }
 }

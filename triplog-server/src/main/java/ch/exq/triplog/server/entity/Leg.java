@@ -14,10 +14,10 @@ public class Leg {
     @XmlElement
     private String legId;
 
-    @XmlElement
+    @XmlElement(required = true)
     private String tripId;
 
-    @XmlElement
+    @XmlElement(required = true)
     private String legName;
 
     @XmlElement

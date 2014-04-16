@@ -18,7 +18,7 @@ public class TripService {
     private TripDAO tripDAO;
 
     @GET
-    @Path("/trip/{tripId : [0-9a-f\\-]*}")
+    @Path("/trip/{tripId : [0-9a-f]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTrip(@PathParam("tripId") String tripId) {
         Trip trip = tripDAO.getTripById(tripId);
