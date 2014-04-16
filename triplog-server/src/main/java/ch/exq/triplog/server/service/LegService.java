@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.service;
 
-import ch.exq.triplog.server.entity.Leg;
+import ch.exq.triplog.server.service.dto.Leg;
 import ch.exq.triplog.server.entity.dao.LegDAO;
 import ch.exq.triplog.server.service.security.AuthenticationRequired;
 

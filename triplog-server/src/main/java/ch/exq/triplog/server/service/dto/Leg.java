@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.entity;
+package ch.exq.triplog.server.service.dto;
 
 import ch.exq.triplog.server.util.UUIDUtil;
 

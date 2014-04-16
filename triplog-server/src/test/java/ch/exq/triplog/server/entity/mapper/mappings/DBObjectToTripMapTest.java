@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.entity.mapper.mappings;
 
-import ch.exq.triplog.server.entity.Trip;
+import ch.exq.triplog.server.service.dto.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import junit.framework.TestCase;
 import org.junit.Before;

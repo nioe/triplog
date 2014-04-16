@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.service;
 
-import ch.exq.triplog.server.entity.Trip;
+import ch.exq.triplog.server.service.dto.Trip;
 import ch.exq.triplog.server.entity.dao.TripDAO;
 import ch.exq.triplog.server.service.security.AuthenticationRequired;
 

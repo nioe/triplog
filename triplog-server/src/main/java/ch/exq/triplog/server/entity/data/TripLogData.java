@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.entity.data;
 
-import ch.exq.triplog.server.entity.Leg;
-import ch.exq.triplog.server.entity.Trip;
+import ch.exq.triplog.server.service.dto.Leg;
+import ch.exq.triplog.server.service.dto.Trip;
 import ch.exq.triplog.server.util.UUIDUtil;
 
 import javax.annotation.PostConstruct;

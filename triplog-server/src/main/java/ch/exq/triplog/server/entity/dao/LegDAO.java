@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.entity.dao;
 
-import ch.exq.triplog.server.entity.Leg;
-import ch.exq.triplog.server.entity.Trip;
+import ch.exq.triplog.server.service.dto.Leg;
+import ch.exq.triplog.server.service.dto.Trip;
 import ch.exq.triplog.server.entity.db.LegDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDB;
 import ch.exq.triplog.server.entity.mapper.TriplogMapper;
