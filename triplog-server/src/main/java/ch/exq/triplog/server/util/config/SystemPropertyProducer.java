@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util;
+package ch.exq.triplog.server.util.config;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.InjectionPoint;

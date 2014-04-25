@@ -1,10 +1,10 @@
 package ch.exq.triplog.server.boundary.service;
 
 import ch.exq.triplog.server.entity.dao.LegDAO;
-import ch.exq.triplog.server.entity.dto.Leg;
+import ch.exq.triplog.server.dto.Leg;
 import ch.exq.triplog.server.entity.exceptions.CreationException;
 import ch.exq.triplog.server.boundary.security.AuthenticationRequired;
-import ch.exq.triplog.server.util.ResponseHelper;
+import ch.exq.triplog.server.util.http.ResponseHelper;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

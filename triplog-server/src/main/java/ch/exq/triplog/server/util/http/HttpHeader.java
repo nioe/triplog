@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util;
+package ch.exq.triplog.server.util.http;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>

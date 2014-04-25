@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util;
+package ch.exq.triplog.server.util.http;
 
 import ch.exq.triplog.server.entity.exceptions.CreationException;
 

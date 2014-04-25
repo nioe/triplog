@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.control.controller;
+package ch.exq.triplog.server.control;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>

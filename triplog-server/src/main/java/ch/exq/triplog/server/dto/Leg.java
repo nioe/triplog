@@ -1,6 +1,6 @@
-package ch.exq.triplog.server.entity.dto;
+package ch.exq.triplog.server.dto;
 
-import ch.exq.triplog.server.util.UUIDUtil;
+import ch.exq.triplog.server.util.misc.UUIDUtil;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.entity.db;
 
-import ch.exq.triplog.server.util.Config;
-import ch.exq.triplog.server.util.SystemProperty;
+import ch.exq.triplog.server.util.config.Config;
+import ch.exq.triplog.server.util.config.SystemProperty;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;

@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util;
+package ch.exq.triplog.server.util.misc;
 
 import java.util.UUID;
 

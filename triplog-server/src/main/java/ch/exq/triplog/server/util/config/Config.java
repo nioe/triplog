@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util;
+package ch.exq.triplog.server.util.config;
 
 import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;

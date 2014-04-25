@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util;
+package ch.exq.triplog.server.util.config;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

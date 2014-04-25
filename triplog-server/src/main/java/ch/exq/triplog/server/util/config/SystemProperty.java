@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util;
+package ch.exq.triplog.server.util.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,11 +1,11 @@
 package ch.exq.triplog.server.entity.dao;
 
 import ch.exq.triplog.server.entity.db.LegDBObject;
-import ch.exq.triplog.server.entity.dto.Trip;
+import ch.exq.triplog.server.dto.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDB;
 import ch.exq.triplog.server.entity.exceptions.CreationException;
-import ch.exq.triplog.server.control.mapper.TriplogMapper;
+import ch.exq.triplog.server.util.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;

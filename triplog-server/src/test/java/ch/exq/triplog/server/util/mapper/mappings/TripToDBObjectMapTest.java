@@ -1,7 +1,7 @@
-package ch.exq.triplog.server.control.mapper.mappings;
+package ch.exq.triplog.server.util.mapper.mappings;
 
 import ch.exq.triplog.server.entity.db.TripDBObject;
-import ch.exq.triplog.server.entity.dto.Trip;
+import ch.exq.triplog.server.dto.Trip;
 import org.junit.Before;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;

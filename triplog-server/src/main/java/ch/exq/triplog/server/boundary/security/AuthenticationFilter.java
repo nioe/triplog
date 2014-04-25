@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.boundary.security;
 
-import ch.exq.triplog.server.util.HttpHeader;
-import ch.exq.triplog.server.util.ResponseHelper;
+import ch.exq.triplog.server.util.http.HttpHeader;
+import ch.exq.triplog.server.util.http.ResponseHelper;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

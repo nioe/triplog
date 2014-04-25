@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.boundary.security;
 
-import ch.exq.triplog.server.util.Hardcoded;
+import ch.exq.triplog.server.util.config.Hardcoded;
 import org.junit.Before;
 import org.junit.Test;
 

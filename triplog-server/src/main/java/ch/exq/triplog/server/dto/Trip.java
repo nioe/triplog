@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.entity.dto;
+package ch.exq.triplog.server.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
