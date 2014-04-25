@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.control.mapper.controller;
+package ch.exq.triplog.server.control.controller;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
