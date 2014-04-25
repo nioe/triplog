@@ -40,7 +40,7 @@ public class AuthTokenHandlerTest {
     }
 
     @Test
-    public void testIsValidTrue() {
+    public void testIsValid_ValidToken() {
         authTokenHandler.sessionTimeout = Hardcoded.configuration("10000");
         AuthToken authToken = authTokenHandler.getNewToken();
 
@@ -48,11 +48,21 @@ public class AuthTokenHandlerTest {
     }
 
     @Test
-    public void testIsValidFalse() {
+    public void testIsValid_ExpiredToken() {
         authTokenHandler.sessionTimeout = Hardcoded.configuration("-10000");
         AuthToken authToken = authTokenHandler.getNewToken();
 
         assertFalse(authTokenHandler.isValidToken(authToken.getId()));
+    }
+
+    @Test
+    public void testIsValid_EmptyToken() {
+        assertFalse(authTokenHandler.isValidToken(""));
+    }
+
+    @Test
+    public void testIsValid_NullToken() {
+        assertFalse(authTokenHandler.isValidToken(null));
     }
 
     @Test

@@ -38,6 +38,10 @@ public class AuthTokenHandler {
     }
 
     public boolean isValidToken(String tokenId) {
+        if (tokenId == null || tokenId.isEmpty()) {
+            return false;
+        }
+
         AuthToken authToken = authTokenMap.get(tokenId);
         return authToken != null ? DateUtil.now().getTime() <= authToken.getExpiryDate().getTime() : false;
     }
