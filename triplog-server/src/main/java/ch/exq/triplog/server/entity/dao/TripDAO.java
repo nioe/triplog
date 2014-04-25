@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.entity.dao;
 
+import ch.exq.triplog.server.entity.db.LegDBObject;
 import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDB;
@@ -7,6 +8,7 @@ import ch.exq.triplog.server.entity.exceptions.CreationException;
 import ch.exq.triplog.server.entity.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +66,39 @@ public class TripDAO {
         return mapper.map(tripDBObject, Trip.class);
     }
 
-    public Trip addLeg(String tripId, String legId) {
+    public boolean deleteTripWithId(String tripId) {
+        if (!db.isValidObjectId(tripId)) {
+            return false;
+        }
+
+        TripDBObject tripDBObject = getTripDBObjectById(tripId);
+
+        if (tripDBObject == null) {
+            return false;
+        }
+
+        WriteResult tripResult = db.getTripCollection().remove(tripDBObject);
+        WriteResult legResult = null;
+        if (tripResult.getN() == 1) {
+            //Delete legs of trip
+            legResult = db.getLegCollection().remove(new BasicDBObject(LegDBObject.TRIP_ID, tripId));
+        }
+
+        return tripResult.getN() == 1 && tripResult.getError() == null && legResult != null && legResult.getError() == null;
+    }
+
+    public Trip addLegToTrip(String tripId, String legId) {
         TripDBObject tripDBObject = getTripDBObjectById(tripId);
         tripDBObject.getLegList().add(legId);
+
+        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+
+        return mapper.map(tripDBObject, Trip.class);
+    }
+
+    public Trip removeLegFromTrip(String tripId, String legId) {
+        TripDBObject tripDBObject = getTripDBObjectById(tripId);
+        tripDBObject.getLegList().remove(legId);
 
         db.getTripCollection().update(idDBObject(tripId), tripDBObject);
 

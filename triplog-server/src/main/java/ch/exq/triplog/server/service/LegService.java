@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.service;
 
-import ch.exq.triplog.server.entity.dto.Leg;
 import ch.exq.triplog.server.entity.dao.LegDAO;
+import ch.exq.triplog.server.entity.dto.Leg;
 import ch.exq.triplog.server.entity.exceptions.CreationException;
 import ch.exq.triplog.server.service.security.AuthenticationRequired;
 import ch.exq.triplog.server.util.ResponseHelper;
@@ -53,5 +53,17 @@ public class LegService {
         } catch (CreationException ex) {
             return ResponseHelper.badRequest(ex);
         }
+    }
+
+    @DELETE
+    @Path("/trip/{tripId : [0-9a-f]*}/leg/{legId : [0-9a-f]*}")
+    public Response deleteLeg(@PathParam("tripId") String tripId, @PathParam("legId") String legId) {
+        boolean deleted = legDAO.deleteLeg(tripId, legId);
+
+        if (!deleted) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok().build();
     }
 }

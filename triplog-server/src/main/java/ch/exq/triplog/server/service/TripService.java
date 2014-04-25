@@ -51,4 +51,17 @@ public class TripService {
             return ResponseHelper.badRequest(ex);
         }
     }
+
+    @DELETE
+    @Path("/trip/{tripId : [0-9a-f]*}")
+    @AuthenticationRequired
+    public Response deleteTrip(@PathParam("tripId") String tripId) {
+        boolean deleted = tripDAO.deleteTripWithId(tripId);
+
+        if (!deleted) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok().build();
+    }
 }
