@@ -1,9 +1,10 @@
 package ch.exq.triplog.server.entity.dao;
 
-import ch.exq.triplog.server.service.dto.Leg;
-import ch.exq.triplog.server.service.dto.Trip;
+import ch.exq.triplog.server.entity.dto.Leg;
+import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.db.LegDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDB;
+import ch.exq.triplog.server.entity.exceptions.CreationException;
 import ch.exq.triplog.server.entity.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -48,6 +49,10 @@ public class LegDAO {
     }
 
     public Leg getLeg(String tripId, String legId) {
+        if (!db.isValidObjectId(legId)) {
+            return null;
+        }
+
         Trip trip = tripDAO.getTripById(tripId);
 
         if (trip == null || !trip.getLegs().contains(legId)) {
@@ -64,7 +69,15 @@ public class LegDAO {
         return mapper.map(LegDBObject.from(cursor.next()), Leg.class);
     }
 
-    public Leg createLeg(Leg leg) {
+    public Leg createLeg(Leg leg) throws CreationException {
+        if (leg.getTripId() == null || tripDAO.getTripById(leg.getTripId()) == null) {
+            throw new CreationException("Could not find trip with id " + leg.getTripId());
+        }
+
+        if (leg == null || leg.getLegName() == null || leg.getLegName().isEmpty()) {
+            throw new CreationException("Leg incomplete: legName must be set");
+        }
+
         LegDBObject legDBObject = mapper.map(leg, LegDBObject.class);
         db.getLegCollection().insert(legDBObject);
 

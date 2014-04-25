@@ -22,7 +22,8 @@ import java.net.UnknownHostException;
 @RequestScoped
 public class TriplogDB {
 
-    private final static Logger logger = LoggerFactory.getLogger(TriplogDB.class);
+    private static final Logger logger = LoggerFactory.getLogger(TriplogDB.class);
+    private static final int MONGODB_HEX_ID_LENGTH = 24;
 
     @Inject
     @Config(key = "triplog.mongodb.host", fallback = "localhost")
@@ -66,5 +67,9 @@ public class TriplogDB {
 
     public DBCollection getLegCollection() {
         return db.getCollection(LegDBObject.COLLECTION_NAME);
+    }
+
+    public boolean isValidObjectId(String id) {
+        return id != null && id.length() == MONGODB_HEX_ID_LENGTH;
     }
 }

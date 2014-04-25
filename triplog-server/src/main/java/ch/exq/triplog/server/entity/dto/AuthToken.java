@@ -1,8 +1,11 @@
-package ch.exq.triplog.server.service.dto;
+package ch.exq.triplog.server.entity.dto;
 
 import ch.exq.triplog.server.util.UUIDUtil;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
@@ -10,6 +13,8 @@ import java.util.Date;
  * Date: 16.04.14
  * Time: 15:21
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AuthToken {
 
     @XmlElement

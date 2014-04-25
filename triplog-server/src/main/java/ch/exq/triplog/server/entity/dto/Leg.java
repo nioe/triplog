@@ -1,14 +1,19 @@
-package ch.exq.triplog.server.service.dto;
+package ch.exq.triplog.server.entity.dto;
 
 import ch.exq.triplog.server.util.UUIDUtil;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Leg {
 
     @XmlElement

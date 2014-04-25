@@ -1,5 +1,7 @@
 package ch.exq.triplog.server.util;
 
+import ch.exq.triplog.server.entity.exceptions.CreationException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
@@ -9,6 +11,10 @@ import javax.ws.rs.core.Response;
  * Time: 10:34
  */
 public class ResponseHelper {
+
+    public static Response badRequest(CreationException ex) {
+        return Response.status(Response.Status.BAD_REQUEST).entity(ex.getJsonExceptionMessage()).build();
+    }
 
     public static Response unauthorized(HttpServletRequest request) {
         return Response.status(Response.Status.UNAUTHORIZED)

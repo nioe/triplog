@@ -1,8 +1,10 @@
 package ch.exq.triplog.server.service;
 
-import ch.exq.triplog.server.service.dto.Trip;
+import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.dao.TripDAO;
+import ch.exq.triplog.server.entity.exceptions.CreationException;
 import ch.exq.triplog.server.service.security.AuthenticationRequired;
+import ch.exq.triplog.server.util.ResponseHelper;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -43,6 +45,10 @@ public class TripService {
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
     public Response createTrip(Trip trip) {
-        return Response.ok(tripDAO.createTrip(trip)).build();
+        try {
+            return Response.ok(tripDAO.createTrip(trip)).build();
+        } catch (CreationException ex) {
+            return ResponseHelper.badRequest(ex);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.entity.mapper.mappings;
 
-import ch.exq.triplog.server.service.dto.Trip;
+import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import org.modelmapper.PropertyMap;
 

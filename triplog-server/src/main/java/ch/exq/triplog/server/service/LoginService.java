@@ -5,6 +5,8 @@ import ch.exq.triplog.server.service.security.AuthTokenHandler;
 import ch.exq.triplog.server.service.security.AuthenticationRequired;
 import ch.exq.triplog.server.util.HttpHeader;
 import ch.exq.triplog.server.util.ResponseHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class LoginService {
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
+
     @Inject
     private AdminAuthentication adminAuthentication;
 
@@ -34,8 +38,10 @@ public class LoginService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@Context final HttpServletRequest request) {
         if (adminAuthentication.isValid(request)) {
+            logger.info("Successful admin login");
             return Response.ok(authTokenHandler.getNewToken()).build();
         } else {
+            logger.info("Admin login failed");
             return ResponseHelper.unauthorized(request);
         }
     }

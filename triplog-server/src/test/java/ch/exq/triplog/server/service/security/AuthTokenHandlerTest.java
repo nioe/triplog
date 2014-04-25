@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.service.security;
 
-import ch.exq.triplog.server.service.dto.AuthToken;
+import ch.exq.triplog.server.entity.dto.AuthToken;
 import ch.exq.triplog.server.util.DateUtil;
 import ch.exq.triplog.server.util.Hardcoded;
 import org.junit.Before;

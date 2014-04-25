@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.entity.mapper.mappings;
 
-import ch.exq.triplog.server.service.dto.Leg;
+import ch.exq.triplog.server.entity.dto.Leg;
 import ch.exq.triplog.server.entity.db.LegDBObject;
 import org.modelmapper.PropertyMap;
 

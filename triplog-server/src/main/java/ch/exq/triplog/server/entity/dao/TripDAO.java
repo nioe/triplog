@@ -1,8 +1,9 @@
 package ch.exq.triplog.server.entity.dao;
 
-import ch.exq.triplog.server.service.dto.Trip;
+import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDB;
+import ch.exq.triplog.server.entity.exceptions.CreationException;
 import ch.exq.triplog.server.entity.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -40,11 +41,19 @@ public class TripDAO {
     }
 
     public Trip getTripById(String tripId) {
+        if (!db.isValidObjectId(tripId)) {
+            return null;
+        }
+
         TripDBObject tripDBObject = getTripDBObjectById(tripId);
         return tripDBObject == null ? null : mapper.map(tripDBObject, Trip.class);
     }
 
-    public Trip createTrip(Trip trip) {
+    public Trip createTrip(Trip trip) throws CreationException {
+        if (trip == null || trip.getTripName() == null || trip.getTripName().isEmpty()) {
+            throw new CreationException("Trip incomplete: At least tripName must be set");
+        }
+
         TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
 
         //We never add legs directly!

@@ -1,8 +1,10 @@
 package ch.exq.triplog.server.service;
 
-import ch.exq.triplog.server.service.dto.Leg;
+import ch.exq.triplog.server.entity.dto.Leg;
 import ch.exq.triplog.server.entity.dao.LegDAO;
+import ch.exq.triplog.server.entity.exceptions.CreationException;
 import ch.exq.triplog.server.service.security.AuthenticationRequired;
+import ch.exq.triplog.server.util.ResponseHelper;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -45,12 +47,11 @@ public class LegService {
     @AuthenticationRequired
     public Response createLeg(@PathParam("tripId") String tripId, Leg leg) {
         leg.setTripId(tripId);
-        Leg createdLeg = legDAO.createLeg(leg);
 
-        if (createdLeg == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            return Response.ok(legDAO.createLeg(leg)).build();
+        } catch (CreationException ex) {
+            return ResponseHelper.badRequest(ex);
         }
-
-        return Response.ok(createdLeg).build();
     }
 }
