@@ -57,6 +57,7 @@ public class LegService {
 
     @DELETE
     @Path("/trip/{tripId : [0-9a-f]*}/leg/{legId : [0-9a-f]*}")
+    @AuthenticationRequired
     public Response deleteLeg(@PathParam("tripId") String tripId, @PathParam("legId") String legId) {
         boolean deleted = legDAO.deleteLeg(tripId, legId);
 
