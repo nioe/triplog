@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.entity.mapper.mappings;
+package ch.exq.triplog.server.control.mapper.mappings;
 
 import ch.exq.triplog.server.entity.dto.Leg;
 import ch.exq.triplog.server.entity.db.LegDBObject;
@@ -7,9 +7,9 @@ import org.modelmapper.PropertyMap;
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
  * Date: 16.04.14
- * Time: 14:40
+ * Time: 14:38
  */
-public class LegToDBObjectMap extends PropertyMap<Leg, LegDBObject> {
+public class DBObjectToLegMap extends PropertyMap<LegDBObject, Leg> {
 
     @Override
     protected void configure() {

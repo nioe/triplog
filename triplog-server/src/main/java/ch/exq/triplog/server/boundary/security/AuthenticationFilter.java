@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.service.security;
+package ch.exq.triplog.server.boundary.security;
 
 import ch.exq.triplog.server.util.HttpHeader;
 import ch.exq.triplog.server.util.ResponseHelper;

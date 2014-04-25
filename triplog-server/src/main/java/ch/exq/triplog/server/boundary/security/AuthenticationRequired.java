@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.service.security;
+package ch.exq.triplog.server.boundary.security;
 
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.ElementType;

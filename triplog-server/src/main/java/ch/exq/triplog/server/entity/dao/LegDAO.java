@@ -5,7 +5,7 @@ import ch.exq.triplog.server.entity.db.TriplogDB;
 import ch.exq.triplog.server.entity.dto.Leg;
 import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.exceptions.CreationException;
-import ch.exq.triplog.server.entity.mapper.TriplogMapper;
+import ch.exq.triplog.server.control.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;

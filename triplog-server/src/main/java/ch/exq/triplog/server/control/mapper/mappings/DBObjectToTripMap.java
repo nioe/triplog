@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.entity.mapper.mappings;
+package ch.exq.triplog.server.control.mapper.mappings;
 
 import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.db.TripDBObject;

@@ -1,9 +1,9 @@
-package ch.exq.triplog.server.service;
+package ch.exq.triplog.server.boundary.service;
 
 import ch.exq.triplog.server.entity.dto.Trip;
 import ch.exq.triplog.server.entity.dao.TripDAO;
 import ch.exq.triplog.server.entity.exceptions.CreationException;
-import ch.exq.triplog.server.service.security.AuthenticationRequired;
+import ch.exq.triplog.server.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.util.ResponseHelper;
 
 import javax.inject.Inject;

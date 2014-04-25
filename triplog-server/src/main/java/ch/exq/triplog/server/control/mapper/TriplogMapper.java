@@ -1,9 +1,9 @@
-package ch.exq.triplog.server.entity.mapper;
+package ch.exq.triplog.server.control.mapper;
 
-import ch.exq.triplog.server.entity.mapper.mappings.DBObjectToLegMap;
-import ch.exq.triplog.server.entity.mapper.mappings.DBObjectToTripMap;
-import ch.exq.triplog.server.entity.mapper.mappings.LegToDBObjectMap;
-import ch.exq.triplog.server.entity.mapper.mappings.TripToDBObjectMap;
+import ch.exq.triplog.server.control.mapper.mappings.DBObjectToLegMap;
+import ch.exq.triplog.server.control.mapper.mappings.DBObjectToTripMap;
+import ch.exq.triplog.server.control.mapper.mappings.LegToDBObjectMap;
+import ch.exq.triplog.server.control.mapper.mappings.TripToDBObjectMap;
 import org.modelmapper.ModelMapper;
 
 import javax.annotation.PostConstruct;

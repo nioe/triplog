@@ -1,8 +1,8 @@
-package ch.exq.triplog.server.service;
+package ch.exq.triplog.server.boundary.service;
 
-import ch.exq.triplog.server.service.security.AdminAuthentication;
-import ch.exq.triplog.server.service.security.AuthTokenHandler;
-import ch.exq.triplog.server.service.security.AuthenticationRequired;
+import ch.exq.triplog.server.boundary.security.AdminAuthentication;
+import ch.exq.triplog.server.boundary.security.AuthTokenHandler;
+import ch.exq.triplog.server.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.util.HttpHeader;
 import ch.exq.triplog.server.util.ResponseHelper;
 import org.slf4j.Logger;

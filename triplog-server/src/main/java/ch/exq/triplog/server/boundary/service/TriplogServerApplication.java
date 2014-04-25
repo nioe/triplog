@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.service;
+package ch.exq.triplog.server.boundary.service;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
