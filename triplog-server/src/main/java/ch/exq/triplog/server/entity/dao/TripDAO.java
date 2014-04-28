@@ -55,11 +55,15 @@ public class TripDAO {
         return db.getTripCollection().remove(tripDBObject);
     }
 
+    public WriteResult updateTrip(String tripId, TripDBObject tripDBObject) {
+        return db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+    }
+
     public TripDBObject addLegToTrip(String tripId, String legId) {
         TripDBObject tripDBObject = getTripById(tripId);
         tripDBObject.getLegList().add(legId);
 
-        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+        updateTrip(tripId, tripDBObject);
 
         return tripDBObject;
     }
@@ -68,7 +72,7 @@ public class TripDAO {
         TripDBObject tripDBObject = getTripById(tripId);
         tripDBObject.getLegList().remove(legId);
 
-        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+        updateTrip(tripId, tripDBObject);
 
         return tripDBObject;
     }

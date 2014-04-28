@@ -1,8 +1,9 @@
 package ch.exq.triplog.server.entity.db;
 
 import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.ListIterator;
  * Date: 16.04.14
  * Time: 13:23
  */
-public class LegDBObject extends BasicDBObject {
+public class LegDBObject extends AbstractDBObject {
+
+    private static final Logger logger = LoggerFactory.getLogger(LegDBObject.class);
 
     public static final String COLLECTION_NAME = "leg";
     public static final String LEG_ID = "_id";
@@ -95,5 +98,9 @@ public class LegDBObject extends BasicDBObject {
         }
 
         put(IMAGES, basicDBList);
+    }
+
+    protected Logger logger() {
+        return logger;
     }
 }

@@ -1,8 +1,8 @@
 package ch.exq.triplog.server.boundary.security;
 
 import ch.exq.triplog.server.dto.AuthToken;
-import ch.exq.triplog.server.util.misc.DateUtil;
 import ch.exq.triplog.server.util.config.Hardcoded;
+import ch.exq.triplog.server.util.misc.DateUtil;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
  */
+@Stateless
 public class LegDAO {
     private static final Logger logger = LoggerFactory.getLogger(LegDAO.class);
 
@@ -56,7 +58,16 @@ public class LegDAO {
         return db.getLegCollection().remove(leg);
     }
 
+    public WriteResult updateLeg(String legId, LegDBObject leg) {
+        return db.getLegCollection().update(idDBObject(legId), leg);
+    }
+
     public WriteResult deleteAllLegsOfTrip(String tripId) {
         return db.getLegCollection().remove(new BasicDBObject(LegDBObject.TRIP_ID, tripId));
+    }
+
+
+    private BasicDBObject idDBObject(String legId) {
+        return new BasicDBObject(LegDBObject.LEG_ID, new ObjectId(legId));
     }
 }

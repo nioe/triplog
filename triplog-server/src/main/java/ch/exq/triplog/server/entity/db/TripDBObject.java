@@ -1,19 +1,21 @@
 package ch.exq.triplog.server.entity.db;
 
 import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
  * Date: 04.04.14
  * Time: 14:43
  */
-public class TripDBObject extends BasicDBObject {
+public class TripDBObject extends AbstractDBObject {
+
+    private static final Logger logger = LoggerFactory.getLogger(TripDBObject.class);
 
     public static final String COLLECTION_NAME = "trip";
     public static final String TRIP_ID = "_id";
@@ -68,10 +70,7 @@ public class TripDBObject extends BasicDBObject {
 
         BasicDBList legList = getLegList();
         if (legList != null) {
-            ListIterator<Object> legIterator = legList.listIterator();
-            while (legIterator.hasNext()) {
-                legs.add((String) legIterator.next());
-            }
+            legList.stream().forEach(legId -> legs.add((String) legId));
         }
 
         return legs;
@@ -81,11 +80,14 @@ public class TripDBObject extends BasicDBObject {
         BasicDBList basicDBList = new BasicDBList();
 
         if (legs != null) {
-            for (String legId : legs) {
-                basicDBList.add(legId);
-            }
+            legs.forEach(legId -> basicDBList.add(legId));
         }
 
         put(LEGS, basicDBList);
+    }
+
+    @Override
+    protected Logger logger() {
+        return logger;
     }
 }
