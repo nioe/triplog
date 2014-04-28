@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.entity.exceptions;
+package ch.exq.triplog.server.control.exceptions;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -1,11 +1,8 @@
 package ch.exq.triplog.server.entity.dao;
 
-import ch.exq.triplog.server.entity.db.LegDBObject;
-import ch.exq.triplog.server.dto.Trip;
+import ch.exq.triplog.server.control.exceptions.CreationException;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDB;
-import ch.exq.triplog.server.entity.exceptions.CreationException;
-import ch.exq.triplog.server.util.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
@@ -28,85 +25,18 @@ public class TripDAO {
     @Inject
     TriplogDB db;
 
-    @Inject
-    TriplogMapper mapper;
-
-    public List<Trip> getAllTrips() {
-        List<Trip> trips = new ArrayList<>();
+    public List<TripDBObject> getAllTrips() {
+        List<TripDBObject> trips = new ArrayList<>();
 
         DBCursor cursor = db.getTripCollection().find();
         while (cursor.hasNext()) {
-            trips.add(mapper.map(TripDBObject.from(cursor.next()), Trip.class));
+            trips.add(TripDBObject.from(cursor.next()));
         }
 
         return trips;
     }
 
-    public Trip getTripById(String tripId) {
-        if (!db.isValidObjectId(tripId)) {
-            return null;
-        }
-
-        TripDBObject tripDBObject = getTripDBObjectById(tripId);
-        return tripDBObject == null ? null : mapper.map(tripDBObject, Trip.class);
-    }
-
-    public Trip createTrip(Trip trip) throws CreationException {
-        if (trip == null || trip.getTripName() == null || trip.getTripName().isEmpty()) {
-            throw new CreationException("Trip incomplete: At least tripName must be set");
-        }
-
-        TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
-
-        //We never add legs directly!
-        tripDBObject.setLegs(null);
-
-        db.getTripCollection().insert(tripDBObject);
-
-        return mapper.map(tripDBObject, Trip.class);
-    }
-
-    public boolean deleteTripWithId(String tripId) {
-        if (!db.isValidObjectId(tripId)) {
-            return false;
-        }
-
-        TripDBObject tripDBObject = getTripDBObjectById(tripId);
-
-        if (tripDBObject == null) {
-            return false;
-        }
-
-        WriteResult tripResult = db.getTripCollection().remove(tripDBObject);
-        WriteResult legResult = null;
-        if (tripResult.getN() == 1) {
-            //Delete legs of trip
-            legResult = db.getLegCollection().remove(new BasicDBObject(LegDBObject.TRIP_ID, tripId));
-        }
-
-        return tripResult.getN() == 1 && tripResult.getError() == null && legResult != null && legResult.getError() == null;
-    }
-
-    public Trip addLegToTrip(String tripId, String legId) {
-        TripDBObject tripDBObject = getTripDBObjectById(tripId);
-        tripDBObject.getLegList().add(legId);
-
-        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
-
-        return mapper.map(tripDBObject, Trip.class);
-    }
-
-    public Trip removeLegFromTrip(String tripId, String legId) {
-        TripDBObject tripDBObject = getTripDBObjectById(tripId);
-        tripDBObject.getLegList().remove(legId);
-
-        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
-
-        return mapper.map(tripDBObject, Trip.class);
-    }
-
-
-    private TripDBObject getTripDBObjectById(String tripId) {
+    public TripDBObject getTripById(String tripId) {
         DBCursor cursor = db.getTripCollection().find(idDBObject(tripId));
         if (cursor.count() == 0) {
             return null;
@@ -116,6 +46,33 @@ public class TripDAO {
 
         return TripDBObject.from(cursor.next());
     }
+
+    public WriteResult createTrip(TripDBObject trip) throws CreationException {
+        return db.getTripCollection().insert(trip);
+    }
+
+    public WriteResult deleteTrip(TripDBObject tripDBObject) {
+        return db.getTripCollection().remove(tripDBObject);
+    }
+
+    public TripDBObject addLegToTrip(String tripId, String legId) {
+        TripDBObject tripDBObject = getTripById(tripId);
+        tripDBObject.getLegList().add(legId);
+
+        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+
+        return tripDBObject;
+    }
+
+    public TripDBObject removeLegFromTrip(String tripId, String legId) {
+        TripDBObject tripDBObject = getTripById(tripId);
+        tripDBObject.getLegList().remove(legId);
+
+        db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+
+        return tripDBObject;
+    }
+
 
     private BasicDBObject idDBObject(String tripId) {
         return new BasicDBObject(TripDBObject.TRIP_ID, new ObjectId(tripId));

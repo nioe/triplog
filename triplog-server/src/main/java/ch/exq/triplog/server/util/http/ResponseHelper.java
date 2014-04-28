@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.util.http;
 
-import ch.exq.triplog.server.entity.exceptions.CreationException;
+import ch.exq.triplog.server.control.exceptions.CreationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
