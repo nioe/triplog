@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.control.controller;
 
-import ch.exq.triplog.server.control.exceptions.CreationException;
+import ch.exq.triplog.server.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.dto.Trip;
 import ch.exq.triplog.server.entity.dao.LegDAO;
 import ch.exq.triplog.server.entity.dao.TripDAO;
@@ -8,9 +8,12 @@ import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.util.mapper.TriplogMapper;
 import ch.exq.triplog.server.util.mongodb.MongoDbUtil;
 import com.mongodb.WriteResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class TripController {
+    private static final Logger logger = LoggerFactory.getLogger(TripController.class);
 
     @Inject
     TripDAO tripDAO;
@@ -45,9 +49,9 @@ public class TripController {
                                              .collect(Collectors.toList());
     }
 
-    public Trip createTrip(Trip trip) throws CreationException{
+    public Trip createTrip(Trip trip) throws DisplayableException {
         if (trip == null || trip.getTripName() == null || trip.getTripName().isEmpty()) {
-            throw new CreationException("Trip incomplete: At least tripName must be set");
+            throw new DisplayableException("Trip incomplete: At least tripName must be set");
         }
 
         TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
@@ -58,6 +62,35 @@ public class TripController {
         tripDAO.createTrip(tripDBObject);
 
         return mapper.map(tripDBObject, Trip.class);
+    }
+
+    public Trip updateTrip(String tripId, Trip trip) throws DisplayableException {
+        if (tripId == null || !MongoDbUtil.isValidObjectId(tripId) || trip == null) {
+            return null;
+        }
+
+        TripDBObject currentTrip = tripDAO.getTripById(tripId);
+        if (currentTrip == null) {
+            return null;
+        }
+
+        TripDBObject changedTrip = mapper.map(trip, TripDBObject.class);
+
+        //We never update legs or the id like this!
+        changedTrip.setLegs(null);
+        changedTrip.setTripId(null);
+
+        try {
+            currentTrip.merge(changedTrip);
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            String message = "Could not merge changed trip!";
+            logger.error(message, e);
+            throw new DisplayableException(message, e);
+        }
+
+        tripDAO.updateTrip(tripId, currentTrip);
+
+        return mapper.map(currentTrip, Trip.class);
     }
 
     public boolean deleteTripWithId(String tripId) {

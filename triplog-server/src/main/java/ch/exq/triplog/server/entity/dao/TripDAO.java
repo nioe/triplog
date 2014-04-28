@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.entity.dao;
 
-import ch.exq.triplog.server.control.exceptions.CreationException;
+import ch.exq.triplog.server.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.entity.db.TriplogDB;
 import com.mongodb.BasicDBObject;
@@ -47,7 +47,7 @@ public class TripDAO {
         return TripDBObject.from(cursor.next());
     }
 
-    public WriteResult createTrip(TripDBObject trip) throws CreationException {
+    public WriteResult createTrip(TripDBObject trip) throws DisplayableException {
         return db.getTripCollection().insert(trip);
     }
 

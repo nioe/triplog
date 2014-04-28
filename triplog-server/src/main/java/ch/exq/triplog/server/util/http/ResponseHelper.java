@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.util.http;
 
-import ch.exq.triplog.server.control.exceptions.CreationException;
+import ch.exq.triplog.server.control.exceptions.DisplayableException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
  */
 public class ResponseHelper {
 
-    public static Response badRequest(CreationException ex) {
+    public static Response badRequest(DisplayableException ex) {
         return Response.status(Response.Status.BAD_REQUEST).entity(ex.getJsonExceptionMessage()).build();
     }
 

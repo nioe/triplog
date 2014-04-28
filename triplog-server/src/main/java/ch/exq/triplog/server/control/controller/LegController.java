@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.control.controller;
 
-import ch.exq.triplog.server.control.exceptions.CreationException;
+import ch.exq.triplog.server.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.dto.Leg;
 import ch.exq.triplog.server.entity.dao.LegDAO;
 import ch.exq.triplog.server.entity.dao.TripDAO;
@@ -49,13 +49,13 @@ public class LegController {
         return legDBObject != null ? mapper.map(legDBObject, Leg.class) : null;
     }
 
-    public Leg createLeg(Leg leg) throws CreationException {
+    public Leg createLeg(Leg leg) throws DisplayableException {
         if (leg.getTripId() == null || tripDAO.getTripById(leg.getTripId()) == null) {
-            throw new CreationException("Could not find trip with id " + leg.getTripId());
+            throw new DisplayableException("Could not find trip with id " + leg.getTripId());
         }
 
         if (leg == null || leg.getLegName() == null || leg.getLegName().isEmpty()) {
-            throw new CreationException("Leg incomplete: legName must be set");
+            throw new DisplayableException("Leg incomplete: legName must be set");
         }
 
         LegDBObject legDBObject = mapper.map(leg, LegDBObject.class);

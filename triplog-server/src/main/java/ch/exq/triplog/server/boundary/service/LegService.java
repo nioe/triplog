@@ -2,7 +2,7 @@ package ch.exq.triplog.server.boundary.service;
 
 import ch.exq.triplog.server.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.control.controller.LegController;
-import ch.exq.triplog.server.control.exceptions.CreationException;
+import ch.exq.triplog.server.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.dto.Leg;
 import ch.exq.triplog.server.util.http.ResponseHelper;
 
@@ -50,7 +50,7 @@ public class LegService {
 
         try {
             return Response.ok(legController.createLeg(leg)).build();
-        } catch (CreationException ex) {
+        } catch (DisplayableException ex) {
             return ResponseHelper.badRequest(ex);
         }
     }
