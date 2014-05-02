@@ -35,6 +35,9 @@ public class LegController {
     LegDAO legDAO;
 
     @Inject
+    ResourceController resourceController;
+
+    @Inject
     TriplogMapper mapper;
 
 
@@ -43,15 +46,19 @@ public class LegController {
             return null;
         }
 
-        return legDAO.getAllLegsOfTrip(tripId).stream().map(legDBObject -> mapper.map(legDBObject, Leg.class))
-                                                       .collect(Collectors.toList());
+        List<Leg> allLegs = legDAO.getAllLegsOfTrip(tripId).stream().map(legDBObject -> mapper.map(legDBObject, Leg.class))
+                .collect(Collectors.toList());
+
+        allLegs.forEach(l -> changeImageLinksFor(l));
+
+        return allLegs;
     }
 
     public Leg getLeg(String tripId, String legId) {
         if (!doesTripContainsLeg(tripId, legId)) return null;
 
         LegDBObject legDBObject = legDAO.getLeg(legId);
-        return legDBObject != null ? mapper.map(legDBObject, Leg.class) : null;
+        return legDBObject != null ? changeImageLinksFor(mapper.map(legDBObject, Leg.class)) : null;
     }
 
     public Leg createLeg(Leg leg) throws DisplayableException {
@@ -64,11 +71,15 @@ public class LegController {
         }
 
         LegDBObject legDBObject = mapper.map(leg, LegDBObject.class);
+
+        //We never add images directly
+        legDBObject.setImages(null);
+
         legDAO.createLeg(legDBObject);
 
         tripDAO.addLegToTrip(legDBObject.getTripId(), legDBObject.getLegId());
 
-        return mapper.map(legDBObject, Leg.class);
+        return changeImageLinksFor(mapper.map(legDBObject, Leg.class));
     }
 
     public Leg updateLeg(String tripId, String legId, Leg leg) throws DisplayableException {
@@ -98,7 +109,7 @@ public class LegController {
 
         legDAO.updateLeg(legId, currentLeg);
 
-        return mapper.map(currentLeg, Leg.class);
+        return changeImageLinksFor(mapper.map(currentLeg, Leg.class));
     }
 
     public boolean deleteLeg(String tripId, String legId) {
@@ -126,5 +137,12 @@ public class LegController {
         }
 
         return true;
+    }
+
+    private Leg changeImageLinksFor(Leg leg) {
+        leg.setImages(leg.getImages().stream().map(imageId -> resourceController.getImageUrl(imageId))
+                .collect(Collectors.toList()));
+
+        return leg;
     }
 }

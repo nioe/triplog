@@ -34,6 +34,9 @@ public class TripController {
     LegDAO legDAO;
 
     @Inject
+    ResourceController resourceController;
+
+    @Inject
     TriplogMapper mapper;
 
     public Trip getTripById(String tripId) {
@@ -42,12 +45,17 @@ public class TripController {
         }
 
         TripDBObject tripDBObject = tripDAO.getTripById(tripId);
-        return tripDBObject != null ? mapper.map(tripDBObject, Trip.class) : null;
+
+        return tripDBObject != null ? changeLegLinksFor(mapper.map(tripDBObject, Trip.class)) : null;
     }
 
     public List<Trip> getAllTrips() {
-        return tripDAO.getAllTrips().stream().map(tripDBObject -> mapper.map(tripDBObject, Trip.class))
-                                             .collect(Collectors.toList());
+        List<Trip> allTrips = tripDAO.getAllTrips().stream().map(tripDBObject -> mapper.map(tripDBObject, Trip.class))
+                                                            .collect(Collectors.toList());
+
+        allTrips.forEach(t -> changeLegLinksFor(t));
+
+        return allTrips;
     }
 
     public Trip createTrip(Trip trip) throws DisplayableException {
@@ -62,7 +70,7 @@ public class TripController {
 
         tripDAO.createTrip(tripDBObject);
 
-        return mapper.map(tripDBObject, Trip.class);
+        return changeLegLinksFor(mapper.map(tripDBObject, Trip.class));
     }
 
     public Trip updateTrip(String tripId, Trip trip) throws DisplayableException {
@@ -95,7 +103,7 @@ public class TripController {
 
         tripDAO.updateTrip(tripId, currentTrip);
 
-        return mapper.map(currentTrip, Trip.class);
+        return changeLegLinksFor(mapper.map(currentTrip, Trip.class));
     }
 
     public boolean deleteTripWithId(String tripId) {
@@ -117,5 +125,12 @@ public class TripController {
         }
 
         return tripResult.getN() == 1 && tripResult.getError() == null && legResult != null && legResult.getError() == null;
+    }
+
+    private Trip changeLegLinksFor(Trip trip) {
+        trip.setLegs(trip.getLegs().stream().map(legId -> resourceController.getLegUrl(trip.getTripId(), legId))
+                .collect(Collectors.toList()));
+
+        return trip;
     }
 }

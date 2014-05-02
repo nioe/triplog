@@ -4,7 +4,7 @@ import ch.exq.triplog.server.control.controller.TripController;
 import ch.exq.triplog.server.dto.Trip;
 import ch.exq.triplog.server.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.boundary.security.AuthenticationRequired;
-import ch.exq.triplog.server.util.http.ResponseHelper;
+import ch.exq.triplog.server.control.controller.ResponseController;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -17,7 +17,10 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class TripService {
     @Inject
-    private TripController tripController;
+    TripController tripController;
+
+    @Inject
+    ResponseController responseController;
 
     @GET
     @Path("/trip/{tripId : [0-9a-f]*}")
@@ -47,7 +50,7 @@ public class TripService {
         try {
             return Response.ok(tripController.createTrip(trip)).build();
         } catch (DisplayableException e) {
-            return ResponseHelper.badRequest(e);
+            return responseController.badRequest(e);
         }
     }
 
@@ -65,7 +68,7 @@ public class TripService {
 
             return Response.ok(updatedTrip).build();
         } catch (DisplayableException e) {
-            return ResponseHelper.badRequest(e);
+            return responseController.badRequest(e);
         }
     }
 

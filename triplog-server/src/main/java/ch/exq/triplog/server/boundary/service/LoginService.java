@@ -4,7 +4,7 @@ import ch.exq.triplog.server.boundary.security.AdminAuthentication;
 import ch.exq.triplog.server.boundary.security.AuthTokenHandler;
 import ch.exq.triplog.server.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.util.http.HttpHeader;
-import ch.exq.triplog.server.util.http.ResponseHelper;
+import ch.exq.triplog.server.control.controller.ResponseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +28,13 @@ public class LoginService {
     private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 
     @Inject
-    private AdminAuthentication adminAuthentication;
+    AdminAuthentication adminAuthentication;
 
     @Inject
     AuthTokenHandler authTokenHandler;
+
+    @Inject
+    ResponseController responseController;
 
     @POST
     @Path("/login")
@@ -42,7 +45,7 @@ public class LoginService {
             return Response.ok(authTokenHandler.getNewToken()).build();
         } else {
             logger.info("Admin login failed");
-            return ResponseHelper.unauthorized(request);
+            return responseController.unauthorized();
         }
     }
 
