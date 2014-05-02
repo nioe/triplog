@@ -4,6 +4,7 @@ import ch.exq.triplog.server.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.control.controller.LegController;
 import ch.exq.triplog.server.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.dto.Leg;
+import ch.exq.triplog.server.dto.Trip;
 import ch.exq.triplog.server.util.http.ResponseHelper;
 
 import javax.inject.Inject;
@@ -52,6 +53,24 @@ public class LegService {
             return Response.ok(legController.createLeg(leg)).build();
         } catch (DisplayableException ex) {
             return ResponseHelper.badRequest(ex);
+        }
+    }
+
+    @POST
+    @Path("/trip/{tripId : [0-9a-f]*}/leg/{legId : [0-9a-f]*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @AuthenticationRequired
+    public Response updateLeg(@PathParam("tripId") String tripId, @PathParam("legId") String legId, Leg leg) {
+        try {
+            Leg updatedLeg = legController.updateLeg(tripId, legId, leg);
+            if (updatedLeg == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            return Response.ok(updatedLeg).build();
+        } catch (DisplayableException e) {
+            return ResponseHelper.badRequest(e);
         }
     }
 

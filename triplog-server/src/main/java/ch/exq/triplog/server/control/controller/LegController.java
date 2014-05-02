@@ -9,9 +9,12 @@ import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.util.mapper.TriplogMapper;
 import ch.exq.triplog.server.util.mongodb.MongoDbUtil;
 import com.mongodb.WriteResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class LegController {
+
+    private static final Logger logger = LoggerFactory.getLogger(LegController.class);
 
     @Inject
     TripDAO tripDAO;
@@ -64,6 +69,36 @@ public class LegController {
         tripDAO.addLegToTrip(legDBObject.getTripId(), legDBObject.getLegId());
 
         return mapper.map(legDBObject, Leg.class);
+    }
+
+    public Leg updateLeg(String tripId, String legId, Leg leg) throws DisplayableException {
+        if (!doesTripContainsLeg(tripId, legId)) {
+            throw new DisplayableException("Either trip " + tripId + " could not be found or it does not contain leg " + legId);
+        }
+
+        LegDBObject currentLeg = legDAO.getLeg(legId);
+        if (currentLeg == null) {
+            throw new DisplayableException("Leg " + legId + " could not be found");
+        }
+
+        LegDBObject changedLeg = mapper.map(leg, LegDBObject.class);
+
+        //We never change ids or images like this
+        changedLeg.setLegId(null);
+        changedLeg.setTripId(null);
+        changedLeg.setImages(null);
+
+        try {
+            currentLeg.updateFrom(changedLeg);
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            String message = "Leg could not be updated";
+            logger.warn(message, e);
+            throw new DisplayableException(message, e);
+        }
+
+        legDAO.updateLeg(legId, currentLeg);
+
+        return mapper.map(currentLeg, Leg.class);
     }
 
     public boolean deleteLeg(String tripId, String legId) {

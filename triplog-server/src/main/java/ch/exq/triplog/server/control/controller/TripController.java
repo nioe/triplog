@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class TripController {
+
     private static final Logger logger = LoggerFactory.getLogger(TripController.class);
 
     @Inject
@@ -65,13 +66,17 @@ public class TripController {
     }
 
     public Trip updateTrip(String tripId, Trip trip) throws DisplayableException {
-        if (tripId == null || !MongoDbUtil.isValidObjectId(tripId) || trip == null) {
-            return null;
+        if (trip == null) {
+            throw new DisplayableException("Trip must be set");
+        }
+
+        if (tripId == null || !MongoDbUtil.isValidObjectId(tripId)) {
+            throw new DisplayableException("Invalid trip id");
         }
 
         TripDBObject currentTrip = tripDAO.getTripById(tripId);
         if (currentTrip == null) {
-            return null;
+            throw new DisplayableException("Trip with id " + tripId + " could not be found");
         }
 
         TripDBObject changedTrip = mapper.map(trip, TripDBObject.class);
@@ -84,7 +89,7 @@ public class TripController {
             currentTrip.updateFrom(changedTrip);
         } catch (InvocationTargetException | IllegalAccessException e) {
             String message = "Could not update trip!";
-            logger.error(message, e);
+            logger.warn(message, e);
             throw new DisplayableException(message, e);
         }
 
