@@ -2,6 +2,9 @@ package ch.exq.triplog.server.boundary.security;
 
 import ch.exq.triplog.server.util.http.HttpHeader;
 import ch.exq.triplog.server.control.controller.ResponseController;
+import ch.exq.triplog.server.util.http.RemoteIpHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +21,8 @@ import java.io.IOException;
 @AuthenticationRequired
 public class AuthenticationFilter implements ContainerRequestFilter {
 
+    private Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
+
     @Inject
     AuthTokenHandler authTokenHandler;
 
@@ -31,7 +36,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext context) throws IOException {
         String authTokenId = request.getHeader(HttpHeader.X_AUTH_TOKEN.key());
 
-        if (!authTokenHandler.isValidToken(authTokenId)) {
+        try {
+            authTokenHandler.updateValidTime(authTokenId);
+        } catch (NotValidTokenException e) {
+            logger.info("Blocked request to service {} from ip {} with auth token id {} - Invalid token",
+                    request.getPathInfo(), RemoteIpHelper.getRemoteIpFrom(request), authTokenId);
+
             context.abortWith(responseController.unauthorized());
         }
     }

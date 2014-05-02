@@ -43,7 +43,27 @@ public class AuthTokenHandler {
         }
 
         AuthToken authToken = authTokenMap.get(tokenId);
-        return authToken != null ? DateUtil.now().getTime() <= authToken.getExpiryDate().getTime() : false;
+        if (authToken == null) {
+            return false;
+        }
+
+        if (DateUtil.now().getTime() > authToken.getExpiryDate().getTime()) {
+            removeToken(tokenId);
+            return false;
+        }
+
+        return true;
+    }
+
+    public AuthToken updateValidTime(String tokenId) throws NotValidTokenException {
+        if (!isValidToken(tokenId)) {
+            throw new NotValidTokenException();
+        }
+
+        AuthToken authToken = authTokenMap.get(tokenId);
+        authToken.setExpiryDate(DateUtil.nowAdd(sessionTimeout.getLong()));
+
+        return authToken;
     }
 
     public void removeToken(String tokenId) {

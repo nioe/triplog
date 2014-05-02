@@ -21,7 +21,7 @@ public class AuthToken {
     private final String id;
 
     @XmlElement
-    private final Date expiryDate;
+    private Date expiryDate;
 
     public AuthToken(Date expiryDate) {
         this.id = UUIDUtil.getRandomUUID();
@@ -34,5 +34,9 @@ public class AuthToken {
 
     public Date getExpiryDate() {
         return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }
