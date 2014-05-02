@@ -12,11 +12,11 @@ import java.util.Collection;
  * Date: 28.04.14
  * Time: 13:41
  */
-public abstract class AbstractDBObject extends BasicDBObject {
+public abstract class AbstractDBObject<T> extends BasicDBObject {
 
     protected abstract Logger logger();
 
-    public void merge(AbstractDBObject other) throws InvocationTargetException, IllegalAccessException {
+    public void updateFrom(T other) throws InvocationTargetException, IllegalAccessException {
         if (other == null) {
             return;
         }

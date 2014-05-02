@@ -81,9 +81,9 @@ public class TripController {
         changedTrip.setTripId(null);
 
         try {
-            currentTrip.merge(changedTrip);
+            currentTrip.updateFrom(changedTrip);
         } catch (InvocationTargetException | IllegalAccessException e) {
-            String message = "Could not merge changed trip!";
+            String message = "Could not update trip!";
             logger.error(message, e);
             throw new DisplayableException(message, e);
         }

@@ -13,7 +13,7 @@ import java.util.List;
  * Date: 04.04.14
  * Time: 14:43
  */
-public class TripDBObject extends AbstractDBObject {
+public class TripDBObject extends AbstractDBObject<TripDBObject> {
 
     private static final Logger logger = LoggerFactory.getLogger(TripDBObject.class);
 

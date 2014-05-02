@@ -14,7 +14,7 @@ import java.util.ListIterator;
  * Date: 16.04.14
  * Time: 13:23
  */
-public class LegDBObject extends AbstractDBObject {
+public class LegDBObject extends AbstractDBObject<LegDBObject> {
 
     private static final Logger logger = LoggerFactory.getLogger(LegDBObject.class);
 

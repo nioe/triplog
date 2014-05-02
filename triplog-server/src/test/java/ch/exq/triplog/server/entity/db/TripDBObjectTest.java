@@ -23,11 +23,11 @@ public class TripDBObjectTest {
     }
 
     @Test
-    public void testMerge_TripName() throws InvocationTargetException, IllegalAccessException {
+    public void testUpdateFrom_TripName() throws InvocationTargetException, IllegalAccessException {
         TripDBObject other = new TripDBObject();
         other.setTripName("Blubb");
 
-        this.tripDBObject.merge(other);
+        this.tripDBObject.updateFrom(other);
 
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Blubb", this.tripDBObject.getTripName());
@@ -37,11 +37,11 @@ public class TripDBObjectTest {
     }
 
     @Test
-    public void testMerge_TripDescription() throws InvocationTargetException, IllegalAccessException {
+    public void testUpdateFrom_TripDescription() throws InvocationTargetException, IllegalAccessException {
         TripDBObject other = new TripDBObject();
         other.setTripDescription("New Desc");
 
-        this.tripDBObject.merge(other);
+        this.tripDBObject.updateFrom(other);
 
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Bla", this.tripDBObject.getTripName());
@@ -51,11 +51,11 @@ public class TripDBObjectTest {
     }
 
     @Test
-    public void testMerge_EmptyLegList() throws InvocationTargetException, IllegalAccessException {
+    public void testUpdateFrom_EmptyLegList() throws InvocationTargetException, IllegalAccessException {
         TripDBObject other = new TripDBObject();
         other.setLegs(new ArrayList<>());
 
-        this.tripDBObject.merge(other);
+        this.tripDBObject.updateFrom(other);
 
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Bla", this.tripDBObject.getTripName());
@@ -65,11 +65,11 @@ public class TripDBObjectTest {
     }
 
     @Test
-    public void testMerge_Legs() throws InvocationTargetException, IllegalAccessException {
+    public void testUpdateFrom_Legs() throws InvocationTargetException, IllegalAccessException {
         TripDBObject other = new TripDBObject();
         other.setLegs(Arrays.asList("456", "789"));
 
-        this.tripDBObject.merge(other);
+        this.tripDBObject.updateFrom(other);
 
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Bla", this.tripDBObject.getTripName());
