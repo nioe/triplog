@@ -26,5 +26,5 @@ The server application is reading the configuration from system properties set i
 ```
 
 ### Possible Properties ###
-triplog.admin.user -> The username of the superuser which is able to add, update or delete trips and their content
-triplog.admin.password -> The password for the superuser
+* triplog.admin.user -> The username of the superuser which is able to add, update or delete trips and their content
+* triplog.admin.password -> The password for the superuser
