@@ -34,8 +34,8 @@ public class TripToDBObjectMapTest {
         assertEquals("123", tripDBObject.getTripId());
         assertNull(tripDBObject.getTripName());
         assertNull(tripDBObject.getTripDescription());
-        assertNotNull(tripDBObject.getLegs());
-        assertEquals(0, tripDBObject.getLegs().size());
+        assertNotNull(tripDBObject.getSteps());
+        assertEquals(0, tripDBObject.getSteps().size());
     }
 
     @Test
@@ -47,8 +47,8 @@ public class TripToDBObjectMapTest {
         assertNull(tripDBObject.getTripId());
         assertEquals("trip_name", tripDBObject.getTripName());
         assertNull(tripDBObject.getTripDescription());
-        assertNotNull(tripDBObject.getLegs());
-        assertEquals(0, tripDBObject.getLegs().size());
+        assertNotNull(tripDBObject.getSteps());
+        assertEquals(0, tripDBObject.getSteps().size());
     }
 
     @Test
@@ -60,24 +60,24 @@ public class TripToDBObjectMapTest {
         assertNull(tripDBObject.getTripId());
         assertNull(tripDBObject.getTripName());
         assertEquals("trip_desc", tripDBObject.getTripDescription());
-        assertNotNull(tripDBObject.getLegs());
-        assertEquals(0, tripDBObject.getLegs().size());
+        assertNotNull(tripDBObject.getSteps());
+        assertEquals(0, tripDBObject.getSteps().size());
     }
 
     @Test
-    public void testMapLegs() {
+    public void testMapSteps() {
         Trip trip = new Trip();
-        ArrayList<String> legs = new ArrayList<>();
-        legs.add("123");
-        legs.add("456");
-        trip.setLegs(legs);
+        ArrayList<String> steps = new ArrayList<>();
+        steps.add("123");
+        steps.add("456");
+        trip.setSteps(steps);
 
         TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
         assertNull(tripDBObject.getTripId());
         assertNull(tripDBObject.getTripName());
         assertNull(tripDBObject.getTripDescription());
-        assertNotNull(tripDBObject.getLegs());
-        assertEquals(legs.size(), tripDBObject.getLegs().size());
-        assertTrue(tripDBObject.getLegs().containsAll(legs));
+        assertNotNull(tripDBObject.getSteps());
+        assertEquals(steps.size(), tripDBObject.getSteps().size());
+        assertTrue(tripDBObject.getSteps().containsAll(steps));
     }
 }

@@ -2,7 +2,7 @@ package ch.exq.triplog.server.control.controller;
 
 import ch.exq.triplog.server.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.dto.Trip;
-import ch.exq.triplog.server.entity.dao.LegDAO;
+import ch.exq.triplog.server.entity.dao.StepDAO;
 import ch.exq.triplog.server.entity.dao.TripDAO;
 import ch.exq.triplog.server.entity.db.TripDBObject;
 import ch.exq.triplog.server.util.mapper.TriplogMapper;
@@ -31,7 +31,7 @@ public class TripController {
     TripDAO tripDAO;
 
     @Inject
-    LegDAO legDAO;
+    StepDAO stepDAO;
 
     @Inject
     ResourceController resourceController;
@@ -46,14 +46,14 @@ public class TripController {
 
         TripDBObject tripDBObject = tripDAO.getTripById(tripId);
 
-        return tripDBObject != null ? changeLegLinksFor(mapper.map(tripDBObject, Trip.class)) : null;
+        return tripDBObject != null ? changeStepLinksFor(mapper.map(tripDBObject, Trip.class)) : null;
     }
 
     public List<Trip> getAllTrips() {
         List<Trip> allTrips = tripDAO.getAllTrips().stream().map(tripDBObject -> mapper.map(tripDBObject, Trip.class))
                                                             .collect(Collectors.toList());
 
-        allTrips.forEach(t -> changeLegLinksFor(t));
+        allTrips.forEach(t -> changeStepLinksFor(t));
 
         return allTrips;
     }
@@ -65,12 +65,12 @@ public class TripController {
 
         TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
 
-        //We never add legs directly!
-        tripDBObject.setLegs(null);
+        //We never add steps directly!
+        tripDBObject.setStpes(null);
 
         tripDAO.createTrip(tripDBObject);
 
-        return changeLegLinksFor(mapper.map(tripDBObject, Trip.class));
+        return changeStepLinksFor(mapper.map(tripDBObject, Trip.class));
     }
 
     public Trip updateTrip(String tripId, Trip trip) throws DisplayableException {
@@ -89,8 +89,8 @@ public class TripController {
 
         TripDBObject changedTrip = mapper.map(trip, TripDBObject.class);
 
-        //We never update legs or the id like this!
-        changedTrip.setLegs(null);
+        //We never update steps or the id like this!
+        changedTrip.setStpes(null);
         changedTrip.setTripId(null);
 
         try {
@@ -103,7 +103,7 @@ public class TripController {
 
         tripDAO.updateTrip(tripId, currentTrip);
 
-        return changeLegLinksFor(mapper.map(currentTrip, Trip.class));
+        return changeStepLinksFor(mapper.map(currentTrip, Trip.class));
     }
 
     public boolean deleteTripWithId(String tripId) {
@@ -118,17 +118,16 @@ public class TripController {
         }
 
         WriteResult tripResult = tripDAO.deleteTrip(tripDBObject);
-        WriteResult legResult = null;
+        WriteResult stepResult = null;
         if (tripResult.getN() == 1) {
-            //Delete legs of trip
-            legResult = legDAO.deleteAllLegsOfTrip(tripId);
+            stepResult = stepDAO.deleteAllStepsOfTrip(tripId);
         }
 
-        return tripResult.getN() == 1 && tripResult.getError() == null && legResult != null && legResult.getError() == null;
+        return tripResult.getN() == 1 && tripResult.getError() == null && stepResult != null && stepResult.getError() == null;
     }
 
-    private Trip changeLegLinksFor(Trip trip) {
-        trip.setLegs(trip.getLegs().stream().map(legId -> resourceController.getLegUrl(trip.getTripId(), legId))
+    private Trip changeStepLinksFor(Trip trip) {
+        trip.setSteps(trip.getSteps().stream().map(stepId -> resourceController.getStepUrl(trip.getTripId(), stepId))
                 .collect(Collectors.toList()));
 
         return trip;

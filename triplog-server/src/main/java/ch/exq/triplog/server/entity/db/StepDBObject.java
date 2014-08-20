@@ -14,32 +14,32 @@ import java.util.ListIterator;
  * Date: 16.04.14
  * Time: 13:23
  */
-public class LegDBObject extends AbstractDBObject<LegDBObject> {
+public class StepDBObject extends AbstractDBObject<StepDBObject> {
 
-    private static final Logger logger = LoggerFactory.getLogger(LegDBObject.class);
+    private static final Logger logger = LoggerFactory.getLogger(StepDBObject.class);
 
-    public static final String COLLECTION_NAME = "leg";
-    public static final String LEG_ID = "_id";
+    public static final String COLLECTION_NAME = "step";
+    public static final String STEP_ID = "_id";
     public static final String TRIP_ID = "tripId";
-    public static final String LEG_NAME = "legName";
-    public static final String LEG_TEXT = "legText";
+    public static final String STEP_NAME = "stepName";
+    public static final String STEP_TEXT = "stepText";
     public static final String MAP_URL = "mapUrl";
     public static final String IMAGES = "images";
 
 
-    public static LegDBObject from(DBObject dbObject) {
-        LegDBObject legDBObject = new LegDBObject();
-        legDBObject.putAll(dbObject.toMap());
+    public static StepDBObject from(DBObject dbObject) {
+        StepDBObject stepDBObject = new StepDBObject();
+        stepDBObject.putAll(dbObject.toMap());
 
-        return legDBObject;
+        return stepDBObject;
     }
 
-    public String getLegId() {
-        return getString(LEG_ID);
+    public String getStepId() {
+        return getString(STEP_ID);
     }
 
-    public void setLegId(String legId) {
-        put(LEG_ID, legId);
+    public void setStepId(String stepId) {
+        put(STEP_ID, stepId);
     }
 
     public String getTripId() {
@@ -50,20 +50,20 @@ public class LegDBObject extends AbstractDBObject<LegDBObject> {
         put(TRIP_ID, tripId);
     }
 
-    public String getLegName() {
-        return getString(LEG_NAME);
+    public String getStepName() {
+        return getString(STEP_NAME);
     }
 
-    public void setLegName(String legName) {
-        put(LEG_NAME, legName);
+    public void setStepName(String stepName) {
+        put(STEP_NAME, stepName);
     }
 
-    public String getLegText() {
-        return getString(LEG_TEXT);
+    public String getStepText() {
+        return getString(STEP_TEXT);
     }
 
-    public void setLegText(String legText) {
-        put(LEG_TEXT, legText);
+    public void setStepText(String stepText) {
+        put(STEP_TEXT, stepText);
     }
 
     public String getMapUrl() {
@@ -90,11 +90,8 @@ public class LegDBObject extends AbstractDBObject<LegDBObject> {
 
     public void setImages(List<String> images) {
         BasicDBList basicDBList = new BasicDBList();
-
         if (images != null) {
-            for (String image : images) {
-                basicDBList.add(image);
-            }
+            images.stream().forEach(image -> basicDBList.add(image));
         }
 
         put(IMAGES, basicDBList);

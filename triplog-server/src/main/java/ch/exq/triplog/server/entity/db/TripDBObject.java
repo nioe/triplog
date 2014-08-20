@@ -21,7 +21,7 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
     public static final String TRIP_ID = "_id";
     public static final String TRIP_NAME = "tripName";
     public static final String TRIP_DESCRIPTION = "tripDescription";
-    public static final String LEGS = "legs";
+    public static final String STEPS = "steps";
 
 
     public static TripDBObject from(DBObject dbObject) {
@@ -56,34 +56,34 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
         put(TRIP_DESCRIPTION, tripDescription);
     }
 
-    public BasicDBList getLegList() {
-        Object legsObject = get(LEGS);
-        return legsObject != null ? (BasicDBList) legsObject : null;
+    public BasicDBList getStepList() {
+        Object stepsObject = get(STEPS);
+        return stepsObject != null ? (BasicDBList) stepsObject : null;
     }
 
-    public void setLegList(BasicDBList legList) {
-        put(LEGS, legList);
+    public void setStepList(BasicDBList stepList) {
+        put(STEPS, stepList);
     }
 
-    public List<String> getLegs() {
-        List<String> legs = new ArrayList<>();
+    public List<String> getSteps() {
+        List<String> steps = new ArrayList<>();
 
-        BasicDBList legList = getLegList();
-        if (legList != null) {
-            legList.stream().forEach(legId -> legs.add((String) legId));
+        BasicDBList stepList = getStepList();
+        if (stepList != null) {
+            stepList.stream().forEach(stepId -> steps.add((String) stepId));
         }
 
-        return legs;
+        return steps;
     }
 
-    public void setLegs(List<String> legs) {
+    public void setStpes(List<String> steps) {
         BasicDBList basicDBList = new BasicDBList();
 
-        if (legs != null) {
-            legs.forEach(legId -> basicDBList.add(legId));
+        if (steps != null) {
+            steps.forEach(stepId -> basicDBList.add(stepId));
         }
 
-        put(LEGS, basicDBList);
+        put(STEPS, basicDBList);
     }
 
     @Override

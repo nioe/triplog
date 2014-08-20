@@ -24,10 +24,10 @@ public class Trip {
     private String tripDescription;
 
     @XmlElement
-    private List<String> legs;
+    private List<String> steps;
 
     public Trip() {
-        legs = new ArrayList<>();
+        steps = new ArrayList<>();
     }
 
     public Trip(String tripName, String tripDescription) {
@@ -60,16 +60,16 @@ public class Trip {
         this.tripDescription = tripDescription;
     }
 
-    public List<String> getLegs() {
-        return legs;
+    public List<String> getSteps() {
+        return steps;
     }
 
-    public void setLegs(List<String> legs) {
-        this.legs = legs;
+    public void setSteps(List<String> steps) {
+        this.steps = steps;
     }
 
-    public boolean hasLegs() {
-        return legs != null && !legs.isEmpty();
+    public boolean hasSteps() {
+        return steps != null && !steps.isEmpty();
     }
 
     @Override

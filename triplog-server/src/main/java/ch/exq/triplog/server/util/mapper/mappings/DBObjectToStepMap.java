@@ -1,22 +1,22 @@
 package ch.exq.triplog.server.util.mapper.mappings;
 
-import ch.exq.triplog.server.dto.Leg;
-import ch.exq.triplog.server.entity.db.LegDBObject;
+import ch.exq.triplog.server.dto.Step;
+import ch.exq.triplog.server.entity.db.StepDBObject;
 import org.modelmapper.PropertyMap;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
  * Date: 16.04.14
- * Time: 14:40
+ * Time: 14:38
  */
-public class LegToDBObjectMap extends PropertyMap<Leg, LegDBObject> {
+public class DBObjectToStepMap extends PropertyMap<StepDBObject, Step> {
 
     @Override
     protected void configure() {
-        map().setLegId(source.getLegId());
+        map().setStepId(source.getStepId());
         map().setTripId(source.getTripId());
-        map().setLegName(source.getLegName());
-        map().setLegText(source.getLegText());
+        map().setStepName(source.getStepName());
+        map().setStepText(source.getStepText());
         map().setMapUrl(source.getMapUrl());
         map().setImages(source.getImages());
     }

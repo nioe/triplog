@@ -34,8 +34,8 @@ public class DBObjectToTripMapTest {
         assertEquals("123", trip.getTripId());
         assertNull(trip.getTripName());
         assertNull(trip.getTripDescription());
-        assertNotNull(trip.getLegs());
-        assertEquals(0, trip.getLegs().size());
+        assertNotNull(trip.getSteps());
+        assertEquals(0, trip.getSteps().size());
     }
 
     @Test
@@ -47,8 +47,8 @@ public class DBObjectToTripMapTest {
         assertNull(trip.getTripId());
         assertEquals("test_trip", trip.getTripName());
         assertNull(trip.getTripDescription());
-        assertNotNull(trip.getLegs());
-        assertEquals(0, trip.getLegs().size());
+        assertNotNull(trip.getSteps());
+        assertEquals(0, trip.getSteps().size());
     }
 
     @Test
@@ -60,24 +60,24 @@ public class DBObjectToTripMapTest {
         assertNull(trip.getTripId());
         assertNull(trip.getTripName());
         assertEquals("test_trip_desc", trip.getTripDescription());
-        assertNotNull(trip.getLegs());
-        assertEquals(0, trip.getLegs().size());
+        assertNotNull(trip.getSteps());
+        assertEquals(0, trip.getSteps().size());
     }
 
     @Test
-    public void testMapLegs() {
+    public void testMapSteps() {
         TripDBObject tripDBObject = new TripDBObject();
-        ArrayList<String> legs = new ArrayList<>();
-        legs.add("123");
-        legs.add("456");
-        tripDBObject.setLegs(legs);
+        ArrayList<String> steps = new ArrayList<>();
+        steps.add("123");
+        steps.add("456");
+        tripDBObject.setStpes(steps);
 
         Trip trip = mapper.map(tripDBObject, Trip.class);
         assertNull(trip.getTripId());
         assertNull(trip.getTripName());
         assertNull(trip.getTripDescription());
-        assertNotNull(trip.getLegs());
-        assertEquals(legs.size(), trip.getLegs().size());
-        assertTrue(trip.getLegs().containsAll(legs));
+        assertNotNull(trip.getSteps());
+        assertEquals(steps.size(), trip.getSteps().size());
+        assertTrue(trip.getSteps().containsAll(steps));
     }
 }

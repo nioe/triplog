@@ -14,19 +14,19 @@ import java.util.List;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Leg {
+public class Step {
 
     @XmlElement
-    private String legId;
+    private String stepId;
 
     @XmlElement(required = true)
     private String tripId;
 
     @XmlElement(required = true)
-    private String legName;
+    private String stepName;
 
     @XmlElement
-    private String legText;
+    private String stepText;
 
     @XmlElement
     private String mapUrl;
@@ -34,28 +34,28 @@ public class Leg {
     @XmlElement
     private List<String> images;
 
-    public Leg() {
+    public Step() {
         images = new ArrayList<>();
     }
 
-    public Leg(String tripId, String legName, String legText, String mapUrl) {
-        this(UUIDUtil.getRandomUUID(), tripId, legName, legText, mapUrl);
+    public Step(String tripId, String stepName, String stepText, String mapUrl) {
+        this(UUIDUtil.getRandomUUID(), tripId, stepName, stepText, mapUrl);
     }
 
-    public Leg(String legId, String tripId, String legName, String legText, String mapUrl) {
+    public Step(String stepId, String tripId, String stepName, String stepText, String mapUrl) {
         this();
-        this.legId = legId;
-        this.legName = legName;
-        this.legText = legText;
+        this.stepId = stepId;
+        this.stepName = stepName;
+        this.stepText = stepText;
         this.mapUrl = mapUrl;
     }
 
-    public String getLegId() {
-        return legId;
+    public String getStepId() {
+        return stepId;
     }
 
-    public void setLegId(String legId) {
-        this.legId = legId;
+    public void setStepId(String stepId) {
+        this.stepId = stepId;
     }
 
     public String getTripId() {
@@ -66,20 +66,20 @@ public class Leg {
         this.tripId = tripId;
     }
 
-    public String getLegName() {
-        return legName;
+    public String getStepName() {
+        return stepName;
     }
 
-    public void setLegName(String legName) {
-        this.legName = legName;
+    public void setStepName(String stepName) {
+        this.stepName = stepName;
     }
 
-    public String getLegText() {
-        return legText;
+    public String getStepText() {
+        return stepText;
     }
 
-    public void setLegText(String legText) {
-        this.legText = legText;
+    public void setStepText(String stepText) {
+        this.stepText = stepText;
     }
 
     public String getMapUrl() {
@@ -103,15 +103,15 @@ public class Leg {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Leg leg = (Leg) o;
+        Step step = (Step) o;
 
-        if (legId != null ? !legId.equals(leg.legId) : leg.legId != null) return false;
+        if (stepId != null ? !stepId.equals(step.stepId) : step.stepId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return legId != null ? legId.hashCode() : 0;
+        return stepId != null ? stepId.hashCode() : 0;
     }
 }

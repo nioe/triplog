@@ -23,9 +23,9 @@ public class ResourceControllerTest {
     }
 
     @Test
-    public void testGetLegUrl() throws Exception {
-        String legUrl = resourceController.getLegUrl("123","456");
-        assertEquals(PROTOCOL + "://" + HOST + ":" + PORT + "/trip/123/leg/456", legUrl);
+    public void testGetStepUrl() throws Exception {
+        String stepUrl = resourceController.getStepUrl("123", "456");
+        assertEquals(PROTOCOL + "://" + HOST + ":" + PORT + "/trip/123/step/456", stepUrl);
     }
 
     @Test

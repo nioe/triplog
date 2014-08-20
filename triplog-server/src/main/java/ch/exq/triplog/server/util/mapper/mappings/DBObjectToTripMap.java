@@ -16,6 +16,6 @@ public class DBObjectToTripMap extends PropertyMap<TripDBObject, Trip> {
         map().setTripId(source.getTripId());
         map().setTripName(source.getTripName());
         map().setTripDescription(source.getTripDescription());
-        map().setLegs(source.getLegs());
+        map().setSteps(source.getSteps());
     }
 }

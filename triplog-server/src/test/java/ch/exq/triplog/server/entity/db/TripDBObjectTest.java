@@ -19,7 +19,7 @@ public class TripDBObjectTest {
         this.tripDBObject.setTripId("123");
         this.tripDBObject.setTripName("Bla");
         this.tripDBObject.setTripDescription("Description");
-        this.tripDBObject.setLegs(Arrays.asList("123"));
+        this.tripDBObject.setStpes(Arrays.asList("123"));
     }
 
     @Test
@@ -32,8 +32,8 @@ public class TripDBObjectTest {
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Blubb", this.tripDBObject.getTripName());
         assertEquals("Description", this.tripDBObject.getTripDescription());
-        assertNotNull(this.tripDBObject.getLegs());
-        assertTrue(this.tripDBObject.getLegs().containsAll(Arrays.asList("123")));
+        assertNotNull(this.tripDBObject.getSteps());
+        assertTrue(this.tripDBObject.getSteps().containsAll(Arrays.asList("123")));
     }
 
     @Test
@@ -46,35 +46,35 @@ public class TripDBObjectTest {
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Bla", this.tripDBObject.getTripName());
         assertEquals("New Desc", this.tripDBObject.getTripDescription());
-        assertNotNull(this.tripDBObject.getLegs());
-        assertTrue(this.tripDBObject.getLegs().containsAll(Arrays.asList("123")));
+        assertNotNull(this.tripDBObject.getSteps());
+        assertTrue(this.tripDBObject.getSteps().containsAll(Arrays.asList("123")));
     }
 
     @Test
-    public void testUpdateFrom_EmptyLegList() throws InvocationTargetException, IllegalAccessException {
+    public void testUpdateFrom_EmptyStepList() throws InvocationTargetException, IllegalAccessException {
         TripDBObject other = new TripDBObject();
-        other.setLegs(new ArrayList<>());
+        other.setStpes(new ArrayList<>());
 
         this.tripDBObject.updateFrom(other);
 
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Bla", this.tripDBObject.getTripName());
         assertEquals("Description", this.tripDBObject.getTripDescription());
-        assertNotNull(this.tripDBObject.getLegs());
-        assertTrue(this.tripDBObject.getLegs().containsAll(Arrays.asList("123")));
+        assertNotNull(this.tripDBObject.getSteps());
+        assertTrue(this.tripDBObject.getSteps().containsAll(Arrays.asList("123")));
     }
 
     @Test
-    public void testUpdateFrom_Legs() throws InvocationTargetException, IllegalAccessException {
+    public void testUpdateFrom_Steps() throws InvocationTargetException, IllegalAccessException {
         TripDBObject other = new TripDBObject();
-        other.setLegs(Arrays.asList("456", "789"));
+        other.setStpes(Arrays.asList("456", "789"));
 
         this.tripDBObject.updateFrom(other);
 
         assertEquals("123", this.tripDBObject.getTripId());
         assertEquals("Bla", this.tripDBObject.getTripName());
         assertEquals("Description", this.tripDBObject.getTripDescription());
-        assertNotNull(this.tripDBObject.getLegs());
-        assertTrue(this.tripDBObject.getLegs().containsAll(Arrays.asList("456", "789")));
+        assertNotNull(this.tripDBObject.getSteps());
+        assertTrue(this.tripDBObject.getSteps().containsAll(Arrays.asList("456", "789")));
     }
 }

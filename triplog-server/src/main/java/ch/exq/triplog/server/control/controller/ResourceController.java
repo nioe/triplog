@@ -17,7 +17,7 @@ public class ResourceController {
     private static final String PORT_DELIMITER = ":";
     private static final String PATH_DELIMITER = "/";
     private static final String TRIP_SERVICE_NAME = "trip";
-    private static final String LEG_SERVICE_NAME = "leg";
+    private static final String STEP_SERVICE_NAME = "step";
     private static final String IMAGE_SERVICE_NAME = "image";
     private static final String LOGIN_SERVICE_NAME = "login";
 
@@ -33,10 +33,10 @@ public class ResourceController {
     @Config(key = "triplog.server.port", fallback = "8080")
     SystemProperty port;
 
-    public String getLegUrl(String tripId, String legId) {
+    public String getStepUrl(String tripId, String stepId) {
         StringBuilder sb = new StringBuilder(getServerRoot());
         sb.append(PATH_DELIMITER).append(TRIP_SERVICE_NAME).append(PATH_DELIMITER).append(tripId);
-        sb.append(PATH_DELIMITER).append(LEG_SERVICE_NAME).append(PATH_DELIMITER).append(legId);
+        sb.append(PATH_DELIMITER).append(STEP_SERVICE_NAME).append(PATH_DELIMITER).append(stepId);
 
         return sb.toString();
     }

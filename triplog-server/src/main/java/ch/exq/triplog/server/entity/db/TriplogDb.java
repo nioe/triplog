@@ -64,7 +64,7 @@ public class TriplogDB {
         return db.getCollection(TripDBObject.COLLECTION_NAME);
     }
 
-    public DBCollection getLegCollection() {
-        return db.getCollection(LegDBObject.COLLECTION_NAME);
+    public DBCollection getStepCollection() {
+        return db.getCollection(StepDBObject.COLLECTION_NAME);
     }
 }

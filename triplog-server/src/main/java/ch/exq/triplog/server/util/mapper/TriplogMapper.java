@@ -1,8 +1,8 @@
 package ch.exq.triplog.server.util.mapper;
 
-import ch.exq.triplog.server.util.mapper.mappings.DBObjectToLegMap;
+import ch.exq.triplog.server.util.mapper.mappings.DBObjectToStepMap;
 import ch.exq.triplog.server.util.mapper.mappings.DBObjectToTripMap;
-import ch.exq.triplog.server.util.mapper.mappings.LegToDBObjectMap;
+import ch.exq.triplog.server.util.mapper.mappings.StepToDBObjectMap;
 import ch.exq.triplog.server.util.mapper.mappings.TripToDBObjectMap;
 import org.modelmapper.ModelMapper;
 
@@ -27,8 +27,8 @@ public class TriplogMapper extends ModelMapper {
         addMappings(new DBObjectToTripMap());
         addMappings(new TripToDBObjectMap());
 
-        //Leg
-        addMappings(new DBObjectToLegMap());
-        addMappings(new LegToDBObjectMap());
+        //Step
+        addMappings(new DBObjectToStepMap());
+        addMappings(new StepToDBObjectMap());
     }
 }
