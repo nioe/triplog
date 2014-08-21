@@ -2,11 +2,10 @@ package ch.exq.triplog.server.core.boundary.security;
 
 import ch.exq.triplog.server.core.dto.AuthToken;
 import ch.exq.triplog.server.core.util.config.Hardcoded;
-import ch.exq.triplog.server.core.util.misc.DateUtil;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 
@@ -27,21 +26,22 @@ public class AuthTokenHandlerTest {
 
     @Test
     public void testGetNewToken() {
-        authTokenHandler.sessionTimeout = Hardcoded.configuration("10000");
-        Date now = DateUtil.now();
+        authTokenHandler.sessionTimeout = Hardcoded.configuration("60");
+        LocalDateTime now = LocalDateTime.now();
         AuthToken authToken = authTokenHandler.getNewToken();
 
         assertNotNull(authToken);
         assertNotNull(authToken.getId());
         assertNotNull(authToken.getExpiryDate());
-        assertTrue(now.getTime() < authToken.getExpiryDate().getTime());
+        assertTrue(now.isBefore(authToken.getExpiryDate()));
 
-        assertEquals((now.getTime() + 10000)/1000, authToken.getExpiryDate().getTime()/1000);
+        assertTrue(now.plusMinutes(60).isBefore(authToken.getExpiryDate()));
+        assertTrue(LocalDateTime.now().plusMinutes(60).isAfter(authToken.getExpiryDate()));
     }
 
     @Test
     public void testIsValid_ValidToken() {
-        authTokenHandler.sessionTimeout = Hardcoded.configuration("10000");
+        authTokenHandler.sessionTimeout = Hardcoded.configuration("60");
         AuthToken authToken = authTokenHandler.getNewToken();
 
         assertTrue(authTokenHandler.isValidToken(authToken.getId()));
@@ -49,7 +49,7 @@ public class AuthTokenHandlerTest {
 
     @Test
     public void testIsValid_ExpiredToken() {
-        authTokenHandler.sessionTimeout = Hardcoded.configuration("-10000");
+        authTokenHandler.sessionTimeout = Hardcoded.configuration("-60");
         AuthToken authToken = authTokenHandler.getNewToken();
 
         assertFalse(authTokenHandler.isValidToken(authToken.getId()));

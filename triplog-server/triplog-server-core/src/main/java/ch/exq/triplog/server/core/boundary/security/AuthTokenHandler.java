@@ -2,12 +2,12 @@ package ch.exq.triplog.server.core.boundary.security;
 
 import ch.exq.triplog.server.core.dto.AuthToken;
 import ch.exq.triplog.server.core.util.config.Config;
-import ch.exq.triplog.server.core.util.misc.DateUtil;
 import ch.exq.triplog.server.core.util.config.SystemProperty;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 public class AuthTokenHandler {
 
     @Inject
-    @Config(key = "triplog.session.timeout", fallback = "3600000") //1h
+    @Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "60")
     SystemProperty sessionTimeout;
 
     private Map<String, AuthToken> authTokenMap;
@@ -31,7 +31,7 @@ public class AuthTokenHandler {
     }
 
     public AuthToken getNewToken() {
-        AuthToken authToken = new AuthToken(DateUtil.nowAdd(sessionTimeout.getLong()));
+        AuthToken authToken = new AuthToken(LocalDateTime.now().plusMinutes(sessionTimeout.getLong()));
         authTokenMap.put(authToken.getId(), authToken);
 
         return authToken;
@@ -47,7 +47,7 @@ public class AuthTokenHandler {
             return false;
         }
 
-        if (DateUtil.now().getTime() > authToken.getExpiryDate().getTime()) {
+        if (LocalDateTime.now().isAfter(authToken.getExpiryDate())) {
             removeToken(tokenId);
             return false;
         }
@@ -61,7 +61,7 @@ public class AuthTokenHandler {
         }
 
         AuthToken authToken = authTokenMap.get(tokenId);
-        authToken.setExpiryDate(DateUtil.nowAdd(sessionTimeout.getLong()));
+        authToken.setExpiryDate(LocalDateTime.now().plusMinutes(sessionTimeout.getLong()));
 
         return authToken;
     }

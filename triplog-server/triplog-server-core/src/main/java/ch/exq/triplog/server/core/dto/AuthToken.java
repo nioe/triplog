@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -21,9 +21,9 @@ public class AuthToken {
     private final String id;
 
     @XmlElement
-    private Date expiryDate;
+    private LocalDateTime expiryDate;
 
-    public AuthToken(Date expiryDate) {
+    public AuthToken(LocalDateTime expiryDate) {
         this.id = UUIDUtil.getRandomUUID();
         this.expiryDate = expiryDate;
     }
@@ -32,11 +32,11 @@ public class AuthToken {
         return id;
     }
 
-    public Date getExpiryDate() {
+    public LocalDateTime getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(LocalDateTime expiryDate) {
         this.expiryDate = expiryDate;
     }
 }
