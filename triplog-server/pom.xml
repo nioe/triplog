@@ -9,7 +9,7 @@
     <version>0.1</version>
     <modules>
         <module>triplog-server-core</module>
-        <module>triplog-server-util</module>
+        <module>triplog-server-tools</module>
     </modules>
 
     <packaging>pom</packaging>

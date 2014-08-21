@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>triplog-server-util</artifactId>
+    <artifactId>triplog-server-tools</artifactId>
     <version>0.1</version>
 
-    <name>TripLog Server Utilities</name>
+    <name>TripLog Server Tools</name>
 
     <dependencies>
         <!-- Other modules -->
