@@ -7,68 +7,24 @@
     <groupId>ch.exq.triplog</groupId>
     <artifactId>triplog-server</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>triplog-server-core</module>
+        <module>triplog-server-util</module>
+    </modules>
 
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <name>TripLog Server</name>
 
     <contributors>
         <contributor>
             <name>Nicolas Oeschger</name>
-            <email>noe@exq.ch</email>
+            <email>noe+triplog@exq.ch</email>
         </contributor>
     </contributors>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-        <!-- Necessary for build -->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>2.11.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>0.6.4</version>
-        </dependency>
-
-        <!-- Provided -->
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0-m01</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.6</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Test Scope -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.6.6</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <pluginManagement>
@@ -86,20 +42,6 @@
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>2.8</version>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
-                    <configuration>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>1.0.1.Final</version>
                 </plugin>
             </plugins>
         </pluginManagement>
