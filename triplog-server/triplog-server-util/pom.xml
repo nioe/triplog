@@ -12,15 +12,15 @@
     <artifactId>triplog-server-util</artifactId>
     <version>0.1</version>
 
-    <name>Triplog Server Utilities</name>
+    <name>TripLog Server Utilities</name>
 
     <dependencies>
         <!-- Other modules -->
         <dependency>
-            <groupId>ch.exq.triplog</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>triplog-server-core</artifactId>
             <version>0.1</version>
-            <type>war</type>
+            <classifier>classes</classifier>
         </dependency>
 
         <!-- Necessary for build -->
