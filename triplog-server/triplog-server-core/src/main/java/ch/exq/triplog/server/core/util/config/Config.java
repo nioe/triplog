@@ -18,5 +18,8 @@ public @interface Config {
     public String key();
 
     @Nonbinding
+    public String description() default "";
+
+    @Nonbinding
     public String fallback() default "";
 }
