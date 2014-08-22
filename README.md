@@ -29,11 +29,11 @@ The server application is reading the configuration from system properties set i
 |Key|Description|Default Value|
 |---|---|---|
 |triplog.admin.password|-|password|
-|triplog.mongodb.dbname|-|triplog|
-|triplog.session.timeout|Session timeout in minutes|60|
-|triplog.mongodb.host|-|localhost|
-|triplog.server.port|-|8080|
-|triplog.server.protocol|-|http|
 |triplog.admin.user|-|admin|
+|triplog.mongodb.dbname|-|triplog|
+|triplog.mongodb.host|-|localhost|
 |triplog.mongodb.port|-|27017|
 |triplog.server.host|-|localhost|
+|triplog.server.port|-|8080|
+|triplog.server.protocol|-|http|
+|triplog.session.timeout|Session timeout in minutes|60|

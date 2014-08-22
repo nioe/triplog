@@ -9,7 +9,7 @@ import static ch.exq.triplog.server.util.configurationfinder.ConfigMarkdown.*;
  * Date: 21.08.14
  * Time: 14:47
  */
-public class ConfigMarkdownLine {
+public class ConfigMarkdownLine implements Comparable<ConfigMarkdownLine> {
     public static final String NOT_SET_PLACE_HOLDER = "-";
 
     private Config config;
@@ -35,5 +35,10 @@ public class ConfigMarkdownLine {
 
     private boolean descriptionIsSet() {
         return config.description() != null && !config.description().equals("");
+    }
+
+    @Override
+    public int compareTo(ConfigMarkdownLine o) {
+        return this.config.key().compareTo(o.config.key());
     }
 }

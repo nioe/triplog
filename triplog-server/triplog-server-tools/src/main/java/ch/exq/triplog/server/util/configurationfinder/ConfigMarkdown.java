@@ -2,8 +2,8 @@ package ch.exq.triplog.server.util.configurationfinder;
 
 import ch.exq.triplog.server.util.config.Config;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -22,7 +22,7 @@ public class ConfigMarkdown {
     private Set<ConfigMarkdownLine> lines;
 
     public ConfigMarkdown(Set<Config> configs) {
-        lines = new HashSet<>();
+        lines = new TreeSet<>();
         configs.forEach(config -> lines.add(new ConfigMarkdownLine(config)));
     }
 
