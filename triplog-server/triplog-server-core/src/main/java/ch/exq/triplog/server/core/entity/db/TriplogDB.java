@@ -25,15 +25,15 @@ public class TriplogDB {
     private static final Logger logger = LoggerFactory.getLogger(TriplogDB.class);
 
     @Inject
-    @Config(key = "triplog.mongodb.host", fallback = "localhost")
+    @Config(key = "triplog.mongodb.host", description = "The MongoDB server hostname", fallback = "localhost")
     SystemProperty host;
 
     @Inject
-    @Config(key = "triplog.mongodb.port", fallback = "27017")
+    @Config(key = "triplog.mongodb.port", description = "The MongoDB server port", fallback = "27017")
     SystemProperty port;
 
     @Inject
-    @Config(key = "triplog.mongodb.dbname", fallback = "triplog")
+    @Config(key = "triplog.mongodb.dbname", description = "The database name where TripLog stores its data", fallback = "triplog")
     SystemProperty dbName;
 
     private MongoClient monngoClient;

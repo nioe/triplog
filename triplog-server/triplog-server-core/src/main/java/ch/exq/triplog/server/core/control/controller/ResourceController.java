@@ -22,15 +22,15 @@ public class ResourceController {
     private static final String LOGIN_SERVICE_NAME = "login";
 
     @Inject
-    @Config(key = "triplog.server.protocol", fallback = "http")
+    @Config(key = "triplog.server.protocol", description = "The protocol which is used to access the TripLog services", fallback = "http")
     SystemProperty protocol;
 
     @Inject
-    @Config(key = "triplog.server.host", fallback = "localhost")
+    @Config(key = "triplog.server.host", description = "TripLog server's hostname", fallback = "localhost")
     SystemProperty hostName;
 
     @Inject
-    @Config(key = "triplog.server.port", fallback = "8080")
+    @Config(key = "triplog.server.port", description = "Server port for TripLog services", fallback = "8080")
     SystemProperty port;
 
     public String getStepUrl(String tripId, String stepId) {

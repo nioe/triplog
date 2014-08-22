@@ -18,11 +18,11 @@ import java.util.StringTokenizer;
 public class AdminAuthentication implements Serializable {
 
     @Inject
-    @Config(key = "triplog.admin.user", fallback = "admin")
+    @Config(key = "triplog.admin.user", description = "The admin username which is used to add, delete or update content", fallback = "admin")
     SystemProperty adminUser;
 
     @Inject
-    @Config(key = "triplog.admin.password", fallback = "password")
+    @Config(key = "triplog.admin.password", description = "The admin password which is used to add, delete or update content", fallback = "password")
     SystemProperty adminPassword;
 
     public boolean isValid(String user, String password) {
