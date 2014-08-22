@@ -28,12 +28,12 @@ The server application is reading the configuration from system properties set i
 ### Possible Properties ###
 |Key|Description|Default Value|
 |---|---|---|
-|triplog.mongodb.port|-|27017|
 |triplog.admin.password|-|password|
-|triplog.server.port|-|8080|
 |triplog.mongodb.dbname|-|triplog|
-|triplog.session.timeout|-|3600000|
+|triplog.session.timeout|Session timeout in minutes|60|
+|triplog.mongodb.host|-|localhost|
+|triplog.server.port|-|8080|
 |triplog.server.protocol|-|http|
 |triplog.admin.user|-|admin|
+|triplog.mongodb.port|-|27017|
 |triplog.server.host|-|localhost|
-|triplog.mongodb.host|-|localhost|
