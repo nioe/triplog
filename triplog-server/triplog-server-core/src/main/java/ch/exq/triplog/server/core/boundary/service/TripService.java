@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.core.boundary.service;
 
 import ch.exq.triplog.server.core.control.controller.TripController;
-import ch.exq.triplog.server.core.dto.Trip;
+import ch.exq.triplog.server.common.dto.Trip;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.core.control.controller.ResponseController;

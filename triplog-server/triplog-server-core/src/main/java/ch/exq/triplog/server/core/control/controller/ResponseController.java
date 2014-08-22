@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
-import ch.exq.triplog.server.core.util.http.HttpHeader;
+import ch.exq.triplog.server.util.http.HttpHeader;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

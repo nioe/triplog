@@ -16,6 +16,18 @@
     <name>TripLog Server Core</name>
 
     <dependencies>
+        <!-- Other modules -->
+        <dependency>
+            <groupId>ch.exq.triplog</groupId>
+            <artifactId>triplog-server-common</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.exq.triplog</groupId>
+            <artifactId>triplog-server-util</artifactId>
+            <version>0.1</version>
+        </dependency>
+
         <!-- Necessary for build -->
         <dependency>
             <groupId>org.mongodb</groupId>

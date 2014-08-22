@@ -2,7 +2,7 @@ package ch.exq.triplog.server.core.entity.dao;
 
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
 import ch.exq.triplog.server.core.entity.db.TriplogDB;
-import ch.exq.triplog.server.core.util.mapper.TriplogMapper;
+import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;

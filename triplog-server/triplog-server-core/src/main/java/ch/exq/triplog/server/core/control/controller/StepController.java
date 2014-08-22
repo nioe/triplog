@@ -1,13 +1,13 @@
 package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
-import ch.exq.triplog.server.core.dto.Step;
+import ch.exq.triplog.server.common.dto.Step;
 import ch.exq.triplog.server.core.entity.dao.StepDAO;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
 import ch.exq.triplog.server.core.entity.db.TripDBObject;
-import ch.exq.triplog.server.core.util.mapper.TriplogMapper;
-import ch.exq.triplog.server.core.util.mongodb.MongoDbUtil;
+import ch.exq.triplog.server.core.mapper.TriplogMapper;
+import ch.exq.triplog.server.util.mongodb.MongoDbUtil;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
 package ch.exq.triplog.server.core.boundary.security;
 
-import ch.exq.triplog.server.core.dto.AuthToken;
-import ch.exq.triplog.server.core.util.config.Config;
-import ch.exq.triplog.server.core.util.config.SystemProperty;
+import ch.exq.triplog.server.common.dto.AuthToken;
+import ch.exq.triplog.server.util.config.Config;
+import ch.exq.triplog.server.util.config.SystemProperty;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

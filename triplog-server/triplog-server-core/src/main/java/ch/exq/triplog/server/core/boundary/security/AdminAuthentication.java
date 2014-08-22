@@ -1,8 +1,8 @@
 package ch.exq.triplog.server.core.boundary.security;
 
-import ch.exq.triplog.server.core.util.config.Config;
-import ch.exq.triplog.server.core.util.http.HttpHeader;
-import ch.exq.triplog.server.core.util.config.SystemProperty;
+import ch.exq.triplog.server.util.config.Config;
+import ch.exq.triplog.server.util.http.HttpHeader;
+import ch.exq.triplog.server.util.config.SystemProperty;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

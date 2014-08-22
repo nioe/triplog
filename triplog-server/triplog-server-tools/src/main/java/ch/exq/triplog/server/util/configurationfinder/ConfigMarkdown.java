@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.util.configurationfinder;
 
-import ch.exq.triplog.server.core.util.config.Config;
+import ch.exq.triplog.server.util.config.Config;
 
 import java.util.HashSet;
 import java.util.Set;

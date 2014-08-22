@@ -10,6 +10,8 @@
     <modules>
         <module>triplog-server-core</module>
         <module>triplog-server-tools</module>
+        <module>triplog-server-util</module>
+        <module>triplog-server-common</module>
     </modules>
 
     <packaging>pom</packaging>

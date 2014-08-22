@@ -1,8 +1,8 @@
 package ch.exq.triplog.server.core.boundary.security;
 
-import ch.exq.triplog.server.core.util.http.HttpHeader;
+import ch.exq.triplog.server.util.http.HttpHeader;
 import ch.exq.triplog.server.core.control.controller.ResponseController;
-import ch.exq.triplog.server.core.util.http.RemoteIpHelper;
+import ch.exq.triplog.server.util.http.RemoteIpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

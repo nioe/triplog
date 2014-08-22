@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.core.control.controller;
 
-import ch.exq.triplog.server.core.util.config.Config;
-import ch.exq.triplog.server.core.util.config.SystemProperty;
+import ch.exq.triplog.server.util.config.Config;
+import ch.exq.triplog.server.util.config.SystemProperty;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
