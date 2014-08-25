@@ -5,6 +5,8 @@ import com.mongodb.DBObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -17,6 +19,7 @@ import java.util.ListIterator;
 public class StepDBObject extends AbstractDBObject<StepDBObject> {
 
     private static final Logger logger = LoggerFactory.getLogger(StepDBObject.class);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static final String COLLECTION_NAME = "step";
     public static final String STEP_ID = "_id";
@@ -25,6 +28,8 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
     public static final String STEP_TEXT = "stepText";
     public static final String MAP_URL = "mapUrl";
     public static final String IMAGES = "images";
+    public static final String FROM_DATE = "fromDate";
+    public static final String TO_DATE = "toDate";
 
 
     public static StepDBObject from(DBObject dbObject) {
@@ -95,6 +100,23 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
         }
 
         put(IMAGES, basicDBList);
+    }
+
+    public LocalDate getFromDate() {
+        return LocalDate.parse(getString(FROM_DATE), FORMATTER);
+    }
+
+    public void setFromDate(LocalDate fromDate) {
+        put(FROM_DATE, fromDate.format(FORMATTER));
+    }
+
+
+    public LocalDate getToDate() {
+        return LocalDate.parse(getString(FROM_DATE), FORMATTER);
+    }
+
+    public void setToDate(LocalDate fromDate) {
+        put(FROM_DATE, fromDate.format(FORMATTER));
     }
 
     protected Logger logger() {

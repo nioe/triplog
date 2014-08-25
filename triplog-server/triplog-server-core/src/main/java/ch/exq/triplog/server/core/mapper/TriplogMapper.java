@@ -7,14 +7,14 @@ import ch.exq.triplog.server.core.mapper.mappings.TripToDBObjectMap;
 import org.modelmapper.ModelMapper;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
  * Date: 04.04.14
  * Time: 14:12
  */
-@ApplicationScoped
+@Stateless
 public class TriplogMapper extends ModelMapper {
 
     public TriplogMapper() {

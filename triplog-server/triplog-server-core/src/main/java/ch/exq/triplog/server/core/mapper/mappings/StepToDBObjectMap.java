@@ -19,5 +19,7 @@ public class StepToDBObjectMap extends PropertyMap<Step, StepDBObject> {
         map().setStepText(source.getStepText());
         map().setMapUrl(source.getMapUrl());
         map().setImages(source.getImages());
+        map().setFromDate(source.getFromDate());
+        map().setToDate(source.getToDate());
     }
 }

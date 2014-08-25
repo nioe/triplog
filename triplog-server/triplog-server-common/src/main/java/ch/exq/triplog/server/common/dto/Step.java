@@ -1,11 +1,14 @@
 package ch.exq.triplog.server.common.dto;
 
+import ch.exq.triplog.server.util.json.JsonDateAdapter;
 import ch.exq.triplog.server.util.misc.UUIDUtil;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,14 @@ public class Step {
 
     @XmlElement
     private List<String> images;
+
+    @XmlElement(required = true)
+    @XmlJavaTypeAdapter(JsonDateAdapter.class)
+    private LocalDate fromDate;
+
+    @XmlElement(required = true)
+    @XmlJavaTypeAdapter(JsonDateAdapter.class)
+    private LocalDate toDate;
 
     public Step() {
         images = new ArrayList<>();
@@ -96,6 +107,22 @@ public class Step {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public LocalDate getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public LocalDate getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(LocalDate toDate) {
+        this.toDate = toDate;
     }
 
     @Override
