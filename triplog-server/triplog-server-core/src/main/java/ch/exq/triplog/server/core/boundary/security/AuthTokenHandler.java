@@ -3,13 +3,17 @@ package ch.exq.triplog.server.core.boundary.security;
 import ch.exq.triplog.server.common.dto.AuthToken;
 import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -20,14 +24,19 @@ import java.util.Map;
 public class AuthTokenHandler {
 
     @Inject
-    @Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "60")
+    @Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "1")
     SystemProperty sessionTimeout;
 
+    //@Inject //TODO Fix Logger Injection
+    Logger logger = LoggerFactory.getLogger(AuthTokenHandler.class);
+
     private Map<String, AuthToken> authTokenMap;
+    private Set<String> tokensToBeRemoved;
 
     @PostConstruct
     public void init() {
         this.authTokenMap = new HashMap<>();
+        this.tokensToBeRemoved = new HashSet<>();
     }
 
     public AuthToken getNewToken() {
@@ -67,6 +76,11 @@ public class AuthTokenHandler {
     }
 
     public void removeToken(String tokenId) {
+        logger.info("Removed tokenId {}", tokenId);
         authTokenMap.remove(tokenId);
+    }
+
+    Set<String> getTokens() {
+        return new HashSet<>(authTokenMap.keySet());
     }
 }
