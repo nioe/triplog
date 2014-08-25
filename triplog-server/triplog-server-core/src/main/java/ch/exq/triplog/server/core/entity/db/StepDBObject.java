@@ -105,20 +105,34 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
     }
 
     public LocalDate getFromDate() {
-        return LocalDate.parse(getString(FROM_DATE), FORMATTER);
+        String date = getString(FROM_DATE);
+        if (date == null) {
+            return null;
+        }
+
+        return LocalDate.parse(date, FORMATTER);
     }
 
     public void setFromDate(LocalDate fromDate) {
-        put(FROM_DATE, fromDate.format(FORMATTER));
+        if (fromDate != null) {
+            put(FROM_DATE, fromDate.format(FORMATTER));
+        }
     }
 
 
     public LocalDate getToDate() {
-        return LocalDate.parse(getString(FROM_DATE), FORMATTER);
+        String date = getString(TO_DATE);
+        if (date == null) {
+            return null;
+        }
+
+        return LocalDate.parse(date, FORMATTER);
     }
 
-    public void setToDate(LocalDate fromDate) {
-        put(FROM_DATE, fromDate.format(FORMATTER));
+    public void setToDate(LocalDate toDate) {
+        if (toDate != null) {
+            put(TO_DATE, toDate.format(FORMATTER));
+        }
     }
 
     protected Logger logger() {

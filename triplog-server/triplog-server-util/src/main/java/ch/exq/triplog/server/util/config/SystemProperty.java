@@ -1,20 +1,16 @@
 package ch.exq.triplog.server.util.config;
 
 import org.slf4j.Logger;
-
-import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
  * Date: 04.04.14
  * Time: 09:03
  */
-@Alternative
 public class SystemProperty {
 
-    @Inject
-    Logger logger;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SystemProperty.class);
 
     private String key;
     private String fallback;
@@ -31,7 +27,7 @@ public class SystemProperty {
         String value = System.getProperty(key);
 
         if (value == null) {
-            logger.debug("System property '{}' not set. Fallback to '{}'", key, fallback);
+            LOGGER.debug("System property '{}' not set. Fallback to '{}'", key, fallback);
             value = fallback;
         }
 

@@ -4,6 +4,7 @@ import ch.exq.triplog.server.common.dto.AuthToken;
 import ch.exq.triplog.server.util.config.Hardcoded;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ public class AuthTokenHandlerTest {
     public void setUp() {
         this.authTokenHandler = new AuthTokenHandler();
         this.authTokenHandler.init();
+        this.authTokenHandler.logger = LoggerFactory.getLogger(AuthTokenHandler.class);
     }
 
     @Test

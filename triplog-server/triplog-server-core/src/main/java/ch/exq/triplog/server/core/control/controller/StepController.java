@@ -49,7 +49,7 @@ public class StepController {
         List<Step> allSteps = stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .collect(Collectors.toList());
 
-        allSteps.forEach(l -> changeImageLinksFor(l));
+        allSteps.forEach(step -> changeImageLinksFor(step));
 
         return allSteps;
     }
@@ -70,7 +70,12 @@ public class StepController {
             throw new DisplayableException("Step incomplete: stepName must be set");
         }
 
+        if (step.getFromDate() == null || step.getToDate() == null) {
+            throw new DisplayableException("Step incomplete: fromDate and toDate must be set");
+        }
+
         StepDBObject stepDBObject = mapper.map(step, StepDBObject.class);
+        checkFromDateIsBeforeOrEqualsToDate(stepDBObject);
 
         //We never add images directly
         stepDBObject.setImages(null);
@@ -107,6 +112,7 @@ public class StepController {
             throw new DisplayableException(message, e);
         }
 
+        checkFromDateIsBeforeOrEqualsToDate(currentStep);
         stepDAO.updateStep(stepId, currentStep);
 
         return changeImageLinksFor(mapper.map(currentStep, Step.class));
@@ -144,5 +150,11 @@ public class StepController {
                 .collect(Collectors.toList()));
 
         return step;
+    }
+
+    private void checkFromDateIsBeforeOrEqualsToDate(StepDBObject stepDBObject) throws DisplayableException {
+        if (!(stepDBObject.getFromDate().isBefore(stepDBObject.getToDate()) || stepDBObject.getFromDate().isEqual(stepDBObject.getToDate()))) {
+            throw new DisplayableException("FromDate has to be before or equal toDate");
+        }
     }
 }
