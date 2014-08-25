@@ -3,10 +3,9 @@ package ch.exq.triplog.server.core.boundary.service;
 import ch.exq.triplog.server.core.boundary.security.AdminAuthentication;
 import ch.exq.triplog.server.core.boundary.security.AuthTokenHandler;
 import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
-import ch.exq.triplog.server.util.http.HttpHeader;
 import ch.exq.triplog.server.core.control.controller.ResponseController;
+import ch.exq.triplog.server.util.http.HttpHeader;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,8 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class LoginService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
+    @Inject
+    Logger logger;
 
     @Inject
     AdminAuthentication adminAuthentication;

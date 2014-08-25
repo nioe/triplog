@@ -3,8 +3,8 @@ package ch.exq.triplog.server.core.entity.db;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,8 @@ import java.util.List;
  */
 public class TripDBObject extends AbstractDBObject<TripDBObject> {
 
-    private static final Logger logger = LoggerFactory.getLogger(TripDBObject.class);
+    @Inject
+    Logger logger;
 
     public static final String COLLECTION_NAME = "trip";
     public static final String TRIP_ID = "_id";

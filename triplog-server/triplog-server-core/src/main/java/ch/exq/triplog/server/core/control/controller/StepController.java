@@ -1,7 +1,7 @@
 package ch.exq.triplog.server.core.control.controller;
 
-import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.common.dto.Step;
+import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.StepDAO;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
@@ -10,7 +10,6 @@ import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import ch.exq.triplog.server.util.mongodb.MongoDbUtil;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,7 +25,8 @@ import java.util.stream.Collectors;
 @Stateless
 public class StepController {
 
-    private static final Logger logger = LoggerFactory.getLogger(StepController.class);
+    @Inject
+    Logger logger;
 
     @Inject
     TripDAO tripDAO;

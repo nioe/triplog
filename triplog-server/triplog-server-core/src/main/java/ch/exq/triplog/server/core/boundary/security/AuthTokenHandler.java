@@ -4,7 +4,6 @@ import ch.exq.triplog.server.common.dto.AuthToken;
 import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -27,8 +26,8 @@ public class AuthTokenHandler {
     @Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "1")
     SystemProperty sessionTimeout;
 
-    //@Inject //TODO Fix Logger Injection
-    Logger logger = LoggerFactory.getLogger(AuthTokenHandler.class);
+    @Inject
+    Logger logger;
 
     private Map<String, AuthToken> authTokenMap;
     private Set<String> tokensToBeRemoved;

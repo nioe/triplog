@@ -6,7 +6,6 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -22,7 +21,8 @@ import java.net.UnknownHostException;
 @RequestScoped
 public class TriplogDB {
 
-    private static final Logger logger = LoggerFactory.getLogger(TriplogDB.class);
+    @Inject
+    Logger logger;
 
     @Inject
     @Config(key = "triplog.mongodb.host", description = "The MongoDB server hostname", fallback = "localhost")

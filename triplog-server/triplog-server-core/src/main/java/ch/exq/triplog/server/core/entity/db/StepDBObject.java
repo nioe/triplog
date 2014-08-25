@@ -3,8 +3,8 @@ package ch.exq.triplog.server.core.entity.db;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +18,9 @@ import java.util.ListIterator;
  */
 public class StepDBObject extends AbstractDBObject<StepDBObject> {
 
-    private static final Logger logger = LoggerFactory.getLogger(StepDBObject.class);
+    @Inject
+    Logger logger;
+
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static final String COLLECTION_NAME = "step";

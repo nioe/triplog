@@ -1,7 +1,6 @@
 package ch.exq.triplog.server.core.boundary.security;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
@@ -18,8 +17,8 @@ import javax.inject.Inject;
 @Startup
 public class DeadSessionRemover {
 
-    //@Inject //TODO Fix Logger Injection
-    Logger logger = LoggerFactory.getLogger(DeadSessionRemover.class);
+    @Inject
+    Logger logger;
 
     @Inject
     AuthTokenHandler authTokenHandler;

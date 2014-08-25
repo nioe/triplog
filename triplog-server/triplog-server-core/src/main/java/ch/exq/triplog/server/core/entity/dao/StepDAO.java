@@ -8,7 +8,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -20,7 +19,9 @@ import java.util.List;
  */
 @Stateless
 public class StepDAO {
-    private static final Logger logger = LoggerFactory.getLogger(StepDAO.class);
+
+    @Inject
+    Logger logger;
 
     @Inject
     TriplogDB db;

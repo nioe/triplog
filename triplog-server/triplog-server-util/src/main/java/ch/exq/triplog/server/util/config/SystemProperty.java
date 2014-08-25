@@ -1,9 +1,9 @@
 package ch.exq.triplog.server.util.config;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -13,7 +13,8 @@ import javax.enterprise.inject.Alternative;
 @Alternative
 public class SystemProperty {
 
-    private final static Logger logger = LoggerFactory.getLogger(SystemProperty.class);
+    @Inject
+    Logger logger;
 
     private String key;
     private String fallback;
