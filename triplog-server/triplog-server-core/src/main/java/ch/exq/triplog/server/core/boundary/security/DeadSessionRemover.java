@@ -28,7 +28,7 @@ public class DeadSessionRemover {
         logger.info("Started DeadSessionRemover");
     }
 
-    @Schedule(minute = "*", hour = "*")
+    @Schedule(hour = "*")
     public void removeDeadSessions() {
         synchronized (this) {
             logger.info("Removing dead sessions...");

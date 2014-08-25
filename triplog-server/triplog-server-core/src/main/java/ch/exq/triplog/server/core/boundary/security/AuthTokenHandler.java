@@ -23,7 +23,7 @@ import java.util.Set;
 public class AuthTokenHandler {
 
     @Inject
-    @Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "1")
+    @Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "60")
     SystemProperty sessionTimeout;
 
     @Inject
