@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>triplog-server-core</artifactId>
-    <version>0.1</version>
     <packaging>war</packaging>
 
     <name>TripLog Server Core</name>
@@ -20,12 +19,12 @@
         <dependency>
             <groupId>ch.exq.triplog</groupId>
             <artifactId>triplog-server-common</artifactId>
-            <version>0.1</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.exq.triplog</groupId>
             <artifactId>triplog-server-util</artifactId>
-            <version>0.1</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Necessary for build -->
