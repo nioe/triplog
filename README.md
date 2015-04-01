@@ -32,7 +32,9 @@ The server application is reading the configuration from system properties set i
 |triplog.admin.user|The admin username which is used to add, delete or update content|admin|
 |triplog.mongodb.dbname|The database name where TripLog stores its data|triplog|
 |triplog.mongodb.host|The MongoDB server hostname|localhost|
+|triplog.mongodb.password|The MongoDB password|-|
 |triplog.mongodb.port|The MongoDB server port|27017|
+|triplog.mongodb.user|The MongoDB user|-|
 |triplog.server.host|TripLog server's hostname|localhost|
 |triplog.server.port|Server port for TripLog services|8080|
 |triplog.server.protocol|The protocol which is used to access the TripLog services|http|

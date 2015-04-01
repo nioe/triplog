@@ -2,9 +2,7 @@ package ch.exq.triplog.server.core.entity.db;
 
 import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import org.slf4j.Logger;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +10,7 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -33,17 +32,28 @@ public class TriplogDB {
     SystemProperty port;
 
     @Inject
+    @Config(key = "triplog.mongodb.user", description = "The MongoDB user")
+    SystemProperty user;
+
+    @Inject
+    @Config(key = "triplog.mongodb.password", description = "The MongoDB password")
+    SystemProperty password;
+
+    @Inject
     @Config(key = "triplog.mongodb.dbname", description = "The database name where TripLog stores its data", fallback = "triplog")
     SystemProperty dbName;
 
-    private MongoClient monngoClient;
+    private MongoClient mongoClient;
     private DB db;
 
     @PostConstruct
     public void init() {
         try {
-            monngoClient = new MongoClient(host.getString(), port.getInteger());
-            db = monngoClient.getDB(dbName.getString());
+            final ServerAddress serverAddress = new ServerAddress(host.getString(), port.getInteger());
+            MongoCredential credential = MongoCredential.createMongoCRCredential(user.getString(), dbName.getString(), password.getString().toCharArray());
+
+            mongoClient = new MongoClient(serverAddress, Arrays.asList(credential));
+            db = mongoClient.getDB(dbName.getString());
         } catch (UnknownHostException e) {
             logger.error("DB Connection could not be established!", e);
         }
@@ -51,8 +61,8 @@ public class TriplogDB {
 
     @PreDestroy
     public void destroy() {
-        if (monngoClient != null) {
-            monngoClient.close();
+        if (mongoClient != null) {
+            mongoClient.close();
         }
     }
 
