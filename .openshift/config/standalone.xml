@@ -30,6 +30,16 @@
         <extension module="org.wildfly.extension.io"/>
         <extension module="org.wildfly.extension.undertow"/>
     </extensions>
+    
+    <system-properties>  
+        <property name="triplog.server.host" value="${env.OPENSHIFT_APP_DNS}"/>
+        <property name="triplog.server.port" value="80"/>
+        <property name="triplog.mongodb.host" value="${env.OPENSHIFT_MONGODB_DB_HOST}"/>
+        <property name="triplog.mongodb.port" value="${env.OPENSHIFT_MONGODB_DB_PORT}"/>
+        <property name="triplog.mongodb.user" value="${env.OPENSHIFT_MONGODB_DB_USERNAME}"/>
+        <property name="triplog.mongodb.password" value="${env.OPENSHIFT_MONGODB_DB_PASSWORD}"/>
+    </system-properties>
+    
     <management>
         <security-realms>
             <security-realm name="ManagementRealm">
