@@ -10,7 +10,6 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -49,11 +48,14 @@ public class TriplogDB {
     @PostConstruct
     public void init() {
         try {
-            final ServerAddress serverAddress = new ServerAddress(host.getString(), port.getInteger());
-            MongoCredential credential = MongoCredential.createMongoCRCredential(user.getString(), dbName.getString(), password.getString().toCharArray());
+            mongoClient = new MongoClient(new ServerAddress(host.getString(), port.getInteger()));
+            mongoClient.setWriteConcern(WriteConcern.SAFE);
 
-            mongoClient = new MongoClient(serverAddress, Arrays.asList(credential));
             db = mongoClient.getDB(dbName.getString());
+
+            if (!db.authenticate(user.getString(), password.getString().toCharArray())) {
+                throw new RuntimeException("Not able to authenticate with MongoDB");
+            }
         } catch (UnknownHostException e) {
             logger.error("DB Connection could not be established!", e);
         }

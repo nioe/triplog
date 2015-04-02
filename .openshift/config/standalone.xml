@@ -38,6 +38,7 @@
         <property name="triplog.mongodb.port" value="${env.OPENSHIFT_MONGODB_DB_PORT}"/>
         <property name="triplog.mongodb.user" value="${env.OPENSHIFT_MONGODB_DB_USERNAME}"/>
         <property name="triplog.mongodb.password" value="${env.OPENSHIFT_MONGODB_DB_PASSWORD}"/>
+        <property name="triplog.mongodb.dbname" value="${env.OPENSHIFT_APP_NAME}"/>
     </system-properties>
     
     <management>
