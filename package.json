@@ -1,0 +1,36 @@
+{
+	"name": "grunt-workshop",
+	"version": "1.0.0",
+	"description": "workshop example app for grunt",
+	"repository": {
+		"type": "git",
+		"url": "https://joachimprinzbach@github.com/webplatformz/grunt-workshop.git"
+	},
+	"author": "joachimprinzbach",
+	"homepage": "https://github.com/webplatformz/grunt-workshop",
+	"dependencies": {
+		"express": "^4.12.3"
+	},
+	"devDependencies": {
+		"grunt": "^0.4.5",
+		"grunt-cli": "^0.1.13",
+		"grunt-concurrent": "^1.0.0",
+		"grunt-contrib-clean": "^0.6.0",
+		"grunt-contrib-compass": "^1.0.1",
+		"grunt-contrib-concat": "^0.5.1",
+		"grunt-contrib-copy": "^0.8.0",
+		"grunt-contrib-cssmin": "^0.12.2",
+		"grunt-contrib-jasmine": "^0.8.2",
+		"grunt-contrib-jshint": "^0.11.1",
+		"grunt-contrib-uglify": "^0.8.1",
+		"grunt-contrib-watch": "^0.6.1",
+		"grunt-express-server": "^0.4.19",
+		"grunt-nodemon": "^0.4.0",
+		"grunt-simple-mocha": "^0.4.0",
+		"grunt-usemin": "^3.0.0",
+		"jasmine": "^2.2.1",
+		"jasmine-node": "^1.14.5",
+		"load-grunt-tasks": "^3.1.0",
+		"mocha": "^2.2.1"
+	}
+}

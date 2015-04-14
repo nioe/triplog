@@ -1,0 +1,40 @@
+Generell zu empfehlendes Plugin:
+load-grunt-tasks
+
+Usage:
+module.exports = function (grunt) {
+
+	require('load-grunt-tasks')(grunt);
+
+	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json') ......
+
+--> lädt sämtliche Plugins aus dem package json autoamtisch
+
+Start node server and livereload / restart
+- Plugins:
+-- grunt-concurrent
+-- grunt-contrib-watch
+-- grunt-nodemon
+
+- im concurrent task watch und nodemon concurrent ausführen
+- watch: watch files and reload browser
+- nodemon: restart server on changes on server.js file
+
+Execute tests
+- grunt-simple-mocha
+- grunt-contrib-jasmine
+
+Execute tests, jshint on js file changes
+- grunt-contrib-jshint
+- watch files and execute test and jshint tasks
+
+create production build: minify, uglify js and css files. copy to own directory (/dist)
+- grunt-contrib-concat
+- grunt-contrib-copy
+- grunt-contrib-cssmin
+- grunt-contrib-uglify
+- grunt-usemin (macht das ganze dann sehr einfach ;-))
+
+clean production directory before building. File Structure: dist/index.html, dist/
+- grunt-contrib-clean
