@@ -1,9 +1,15 @@
+# General
 .DS_Store
 .svn
-log/*.log
-tmp/**
+
+# IntelliJ
+.idea/
+*.iml
+
+# Trip Log
+log/
+tmp/
 node_modules/
-.idea
-.iml
-.sass-cache
-bower_components
+dist/
+bower_components/
+.sass-cache/
