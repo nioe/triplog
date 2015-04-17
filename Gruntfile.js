@@ -45,15 +45,31 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				files: {
-					'dist/js/triplogApp.js': ['public/modules/**/*.js']
+					'.tmp/scripts/triplogApp.js': ['public/modules/**/*.js']
 				}
+			}
+		},
+
+		uglify: {
+			all: {
+				options: {
+					sourceMap: false,
+					sourceMapIncludeSources: false
+				},
+				files: [
+					{
+						expand: true,
+						cwd: '.tmp/scripts/',
+						src: ['**/*.js', '!test.js'],
+						dest: 'dist/js'
+					}
+				]
 			}
 		},
 
 		bower_concat: {
             all: {
-                dest: 'dist/js/vendor.js',
-                cssDest: 'dist/css/vendor.css',
+                dest: '.tmp/scripts/vendor.js',
                 exclude: [
 					'bootstrap',
 					'jquery',
@@ -124,6 +140,6 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('test', ['simplemocha', 'jasmine', 'jshint']);
 	grunt.registerTask('build', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'cssmin', 'uglify', 'usemin', 'clean:temp']);
-	grunt.registerTask('dist', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'bower_concat', 'cssmin', 'usemin', 'clean:temp']);
+	grunt.registerTask('dist', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'bower_concat', 'uglify', 'cssmin', 'usemin', 'clean:temp']);
 	grunt.registerTask('default', ['dist', 'concurrent:dev']);
 };
