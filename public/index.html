@@ -5,17 +5,23 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/fonts.css">
     <link rel="stylesheet" href="styles/buttons.css">
-    <link rel="stylesheet/less" type="text/css" href="styles/checkboxes.less" />
+    <link rel="stylesheet" href="styles/pageAnimations.css">
+    <link rel="stylesheet/less" type="text/css" href="styles/checkboxes.less"/>
     <!-- endbuild -->
 </head>
 
 <div class="container-fluid">
-    <div ui-view></div>
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-offset-2 ui-view-container">
+            <div class="well" ui-view></div>
+        </div>
+    </div>
 </div>
 
 
 <!-- build:js js/all.min.js -->
 <script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/less/dist/less.min.js"></script>
 <script src="triplogApp.js"></script>

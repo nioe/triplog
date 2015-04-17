@@ -1,7 +1,8 @@
 'use strict';
 
 var triplogApp = angular.module("triplogApp", [
-    'ui.router'
+    'ui.router',
+    'ngAnimate'
 ]);
 
 triplogApp.config(function($stateProvider, $urlRouterProvider) {
@@ -26,7 +27,10 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('content.allStepsOfTrip', {
             url: "/trip/:tripId",
-            templateUrl: "modules/content/step/stepOverview.tpl.html"
+            templateUrl: "modules/content/step/stepOverview.tpl.html",
+            controller: function($scope, $stateParams) {
+                $scope.tripId = $stateParams.tripId;
+            }
         })
         .state('content.step', {
             url: "/trip/:tripId/step/:stepId",
