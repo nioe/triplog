@@ -139,7 +139,6 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('test', ['simplemocha', 'jasmine', 'jshint']);
-	grunt.registerTask('build', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'cssmin', 'uglify', 'usemin', 'clean:temp']);
 	grunt.registerTask('dist', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'bower_concat', 'uglify', 'cssmin', 'usemin', 'clean:temp']);
 	grunt.registerTask('default', ['dist', 'concurrent:dev']);
 };
