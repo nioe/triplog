@@ -2,6 +2,10 @@ module.exports = function (grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
+	var ngHtml2Js = require('browserify-ng-html2js')({
+		extension: 'tpl.html'
+	});
+
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
@@ -32,6 +36,32 @@ module.exports = function (grunt) {
 			html: ['dist/index.html']
 		},
 
+		browserify: {
+			options: {
+				transform: [ngHtml2Js, 'debowerify', 'browserify-ngannotate'],
+				browserifyOptions: {
+					debug: true
+				}
+			},
+			dist: {
+				files: {
+					'dist/js/triplogApp.js': ['public/modules/**/*.js']
+				}
+			}
+		},
+
+		bower_concat: {
+            all: {
+                dest: 'dist/js/vendor.js',
+                cssDest: 'dist/css/vendor.css',
+                exclude: [
+					'bootstrap',
+					'jquery',
+					'less'
+                ]
+            }
+        },
+
 		jshint: {
 			options: {
 				jshintrc: '.jshintrc',
@@ -57,7 +87,7 @@ module.exports = function (grunt) {
 			js: {
 				files: ['test/**/*.js', 'public/**/*.js'
 				],
-				tasks: ['simplemocha', 'jasmine', 'jshint'],
+				tasks: ['simplemocha', 'jasmine', 'jshint', 'dist'],
 				options: {
 					livereload: true
 				}
@@ -65,6 +95,7 @@ module.exports = function (grunt) {
 			htmlcss: {
 				files: ['public/**/*.html', 'public/**/*.css', 'public/**/*.less'
 				],
+                tasks: ['dist'],
 				options: {
 					livereload: true
 				}
@@ -92,6 +123,7 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('test', ['simplemocha', 'jasmine', 'jshint']);
-	grunt.registerTask('default', ['concurrent:dev']);
-	grunt.registerTask('build', ['clean:build', 'useminPrepare', 'copy', 'concat', 'cssmin', 'uglify', 'usemin', 'clean:temp']);
+	grunt.registerTask('build', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'cssmin', 'uglify', 'usemin', 'clean:temp']);
+	grunt.registerTask('dist', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'bower_concat', 'cssmin', 'usemin', 'clean:temp']);
+	grunt.registerTask('default', ['dist', 'concurrent:dev']);
 };

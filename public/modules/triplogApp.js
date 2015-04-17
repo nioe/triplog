@@ -2,7 +2,11 @@
 
 var triplogApp = angular.module("triplogApp", [
     'ui.router',
-    'ngAnimate'
+    'ngAnimate',
+    require('./welcome/welcome.module').name,
+    require('./content/content.module').name,
+    require('./content/trip/trip.module').name,
+    require('./content/step/step.module').name
 ]);
 
 triplogApp.config(function($stateProvider, $urlRouterProvider) {
@@ -14,26 +18,26 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('welcome', {
             url: "/welcome",
-            templateUrl: "modules/welcome/welcome.tpl.html"
+            templateUrl: require('./welcome/welcome.tpl.html').name
         })
         .state('content', {
             url: "/content",
-            templateUrl: "modules/content/content.tpl.html",
+            templateUrl: require('./content/content.tpl.html').name,
             abstract: true
         })
         .state('content.trip', {
             url: "/trip",
-            templateUrl: "modules/content/trip/tripOverview.tpl.html"
+            templateUrl: require('./content/trip/tripOverview.tpl.html').name
         })
         .state('content.allStepsOfTrip', {
             url: "/trip/:tripId",
-            templateUrl: "modules/content/step/stepOverview.tpl.html",
+            templateUrl: require('./content/step/stepOverview.tpl.html').name,
             controller: function($scope, $stateParams) {
                 $scope.tripId = $stateParams.tripId;
             }
         })
         .state('content.step', {
             url: "/trip/:tripId/step/:stepId",
-            templateUrl: "modules/content/step/stepDetail.tpl.html"
+            templateUrl: require('./content/step/stepDetail.tpl.html').name
         });
 });
