@@ -1,4 +1,4 @@
-<html lang="en" ng-app="myApp" class="no-js">
+<html lang="de" ng-app="triplogApp" class="no-js">
 
 <head>
     <!-- build:css style/all.min.css -->
@@ -9,27 +9,16 @@
     <!-- endbuild -->
 </head>
 
-<body>
-<div class="container">
-<div  ng-controller="myCtrl" class="jumbotron">
-    <h1 class="awesome-font">Grunt </h1>
-
-    <p><textarea class="form-control" ng-model="message" cols="40" rows="10"></textarea></p>
-
-    <p>
-        <button class="action-button shadow animate blue" ng-click="clear()">Clear</button>
-    </p>
-
-    <p>Number of characters left: <span ng-bind="left()"></span></p>
-    <p><input type="checkbox" class="awesome-cb"></p>
-
+<div class="container-fluid">
+    <div ui-view></div>
 </div>
-</div>
+
+
 <!-- build:js js/all.min.js -->
 <script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/less/dist/less.min.js"></script>
-<script src="app.js"></script>
-<script src="controller/myCtrl.js"></script>
+<script src="triplogApp.js"></script>
 <!-- endbuild -->
 <script src="//localhost:35729/livereload.js"></script>
 
