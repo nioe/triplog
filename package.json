@@ -2,26 +2,26 @@
   "name": "triplog",
   "version": "1.0.0",
   "description": "Client application for Triplog",
-	"repository": {
-		"type": "git",
-		"url": "https://nioe@bitbucket.org/nioe/triplog-client.git"
-	},
+  "repository": {
+    "type": "git",
+    "url": "https://nioe@bitbucket.org/nioe/triplog-client.git"
+  },
   "author": "Nicolas Oeschger",
   "dependencies": {
     "express": "^4.12.3"
   },
   "devDependencies": {
     "browserify-ng-html2js": "^1.0.1",
+    "browserify-ngannotate": "^0.7.1",
+    "debowerify": "^1.2.1",
     "grunt": "^0.4.5",
     "grunt-bower-concat": "^0.4.0",
     "grunt-browserify": "^3.7.0",
     "grunt-cli": "^0.1.13",
     "grunt-concurrent": "^1.0.0",
     "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-compass": "^1.0.1",
-    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-compass": "^1.0.3",
     "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-jasmine": "^0.8.2",
     "grunt-contrib-jshint": "^0.11.1",
     "grunt-contrib-uglify": "^0.8.1",

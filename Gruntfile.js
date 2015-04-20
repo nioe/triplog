@@ -19,21 +19,10 @@ module.exports = function (grunt) {
 			dist: {
 				options: {
 					sassDir: 'public/styles',
-					cssDir: 'public/styles',
+					cssDir: 'dist/css/',
 					environment: 'production'
 				}
 			}
-		},
-
-		'useminPrepare': {
-			options: {
-				dest: 'dist'
-			},
-			html: 'public/index.html'
-		},
-
-		usemin: {
-			html: ['dist/index.html']
 		},
 
 		browserify: {
@@ -46,6 +35,11 @@ module.exports = function (grunt) {
 			dist: {
 				files: {
 					'.tmp/scripts/triplogApp.js': ['public/modules/**/*.js']
+				}
+			},
+			pretty: {
+				files: {
+					'dist/js/triplogApp.js': ['public/modules/**/*.js']
 				}
 			}
 		},
@@ -68,15 +62,21 @@ module.exports = function (grunt) {
 		},
 
 		bower_concat: {
-            all: {
-                dest: '.tmp/scripts/vendor.js',
-                exclude: [
-					'bootstrap',
-					'jquery',
-					'less'
-                ]
-            }
-        },
+			all: {
+				exclude: [
+					'bootstrap-sass',
+					'jquery'
+				]
+			},
+			dist: {
+				dest: '.tmp/scripts/vendor.js'
+
+			},
+			pretty: {
+				dest: 'dist/js/vendor.js'
+			}
+
+		},
 
 		jshint: {
 			options: {
@@ -132,13 +132,14 @@ module.exports = function (grunt) {
 		},
 
 		clean: {
-			build: ['dist'],
+			dist: ['dist'],
 			temp: ['.tmp']
 		}
 
 	});
 
 	grunt.registerTask('test', ['simplemocha', 'jasmine', 'jshint']);
-	grunt.registerTask('dist', ['clean:build', 'useminPrepare', 'copy', 'concat', 'browserify:dist', 'bower_concat', 'uglify', 'cssmin', 'usemin', 'clean:temp']);
+	grunt.registerTask('dist', ['clean:dist', 'copy', 'browserify:dist', 'bower_concat:dist', 'uglify', 'compass:dist', 'clean:temp']);
+	grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'compass:dist', 'clean:temp']);
 	grunt.registerTask('default', ['dist', 'concurrent:dev']);
 };
