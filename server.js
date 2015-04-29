@@ -1,7 +1,7 @@
 #!/bin/env node
 'use strict';
 
-var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var ip = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 5400;
 var express = require('express');
 var app = express();
@@ -13,5 +13,5 @@ app.get('/', function (req, res) {
 });
 
 server.listen(port, ip, function () {
-	console.info('Magic happens at localhost on port', server.address().port);
+	console.info('Magic happens at', ip ,'on port', server.address().port);
 });
