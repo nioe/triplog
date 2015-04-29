@@ -11,7 +11,10 @@ module.exports = function (grunt) {
 
 		copy: {
 			dist: {
-				files: [{src: 'public/index.html', dest: 'dist/index.html'}]
+				files: [
+					{src: 'public/index.html', dest: 'dist/index.html'},
+					{expand: true, flatten: true, src: 'public/bower_components/bootstrap-sass/assets/fonts/bootstrap/*', dest: 'dist/fonts/bootstrap'}
+				]
 			}
 		},
 
@@ -20,7 +23,16 @@ module.exports = function (grunt) {
 				options: {
 					sassDir: 'public/styles',
 					cssDir: 'dist/css/',
-					environment: 'production'
+					environment: 'production',
+					outputStyle: 'compressed'
+				}
+			},
+			pretty: {
+				options: {
+					sassDir: 'public/styles',
+					cssDir: 'dist/css/',
+					environment: 'production',
+					outputStyle: 'expanded'
 				}
 			}
 		},
@@ -28,9 +40,6 @@ module.exports = function (grunt) {
 		browserify: {
 			options: {
 				transform: [ngHtml2Js, 'debowerify', 'browserify-ngannotate'],
-				browserifyOptions: {
-					debug: true
-				}
 			},
 			dist: {
 				files: {
@@ -40,6 +49,9 @@ module.exports = function (grunt) {
 			pretty: {
 				files: {
 					'dist/js/triplogApp.js': ['public/modules/**/*.js']
+				},
+				browserifyOptions: {
+					debug: true
 				}
 			}
 		},
@@ -103,7 +115,7 @@ module.exports = function (grunt) {
 			js: {
 				files: ['test/**/*.js', 'public/**/*.js'
 				],
-				tasks: ['simplemocha', 'jasmine', 'jshint', 'dist'],
+				tasks: ['simplemocha', 'jasmine', 'jshint', 'dist-pretty'],
 				options: {
 					livereload: true
 				}
@@ -111,7 +123,7 @@ module.exports = function (grunt) {
 			htmlcss: {
 				files: ['public/**/*.html', 'public/**/*.css', 'public/**/*.less'
 				],
-                tasks: ['dist'],
+                tasks: ['dist-pretty'],
 				options: {
 					livereload: true
 				}
@@ -139,7 +151,10 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('test', ['simplemocha', 'jasmine', 'jshint']);
+
 	grunt.registerTask('dist', ['clean:dist', 'copy', 'browserify:dist', 'bower_concat:dist', 'uglify', 'compass:dist', 'clean:temp']);
-	grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'compass:dist', 'clean:temp']);
-	grunt.registerTask('default', ['dist', 'concurrent:dev']);
+
+	grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'compass:pretty', 'clean:temp']);
+	grunt.registerTask('live', ['dist-pretty', 'concurrent:dev']);
+	grunt.registerTask('default', ['live']);
 };
