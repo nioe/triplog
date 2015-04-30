@@ -113,17 +113,22 @@ module.exports = function (grunt) {
 
 		watch: {
 			js: {
-				files: ['test/**/*.js', 'public/**/*.js'
-				],
+				files: ['test/**/*.js', 'public/**/*.js'],
 				tasks: ['simplemocha', 'jasmine', 'jshint', 'dist-pretty'],
 				options: {
 					livereload: true
 				}
 			},
-			htmlcss: {
-				files: ['public/**/*.html', 'public/**/*.css', 'public/**/*.less'
-				],
+			html: {
+				files: ['public/**/*.html'],
                 tasks: ['dist-pretty'],
+				options: {
+					livereload: true
+				}
+			},
+			styles: {
+				files: ['public/**/*.scss', 'public/**/*.less', 'public/**/*.css'],
+				tasks: ['compass:pretty'],
 				options: {
 					livereload: true
 				}
