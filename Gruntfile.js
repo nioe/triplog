@@ -13,7 +13,9 @@ module.exports = function (grunt) {
 			dist: {
 				files: [
 					{src: 'public/index.html', dest: 'dist/index.html'},
-					{expand: true, flatten: true, src: 'public/bower_components/bootstrap-sass/assets/fonts/bootstrap/*', dest: 'dist/fonts/bootstrap'}
+					{expand: true, flatten: true, src: 'public/bower_components/bootstrap-sass/assets/fonts/bootstrap/*', dest: 'dist/fonts/bootstrap'},
+					{expand: true, flatten: true, src: 'public/img/*', dest: 'dist/img'},
+					{expand: true, flatten: true, src: 'public/fonts/*', dest: 'dist/fonts'}
 				]
 			}
 		},
