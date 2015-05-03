@@ -1,10 +1,42 @@
-div.background-image {
-  background: url(../img/mountains.jpg) no-repeat center;
-  background-size: cover;
-  width: 100%;
-  height: 100%;
+.welcome-page {
+  .background-image {
+    position: absolute;
+    background: url(../img/mountains.jpg) no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
 
-  filter: blur(4px);
+    @include filter(blur(4px));
 
-  z-index: 1;
+    z-index: 1;
+  }
+
+  .content {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+
+    display: table;
+    background: none;
+
+    z-index: 100;
+
+    .text-cell {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+
+      z-index: 200;
+
+      .text {
+        padding: 10px;
+        color: white;
+        font-family: 'Shadows Into Light', cursive;
+        text-shadow: -2px 0px 3px #555;
+        z-index: 220;
+      }
+    }
+  }
 }

@@ -1,7 +1,11 @@
+// Vendor
+@import "vendor/bootstrap";
+@import "vendor/bourbon";
+
+// Google Fonts
+@import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light|IM+Fell+Great+Primer:400,400italic);
+
 // Triplog
 @import "triplog/general";
 @import "triplog/welcomePage";
 @import "triplog/pageTransitions";
-
-// Vendor
-@import "vendor/bootstrap";
