@@ -1,12 +1,12 @@
 .welcome-page {
   .background-image {
-    position: absolute;
+    position: fixed;
     background: url(../img/mountains.jpg) no-repeat center;
     background-size: cover;
     width: 100%;
     height: 100%;
 
-    @include filter(blur(4px));
+    @include filter(blur(6px));
 
     z-index: 1;
   }
@@ -31,12 +31,47 @@
       z-index: 200;
 
       .text {
-        padding: 10px;
+        margin: 20px;
+
+        @media (min-width: $screen-md-min) {
+          margin: 50px;
+        }
+
         color: white;
-        font-family: 'Shadows Into Light', cursive;
         text-shadow: -2px 0px 3px #555;
         z-index: 220;
+
+        .quote {
+          font-size: 3em;
+
+          @media (min-width: $screen-md-min) {
+            font-size: 5em;
+          }
+        }
+
+        .author {
+          text-align: right;
+          font-size: 1.5em;
+
+          @media (min-width: $screen-md-min) {
+            font-size: 2em;
+            text-align: center;
+            padding-top: 30px;
+          }
+        }
       }
+    }
+  }
+
+  .button {
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    z-index: 250;
+    bottom: 30px;
+
+    @media (min-width: $screen-md-min) {
+      bottom: 100px;
     }
   }
 }
