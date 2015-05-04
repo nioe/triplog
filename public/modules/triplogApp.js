@@ -17,7 +17,10 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('welcome', {
             url: "/welcome",
-            templateUrl: require('./welcome/welcome.tpl.html').name
+            templateUrl: require('./welcome/welcome.tpl.html').name,
+            data : {
+                pageTitle: 'Welcome'
+            }
         })
         .state('content', {
             url: "/content",
@@ -26,17 +29,32 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('content.trip', {
             url: "/trip",
-            templateUrl: require('./content/trip/tripOverview.tpl.html').name
+            templateUrl: require('./content/trip/tripOverview.tpl.html').name,
+            data : {
+                pageTitle: 'Trip Overview'
+            }
         })
         .state('content.allStepsOfTrip', {
             url: "/trip/:tripId",
             templateUrl: require('./content/step/stepOverview.tpl.html').name,
-            controller: function($scope, $stateParams) {
+            data : {},
+            controller: function($scope, $state, $stateParams) {
                 $scope.tripId = $stateParams.tripId;
+                $state.current.data.pageTitle = 'Trip ' + $stateParams.tripId;
             }
         })
         .state('content.step', {
             url: "/trip/:tripId/step/:stepId",
-            templateUrl: require('./content/step/stepDetail.tpl.html').name
+            templateUrl: require('./content/step/stepDetail.tpl.html').name,
+            data : {
+                pageTitle: 'Welcome'
+            }
         });
 });
+
+triplogApp.run(['$rootScope', '$state', '$stateParams',
+    function ($rootScope, $state, $stateParams) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+    }
+]);
