@@ -105,7 +105,7 @@ module.exports = function (grunt) {
                 jshintrc: '.jshintrc',
                 force: true
             },
-            all: ['public/**/*.js', 'test/**/*.js']
+            all: ['public/modules/**/*.js', 'test/**/*.js']
         },
 
         simplemocha: {
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
         watch: {
             js: {
                 files: ['test/**/*.js', 'public/**/*.js'],
-                tasks: ['simplemocha', 'jasmine', 'jshint', 'dist-pretty'],
+                tasks: ['test', 'dist-pretty'],
                 options: {
                     livereload: true
                 }
@@ -147,12 +147,21 @@ module.exports = function (grunt) {
 
         nodemon: {
             dev: {
-                script: 'server.js'
+                script: 'server.js',
+                options: {
+                    callback: function (nodemon) {
+                        nodemon.on('config:update', function () {
+                            setTimeout(function () {
+                                require('open')('http://localhost:5400');
+                            }, 1000);
+                        });
+                    }
+                }
             }
         },
 
         concurrent: {
-            dev: ["nodemon", "watch"],
+            dev: ['nodemon', 'watch'],
             options: {
                 logConcurrentOutput: true
             }
@@ -162,12 +171,11 @@ module.exports = function (grunt) {
             dist: ['dist'],
             temp: ['.tmp']
         }
-
     });
 
-    grunt.registerTask('test', ['simplemocha', 'jasmine', 'jshint']);
+    grunt.registerTask('test', ['jshint', 'simplemocha', 'jasmine']);
 
-    grunt.registerTask('dist', ['clean:dist', 'copy', 'browserify:dist', 'bower_concat:dist', 'uglify', 'compass:dist', 'clean:temp']);
+    grunt.registerTask('dist', ['test', 'clean:dist', 'copy', 'browserify:dist', 'bower_concat:dist', 'uglify', 'compass:dist', 'clean:temp']);
 
     grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'compass:pretty', 'clean:temp']);
     grunt.registerTask('live', ['dist-pretty', 'concurrent:dev']);
