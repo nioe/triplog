@@ -4,3 +4,5 @@ module.exports = angular.module('content', [
     // Template module dependencies (created with browserify-ng-html2js)
     require('./content.tpl.html').name
 ]);
+
+module.exports.controller('ContentController', require('./content.controller'));

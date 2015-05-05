@@ -25,8 +25,10 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('content', {
             url: "/content",
+            abstract: true,
             templateUrl: require('./content/content.tpl.html').name,
-            abstract: true
+            controller: require('./content/content.controller'),
+            controllerAs: 'content'
         })
         .state('content.trip', {
             url: "/trip",
