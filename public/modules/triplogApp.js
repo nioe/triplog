@@ -2,6 +2,7 @@
 
 var triplogApp = angular.module("triplogApp", [
     'ui.router',
+    'ui.bootstrap',
     'ngAnimate',
     require('./welcome/welcome.module').name,
     require('./content/content.module').name,
