@@ -15,20 +15,31 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" collapse="content.navbarCollapsed">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
-                <li class="dropdown" dropdown on-toggle="toggled(open)">
-                    <a href="#" class="dropdown-toggle" role="button" dropdown-toggle>
-                        Dropdown <span class="caret"></span>
+                <!-- Normal Link -->
+                <li ng-repeat-start="navBarEntry in content.navBarEntries"
+                    ng-class="{ active: navBarEntry.active }"
+                    ng-if="!navBarEntry.entries">
+
+                    <a href ng-click="navBarEntry.action()">{{ navBarEntry.name }}</a>
+                </li>
+
+                <!-- Dropdown -->
+                <li ng-class="{ active: navBarEntry.active }"
+                    class="dropdown"
+                    dropdown
+                    on-toggle="toggled(open)"
+                    ng-if="navBarEntry.entries"
+                    ng-repeat-end>
+
+                    <a href class="dropdown-toggle" role="button" dropdown-toggle>
+                        {{ navBarEntry.name }} <span class="caret"></span>
                     </a>
+
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li ng-repeat-start="dropDownEntry in navBarEntry.entries">
+                            <a href ng-click="dropDownEntry.action()">{{ dropDownEntry.name }}</a>
+                        </li>
+                        <li class="divider" ng-if="dropDownEntry.divider" ng-repeat-end></li>
                     </ul>
                 </li>
             </ul>

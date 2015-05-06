@@ -30,7 +30,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             controller: require('./content/content.controller'),
             controllerAs: 'content'
         })
-        .state('content.trip', {
+        .state('content.allTrips', {
             url: "/trip",
             templateUrl: require('./content/trip/tripOverview.tpl.html').name,
             data : {
@@ -46,7 +46,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
                 $state.current.data.pageTitle = 'Trip ' + $stateParams.tripId;
             }
         })
-        .state('content.step', {
+        .state('content.stepOfTrip', {
             url: "/trip/:tripId/step/:stepId",
             templateUrl: require('./content/step/stepDetail.tpl.html').name,
             data : {

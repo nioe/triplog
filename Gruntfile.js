@@ -178,6 +178,6 @@ module.exports = function (grunt) {
     grunt.registerTask('dist', ['test', 'clean:dist', 'copy', 'browserify:dist', 'bower_concat:dist', 'uglify', 'compass:dist', 'clean:temp']);
 
     grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'compass:pretty', 'clean:temp']);
-    grunt.registerTask('live', ['dist-pretty', 'concurrent:dev']);
+    grunt.registerTask('live', ['dist-pretty', 'test', 'concurrent:dev']);
     grunt.registerTask('default', ['live']);
 };
