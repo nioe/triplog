@@ -2,12 +2,12 @@ body {
   //padding-top: 50px;
 }
 
-
-$bgDefault      : #32b400;
-$bgHighlight    : #85d832;
-$colDefault     : #ecf0f1;
-$colHighlight   : #6d6c6c;
+$bgDefault      : #3c6ee7;
+$bgHighlight    : #00aae7;
+$colDefault     : #ffffff;
+$colHighlight   : #ffffff;
 $dropDown       : false;
+$dropDown: false;
 
 .navbar-default {
   font-family: 'Shadows Into Light', cursive;
@@ -17,55 +17,83 @@ $dropDown       : false;
   .navbar-brand {
     color: $colDefault;
     &:hover, &:focus {
-      color: $colHighlight; }}
+      color: $colHighlight;
+    }
+  }
   .navbar-text {
-    color: $colDefault; }
+    color: $colDefault;
+  }
   .navbar-nav {
     > li {
       > a {
         color: $colDefault;
-        &:hover,  &:focus {
-          color: $colHighlight; }}
+        &:hover, &:focus {
+          color: $colHighlight;
+        }
+      }
       @if $dropDown {
         > .dropdown-menu {
           background-color: $bgDefault;
           > li > a {
             color: $colDefault;
-            &:hover,  &:focus {
+            &:hover, &:focus {
               color: $colHighlight;
-              background-color: $bgHighlight; }}
+              background-color: $bgHighlight;
+            }
+          }
           .divider {
-            background-color: $bgHighlight;}}}
+            background-color: $bgHighlight;
+          }
+        }
+      }
     }
     > .active {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
-        background-color: $bgHighlight; }}
+        background-color: $bgHighlight;
+      }
+    }
     > .open {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
-        background-color: $bgHighlight; }}}
+        background-color: $bgHighlight;
+      }
+    }
+  }
   .navbar-toggle {
     border-color: $bgHighlight;
     &:hover, &:focus {
-      background-color: $bgHighlight; }
+      background-color: $bgHighlight;
+    }
     .icon-bar {
-      background-color: $colDefault; }}
+      background-color: $colDefault;
+    }
+  }
   .navbar-collapse,
   .navbar-form {
-    border-color: $colDefault; }
+    border-color: $colDefault;
+  }
   .navbar-link {
     color: $colDefault;
     &:hover {
-      color: $colHighlight; }}}
+      color: $colHighlight;
+    }
+  }
+}
+
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu {
     > li > a {
       color: $colDefault;
       &:hover, &:focus {
-        color: $colHighlight; }}
+        color: $colHighlight;
+      }
+    }
     > .active {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
-        background-color: $bgHighlight; }}}
+        background-color: $bgHighlight;
+      }
+    }
+  }
 }
