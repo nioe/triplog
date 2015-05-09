@@ -50,7 +50,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             url: "/trip/:tripId/step/:stepId",
             templateUrl: require('./content/step/stepDetail.tpl.html').name,
             data : {
-                pageTitle: 'Welcome'
+                pageTitle: 'Step'
             }
         });
 });

@@ -16,27 +16,27 @@
         <div class="collapse navbar-collapse" collapse="content.navbarCollapsed">
             <ul class="nav navbar-nav">
                 <!-- Normal Link -->
-                <li ng-repeat-start="navBarEntry in content.navBarEntries"
-                    ng-class="{ active: navBarEntry.active }"
-                    ng-if="!navBarEntry.entries">
+                <li ng-repeat-start="entry in content.navBarEntries"
+                    ng-class="{ active: entry.active }"
+                    ng-if="!entry.entries">
 
-                    <a href ng-click="navBarEntry.action()">{{ navBarEntry.name }}</a>
+                    <a href ng-click="entry.action()">{{ entry.name }}</a>
                 </li>
 
                 <!-- Dropdown -->
-                <li ng-class="{ active: navBarEntry.active }"
+                <li ng-class="{ active: entry.active }"
                     class="dropdown"
                     dropdown
                     on-toggle="toggled(open)"
-                    ng-if="navBarEntry.entries"
+                    ng-if="entry.entries"
                     ng-repeat-end>
 
                     <a href class="dropdown-toggle" role="button" dropdown-toggle>
-                        {{ navBarEntry.name }} <span class="caret"></span>
+                        {{ entry.name }} <span class="caret"></span>
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat-start="dropDownEntry in navBarEntry.entries">
+                        <li ng-repeat-start="(dropDownEntryId, dropDownEntry) in entry.entries">
                             <a href ng-click="dropDownEntry.action()">{{ dropDownEntry.name }}</a>
                         </li>
                         <li class="divider" ng-if="dropDownEntry.divider" ng-repeat-end></li>
