@@ -69,7 +69,7 @@ function ContentController($rootScope, $state) {
     createStepOverviewNavBarEntry();
 
     // React on state changes
-    $rootScope.$on('$stateChangeStart', removeStepOverviewNavBarEntry);
+    $rootScope.$on('$stateChangeStart', stateChangeStart);
     $rootScope.$on('$stateChangeSuccess', createStepOverviewNavBarEntry);
 
     //************************************** Public Functions ***************************************
@@ -79,6 +79,11 @@ function ContentController($rootScope, $state) {
 
 
     //************************************** Private Functions **************************************
+    function stateChangeStart() {
+        vm.navbarCollapsed = true;
+        removeStepOverviewNavBarEntry();
+    }
+
     function sortByPropertyDescending(arr, property) {
         arr.sort(function (a, b) {
             if (a[property] > b[property]) {
