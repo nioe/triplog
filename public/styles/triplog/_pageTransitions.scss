@@ -1,44 +1,30 @@
-/* Have to set height explicity on ui-view
-to prevent collapsing during animation*/
-.ui-view-container {
-    position: relative;
-    height: 65px;
-}
-
 [ui-view].page-container.ng-enter, [ui-view].page-container.ng-leave {
     position: absolute;
-    left: 0;
-    right: 0;
-    -webkit-transition:all .5s ease-in-out;
-    -moz-transition:all .5s ease-in-out;
-    -o-transition:all .5s ease-in-out;
-    transition:all .5s ease-in-out;
-}
-
-[ui-view].page-container.ng-enter {
-    opacity: 0;
-    -webkit-transform:scale3d(0.5, 0.5, 0.5);
-    -moz-transform:scale3d(0.5, 0.5, 0.5);
-    transform:scale3d(0.5, 0.5, 0.5);
-}
-
-[ui-view].page-container.ng-enter-active {
-    opacity: 1;
-    -webkit-transform:scale3d(1, 1, 1);
-    -moz-transform:scale3d(1, 1, 1);
-    transform:scale3d(1, 1, 1);
+    width: 100%;
 }
 
 [ui-view].page-container.ng-leave {
-    opacity: 1;
-    -webkit-transform:translate3d(0, 0, 0);
-    -moz-transform:translate3d(0, 0, 0);
-    transform:translate3d(0, 0, 0);
+    -webkit-animation: moveToTop .6s ease both;
+    animation: moveToTop .6s ease both;
 }
 
-[ui-view].page-container.ng-leave-active {
-    opacity: 0;
-    -webkit-transform:translate3d(100px, 0, 0);
-    -moz-transform:translate3d(100px, 0, 0);
-    transform:translate3d(100px, 0, 0);
+[ui-view].page-container.ng-enter {
+    -webkit-animation: moveFromBottom .6s ease both;
+    animation: moveFromBottom .6s ease both;
+}
+
+@-webkit-keyframes moveFromBottom {
+    from { -webkit-transform: translateY(100%); }
+}
+@keyframes moveFromBottom {
+    from { -webkit-transform: translateY(100%); transform: translateY(100%); }
+}
+
+@-webkit-keyframes moveToTop {
+    from { }
+    to { -webkit-transform: translateY(-100%); }
+}
+@keyframes moveToTop {
+    from { }
+    to { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
 }
