@@ -4,27 +4,22 @@
 }
 
 [ui-view].page-container.ng-leave {
-    -webkit-animation: moveToTop .6s ease both;
-    animation: moveToTop .6s ease both;
+    @include animation(moveToTop .6s ease both);
 }
 
 [ui-view].page-container.ng-enter {
-    -webkit-animation: moveFromBottom .6s ease both;
-    animation: moveFromBottom .6s ease both;
+    @include animation(moveFromBottom .6s ease both);
 }
 
-@-webkit-keyframes moveFromBottom {
-    from { -webkit-transform: translateY(100%); }
-}
-@keyframes moveFromBottom {
-    from { -webkit-transform: translateY(100%); transform: translateY(100%); }
+@include keyframes(moveFromBottom) {
+    from {
+        @include transform(translateY(100%));
+    }
 }
 
-@-webkit-keyframes moveToTop {
-    from { }
-    to { -webkit-transform: translateY(-100%); }
-}
-@keyframes moveToTop {
-    from { }
-    to { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
+@include keyframes(moveToTop) {
+    from {}
+    to {
+        @include transform(translateY(-100%));
+    }
 }
