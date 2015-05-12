@@ -57,14 +57,21 @@ $dropDown: false;
     }
   }
   .navbar-toggle {
-    border-color: $bgHighlight;
+    border-color: $colDefault;
     &:hover, &:focus {
+      background-color: $bgDefault;
+    }
+
+    &.active {
       background-color: $bgHighlight;
     }
+
     .icon-bar {
       background-color: $colDefault;
     }
   }
+
+
   .navbar-collapse,
   .navbar-form {
     border-color: $colDefault;
@@ -92,4 +99,37 @@ $dropDown: false;
       }
     }
   }
+
+  .content {
+    .navbar-collapse {
+      position: fixed;
+      top: 0;
+      right: -80%;
+      width: 80%;
+      height: 100%;
+      max-height: 100%;
+      background-color: $bgDefault;
+      border: none;
+      border-left: 1px solid $colDefault;
+
+      .navbar-nav {
+        margin: 0 -15px;
+
+        > li > a {
+          padding-top: 15px;
+          padding-bottom: 15px;
+          line-height: 20px;
+          border-bottom: 1px solid $colDefault;
+        }
+      }
+    }
+  }
+}
+
+.moveToLeft80 {
+  @include animation(moveToLeft80 .6s ease both);
+}
+
+.moveFromLeft80 {
+  @include animation(moveFromLeft80 .6s ease both);
 }

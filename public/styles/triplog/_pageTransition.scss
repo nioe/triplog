@@ -21,32 +21,3 @@
 [ui-view].page-container.welcome.ng-enter {
   @include animation(moveFromTop .6s ease both);
 }
-
-// Animations
-@include keyframes(moveToTop) {
-  from {
-  }
-  to {
-    @include transform(translateY(-100%));
-  }
-}
-
-@include keyframes(moveFromTop) {
-  from {
-    @include transform(translateY(-100%));
-  }
-}
-
-@include keyframes(moveToBottom) {
-  from {
-  }
-  to {
-    @include transform(translateY(100%));
-  }
-}
-
-@include keyframes(moveFromBottom) {
-  from {
-    @include transform(translateY(100%));
-  }
-}
