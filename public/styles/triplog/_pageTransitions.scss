@@ -1,25 +1,52 @@
+// General
 [ui-view].page-container.ng-enter, [ui-view].page-container.ng-leave {
-    position: absolute;
-    width: 100%;
+  position: absolute;
+  width: 100%;
 }
 
-[ui-view].page-container.ng-leave {
-    @include animation(moveToTop .6s ease both);
+//Transitions
+
+// Welcome -> Content
+[ui-view].page-container.welcome.ng-leave {
+  @include animation(moveToTop .6s ease both);
+}
+[ui-view].page-container.content.ng-enter {
+  @include animation(moveFromBottom .6s ease both);
 }
 
-[ui-view].page-container.ng-enter {
-    @include animation(moveFromBottom .6s ease both);
+// Content -> Welcome
+[ui-view].page-container.content.ng-leave {
+  @include animation(moveToBottom .6s ease both);
+}
+[ui-view].page-container.welcome.ng-enter {
+  @include animation(moveFromTop .6s ease both);
+}
+
+// Animations
+@include keyframes(moveToTop) {
+  from {
+  }
+  to {
+    @include transform(translateY(-100%));
+  }
+}
+
+@include keyframes(moveFromTop) {
+  from {
+    @include transform(translateY(-100%));
+  }
+}
+
+@include keyframes(moveToBottom) {
+  from {
+  }
+  to {
+    @include transform(translateY(100%));
+  }
 }
 
 @include keyframes(moveFromBottom) {
-    from {
-        @include transform(translateY(100%));
-    }
-}
-
-@include keyframes(moveToTop) {
-    from {}
-    to {
-        @include transform(translateY(-100%));
-    }
+  from {
+    @include transform(translateY(100%));
+  }
 }

@@ -20,7 +20,8 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             url: "/welcome",
             templateUrl: require('./welcome/welcome.tpl.html').name,
             data : {
-                pageTitle: 'Welcome'
+                pageTitle: 'Welcome',
+                transitionSelectorClass: 'welcome'
             }
         })
         .state('content', {
@@ -34,13 +35,16 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             url: "/trip",
             templateUrl: require('./content/trip/tripOverview.tpl.html').name,
             data : {
-                pageTitle: 'Trip Overview'
+                pageTitle: 'Trip Overview',
+                transitionSelectorClass: 'content'
             }
         })
         .state('content.allStepsOfTrip', {
             url: "/trip/:tripId",
             templateUrl: require('./content/step/stepOverview.tpl.html').name,
-            data : {},
+            data : {
+                transitionSelectorClass: 'content'
+            },
             controller: function($scope, $state, $stateParams) {
                 $scope.tripId = $stateParams.tripId;
                 $state.current.data.pageTitle = 'Trip ' + $stateParams.tripId;
@@ -50,7 +54,8 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             url: "/trip/:tripId/step/:stepId",
             templateUrl: require('./content/step/stepDetail.tpl.html').name,
             data : {
-                pageTitle: 'Step'
+                pageTitle: 'Step',
+                transitionSelectorClass: 'content'
             }
         });
 });
