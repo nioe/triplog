@@ -79,7 +79,7 @@ function ContentController($rootScope, $state) {
             vm.closeNavigation();
         } else {
             vm.openNavigation();
-        };
+        }
     };
 
     vm.closeNavigation = function() {
@@ -94,7 +94,9 @@ function ContentController($rootScope, $state) {
 
     //************************************** Private Functions **************************************
     function stateChangeStart() {
-        vm.closeNavigation();
+        if (vm.moveNavigationClass) {
+            vm.closeNavigation();
+        }
         removeStepOverviewNavBarEntry();
     }
 
