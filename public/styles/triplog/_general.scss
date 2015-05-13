@@ -11,6 +11,13 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.btn.btn-default.transparent {
+  background: none;
+  border-width: 2px;
+  padding: 15px;
+  color: $btn-default-bg;
+}
+
 .page-container, .page {
   height: 100%;
   margin: 0;
