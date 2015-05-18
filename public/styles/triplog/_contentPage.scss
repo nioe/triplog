@@ -2,4 +2,8 @@
   @include calc(height, "100% - #{$navbar-height}");
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+
+  p {
+    text-align: justify;
+  }
 }
