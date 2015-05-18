@@ -14,7 +14,7 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="navbar-collapse">
+        <div class="navbar-collapse" ng-swipe-right="content.closeNavigation()">
             <ul class="nav navbar-nav">
                 <!-- Normal Link -->
                 <li ng-repeat-start="entry in content.navBarEntries"
@@ -49,7 +49,7 @@
 
     <div class="container-fluid" ng-click="content.closeNavigation();">
         <div class="row">
-            <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container">
+            <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container" ng-swipe-disable-mouse ng-swipe-left="content.openNavigation()">
                 <div class="content-container" ui-view></div>
             </div>
         </div>
