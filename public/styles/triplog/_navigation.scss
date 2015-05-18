@@ -5,6 +5,10 @@ $colHighlight   : #ffffff;
 $dropDown       : false;
 $dropDown: false;
 
+.navbar {
+  margin-bottom: 0;
+}
+
 .navbar-default {
   font-family: 'Shadows Into Light', cursive;
 
@@ -120,7 +124,7 @@ $dropDown: false;
         > li > a {
           padding-top: 15px;
           padding-bottom: 15px;
-          line-height: 20px;
+          line-height: 22px;
           border-bottom: 1px solid $colDefault;
         }
       }
@@ -128,10 +132,10 @@ $dropDown: false;
   }
 }
 
-.moveToLeft80 {
+.navigation-is-shown {
   @include animation(moveToLeft80 .6s ease both);
 }
 
-.moveFromLeft80 {
+.navigation-is-shown-remove {
   @include animation(moveFromLeft80 .6s ease both);
 }

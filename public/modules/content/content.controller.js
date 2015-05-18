@@ -63,8 +63,7 @@ function ContentController($rootScope, $state) {
         }
     ];
 
-    vm.showNavigation = false;
-    vm.moveNavigationClass = undefined;
+    vm.navigationIsShown = false;
 
     createTripOverviewNavBarEntry();
     createStepOverviewNavBarEntry();
@@ -75,7 +74,7 @@ function ContentController($rootScope, $state) {
 
     //************************************** Public Functions ***************************************
     vm.toggleNavigation = function () {
-        if (vm.showNavigation) {
+        if (vm.navigationIsShown) {
             vm.closeNavigation();
         } else {
             vm.openNavigation();
@@ -83,24 +82,20 @@ function ContentController($rootScope, $state) {
     };
 
     vm.closeNavigation = function() {
-        if (vm.showNavigation) {
-            vm.showNavigation = false;
-            vm.moveNavigationClass = 'moveFromLeft80';
+        if (vm.navigationIsShown) {
+            vm.navigationIsShown = false;
         }
     };
 
     vm.openNavigation = function() {
-        if (!vm.showNavigation) {
-            vm.showNavigation = true;
-            vm.moveNavigationClass = 'moveToLeft80';
+        if (!vm.navigationIsShown) {
+            vm.navigationIsShown = true;
         }
     };
 
     //************************************** Private Functions **************************************
     function stateChangeStart() {
-        if (vm.moveNavigationClass) {
-            vm.closeNavigation();
-        }
+        vm.closeNavigation();
         removeStepOverviewNavBarEntry();
     }
 

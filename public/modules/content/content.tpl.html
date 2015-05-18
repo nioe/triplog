@@ -1,7 +1,7 @@
-<div class="page content-page" ng-class="content.moveNavigationClass">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="page content-page" ng-class="{ 'navigation-is-shown': content.navigationIsShown }">
+    <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" ng-class="{ 'active': content.showNavigation }"
+            <button type="button" class="navbar-toggle" ng-class="{ 'active': content.navigationIsShown }"
                     ng-click="content.toggleNavigation()">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -47,10 +47,13 @@
         </div>
     </nav>
 
-    <div class="container-fluid" ng-click="content.closeNavigation();">
-        <div class="row">
-            <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container" ng-swipe-disable-mouse ng-swipe-left="content.openNavigation()">
-                <div class="content-container" ui-view></div>
+    <div class="content-container">
+        <div class="container-fluid" ng-click="content.closeNavigation();">
+            <div class="row">
+                <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container" ng-swipe-disable-mouse
+                     ng-swipe-left="content.openNavigation()">
+                    <div class="content-container" ui-view></div>
+                </div>
             </div>
         </div>
     </div>

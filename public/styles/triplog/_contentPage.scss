@@ -1,3 +1,4 @@
-.content-page {
-  padding-top: $navbar-height;
+.content-container {
+  @include calc(height, "100% - #{$navbar-height}");
+  overflow-y: scroll;
 }
