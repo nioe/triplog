@@ -83,13 +83,17 @@ function ContentController($rootScope, $state) {
     };
 
     vm.closeNavigation = function() {
-        vm.showNavigation = false;
-        vm.moveNavigationClass = 'moveFromLeft80';
+        if (vm.showNavigation) {
+            vm.showNavigation = false;
+            vm.moveNavigationClass = 'moveFromLeft80';
+        }
     };
 
     vm.openNavigation = function() {
-        vm.showNavigation = true;
-        vm.moveNavigationClass = 'moveToLeft80';
+        if (!vm.showNavigation) {
+            vm.showNavigation = true;
+            vm.moveNavigationClass = 'moveToLeft80';
+        }
     };
 
     //************************************** Private Functions **************************************
