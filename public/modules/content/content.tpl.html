@@ -1,4 +1,5 @@
 <div class="page content-page" ng-class="{ 'navigation-is-shown': content.navigationIsShown }">
+    <div class="ios-title-bar" ng-if="content.isIosFullscreen"></div>
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" ng-class="{ 'active': content.navigationIsShown }"
@@ -16,6 +17,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="navbar-collapse" ng-swipe-right="content.closeNavigation()">
             <ul class="nav navbar-nav">
+                <!-- Spacer for iOS Title Bar -->
+                <li class="ios-title-bar navigation" ng-if="content.isIosFullscreen"></li>
+
                 <!-- Normal Link -->
                 <li ng-repeat-start="entry in content.navBarEntries"
                     ng-class="{ active: entry.active }"
@@ -47,7 +51,7 @@
         </div>
     </nav>
 
-    <div class="content-container">
+    <div class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
         <div class="container-fluid" ng-click="content.closeNavigation();">
             <div class="row">
                 <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container" ng-swipe-disable-mouse

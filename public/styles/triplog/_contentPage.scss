@@ -3,6 +3,10 @@
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 
+  &.ios-status-bar-present {
+    @include calc(height, "100% - #{$navbar-height} - #{$ios-status-bar-height}");
+  }
+
   p {
     text-align: justify;
   }

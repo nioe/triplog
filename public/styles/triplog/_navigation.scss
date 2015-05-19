@@ -1,12 +1,19 @@
-$bgDefault      : #3c6ee7;
-$bgHighlight    : #3c5dbd;
-$colDefault     : #ffffff;
-$colHighlight   : #ffffff;
-$dropDown       : false;
-$dropDown: false;
+.ios-title-bar {
+  width: 100%;
+  height: $ios-status-bar-height;
+  background-color: $bgDefault;
+
+  @media (min-width: $screen-sm-min) {
+    &.navigation {
+      display: none;
+    }
+  }
+}
 
 .navbar {
+  position: inherit;
   margin-bottom: 0;
+  border: none;
   border-radius: 0;
 }
 
@@ -76,7 +83,6 @@ $dropDown: false;
     }
   }
 
-
   .navbar-collapse,
   .navbar-form {
     border-color: $colDefault;
@@ -117,7 +123,6 @@ $dropDown: false;
       overflow-y: scroll;
       background-color: $bgDefault;
       border: none;
-      border-left: 1px solid $colDefault;
 
       .navbar-nav {
         margin: 0 -15px;
@@ -125,7 +130,7 @@ $dropDown: false;
         > li > a {
           padding-top: 15px;
           padding-bottom: 15px;
-          line-height: 22px;
+          line-height: 20px;
           border-bottom: 1px solid $colDefault;
         }
       }
