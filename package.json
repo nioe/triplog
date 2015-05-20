@@ -28,7 +28,13 @@
     "grunt-express-server": "^0.4.19",
     "grunt-karma": "^0.10.1",
     "grunt-nodemon": "^0.4.0",
+    "jasmine-core": "^2.3.4",
     "karma": "^0.12.32",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-html2js-preprocessor": "^0.1.0",
+    "karma-jasmine": "^0.3.5",
+    "karma-jasmine-jquery": "^0.1.1",
+    "karma-junit-reporter": "^0.2.2",
     "load-grunt-tasks": "^3.1.0",
     "open": "0.0.5"
   },

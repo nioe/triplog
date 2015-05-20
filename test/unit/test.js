@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 var assert = require("assert");
 describe('Array', function(){
@@ -8,4 +8,4 @@ describe('Array', function(){
             assert.equal(-1, [1,2,3].indexOf(0));
         });
     });
-});
+});*/

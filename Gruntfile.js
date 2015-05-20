@@ -12,15 +12,18 @@ module.exports = function (grunt) {
         copy: {
             dist: {
                 files: [
-                    {src: 'public/index.html', dest: 'dist/index.html'},
                     {
+                        src: 'public/index.html', dest: 'dist/index.html'
+                    }, {
                         expand: true,
                         flatten: true,
                         src: 'public/bower_components/bootstrap-sass/assets/fonts/bootstrap/*',
                         dest: 'dist/fonts/bootstrap'
-                    },
-                    {expand: true, flatten: true, src: 'public/styles/img/*', dest: 'dist/img'},
-                    {expand: true, flatten: true, src: 'public/fonts/*', dest: 'dist/fonts'}
+                    }, {
+                        expand: true, flatten: true, src: 'public/styles/img/*', dest: 'dist/img'
+                    }, {
+                        expand: true, flatten: true, src: 'public/fonts/*', dest: 'dist/fonts'
+                    }
                 ]
             }
         },
@@ -47,7 +50,7 @@ module.exports = function (grunt) {
 
         browserify: {
             options: {
-                transform: [ngHtml2Js, 'debowerify', 'browserify-ngannotate'],
+                transform: [ngHtml2Js, 'debowerify', 'browserify-ngannotate']
             },
             dist: {
                 files: {
@@ -87,7 +90,8 @@ module.exports = function (grunt) {
                 exclude: [
                     'bootstrap-sass',
                     'jquery',
-                    'bourbon'
+                    'bourbon',
+                    'angular-mocks'
                 ]
 
             },
@@ -96,7 +100,8 @@ module.exports = function (grunt) {
                 exclude: [
                     'bootstrap-sass',
                     'jquery',
-                    'bourbon'
+                    'bourbon',
+                    'angular-mocks'
                 ]
             }
         },
@@ -107,6 +112,15 @@ module.exports = function (grunt) {
                 force: true
             },
             all: ['public/modules/**/*.js', 'test/**/*.js']
+        },
+
+        karma: {
+            all: {
+                configFile: 'karma.conf.js',
+                singleRun: true,
+                browsers: ['Chrome'],
+                reporters: ['progress', 'junit']
+            }
         },
 
         watch: {
@@ -165,7 +179,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('dist', ['test', 'clean:dist', 'copy', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'clean:temp']);
 
-    grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty', 'clean:temp']);
+    grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty', 'karma', 'clean:temp']);
     grunt.registerTask('live', ['dist-pretty', 'test', 'concurrent:dev']);
     grunt.registerTask('default', ['live']);
 };
