@@ -1,6 +1,6 @@
 .content-container {
   @include calc(height, "100% - #{$navbar-height}");
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
   &.ios-status-bar-present {
