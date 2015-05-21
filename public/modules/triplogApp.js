@@ -1,6 +1,6 @@
 'use strict';
 
-var triplogApp = angular.module("triplogApp", [
+var triplogApp = angular.module('triplogApp', [
     'ui.router',
     'ui.bootstrap',
     'ngAnimate',
@@ -14,11 +14,11 @@ var triplogApp = angular.module("triplogApp", [
 triplogApp.config(function($stateProvider, $urlRouterProvider) {
 
     // For any unmatched url, redirect to /welcome
-    $urlRouterProvider.otherwise("/welcome");
+    $urlRouterProvider.otherwise('/welcome');
 
     $stateProvider
         .state('welcome', {
-            url: "/welcome",
+            url: '/welcome',
             templateUrl: require('./welcome/welcome.tpl.html').name,
             data : {
                 pageTitle: 'Welcome',
@@ -26,14 +26,14 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             }
         })
         .state('content', {
-            url: "/content",
+            url: '/content',
             abstract: true,
             templateUrl: require('./content/content.tpl.html').name,
             controller: require('./content/content.controller'),
             controllerAs: 'content'
         })
         .state('content.allTrips', {
-            url: "/trip",
+            url: '/trip',
             templateUrl: require('./content/trip/tripOverview.tpl.html').name,
             data : {
                 pageTitle: 'Trip Overview',
@@ -41,7 +41,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             }
         })
         .state('content.allStepsOfTrip', {
-            url: "/trip/:tripId",
+            url: '/trip/:tripId',
             templateUrl: require('./content/step/stepOverview.tpl.html').name,
             data : {
                 transitionSelectorClass: 'content'
@@ -52,7 +52,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
             }
         })
         .state('content.stepOfTrip', {
-            url: "/trip/:tripId/step/:stepId",
+            url: '/trip/:tripId/step/:stepId',
             templateUrl: require('./content/step/stepDetail.tpl.html').name,
             data : {
                 pageTitle: 'Step',
