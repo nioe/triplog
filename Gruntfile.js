@@ -25,6 +25,13 @@ module.exports = function (grunt) {
                         expand: true, flatten: true, src: 'public/fonts/*', dest: 'dist/fonts'
                     }
                 ]
+            },
+
+            live: {
+                cwd: 'public/',
+                src: '**/*',
+                dest: 'dist/public',
+                expand: true
             }
         },
 
@@ -174,11 +181,9 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('test', ['jshint']);
+    grunt.registerTask('dist', ['jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'karma', 'clean:temp']);
 
-    grunt.registerTask('dist', ['test', 'clean:dist', 'copy', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'clean:temp']);
-
-    grunt.registerTask('dist-pretty', ['clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty', 'karma', 'clean:temp']);
-    grunt.registerTask('live', ['dist-pretty', 'test', 'concurrent:dev']);
+    grunt.registerTask('dist-pretty', ['jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty', 'karma', 'clean:temp']);
+    grunt.registerTask('live', ['dist-pretty', 'concurrent:dev']);
     grunt.registerTask('default', ['live']);
 };
