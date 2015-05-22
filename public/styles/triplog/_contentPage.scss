@@ -4,6 +4,10 @@
   -webkit-overflow-scrolling: touch;
 
   &.ios-status-bar-present {
+    @media (max-width: $screen-xs-max) and (orientation: landscape) {
+      @include calc(height, "100% - #{$navbar-height}");
+    }
+
     @include calc(height, "100% - #{$navbar-height} - #{$ios-status-bar-height}");
   }
 

@@ -64,7 +64,7 @@ function ContentController($rootScope, $state) {
     ];
 
     vm.navigationIsShown = false;
-    vm.isIosFullscreen = window.navigator.standalone ? true : false;
+    vm.isIosFullscreen = true;//$window.navigator.standalone ? true : false;
 
     createTripOverviewNavBarEntry();
     createStepOverviewNavBarEntry();
