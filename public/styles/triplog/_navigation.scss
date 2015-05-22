@@ -1,6 +1,6 @@
 @media (max-width: $screen-xs-max) and (orientation: landscape) {
   .ios-title-bar {
-    display: none;
+    display: none !important;
   }
 }
 

@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state) {
+function ContentController($rootScope, $state, $window) {
 
     var vm = this;
     vm.navBarEntries = [];
@@ -64,7 +64,7 @@ function ContentController($rootScope, $state) {
     ];
 
     vm.navigationIsShown = false;
-    vm.isIosFullscreen = true;//$window.navigator.standalone ? true : false;
+    vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
     createTripOverviewNavBarEntry();
     createStepOverviewNavBarEntry();
