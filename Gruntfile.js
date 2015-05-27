@@ -57,6 +57,23 @@ module.exports = function (grunt) {
             }
         },
 
+        ngconstant: {
+            options: {
+                name: 'config',
+                dest: 'public/modules/config/config.module.js',
+                wrap: '\'use strict\';\n\nmodule.exports = {%= __ngModule %}'
+            },
+            local: {
+                constants: require('./config/local.json')
+            },
+            dev: {
+                constants: require('./config/dev.json')
+            },
+            prod: {
+                constants: require('./config/prod.json')
+            }
+        },
+
         browserify: {
             options: {
                 transform: [ngHtml2Js, 'debowerify', 'browserify-ngannotate']
@@ -185,9 +202,10 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('dist', ['jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'karma', 'clean:temp']);
+    var target = grunt.option('target') || 'dev';
+    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'karma', 'clean:temp']);
 
-    grunt.registerTask('dist-pretty', ['jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty']);
+    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty']);
     grunt.registerTask('live', ['dist-pretty', 'concurrent:dev', 'karma']);
     grunt.registerTask('default', ['live']);
 };

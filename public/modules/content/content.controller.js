@@ -1,10 +1,11 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window) {
+function ContentController($rootScope, $state, $window, ENV) {
 
     var vm = this;
     vm.navBarEntries = [];
+    vm.environment = ENV;
 
     // TODO Get trips from backend and revise to have tripId as key (create new overview service, sorted by trip/step date descending)
     var trips = [
