@@ -199,13 +199,33 @@ module.exports = function (grunt) {
         clean: {
             dist: ['dist'],
             temp: ['.tmp']
+        },
+
+        ftp_push: {
+            dev: {
+                options: {
+                    authKey: "dev",
+                    host: "ftp.bros.pics",
+                    dest: ".",
+                    port: 21
+                },
+                files: [
+                    {
+                        cwd: 'dist/',
+                        src: '**/*',
+                        expand: true
+                    }
+                ]
+            }
         }
     });
 
-    var target = grunt.option('target') || 'dev';
+    var target = grunt.option('prod') === true ? 'prod' : 'dev';
     grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'karma', 'clean:temp']);
+    grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
     grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty']);
     grunt.registerTask('live', ['dist-pretty', 'concurrent:dev', 'karma']);
+
     grunt.registerTask('default', ['live']);
 };
