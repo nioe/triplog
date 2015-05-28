@@ -51,14 +51,18 @@
         </div>
     </nav>
 
-    <div class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
-        <div class="container-fluid" ng-click="content.closeNavigation();">
+    <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
+        <div class="container-fluid"
+             ng-click="content.closeNavigation();"
+             ng-swipe-disable-mouse
+             ng-swipe-left="content.openNavigation()"
+             ng-swipe-right="content.closeNavigation()">
+
             <div class="row">
-                <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container" ng-swipe-disable-mouse
-                     ng-swipe-left="content.openNavigation()">
-                    <div class="content-container" ui-view></div>
+                <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container">
+                    <div class="content" ui-view></div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </div>
