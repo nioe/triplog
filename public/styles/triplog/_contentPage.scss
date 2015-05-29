@@ -2,7 +2,10 @@
   @include calc(height, "100% - #{$navbar-height}");
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0.2));
+
+  @media (min-width: $screen-md-min) {
+    @include linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(60, 110, 231, 0.2));
+  }
 
   &.ios-status-bar-present {
     @media (max-width: $screen-xs-max) and (orientation: landscape) {
@@ -14,7 +17,10 @@
 
   .ui-view-container {
     background-color: white;
-    box-shadow: 0px 0px 5px 0px black;
+
+    @media (min-width: $screen-md-min) {
+      box-shadow: 0px 0px 5px 0px black;
+    }
 
     p {
       text-align: justify;
