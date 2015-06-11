@@ -1,12 +1,13 @@
 package ch.exq.triplog.server.core.entity.db;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+
+import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
+import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -19,10 +20,11 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
     Logger logger;
 
     public static final String COLLECTION_NAME = "trip";
-    public static final String TRIP_ID = "_id";
+    public static final String TRIP_ID = "tripId";
     public static final String TRIP_NAME = "tripName";
-    public static final String TRIP_DESCRIPTION = "tripDescription";
-    public static final String STEPS = "steps";
+    public static final String TRIP_DATE = "tripDate";
+    public static final String TRIP_LEAD = "tripLead";
+    public static final String TRIP_TEXT = "tripText";
 
 
     public static TripDBObject from(DBObject dbObject) {
@@ -49,42 +51,28 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
         put(TRIP_NAME, tripName);
     }
 
-    public String getTripDescription() {
-        return getString(TRIP_DESCRIPTION);
+    public LocalDate getTripDate() {
+        return convertToDate(getString(TRIP_DATE));
     }
 
-    public void setTripDescription(String tripDescription) {
-        put(TRIP_DESCRIPTION, tripDescription);
+    public void setTripDate(LocalDate tripDate) {
+        put(TRIP_DATE, convertToString(tripDate));
     }
 
-    public BasicDBList getStepList() {
-        Object stepsObject = get(STEPS);
-        return stepsObject != null ? (BasicDBList) stepsObject : null;
+    public String getTripLead() {
+        return getString(TRIP_LEAD);
     }
 
-    public void setStepList(BasicDBList stepList) {
-        put(STEPS, stepList);
+    public void setTripLead(String tripLead) {
+        put(TRIP_LEAD, tripLead);
     }
 
-    public List<String> getSteps() {
-        List<String> steps = new ArrayList<>();
-
-        BasicDBList stepList = getStepList();
-        if (stepList != null) {
-            stepList.stream().forEach(stepId -> steps.add((String) stepId));
-        }
-
-        return steps;
+    public String getTripText() {
+        return getString(TRIP_TEXT);
     }
 
-    public void setSteps(List<String> steps) {
-        BasicDBList basicDBList = new BasicDBList();
-
-        if (steps != null) {
-            steps.forEach(stepId -> basicDBList.add(stepId));
-        }
-
-        put(STEPS, basicDBList);
+    public void setTripText(String tripDescription) {
+        put(TRIP_TEXT, tripDescription);
     }
 
     @Override

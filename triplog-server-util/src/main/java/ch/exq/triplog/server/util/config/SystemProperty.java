@@ -26,7 +26,7 @@ public class SystemProperty {
     public String getString() {
         String value = System.getProperty(key);
 
-        if (value == null) {
+        if (value == null && !(fallback == null || fallback.trim().isEmpty())) {
             LOGGER.debug("System property '{}' not set. Fallback to '{}'", key, fallback);
             value = fallback;
         }

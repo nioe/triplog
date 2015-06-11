@@ -1,14 +1,16 @@
 package ch.exq.triplog.server.core.control.controller;
 
+import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.common.dto.Trip;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
-import ch.exq.triplog.server.core.entity.dao.StepDAO;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
 import ch.exq.triplog.server.core.entity.db.TripDBObject;
 import ch.exq.triplog.server.core.mapper.TriplogMapper;
+import ch.exq.triplog.server.util.id.IdGenerator;
 import ch.exq.triplog.server.util.mongodb.MongoDbUtil;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -31,7 +33,7 @@ public class TripController {
     TripDAO tripDAO;
 
     @Inject
-    StepDAO stepDAO;
+    StepController stepController;
 
     @Inject
     ResourceController resourceController;
@@ -46,14 +48,20 @@ public class TripController {
 
         TripDBObject tripDBObject = tripDAO.getTripById(tripId);
 
-        return tripDBObject != null ? changeStepLinksFor(mapper.map(tripDBObject, Trip.class)) : null;
+        if (tripDBObject != null) {
+            Trip trip = mapper.map(tripDBObject, Trip.class);
+            addStepsToTrip(trip);
+
+            return trip;
+        }
+
+        return null;
     }
 
     public List<Trip> getAllTrips() {
         List<Trip> allTrips = tripDAO.getAllTrips().stream().map(tripDBObject -> mapper.map(tripDBObject, Trip.class))
                                                             .collect(Collectors.toList());
-
-        allTrips.forEach(t -> changeStepLinksFor(t));
+        allTrips.forEach(this::addStepsToTrip);
 
         return allTrips;
     }
@@ -63,23 +71,17 @@ public class TripController {
             throw new DisplayableException("Trip incomplete: At least tripName must be set");
         }
 
+        trip.setTripId(IdGenerator.generateIdWithYear(trip.getTripName(), trip.getTripDate()));
+
         TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
-
-        //We never add steps directly!
-        tripDBObject.setSteps(null);
-
         tripDAO.createTrip(tripDBObject);
 
-        return changeStepLinksFor(mapper.map(tripDBObject, Trip.class));
+        return mapper.map(tripDBObject, Trip.class);
     }
 
     public Trip updateTrip(String tripId, Trip trip) throws DisplayableException {
         if (trip == null) {
             throw new DisplayableException("Trip must be set");
-        }
-
-        if (tripId == null || !MongoDbUtil.isValidObjectId(tripId)) {
-            throw new DisplayableException("Invalid trip id");
         }
 
         TripDBObject currentTrip = tripDAO.getTripById(tripId);
@@ -89,8 +91,7 @@ public class TripController {
 
         TripDBObject changedTrip = mapper.map(trip, TripDBObject.class);
 
-        //We never update steps or the id like this!
-        changedTrip.setSteps(null);
+        //We never update the id
         changedTrip.setTripId(null);
 
         try {
@@ -103,14 +104,10 @@ public class TripController {
 
         tripDAO.updateTrip(tripId, currentTrip);
 
-        return changeStepLinksFor(mapper.map(currentTrip, Trip.class));
+        return mapper.map(currentTrip, Trip.class);
     }
 
     public boolean deleteTripWithId(String tripId) {
-        if (!MongoDbUtil.isValidObjectId(tripId)) {
-            return false;
-        }
-
         TripDBObject tripDBObject = tripDAO.getTripById(tripId);
 
         if (tripDBObject == null) {
@@ -118,18 +115,19 @@ public class TripController {
         }
 
         WriteResult tripResult = tripDAO.deleteTrip(tripDBObject);
-        WriteResult stepResult = null;
         if (tripResult.getN() == 1) {
-            stepResult = stepDAO.deleteAllStepsOfTrip(tripId);
+            stepController.deleteAllStepsOfTrip(tripId);
         }
 
-        return tripResult.getN() == 1 && tripResult.getError() == null && stepResult != null && stepResult.getError() == null;
+        return tripResult.getN() == 1 && tripResult.getError() == null;
     }
 
-    private Trip changeStepLinksFor(Trip trip) {
-        trip.setSteps(trip.getSteps().stream().map(stepId -> resourceController.getStepUrl(trip.getTripId(), stepId))
-                .collect(Collectors.toList()));
+    // TODO implement method
+    public List<GpsPoint> getAllGpsPointsOfTrip(String tripId) {
+        throw new NotImplementedException();
+    }
 
-        return trip;
+    private void addStepsToTrip(Trip trip) {
+        trip.setSteps(stepController.getAllStepsOfTrip(trip.getTripId()));
     }
 }

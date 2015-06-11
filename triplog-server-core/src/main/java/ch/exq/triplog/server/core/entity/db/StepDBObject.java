@@ -1,15 +1,18 @@
 package ch.exq.triplog.server.core.entity.db;
 
 import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+
+import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
+import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -21,17 +24,18 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
     @Inject
     Logger logger;
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     public static final String COLLECTION_NAME = "step";
-    public static final String STEP_ID = "_id";
+    public static final String STEP_ID = "stepId";
     public static final String TRIP_ID = "tripId";
     public static final String STEP_NAME = "stepName";
-    public static final String STEP_TEXT = "stepText";
-    public static final String MAP_URL = "mapUrl";
-    public static final String IMAGES = "images";
     public static final String FROM_DATE = "fromDate";
     public static final String TO_DATE = "toDate";
+    public static final String STEP_LEAD = "stepLead";
+    public static final String COVER_PICTURE = "coverPicture";
+
+    public static final String STEP_TEXT = "stepText";
+    public static final String GPS_POINTS = "gpsPoints";
+    public static final String PICTURES = "pictures";
 
 
     public static StepDBObject from(DBObject dbObject) {
@@ -65,6 +69,22 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
         put(STEP_NAME, stepName);
     }
 
+    public String getStepLead() {
+        return getString(STEP_LEAD);
+    }
+
+    public void setStepLead(String stepLead) {
+        put(STEP_LEAD, stepLead);
+    }
+
+    public String getCoverPicture() {
+        return getString(COVER_PICTURE);
+    }
+
+    public void setCoverPicture(String coverPicture) {
+        put(COVER_PICTURE, coverPicture);
+    }
+
     public String getStepText() {
         return getString(STEP_TEXT);
     }
@@ -73,18 +93,10 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
         put(STEP_TEXT, stepText);
     }
 
-    public String getMapUrl() {
-        return getString(MAP_URL);
-    }
-
-    public void setMapUrl(String mapUrl) {
-        put(MAP_URL, mapUrl);
-    }
-
-    public List<String> getImages() {
+    public List<String> getPictures() {
         List<String> images = new ArrayList<>();
 
-        Object imagesObject = get(IMAGES);
+        Object imagesObject = get(PICTURES);
         if (imagesObject != null) {
             ListIterator<Object> imagesList = ((BasicDBList) imagesObject).listIterator();
             while (imagesList.hasNext()) {
@@ -95,43 +107,64 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setPictures(List<String> pictures) {
         BasicDBList basicDBList = new BasicDBList();
-        if (images != null) {
-            images.stream().forEach(image -> basicDBList.add(image));
+        if (pictures != null) {
+            pictures.stream().forEach(basicDBList::add);
         }
 
-        put(IMAGES, basicDBList);
+        put(PICTURES, basicDBList);
+    }
+
+
+    public List<GpsPointDBObject> getGpsPoints() {
+        List<GpsPointDBObject> gpsPoints = new ArrayList<>();
+
+        Object gpsPointObject = get(GPS_POINTS);
+        if (gpsPointObject != null) {
+            ((BasicDBList) gpsPointObject).forEach(dbObject -> gpsPoints.add(new GpsPointDBObject((BasicDBObject) dbObject)));
+        }
+
+        return gpsPoints;
+    }
+
+    public void setGpsPoints(List<GpsPointDBObject> gpsPoints) {
+        BasicDBList basicDBList = new BasicDBList();
+        if (gpsPoints != null) {
+            gpsPoints.stream().forEach(basicDBList::add);
+        }
+
+        put(GPS_POINTS, basicDBList);
     }
 
     public LocalDate getFromDate() {
-        String date = getString(FROM_DATE);
-        if (date == null) {
+        String fromDate = getString(FROM_DATE);
+        if (fromDate == null) {
             return null;
         }
 
-        return LocalDate.parse(date, FORMATTER);
+        return convertToDate(fromDate);
     }
 
     public void setFromDate(LocalDate fromDate) {
         if (fromDate != null) {
-            put(FROM_DATE, fromDate.format(FORMATTER));
+            put(FROM_DATE, convertToString(fromDate));
         }
     }
 
 
     public LocalDate getToDate() {
-        String date = getString(TO_DATE);
-        if (date == null) {
+        String toDate = getString(TO_DATE);
+        if (toDate == null) {
             return null;
         }
 
-        return LocalDate.parse(date, FORMATTER);
+        return convertToDate(toDate);
     }
 
     public void setToDate(LocalDate toDate) {
         if (toDate != null) {
-            put(TO_DATE, toDate.format(FORMATTER));
+            put(TO_DATE, convertToString(toDate));
         }
     }
 

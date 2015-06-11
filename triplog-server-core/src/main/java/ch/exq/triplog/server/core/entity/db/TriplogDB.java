@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.net.UnknownHostException;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -53,10 +52,12 @@ public class TriplogDB {
 
             db = mongoClient.getDB(dbName.getString());
 
-            if (!db.authenticate(user.getString(), password.getString().toCharArray())) {
-                throw new RuntimeException("Not able to authenticate with MongoDB");
+            if (user.getString() != null || password.getString() != null) {
+                if (!db.authenticate(user.getString(), password.getString().toCharArray())) {
+                    throw new RuntimeException("Not able to authenticate with MongoDB");
+                }
             }
-        } catch (UnknownHostException e) {
+        } catch (Exception e) {
             logger.error("DB Connection could not be established!", e);
         }
     }

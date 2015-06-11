@@ -1,13 +1,13 @@
 package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.common.dto.Step;
+import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.StepDAO;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
-import ch.exq.triplog.server.core.entity.db.TripDBObject;
 import ch.exq.triplog.server.core.mapper.TriplogMapper;
-import ch.exq.triplog.server.util.mongodb.MongoDbUtil;
+import ch.exq.triplog.server.util.id.IdGenerator;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 
@@ -46,63 +46,65 @@ public class StepController {
             return null;
         }
 
-        List<Step> allSteps = stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
+        List<Step> allStepDetails = stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .collect(Collectors.toList());
 
-        allSteps.forEach(step -> changeImageLinksFor(step));
+        allStepDetails.forEach(this::changePictureLinksFor);
 
-        return allSteps;
+        return allStepDetails;
     }
 
-    public Step getStep(String tripId, String stepId) {
-        if (!doesTripContainsStep(tripId, stepId)) return null;
-
+    public StepDetail getStep(String tripId, String stepId) {
         StepDBObject stepDBObject = stepDAO.getStep(stepId);
-        return stepDBObject != null ? changeImageLinksFor(mapper.map(stepDBObject, Step.class)) : null;
-    }
+        StepDetail stepDetail = null;
 
-    public Step createStep(Step step) throws DisplayableException {
-        if (step.getTripId() == null || tripDAO.getTripById(step.getTripId()) == null) {
-            throw new DisplayableException("Could not find trip with id " + step.getTripId());
+        if (stepDBObject != null) {
+            stepDetail = mapper.map(stepDBObject, StepDetail.class);
+            changePictureLinksFor(stepDetail);
         }
 
-        if (step == null || step.getStepName() == null || step.getStepName().isEmpty()) {
+        return stepDetail;
+    }
+
+    public StepDetail createStep(final StepDetail stepDetail) throws DisplayableException {
+        if (stepDetail.getTripId() == null || tripDAO.getTripById(stepDetail.getTripId()) == null) {
+            throw new DisplayableException("Could not find trip with id " + stepDetail.getTripId());
+        }
+
+        if (stepDetail.getStepName() == null || stepDetail.getStepName().isEmpty()) {
             throw new DisplayableException("Step incomplete: stepName must be set");
         }
 
-        if (step.getFromDate() == null || step.getToDate() == null) {
+        if (stepDetail.getFromDate() == null || stepDetail.getToDate() == null) {
             throw new DisplayableException("Step incomplete: fromDate and toDate must be set");
         }
 
-        StepDBObject stepDBObject = mapper.map(step, StepDBObject.class);
+        stepDetail.setStepId(IdGenerator.generateIdWithFullDate(stepDetail.getStepName(), stepDetail.getFromDate()));
+
+        StepDBObject stepDBObject = mapper.map(stepDetail, StepDBObject.class);
         checkFromDateIsBeforeOrEqualsToDate(stepDBObject);
 
         //We never add images directly
-        stepDBObject.setImages(null);
+        stepDBObject.setCoverPicture(null);
+        stepDBObject.setPictures(null);
 
         stepDAO.createStep(stepDBObject);
 
-        tripDAO.addStepToTrip(stepDBObject.getTripId(), stepDBObject.getStepId());
-
-        return changeImageLinksFor(mapper.map(stepDBObject, Step.class));
+        return mapper.map(stepDBObject, StepDetail.class);
     }
 
-    public Step updateStep(String tripId, String stepId, Step step) throws DisplayableException {
-        if (!doesTripContainsStep(tripId, stepId)) {
-            throw new DisplayableException("Either trip " + tripId + " could not be found or it does not contain step " + stepId);
-        }
-
+    public StepDetail updateStep(String tripId, String stepId, StepDetail stepDetail) throws DisplayableException {
         StepDBObject currentStep = stepDAO.getStep(stepId);
         if (currentStep == null) {
             throw new DisplayableException("Step " + stepId + " could not be found");
         }
 
-        StepDBObject changedStep = mapper.map(step, StepDBObject.class);
+        StepDBObject changedStep = mapper.map(stepDetail, StepDBObject.class);
 
         //We never change ids or images like this
         changedStep.setStepId(null);
         changedStep.setTripId(null);
-        changedStep.setImages(null);
+        changedStep.setPictures(null);
 
         try {
             currentStep.updateFrom(changedStep);
@@ -115,41 +117,38 @@ public class StepController {
         checkFromDateIsBeforeOrEqualsToDate(currentStep);
         stepDAO.updateStep(stepId, currentStep);
 
-        return changeImageLinksFor(mapper.map(currentStep, Step.class));
+        StepDetail updatedStep = mapper.map(currentStep, StepDetail.class);
+        changePictureLinksFor(updatedStep);
+
+        return updatedStep;
     }
 
     public boolean deleteStep(String tripId, String stepId) {
-        if (!doesTripContainsStep(tripId, stepId)) return false;
-
         StepDBObject stepDBObject = stepDAO.getStep(stepId);
         if (stepDBObject == null) {
             return false;
         }
 
-        tripDAO.removeStepFromTrip(tripId, stepId);
-
         WriteResult result = stepDAO.deleteStep(stepDBObject);
         return result.getN() == 1 && result.getError() == null;
     }
 
-    private boolean doesTripContainsStep(String tripId, String stepId) {
-        if (!MongoDbUtil.isValidObjectId(tripId, stepId)) {
-            return false;
-        }
-
-        TripDBObject trip = tripDAO.getTripById(tripId);
-        if (trip == null || !trip.getSteps().contains(stepId)) {
-            return false;
-        }
-
-        return true;
+    public boolean deleteAllStepsOfTrip(String tripId) {
+        WriteResult result = stepDAO.deleteAllStepsOfTrip(tripId);
+        return result.getN() > 0 && result.getError() == null;
     }
 
-    private Step changeImageLinksFor(Step step) {
-        step.setImages(step.getImages().stream().map(imageId -> resourceController.getImageUrl(imageId))
-                .collect(Collectors.toList()));
+    private void changePictureLinksFor(Step step) {
+        if (step.getCoverPicture() != null) {
+            step.setCoverPicture(resourceController.getPictureUrl(step.getCoverPicture()));
+        }
 
-        return step;
+        if (step instanceof StepDetail) {
+            StepDetail stepDetail = (StepDetail) step;
+            stepDetail.setPictures(stepDetail.getPictures().stream().map(resourceController::getPictureUrl)
+                    .collect(Collectors.toList()));
+
+        }
     }
 
     private void checkFromDateIsBeforeOrEqualsToDate(StepDBObject stepDBObject) throws DisplayableException {

@@ -41,7 +41,7 @@ public class ResourceController {
         return sb.toString();
     }
 
-    public String getImageUrl(String imageId) {
+    public String getPictureUrl(String imageId) {
         return getServerRoot() + PATH_DELIMITER + IMAGE_SERVICE_NAME + PATH_DELIMITER + imageId;
     }
 

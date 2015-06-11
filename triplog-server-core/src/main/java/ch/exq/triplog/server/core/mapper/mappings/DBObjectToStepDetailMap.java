@@ -1,6 +1,6 @@
 package ch.exq.triplog.server.core.mapper.mappings;
 
-import ch.exq.triplog.server.common.dto.Step;
+import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
 import org.modelmapper.PropertyMap;
 
@@ -9,7 +9,7 @@ import org.modelmapper.PropertyMap;
  * Date: 16.04.14
  * Time: 14:38
  */
-public class DBObjectToStepMap extends PropertyMap<StepDBObject, Step> {
+public class DBObjectToStepDetailMap extends PropertyMap<StepDBObject, StepDetail> {
 
     @Override
     protected void configure() {

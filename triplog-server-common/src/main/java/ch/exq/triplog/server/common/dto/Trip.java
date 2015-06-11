@@ -1,9 +1,13 @@
 package ch.exq.triplog.server.common.dto;
 
+import ch.exq.triplog.server.util.json.JsonDateAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +24,18 @@ public class Trip {
     @XmlElement(required = true)
     private String tripName;
 
-    @XmlElement
-    private String tripDescription;
+    @XmlElement(required = true)
+    @XmlJavaTypeAdapter(JsonDateAdapter.class)
+    private LocalDate tripDate;
+
+    @XmlElement(required = true)
+    private String tripLead;
 
     @XmlElement
-    private List<String> steps;
+    private String tripText;
+
+    @XmlElement
+    private List<Step> steps;
 
     public Trip() {
         steps = new ArrayList<>();
@@ -33,7 +44,7 @@ public class Trip {
     public Trip(String tripName, String tripDescription) {
         this();
         this.tripName = tripName;
-        this.tripDescription = tripDescription;
+        this.tripText = tripDescription;
     }
 
     public String getTripId() {
@@ -52,19 +63,35 @@ public class Trip {
         this.tripName = tripName;
     }
 
-    public String getTripDescription() {
-        return tripDescription;
+    public LocalDate getTripDate() {
+        return tripDate;
     }
 
-    public void setTripDescription(String tripDescription) {
-        this.tripDescription = tripDescription;
+    public void setTripDate(LocalDate tripDate) {
+        this.tripDate = tripDate;
     }
 
-    public List<String> getSteps() {
+    public String getTripLead() {
+        return tripLead;
+    }
+
+    public void setTripLead(String tripLead) {
+        this.tripLead = tripLead;
+    }
+
+    public String getTripText() {
+        return tripText;
+    }
+
+    public void setTripText(String tripText) {
+        this.tripText = tripText;
+    }
+
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<String> steps) {
+    public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 

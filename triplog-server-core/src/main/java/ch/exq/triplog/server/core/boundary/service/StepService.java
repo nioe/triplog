@@ -3,7 +3,7 @@ package ch.exq.triplog.server.core.boundary.service;
 import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.core.control.controller.StepController;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
-import ch.exq.triplog.server.common.dto.Step;
+import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.control.controller.ResponseController;
 
 import javax.inject.Inject;
@@ -24,60 +24,60 @@ public class StepService {
     ResponseController responseController;
 
     @GET
-    @Path("/trip/{tripId : [0-9a-f]*}/step/{stepId : [0-9a-f]*}")
+    @Path("/trip/{tripId : [0-9a-z-]*}/step/{stepId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId) {
-        Step step = stepController.getStep(tripId, stepId);
+        StepDetail stepDetail = stepController.getStep(tripId, stepId);
 
-        if (step == null) {
+        if (stepDetail == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(step).build();
+        return Response.ok(stepDetail).build();
     }
 
     @GET
-    @Path("/trip/{tripId : [0-9a-f]*}/steps")
+    @Path("/trip/{tripId : [0-9a-z-]*}/steps")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStepsOfTrip(@PathParam("tripId") String tripId) {
         return Response.ok(stepController.getAllStepsOfTrip(tripId)).build();
     }
 
     @POST
-    @Path("/trip/{tripId : [0-9a-f]*}/step")
+    @Path("/trip/{tripId : [0-9a-z-]*}/step")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
-    public Response createStep(@PathParam("tripId") String tripId, Step step) {
-        step.setTripId(tripId);
+    public Response createStep(@PathParam("tripId") String tripId, StepDetail stepDetail) {
+        stepDetail.setTripId(tripId);
 
         try {
-            return Response.ok(stepController.createStep(step)).build();
+            return Response.ok(stepController.createStep(stepDetail)).build();
         } catch (DisplayableException ex) {
             return responseController.badRequest(ex);
         }
     }
 
-    @POST
-    @Path("/trip/{tripId : [0-9a-f]*}/step/{stepId : [0-9a-f]*}")
+    @PUT
+    @Path("/trip/{tripId : [0-9a-z-]*}/step/{stepId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
-    public Response updateStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, Step step) {
+    public Response updateStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, StepDetail stepDetail) {
         try {
-            Step updatedStep = stepController.updateStep(tripId, stepId, step);
-            if (updatedStep == null) {
+            StepDetail updatedStepDetail = stepController.updateStep(tripId, stepId, stepDetail);
+            if (updatedStepDetail == null) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
 
-            return Response.ok(updatedStep).build();
+            return Response.ok(updatedStepDetail).build();
         } catch (DisplayableException e) {
             return responseController.badRequest(e);
         }
     }
 
     @DELETE
-    @Path("/trip/{tripId : [0-9a-f]*}/step/{stepId : [0-9a-f]*}")
+    @Path("/trip/{tripId : [0-9a-z-]*}/step/{stepId : [0-9a-z-]*}")
     @AuthenticationRequired
     public Response deleteStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId) {
         boolean deleted = stepController.deleteStep(tripId, stepId);

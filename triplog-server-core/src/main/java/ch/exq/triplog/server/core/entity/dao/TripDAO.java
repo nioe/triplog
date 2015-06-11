@@ -6,7 +6,6 @@ import ch.exq.triplog.server.core.entity.db.TriplogDB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 
 import javax.ejb.Stateless;
@@ -60,26 +59,7 @@ public class TripDAO {
         return db.getTripCollection().update(idDBObject(tripId), tripDBObject);
     }
 
-    public TripDBObject addStepToTrip(String tripId, String stepId) {
-        TripDBObject tripDBObject = getTripById(tripId);
-        tripDBObject.getStepList().add(stepId);
-
-        updateTrip(tripId, tripDBObject);
-
-        return tripDBObject;
-    }
-
-    public TripDBObject removeStepFromTrip(String tripId, String stepId) {
-        TripDBObject tripDBObject = getTripById(tripId);
-        tripDBObject.getStepList().remove(stepId);
-
-        updateTrip(tripId, tripDBObject);
-
-        return tripDBObject;
-    }
-
-
     private BasicDBObject idDBObject(String tripId) {
-        return new BasicDBObject(TripDBObject.TRIP_ID, new ObjectId(tripId));
+        return new BasicDBObject(TripDBObject.TRIP_ID, tripId);
     }
 }

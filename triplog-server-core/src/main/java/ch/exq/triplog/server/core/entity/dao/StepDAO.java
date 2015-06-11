@@ -6,7 +6,6 @@ import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 
 import javax.ejb.Stateless;
@@ -41,7 +40,7 @@ public class StepDAO {
     }
 
     public StepDBObject getStep(String stepId) {
-        DBCursor cursor = db.getStepCollection().find(new BasicDBObject(StepDBObject.STEP_ID, new ObjectId(stepId)));
+        DBCursor cursor = db.getStepCollection().find(idDBObject(stepId));
         if (cursor.count() == 0) {
             return null;
         } else if (cursor.count() > 1) {
@@ -69,6 +68,6 @@ public class StepDAO {
 
 
     private BasicDBObject idDBObject(String stepId) {
-        return new BasicDBObject(StepDBObject.STEP_ID, new ObjectId(stepId));
+        return new BasicDBObject(StepDBObject.STEP_ID, stepId);
     }
 }

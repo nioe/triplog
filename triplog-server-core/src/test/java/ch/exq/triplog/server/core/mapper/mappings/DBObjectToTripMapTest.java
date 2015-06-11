@@ -2,12 +2,9 @@ package ch.exq.triplog.server.core.mapper.mappings;
 
 import ch.exq.triplog.server.common.dto.Trip;
 import ch.exq.triplog.server.core.entity.db.TripDBObject;
-import ch.exq.triplog.server.core.mapper.mappings.DBObjectToTripMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -34,7 +31,7 @@ public class DBObjectToTripMapTest {
         Trip trip = mapper.map(tripDBObject, Trip.class);
         assertEquals("123", trip.getTripId());
         assertNull(trip.getTripName());
-        assertNull(trip.getTripDescription());
+        assertNull(trip.getTripText());
         assertNotNull(trip.getSteps());
         assertEquals(0, trip.getSteps().size());
     }
@@ -45,9 +42,10 @@ public class DBObjectToTripMapTest {
         tripDBObject.setTripName("test_trip");
 
         Trip trip = mapper.map(tripDBObject, Trip.class);
+
         assertNull(trip.getTripId());
         assertEquals("test_trip", trip.getTripName());
-        assertNull(trip.getTripDescription());
+        assertNull(trip.getTripText());
         assertNotNull(trip.getSteps());
         assertEquals(0, trip.getSteps().size());
     }
@@ -55,30 +53,13 @@ public class DBObjectToTripMapTest {
     @Test
     public void testMapTripDescription() {
         TripDBObject tripDBObject = new TripDBObject();
-        tripDBObject.setTripDescription("test_trip_desc");
+        tripDBObject.setTripText("test_trip_desc");
 
         Trip trip = mapper.map(tripDBObject, Trip.class);
         assertNull(trip.getTripId());
         assertNull(trip.getTripName());
-        assertEquals("test_trip_desc", trip.getTripDescription());
+        assertEquals("test_trip_desc", trip.getTripText());
         assertNotNull(trip.getSteps());
         assertEquals(0, trip.getSteps().size());
-    }
-
-    @Test
-    public void testMapSteps() {
-        TripDBObject tripDBObject = new TripDBObject();
-        ArrayList<String> steps = new ArrayList<>();
-        steps.add("123");
-        steps.add("456");
-        tripDBObject.setSteps(steps);
-
-        Trip trip = mapper.map(tripDBObject, Trip.class);
-        assertNull(trip.getTripId());
-        assertNull(trip.getTripName());
-        assertNull(trip.getTripDescription());
-        assertNotNull(trip.getSteps());
-        assertEquals(steps.size(), trip.getSteps().size());
-        assertTrue(trip.getSteps().containsAll(steps));
     }
 }

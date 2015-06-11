@@ -30,7 +30,7 @@ public class ResourceControllerTest {
 
     @Test
     public void testGetImageUrl() throws Exception {
-        String imageUrl = resourceController.getImageUrl("foo.jpg");
+        String imageUrl = resourceController.getPictureUrl("foo.jpg");
         assertEquals(PROTOCOL + "://" + HOST + ":" + PORT + "/image/foo.jpg", imageUrl);
     }
 
