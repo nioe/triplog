@@ -168,7 +168,6 @@ function ContentController($rootScope, $state, $window, ENV) {
             if (tripIndex >= 0) {
                 steps = trips[tripIndex].steps;
 
-
                 sortByPropertyDescending(steps, 'fromDate');
 
                 steps.forEach(function (step) {
