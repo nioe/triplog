@@ -8,7 +8,8 @@ var triplogApp = angular.module('triplogApp', [
     require('./welcome/welcome.module').name,
     require('./content/content.module').name,
     require('./content/trip/trip.module').name,
-    require('./content/step/step.module').name
+    require('./content/stepOverview/stepOverview.module').name,
+    require('./content/stepDetail/stepDetail.module').name
 ]);
 
 triplogApp.config(function($stateProvider, $urlRouterProvider) {
@@ -42,22 +43,22 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('content.allStepsOfTrip', {
             url: '/trip/:tripId',
-            templateUrl: require('./content/step/stepOverview.tpl.html').name,
+            templateUrl: require('./content/stepOverview/stepOverview.tpl.html').name,
             data : {
                 transitionSelectorClass: 'content'
             },
-            controller: function($scope, $state, $stateParams) {
-                $scope.tripId = $stateParams.tripId;
-                $state.current.data.pageTitle = 'Trip ' + $stateParams.tripId;
-            }
+            controller: require('./content/stepOverview/stepOverview.controller'),
+            controllerAs: 'stepOverview'
         })
         .state('content.stepOfTrip', {
             url: '/trip/:tripId/step/:stepId',
-            templateUrl: require('./content/step/stepDetail.tpl.html').name,
+            templateUrl: require('./content/stepDetail/stepDetail.tpl.html').name,
             data : {
                 pageTitle: 'Step',
                 transitionSelectorClass: 'content'
-            }
+            },
+            controller: require('./content/stepDetail/stepDetail.controller'),
+            controllerAs: 'stepDetail'
         });
 });
 
