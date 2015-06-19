@@ -1,6 +1,6 @@
 div.image-list {
   width: 90%;
-  margin: 50px auto;
+  margin: 70px auto;
   @include align-items(flex-start);
   @include display(flex);
   @include flex-direction(row);
@@ -19,24 +19,10 @@ div.image-list {
     border: 10px solid $polaroidColor;
     border-bottom-width: 50px;
     box-shadow: -2px 2px 15px black;
-    margin: 10px auto;
-    overflow-x: auto;
-    overflow-y: hidden;
     transition: 0.2s ease;
 
-    > img {
-      position: relative;
-      left: 50%;
-      top: 50%;
-      height: 100%;
-      width: auto;
-      @include transform(translate(-50%, -50%));
-
-      &.portrait {
-        width: 100%;
-        height: auto;
-      }
-    }
+    background: no-repeat center;
+    background-size: cover;
   }
 
   > div:nth-child(7n+1) {
