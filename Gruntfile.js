@@ -32,6 +32,15 @@ module.exports = function (grunt) {
                 src: '**/*',
                 dest: 'dist/public',
                 expand: true
+            },
+
+            css2sassHack: {
+                files: [
+                    {
+                        src: 'public/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css',
+                        dest: 'public/styles/vendor/_angular-bootstrap-lightbox.scss'
+                    }
+                ]
             }
         },
 
@@ -221,7 +230,7 @@ module.exports = function (grunt) {
     });
 
     var target = grunt.option('prod') === true ? 'prod' : 'dev';
-    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'karma', 'clean:temp']);
+    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'copy:css2sassHack', 'sass:dist', 'karma', 'clean:temp']);
     grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
     grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty']);

@@ -1,3 +1,8 @@
-<div class="triplog-gallery">
-    <div style="background-image: url('{{ picture }}')" ng-repeat="picture in pictures"></div>
+<div>
+    <div class="triplog-gallery">
+        <div style="background-image: url('{{ picture }}')"
+             ng-repeat="picture in triplogGallery.pictures"
+             ng-click="triplogGallery.showFullPicture($index)">
+        </div>
+    </div>
 </div>

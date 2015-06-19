@@ -8,6 +8,7 @@
 
 # Trip Log
 public/modules/config/
+public/styles/vendor/
 .ftpauth
 log/
 tmp/

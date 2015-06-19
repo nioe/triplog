@@ -8,7 +8,10 @@ function TriplogGalleryDirective() {
         templateUrl: 'triplogGallery.tpl.html',
         scope: {
             pictures: '='
-        }
+        },
+        controller: require('./triplogGallery.controller'),
+        controllerAs: 'triplogGallery',
+        bindToController: true
     };
 }
 
