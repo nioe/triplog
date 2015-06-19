@@ -4,7 +4,7 @@
 function StepDetailController() {
     var vm = this;
     
-    vm.imageUrls = [
+    vm.pictures = [
         'http://www.china-tour.cn/images/China_Pictures/Chinese_Mountains/Wuyi_Mountain.jpg',
         'https://sandiego.ncsy.org/files/2013/10/mountain-04.jpg',
         'http://c0278592.cdn.cloudfiles.rackspacecloud.com/original/449444.jpg',
