@@ -80,12 +80,12 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    '.tmp/scripts/triplogApp.js': ['public/modules/**/*.js']
+                    '.tmp/scripts/triplogApp.js': ['public/modules/triplogApp.js']
                 }
             },
             pretty: {
                 files: {
-                    'dist/js/triplogApp.js': ['public/modules/**/*.js']
+                    'dist/js/triplogApp.js': ['public/modules/triplogApp.js']
                 },
                 options: {
                     browserifyOptions: {
