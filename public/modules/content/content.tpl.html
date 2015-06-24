@@ -15,7 +15,7 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="navbar-collapse" ng-swipe-right="content.closeNavigation()">
+        <div class="navbar-collapse" hm-swiperight="content.closeNavigation()">
             <ul class="nav navbar-nav">
                 <!-- Spacer for iOS Title Bar -->
                 <li class="ios-title-bar navigation" ng-if="content.isIosFullscreen"></li>
@@ -53,9 +53,8 @@
 
     <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
         <div class="container-fluid"
-             ng-swipe-disable-mouse
-             ng-swipe-left="content.openNavigation()"
-             ng-swipe-right="content.closeNavigation()">
+             hm-swipeleft="content.openNavigation()"
+             hm-swiperight="content.closeNavigation()">
 
             <div class="row">
                 <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container">

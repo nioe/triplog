@@ -4,7 +4,7 @@ var triplogApp = angular.module('triplogApp', [
     'ui.router',
     'ui.bootstrap',
     'ngAnimate',
-    'ngTouch',
+    'hmTouchEvents',
     require('./welcome/welcome.module').name,
     require('./content/content.module').name,
     require('./content/trip/trip.module').name,

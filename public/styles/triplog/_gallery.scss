@@ -10,6 +10,7 @@ div.triplog-gallery {
   > div {
     width: 200px;
     height: 240px;
+    cursor: pointer;
 
     @media (min-width: 350px) {
       width: 270px;
@@ -58,6 +59,25 @@ div.triplog-gallery {
     > div:hover {
       @include transform(rotate(0deg) scale(1.3));
       z-index: 1;
+    }
+  }
+}
+
+.lightbox-image-navigation {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+
+  .lightbox-navigation-button {
+    height: 100%;
+    line-height: 100%;
+
+    .lightbox-navigation-button-text {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 }
