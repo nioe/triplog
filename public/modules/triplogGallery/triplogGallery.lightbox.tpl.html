@@ -7,11 +7,15 @@
     <div class="lightbox-image-container">
         <img lightbox-src="{{ Lightbox.imageUrl }}" alt="">
         <div class="row lightbox-image-navigation">
-            <div class="col-xs-6 col-sm-3 lightbox-navigation-button">
-                <div class="lightbox-navigation-button-text">Prev</div>
+            <div class="col-xs-6 col-sm-3 lightbox-navigation-button" ng-click="Lightbox.prevImage()">
+                <div class="lightbox-navigation-button-text prev">
+                    <span class="icon-chevron-thin-left"></span>
+                </div>
             </div>
-            <div class="col-xs-6 col-sm-3 col-sm-offset-6 lightbox-navigation-button">
-                <div class="lightbox-navigation-button-text">Next</div>
+            <div class="col-xs-6 col-sm-3 col-sm-offset-6 lightbox-navigation-button" ng-click="Lightbox.nextImage()">
+                <div class="lightbox-navigation-button-text next">
+                    <span class="icon-chevron-thin-right"></span>
+                </div>
             </div>
         </div>
     </div>

@@ -73,11 +73,23 @@ div.triplog-gallery {
   .lightbox-navigation-button {
     height: 100%;
     line-height: 100%;
+    cursor: pointer;
 
     .lightbox-navigation-button-text {
       position: relative;
       top: 50%;
       @include transform(translateY(-50%));
+
+      font-size: 50px;
+      color: white;
+
+      &.prev {
+        text-align: left;
+      }
+
+      &.next {
+        text-align: right;
+      }
     }
   }
 }
