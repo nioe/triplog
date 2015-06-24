@@ -17,8 +17,8 @@ module.exports = function (grunt) {
                     }, {
                         expand: true,
                         flatten: true,
-                        src: 'public/bower_components/bootstrap-sass/assets/fonts/bootstrap/*',
-                        dest: 'dist/fonts/bootstrap'
+                        src: 'public/fonts/triplog/triplog.*',
+                        dest: 'dist/fonts/triplog'
                     }, {
                         expand: true, flatten: true, src: 'public/styles/img/*', dest: 'dist/img'
                     }, {

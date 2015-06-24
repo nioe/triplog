@@ -25,7 +25,7 @@
                     ng-class="{ active: entry.active }"
                     ng-if="!entry.entries">
 
-                    <a href ng-click="entry.action()">{{ entry.name }}</a>
+                    <a href ng-click="entry.action()"><span class="icon-{{ entry.icon }}"></span> {{ entry.name }}</a>
                 </li>
 
                 <!-- Dropdown -->
@@ -37,12 +37,12 @@
                     ng-repeat-end>
 
                     <a href class="dropdown-toggle" role="button" dropdown-toggle>
-                        {{ entry.name }} <span class="caret"></span>
+                        <span class="icon-{{ entry.icon }}"></span> {{ entry.name }} <span class="icon-chevron-small-down"></span>
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
                         <li ng-repeat-start="(dropDownEntryId, dropDownEntry) in entry.entries">
-                            <a href ng-click="dropDownEntry.action()">{{ dropDownEntry.name }}</a>
+                            <a href ng-click="dropDownEntry.action()"><span class="icon-{{ dropDownEntry.icon }}"></span> {{ dropDownEntry.name }}</a>
                         </li>
                         <li class="divider" ng-if="dropDownEntry.divider" ng-repeat-end></li>
                     </ul>

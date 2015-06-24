@@ -122,6 +122,7 @@ function ContentController($rootScope, $state, $window, ENV) {
             {
                 id: 'overview',
                 name: 'Overview',
+                icon: 'location-pin',
                 action: function () {
                     $state.go('content.allTrips');
                 },
@@ -134,6 +135,7 @@ function ContentController($rootScope, $state, $window, ENV) {
                 entries.push({
                     id: trip.tripId,
                     name: trip.tripName,
+                    icon: 'location',
                     action: function () {
                         $state.go('content.allStepsOfTrip', {tripId: trip.tripId});
                     }
@@ -142,9 +144,10 @@ function ContentController($rootScope, $state, $window, ENV) {
         });
 
         vm.navBarEntries.push({
-            'id': 'trips',
-            'name': 'Trips',
-            'entries': entries
+            id: 'trips',
+            name: 'Trips',
+            icon: 'globe',
+            entries: entries
         });
     }
 
@@ -156,6 +159,7 @@ function ContentController($rootScope, $state, $window, ENV) {
                     {
                         id: 'overview',
                         name: 'Overview',
+                        icon: 'location',
                         action: function () {
                             $state.go('content.allStepsOfTrip', {tripId: tripId});
                         },
@@ -174,6 +178,7 @@ function ContentController($rootScope, $state, $window, ENV) {
                     entries.push({
                         id: step.stepId,
                         name: step.stepName,
+                        icon: 'map',
                         action: function () {
                             $state.go('content.stepOfTrip', {tripId: tripId, stepId: step.stepId});
                         }
@@ -181,10 +186,11 @@ function ContentController($rootScope, $state, $window, ENV) {
                 });
 
                 vm.navBarEntries.push({
-                    'id': tripId,
-                    'name': trips[tripIndex].tripName,
-                    'active': true,
-                    'entries': entries
+                    id: tripId,
+                    name: trips[tripIndex].tripName,
+                    icon: 'location',
+                    active: true,
+                    entries: entries
                 });
             }
         }

@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'triplog';
+  src:url('../fonts/triplog/triplog.eot?1pp9q8');
+  src:url('../fonts/triplog/triplog.eot?#iefix1pp9q8') format('embedded-opentype'),
+  url('../fonts/triplog/triplog.ttf?1pp9q8') format('truetype'),
+  url('../fonts/triplog/triplog.woff?1pp9q8') format('woff'),
+  url('../fonts/triplog/triplog.svg?1pp9q8#triplog') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'triplog';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-chevron-small-down:before {
+  content: "\e600";
+}
+.icon-chevron-thin-left:before {
+  content: "\e601";
+}
+.icon-chevron-thin-right:before {
+  content: "\e602";
+}
+.icon-camera:before {
+  content: "\e603";
+}
+.icon-globe:before {
+  content: "\e604";
+}
+.icon-location-pin:before {
+  content: "\e605";
+}
+.icon-location:before {
+  content: "\e606";
+}
+.icon-map:before {
+  content: "\e607";
+}
