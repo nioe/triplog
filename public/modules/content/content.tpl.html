@@ -15,7 +15,7 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="navbar-collapse" hm-swiperight="content.closeNavigation()">
+        <div class="navbar-collapse" ng-swipe-right="content.closeNavigation()">
             <ul class="nav navbar-nav">
                 <!-- Spacer for iOS Title Bar -->
                 <li class="ios-title-bar navigation" ng-if="content.isIosFullscreen"></li>
@@ -37,12 +37,14 @@
                     ng-repeat-end>
 
                     <a href class="dropdown-toggle" role="button" dropdown-toggle>
-                        <span class="icon-{{ entry.icon }}"></span> {{ entry.name }} <span class="icon-chevron-small-down"></span>
+                        <span class="icon-{{ entry.icon }}"></span> {{ entry.name }} <span
+                            class="icon-chevron-small-down"></span>
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
                         <li ng-repeat-start="(dropDownEntryId, dropDownEntry) in entry.entries">
-                            <a href ng-click="dropDownEntry.action()"><span class="icon-{{ dropDownEntry.icon }}"></span> {{ dropDownEntry.name }}</a>
+                            <a href ng-click="dropDownEntry.action()"><span
+                                    class="icon-{{ dropDownEntry.icon }}"></span> {{ dropDownEntry.name }}</a>
                         </li>
                         <li class="divider" ng-if="dropDownEntry.divider" ng-repeat-end></li>
                     </ul>
@@ -53,8 +55,8 @@
 
     <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
         <div class="container-fluid"
-             hm-swipeleft="content.openNavigation()"
-             hm-swiperight="content.closeNavigation()">
+             ng-swipe-left="content.openNavigation()"
+             ng-swipe-right="content.closeNavigation()">
 
             <div class="row">
                 <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container">

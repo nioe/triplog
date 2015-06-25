@@ -1,8 +1,6 @@
 <div class="modal-body"
-     hm-swipeleft="Lightbox.nextImage()"
-     hm-swiperight="Lightbox.prevImage()"
-     hm-swipeup="$dismiss()"
-     hm-swipedown="$dismiss()">
+     ng-swipe-left="Lightbox.nextImage()"
+     ng-swipe-right="Lightbox.prevImage()">
 
     <div class="lightbox-image-container">
         <img lightbox-src="{{ Lightbox.imageUrl }}" alt="">
