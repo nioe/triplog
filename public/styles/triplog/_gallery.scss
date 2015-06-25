@@ -63,32 +63,47 @@ div.triplog-gallery {
   }
 }
 
-.lightbox-image-navigation {
-  position: absolute;
-  top: 0;
+.modal.in.lightbox-modal {
   height: 100%;
-  width: 100%;
-  margin: 0;
 
-  .lightbox-navigation-button {
+  .modal-dialog {
+    position: relative;
+    top: 50%;
+    @include transform(translateY(-50%));
+    margin: 0 auto;
+
+    @media (max-width: $screen-xs-max ) and (orientation: portrait) {
+      margin: 0 10px;
+    }
+  }
+
+  .lightbox-image-navigation {
+    position: absolute;
+    top: 0;
     height: 100%;
-    line-height: 100%;
-    cursor: pointer;
+    width: 100%;
+    margin: 0;
 
-    .lightbox-navigation-button-text {
-      position: relative;
-      top: 50%;
-      @include transform(translateY(-50%));
+    .lightbox-navigation-button {
+      height: 100%;
+      line-height: 100%;
+      cursor: pointer;
 
-      font-size: 50px;
-      color: white;
+      .lightbox-navigation-button-text {
+        position: relative;
+        top: 50%;
+        @include transform(translateY(-50%));
 
-      &.prev {
-        text-align: left;
-      }
+        font-size: 50px;
+        color: white;
 
-      &.next {
-        text-align: right;
+        &.prev {
+          text-align: left;
+        }
+
+        &.next {
+          text-align: right;
+        }
       }
     }
   }

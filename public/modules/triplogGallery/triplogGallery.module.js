@@ -14,6 +14,19 @@ module.exports.config(function (LightboxProvider) {
     LightboxProvider.getImageUrl = function (imageUrl) {
         return imageUrl;
     };
+
+    LightboxProvider.calculateModalDimensions = function (dimensions) {
+        var width = dimensions.imageDisplayWidth + 32;
+
+        if (width >= dimensions.windowWidth - 20) {
+            width = 'auto';
+        }
+
+        return {
+            'width': width,
+            'height': 'auto'
+        };
+    };
 });
 
 module.exports.directive('triplogGallery', require('./triplogGallery.directive'));
