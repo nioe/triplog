@@ -10,6 +10,10 @@ module.exports = angular.module('triplogGallery', [
 
 module.exports.config(function (LightboxProvider) {
     LightboxProvider.templateUrl = 'triplogGallery.lightbox.tpl.html';
+
+    LightboxProvider.getImageUrl = function (imageUrl) {
+        return imageUrl;
+    };
 });
 
 module.exports.directive('triplogGallery', require('./triplogGallery.directive'));
