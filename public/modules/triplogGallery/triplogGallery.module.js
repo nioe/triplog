@@ -16,14 +16,8 @@ module.exports.config(function (LightboxProvider) {
     };
 
     LightboxProvider.calculateModalDimensions = function (dimensions) {
-        var width = dimensions.imageDisplayWidth + 32;
-
-        if (width >= dimensions.windowWidth - 20) {
-            width = 'auto';
-        }
-
         return {
-            'width': width,
+            'width': dimensions.imageDisplayWidth + 32,
             'height': 'auto'
         };
     };
