@@ -23,27 +23,54 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-chevron-small-down:before {
-  content: "\e600";
+.icon-triplog:before {
+  content: "\e60a";
 }
-.icon-chevron-thin-left:before {
+.icon-trip-overview:before {
+  content: "\e604";
+}
+.icon-trip:before {
+  content: "\e608";
+}
+.icon-step:before {
+  content: "\e606";
+}
+.icon-step-overview:before {
+  content: "\e607";
+}
+.icon-prev:before {
   content: "\e601";
 }
-.icon-chevron-thin-right:before {
+.icon-next:before {
   content: "\e602";
+}
+.icon-dropdown:before {
+  content: "\e600";
+}
+.icon-dropup:before {
+  content: "\e605";
+}
+.icon-delete:before {
+  content: "\e609";
+}
+.icon-add:before {
+  content: "\e60b";
+}
+.icon-info:before {
+  content: "\e60e";
+}
+.icon-expensive:before {
+  content: "\e60c";
+}
+.icon-worth-seeing:before {
+  content: "\e60d";
+}
+.icon-star-empty:before {
+  content: "\e60f";
+}
+.icon-star:before {
+  content: "\e610";
 }
 .icon-camera:before {
   content: "\e603";
-}
-.icon-globe:before {
-  content: "\e604";
-}
-.icon-location-pin:before {
-  content: "\e605";
-}
-.icon-location:before {
-  content: "\e606";
-}
-.icon-map:before {
-  content: "\e607";
 }

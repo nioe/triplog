@@ -122,7 +122,7 @@ function ContentController($rootScope, $state, $window, ENV) {
             {
                 id: 'overview',
                 name: 'Overview',
-                icon: 'location-pin',
+                icon: 'trip-overview',
                 action: function () {
                     $state.go('content.allTrips');
                 },
@@ -135,7 +135,7 @@ function ContentController($rootScope, $state, $window, ENV) {
                 entries.push({
                     id: trip.tripId,
                     name: trip.tripName,
-                    icon: 'location',
+                    icon: 'trip',
                     action: function () {
                         $state.go('content.allStepsOfTrip', {tripId: trip.tripId});
                     }
@@ -146,7 +146,7 @@ function ContentController($rootScope, $state, $window, ENV) {
         vm.navBarEntries.push({
             id: 'trips',
             name: 'Trips',
-            icon: 'globe',
+            icon: 'trip-overview',
             entries: entries
         });
     }
@@ -159,7 +159,7 @@ function ContentController($rootScope, $state, $window, ENV) {
                     {
                         id: 'overview',
                         name: 'Overview',
-                        icon: 'location',
+                        icon: 'step-overview',
                         action: function () {
                             $state.go('content.allStepsOfTrip', {tripId: tripId});
                         },
@@ -178,7 +178,7 @@ function ContentController($rootScope, $state, $window, ENV) {
                     entries.push({
                         id: step.stepId,
                         name: step.stepName,
-                        icon: 'map',
+                        icon: 'step',
                         action: function () {
                             $state.go('content.stepOfTrip', {tripId: tripId, stepId: step.stepId});
                         }
@@ -188,7 +188,7 @@ function ContentController($rootScope, $state, $window, ENV) {
                 vm.navBarEntries.push({
                     id: tripId,
                     name: trips[tripIndex].tripName,
-                    icon: 'location',
+                    icon: 'trip',
                     active: true,
                     entries: entries
                 });

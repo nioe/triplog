@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" ui-sref="welcome">
-                bros.pics
+                <span class="icon-triplog"></span> bros.pics
             </a>
         </div>
 
@@ -37,8 +37,9 @@
                     ng-repeat-end>
 
                     <a href class="dropdown-toggle" role="button" dropdown-toggle>
-                        <span class="icon-{{ entry.icon }}"></span> {{ entry.name }} <span
-                            class="icon-chevron-small-down"></span>
+                        <span class="icon-{{ entry.icon }}"></span>
+                        {{ entry.name }}
+                        <span class="icon-dropdown"></span>
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
