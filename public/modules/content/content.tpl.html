@@ -57,7 +57,8 @@
     <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
         <div class="container-fluid"
              ng-swipe-left="content.openNavigation()"
-             ng-swipe-right="content.closeNavigation()">
+             ng-swipe-right="content.closeNavigation()"
+             ng-swipe-disable-mouse>
 
             <div class="row">
                 <div class="col-md-12 col-lg-8 col-lg-offset-2 ui-view-container">
