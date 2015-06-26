@@ -2,9 +2,6 @@
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
 @import "bourbon/app/assets/stylesheets/bourbon";
 
-// This is a hack because plain CSS files aren't processed by SASS
-@import "vendor/angular-bootstrap-lightbox";
-
 // Google Fonts
 @import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light|IM+Fell+Great+Primer);
 
