@@ -24,12 +24,25 @@
 }
 
 .navbar-default {
-  font-family: 'Merriweather Sans', sans-serif;
-
   background-color: $bgDefault;
   border-color: $bgHighlight;
+
   .navbar-brand {
     color: $colDefault;
+    font-size: 20px;
+    line-height: 50px;
+    height: 50px;
+    padding: 0 15px;
+
+    .logo {
+      vertical-align: middle;
+      font-size: 2em;
+    }
+
+    .text {
+      vertical-align: middle;
+    }
+
     &:hover, &:focus {
       color: $colHighlight;
     }

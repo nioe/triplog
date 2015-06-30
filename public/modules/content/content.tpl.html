@@ -10,7 +10,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" ui-sref="welcome">
-                <span class="icon-triplog"></span> bros.pics
+                <span class="logo icon-triplog"></span>
+                <span class="text">Bros.Pics<span>
             </a>
         </div>
 
@@ -22,14 +23,14 @@
 
                 <!-- Normal Link -->
                 <li ng-repeat-start="entry in content.navBarEntries"
-                    ng-class="{ active: entry.active }"
+                    ng-class="{ active: entry.active() }"
                     ng-if="!entry.entries">
 
                     <a href ng-click="entry.action()"><span class="icon-{{ entry.icon }}"></span> {{ entry.name }}</a>
                 </li>
 
                 <!-- Dropdown -->
-                <li ng-class="{ active: entry.active }"
+                <li ng-class="{ active: entry.active() }"
                     class="dropdown"
                     dropdown
                     on-toggle="toggled(open)"
@@ -43,7 +44,7 @@
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-repeat-start="(dropDownEntryId, dropDownEntry) in entry.entries">
+                        <li ng-class="{ active: dropDownEntry.active() }" ng-repeat-start="(dropDownEntryId, dropDownEntry) in entry.entries">
                             <a href ng-click="dropDownEntry.action()"><span
                                     class="icon-{{ dropDownEntry.icon }}"></span> {{ dropDownEntry.name }}</a>
                         </li>

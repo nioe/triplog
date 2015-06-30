@@ -1,18 +1,37 @@
 // Google Fonts
-@import url(http://fonts.googleapis.com/css?family=Merriweather+Sans:800|Roboto+Slab:400,300);
+@import url(http://fonts.googleapis.com/css?family=Pacifico|Raleway:200,300);
 
 body {
-  font-family: 'Roboto Slab', serif;
-  font-weight: 300;
+  font-family: 'Raleway', serif;
+  font-weight: 200;
   font-size: $font-size-base;
+  color: $font-color;
+
+  .welcome-page {
+    .text {
+      .quote {
+        font-family: 'Pacifico', serif;
+      }
+
+      .author {
+        font-family: 'Raleway', serif;
+      }
+    }
+  }
 
   .lead {
-    font-weight: 400;
+    font-weight: 300;
     font-size: $font-size-base;
   }
 
+  .navbar-default {
+    .navbar-brand {
+      font-family: 'Pacifico', serif;
+    }
+  }
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Merriweather Sans', sans-serif;
-    font-weight: 300;
+    //font-family: 'Merriweather Sans', sans-serif;
+    //font-weight: 300;
   }
 }

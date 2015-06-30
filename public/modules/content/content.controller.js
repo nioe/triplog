@@ -126,7 +126,10 @@ function ContentController($rootScope, $state, $window, ENV) {
                 action: function () {
                     $state.go('content.allTrips');
                 },
-                divider: true
+                divider: true,
+                active: function () {
+                    return $state.current.name === 'content.allTrips';
+                }
             }
         ];
 
@@ -138,6 +141,10 @@ function ContentController($rootScope, $state, $window, ENV) {
                     icon: 'trip',
                     action: function () {
                         $state.go('content.allStepsOfTrip', {tripId: trip.tripId});
+                    },
+                    active: function () {
+                        return ['content.allStepsOfTrip', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
+                            $state.params.tripId === trip.tripId;
                     }
                 });
             }
@@ -163,7 +170,10 @@ function ContentController($rootScope, $state, $window, ENV) {
                         action: function () {
                             $state.go('content.allStepsOfTrip', {tripId: tripId});
                         },
-                        divider: true
+                        divider: true,
+                        active: function () {
+                            return $state.current.name === 'content.allStepsOfTrip';
+                        }
                     }
                 ],
                 tripIndex = indexOfTripWithId(tripId),
@@ -181,6 +191,9 @@ function ContentController($rootScope, $state, $window, ENV) {
                         icon: 'step',
                         action: function () {
                             $state.go('content.stepOfTrip', {tripId: tripId, stepId: step.stepId});
+                        },
+                        active: function () {
+                            return $state.params.tripId === tripId && $state.params.stepId === step.stepId;
                         }
                     });
                 });
@@ -189,7 +202,6 @@ function ContentController($rootScope, $state, $window, ENV) {
                     id: tripId,
                     name: trips[tripIndex].tripName,
                     icon: 'trip',
-                    active: true,
                     entries: entries
                 });
             }
