@@ -46,6 +46,10 @@
           text-align: right;
           font-size: 1.5em;
 
+          @media (orientation: portrait) {
+            padding-top: 30px;
+          }
+
           @media (min-width: $screen-md-min) {
             font-size: 2em;
             text-align: center;
