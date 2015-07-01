@@ -25,14 +25,21 @@ module.exports = function (grunt) {
                         expand: true, flatten: true, src: 'public/fonts/*', dest: 'dist/fonts'
                     }
                 ]
-            }
+            },
 
-            //live: {
-            //    cwd: 'public/',
-            //    src: '**/*',
-            //    dest: 'dist/public',
-            //    expand: true
-            //}
+            livejs: {
+                cwd: 'public/modules',
+                src: '**/*',
+                dest: 'dist/js/public/modules',
+                expand: true
+            },
+
+            livesass: {
+                cwd: 'public/styles',
+                src: '**/*',
+                dest: 'dist/public/styles',
+                expand: true
+            }
         },
 
         sass: {
