@@ -1,5 +1,5 @@
 // Google Fonts
-@import url(http://fonts.googleapis.com/css?family=Pacifico|Raleway:200,300);
+@import url(http://fonts.googleapis.com/css?family=Pacifico|Raleway:200,400);
 
 body {
   font-family: 'Raleway', serif;
@@ -19,8 +19,16 @@ body {
     }
   }
 
-  .lead {
-    font-weight: 300;
+  article.stepDetail {
+    @media(min-width: $screen-sm-min) {
+      @include column-count(3);
+      @include column-gap(40px);
+      @include column-rule(1px solid $font-color);
+    }
+  }
+
+  p.lead {
+    font-weight: 400;
     font-size: $font-size-base;
   }
 
@@ -31,7 +39,40 @@ body {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    //font-family: 'Merriweather Sans', sans-serif;
-    //font-weight: 300;
+    position: relative;
+    font-family: 'Pacifico', serif;
+
+    &.line {
+      margin: 30px 0;
+      text-align: center;
+      z-index: 1;
+
+      &:after {
+        content: "";
+        position: absolute;
+        border-top: 2px solid $font-color;
+        margin: 0 auto;
+        top: 50%;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        max-width: 80%;
+
+        @media(max-width: $screen-xs-max) {
+          max-width: 100%;
+        }
+        
+        z-index: -1;
+      }
+
+      > span {
+        background-color: white;
+        padding: 0 30px;
+
+        @media(max-width: $screen-xs-max) {
+          padding: 0 10px;
+        }
+      }
+    }
   }
 }
