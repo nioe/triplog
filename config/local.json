@@ -1,3 +1,4 @@
 {
-  "ENV": "local"
+  "ENV": "local",
+  "REST_URL_PREFIX": "http://localhost:8080"
 }

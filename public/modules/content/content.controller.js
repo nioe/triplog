@@ -1,74 +1,21 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV) {
+function ContentController($rootScope, $state, $window, ENV, TripResource) {
 
-    var vm = this;
+    var vm = this,
+        trips;
     vm.navBarEntries = [];
     vm.environment = ENV;
-
-    // TODO Get trips from backend and revise to have tripId as key (create new overview service, sorted by trip/step date descending)
-    var trips = [
-        {
-            'tripId': 'africa-2015',
-            'tripName': 'Africa 2015',
-            'tripDate': 201507,
-            'steps': [
-                {
-                    'stepId': 'kruger-nationalpark',
-                    'stepName': 'Kruger Nationalpark',
-                    'fromDate': '2015-07-30',
-                    'toDate': '2015-08-03',
-                    'image': 'http://url.to/image'
-                },
-                {
-                    'stepId': 'victoria-falls',
-                    'stepName': 'Victoria Falls',
-                    'fromDate': '2015-08-07',
-                    'toDate': '2015-08-10',
-                    'image': 'http://url.to/image'
-                }
-            ]
-        }, {
-            'tripId': 'empty-trip-2015',
-            'tripName': 'Empty trip 2015',
-            'tripDate': 201509,
-            'steps': []
-        }, {
-            'tripId': 'world-tour-2016',
-            'tripName': 'World Tour 2016',
-            'tripDate': 201605,
-            'steps': [
-                {
-                    'stepId': 'trans-siberian-railway',
-                    'stepName': 'Trans-Siberian Railway',
-                    'fromDate': '2016-04-01',
-                    'toDate': '2016-04-30',
-                    'image': 'http://url.to/image'
-                },
-                {
-                    'stepId': 'japan',
-                    'stepName': 'Japan',
-                    'fromDate': '2016-05-10',
-                    'toDate': '2016-05-27',
-                    'image': 'http://url.to/image'
-                },
-                {
-                    'stepId': 'vietnam',
-                    'stepName': 'Vietnam',
-                    'fromDate': '2016-05-29',
-                    'toDate': '2016-06-17',
-                    'image': 'http://url.to/image'
-                }
-            ]
-        }
-    ];
 
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
-    createTripOverviewNavBarEntry();
-    createStepOverviewNavBarEntry();
+    TripResource.query().$promise.then(function (tripData) {
+        trips = tripData;
+        createTripOverviewNavBarEntry();
+        createStepOverviewNavBarEntry();
+    });
 
     // React on state changes
     $rootScope.$on('$stateChangeStart', stateChangeStart);

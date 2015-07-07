@@ -2,6 +2,7 @@
 
 module.exports = angular.module('content', [
     require('../config/config.module').name,
+    require('../resource/resource.module').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./content.tpl.html').name
