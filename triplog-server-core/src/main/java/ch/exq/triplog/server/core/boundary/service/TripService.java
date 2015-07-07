@@ -25,7 +25,7 @@ public class TripService {
     ResponseController responseController;
 
     @GET
-    @Path("/trip/{tripId : [0-9a-z-]*}")
+    @Path("/trips/{tripId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTrip(@PathParam("tripId") String tripId) {
         Trip trip = tripController.getTripById(tripId);
@@ -37,7 +37,7 @@ public class TripService {
     }
 
     @GET
-    @Path("/trip/{tripId : [0-9a-z-]*}/gpsPoints")
+    @Path("/trips/{tripId : [0-9a-z-]*}/gpsPoints")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllGpsPointsOfTrip(@PathParam("tripId") String tripId) {
         List<GpsPoint> gpsPoints = tripController.getAllGpsPointsOfTrip(tripId);
@@ -56,7 +56,7 @@ public class TripService {
     }
 
     @POST
-    @Path("/trip")
+    @Path("/trips")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -69,7 +69,7 @@ public class TripService {
     }
 
     @PUT
-    @Path("/trip/{tripId : [0-9a-z-]*}")
+    @Path("/trips/{tripId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -87,7 +87,7 @@ public class TripService {
     }
 
     @DELETE
-    @Path("/trip/{tripId : [0-9a-z-]*}")
+    @Path("/trips/{tripId : [0-9a-z-]*}")
     @AuthenticationRequired
     public Response deleteTrip(@PathParam("tripId") String tripId) {
         boolean deleted = tripController.deleteTripWithId(tripId);
