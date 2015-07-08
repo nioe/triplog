@@ -24,7 +24,7 @@ public class StepService {
     ResponseController responseController;
 
     @GET
-    @Path("/trip/{tripId : [0-9a-z-]*}/step/{stepId : [0-9a-z-]*}")
+    @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId) {
         StepDetail stepDetail = stepController.getStep(tripId, stepId);
@@ -37,14 +37,14 @@ public class StepService {
     }
 
     @GET
-    @Path("/trip/{tripId : [0-9a-z-]*}/steps")
+    @Path("/trips/{tripId : [0-9a-z-]*}/steps")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStepsOfTrip(@PathParam("tripId") String tripId) {
         return Response.ok(stepController.getAllStepsOfTrip(tripId)).build();
     }
 
     @POST
-    @Path("/trip/{tripId : [0-9a-z-]*}/step")
+    @Path("/trips/{tripId : [0-9a-z-]*}/steps")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -59,7 +59,7 @@ public class StepService {
     }
 
     @PUT
-    @Path("/trip/{tripId : [0-9a-z-]*}/step/{stepId : [0-9a-z-]*}")
+    @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -77,7 +77,7 @@ public class StepService {
     }
 
     @DELETE
-    @Path("/trip/{tripId : [0-9a-z-]*}/step/{stepId : [0-9a-z-]*}")
+    @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}")
     @AuthenticationRequired
     public Response deleteStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId) {
         boolean deleted = stepController.deleteStep(tripId, stepId);
