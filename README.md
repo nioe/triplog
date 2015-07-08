@@ -1,6 +1,7 @@
 # TripLog #
 
-TripLog is a Client-Server-Application which is used to manage trips with serveral steps. Each step can have a description, several photos and a link to a google map to show the distance you covered.
+TripLog is a Client-Server-Application which is used to manage trips with serveral steps.
+Each step can have a description, several photos and and GPS points to show the distance you covered.
 
 ## Technology Stack ##
 
