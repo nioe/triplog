@@ -19,11 +19,15 @@ body {
     }
   }
 
-  article.stepDetail {
-    @media(min-width: $screen-sm-min) {
-      @include column-count(3);
-      @include column-gap(40px);
-      @include column-rule(1px solid $font-color);
+  article {
+    margin-bottom: 20px;
+
+    &.columns {
+      @media(min-width: $screen-sm-min) {
+        @include column-count(3);
+        @include column-gap(40px);
+        @include column-rule(1px solid $font-color);
+      }
     }
   }
 
