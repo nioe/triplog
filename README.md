@@ -17,9 +17,7 @@ TripLog is a Client-Server-Application which is used to manage trips with server
 The server application is reading the configuration from system properties set in *standalone.xml*.
 
 ### Example ###
-```
-#!xml
-
+```xml
 <system-properties>  
     <property name="key" value="value"/>  
 </system-properties>  
