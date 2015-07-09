@@ -1,4 +1,4 @@
 {
   "ENV": "dev",
-  "REST_URL_PREFIX": "https://servicedev-brospics.rhcloud.com"
+  "REST_URL_PREFIX": "http://service-dev.bros.pics"
 }

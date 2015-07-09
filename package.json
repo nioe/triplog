@@ -28,6 +28,7 @@
     "grunt-express-server": "^0.4.19",
     "grunt-ftp-push": "^0.3.4",
     "grunt-karma": "^0.10.1",
+    "grunt-manifest": "^0.4.0",
     "grunt-ng-constant": "^1.1.0",
     "grunt-nodemon": "^0.4.0",
     "jasmine-core": "^2.3.4",

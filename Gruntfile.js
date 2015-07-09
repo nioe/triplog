@@ -6,6 +6,13 @@ module.exports = function (grunt) {
         extension: 'tpl.html'
     });
 
+    var config;
+    if (grunt.cli.tasks.indexOf('live') != -1 || grunt.cli.tasks.indexOf('dist-pretty') != -1) {
+        config = require('./config/local.json');
+    } else {
+        config = grunt.option('prod') ? require('./config/prod.json') : require('./config/dev.json');
+    }
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
@@ -17,12 +24,12 @@ module.exports = function (grunt) {
                     }, {
                         expand: true,
                         flatten: true,
-                        src: 'public/fonts/triplog/triplog.*',
-                        dest: 'dist/fonts/triplog'
+                        src: 'public/fonts/icons/triplog.*',
+                        dest: 'dist/fonts/icons'
                     }, {
                         expand: true, flatten: true, src: 'public/styles/img/*', dest: 'dist/img'
                     }, {
-                        expand: true, flatten: true, src: 'public/fonts/*', dest: 'dist/fonts'
+                        expand: true, flatten: true, src: 'public/fonts/text/*', dest: 'dist/fonts/text'
                     }
                 ]
             },
@@ -141,6 +148,24 @@ module.exports = function (grunt) {
             }
         },
 
+        manifest: {
+            generate: {
+                options: {
+                    basePath: 'dist',
+                    network: [config.REST_URL_PREFIX],
+                    preferOnline: false,
+                    verbose: true,
+                    timestamp: true,
+                    hash: true,
+                    master: ['index.html'],
+                },
+                src: [
+                    'css/*','fonts/icons/*', 'fonts/text/*', 'img/*', 'js/*'
+                ],
+                dest: 'dist/manifest.appcache'
+            }
+        },
+
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
@@ -227,8 +252,8 @@ module.exports = function (grunt) {
         }
     });
 
-    var target = grunt.option('prod') === true ? 'prod' : 'dev';
-    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'karma', 'clean:temp']);
+    var target = grunt.option('prod') ? 'prod' : 'dev';
+    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'manifest', 'karma', 'clean:temp']);
     grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
     grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty']);

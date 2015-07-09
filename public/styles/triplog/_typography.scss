@@ -1,5 +1,6 @@
-// Google Fonts
-@import url(http://fonts.googleapis.com/css?family=Pacifico|Raleway:200,400);
+@include font-face("Pacifico", "/fonts/text/pacifico", $weight: 400, $file-formats: eot svg ttf woff woff2);
+@include font-face("Raleway", "/fonts/text/raleway-extralight", $weight: 200, $file-formats: eot svg ttf woff woff2);
+@include font-face("Raleway", "/fonts/text/raleway-regular", $weight: 400, $file-formats: eot svg ttf woff woff2);
 
 body {
   font-family: 'Raleway', serif;
