@@ -42,10 +42,6 @@ public class TripController {
     TriplogMapper mapper;
 
     public Trip getTripById(String tripId) {
-        if (!MongoDbUtil.isValidObjectId(tripId)) {
-            return null;
-        }
-
         TripDBObject tripDBObject = tripDAO.getTripById(tripId);
 
         if (tripDBObject != null) {
