@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, TripResource) {
+function ContentController($rootScope, $state, $window, ENV, TripsService) {
 
     var vm = this,
         trips;
@@ -11,7 +11,7 @@ function ContentController($rootScope, $state, $window, ENV, TripResource) {
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
-    TripResource.query().$promise.then(function (tripData) {
+    TripsService.getAllTrips().then(function (tripData) {
         trips = tripData;
         createTripOverviewNavBarEntry();
         createStepOverviewNavBarEntry();

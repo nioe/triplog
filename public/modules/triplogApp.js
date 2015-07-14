@@ -12,7 +12,7 @@ var triplogApp = angular.module('triplogApp', [
     require('./content/stepDetail/stepDetail.module').name
 ]);
 
-triplogApp.config(function($stateProvider, $urlRouterProvider) {
+triplogApp.config(function ($stateProvider, $urlRouterProvider) {
 
     // For any unmatched url, redirect to /welcome
     $urlRouterProvider.otherwise('/welcome');
@@ -21,7 +21,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         .state('welcome', {
             url: '/welcome',
             templateUrl: require('./welcome/welcome.tpl.html').name,
-            data : {
+            data: {
                 pageTitle: 'Welcome',
                 transitionSelectorClass: 'welcome'
             }
@@ -36,7 +36,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         .state('content.allTrips', {
             url: '/trip',
             templateUrl: require('./content/trip/tripOverview.tpl.html').name,
-            data : {
+            data: {
                 pageTitle: 'Trip Overview',
                 transitionSelectorClass: 'content'
             }
@@ -44,7 +44,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         .state('content.allStepsOfTrip', {
             url: '/trip/:tripId',
             templateUrl: require('./content/stepOverview/stepOverview.tpl.html').name,
-            data : {
+            data: {
                 transitionSelectorClass: 'content'
             },
             controller: require('./content/stepOverview/stepOverview.controller'),
@@ -53,7 +53,7 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         .state('content.stepOfTrip', {
             url: '/trip/:tripId/step/:stepId',
             templateUrl: require('./content/stepDetail/stepDetail.tpl.html').name,
-            data : {
+            data: {
                 pageTitle: 'Step',
                 transitionSelectorClass: 'content'
             },
@@ -62,9 +62,21 @@ triplogApp.config(function($stateProvider, $urlRouterProvider) {
         });
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams',
-    function ($rootScope, $state, $stateParams) {
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
-    }
-]);
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', function ($rootScope, $state, $stateParams, $window) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+
+    $rootScope.isOnline = $window.navigator.onLine;
+
+    $window.addEventListener('offline', function () {
+        $rootScope.$apply(function () {
+            $rootScope.isOnline = false;
+        });
+    }, false);
+
+    $window.addEventListener('online', function () {
+        $rootScope.$apply(function () {
+            $rootScope.isOnline = true;
+        });
+    }, false);
+}]);

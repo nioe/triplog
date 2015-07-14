@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function TripResource($resource, REST_URL_PREFIX) {
+function TripsResource($resource, REST_URL_PREFIX) {
 
     return $resource(REST_URL_PREFIX + '/trips/:tripId', {
         tripId: '@id'
@@ -10,4 +10,4 @@ function TripResource($resource, REST_URL_PREFIX) {
     });
 }
 
-module.exports = TripResource;
+module.exports = TripsResource;
