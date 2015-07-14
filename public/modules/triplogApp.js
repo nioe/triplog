@@ -9,7 +9,8 @@ var triplogApp = angular.module('triplogApp', [
     require('./content/content.module').name,
     require('./content/trip/trip.module').name,
     require('./content/stepOverview/stepOverview.module').name,
-    require('./content/stepDetail/stepDetail.module').name
+    require('./content/stepDetail/stepDetail.module').name,
+    require('./resource/trips/tripsResource.module').name
 ]);
 
 triplogApp.config(function ($stateProvider, $urlRouterProvider) {
@@ -31,7 +32,12 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider) {
             abstract: true,
             templateUrl: require('./content/content.tpl.html').name,
             controller: require('./content/content.controller'),
-            controllerAs: 'content'
+            controllerAs: 'content',
+            resolve: {
+                trips: function (TripsService) {
+                    return TripsService.getAllTrips();
+                }
+            }
         })
         .state('content.allTrips', {
             url: '/trip',

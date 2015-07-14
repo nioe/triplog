@@ -4,12 +4,6 @@
 function TripsService($rootScope, $q, TripsResource, localStorageService, STORAGE_KEYS) {
 
     function getAllTrips() {
-        console.log('online', $rootScope.isOnline);
-        console.log('$q', $q);
-        console.log('TripsResource', TripsResource);
-        console.log('localStorageService', localStorageService);
-        console.log('STORAGE_KEYS', STORAGE_KEYS);
-
         if ($rootScope.isOnline) {
             return TripsResource.query().$promise.then(function (tripData) {
                 localStorageService.set(STORAGE_KEYS.ALL_TRIPS, tripData);

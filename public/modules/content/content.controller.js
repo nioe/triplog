@@ -1,21 +1,17 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, TripsService) {
+function ContentController($rootScope, $state, $window, ENV, trips) {
 
-    var vm = this,
-        trips;
+    var vm = this;
     vm.navBarEntries = [];
     vm.environment = ENV;
 
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
-    TripsService.getAllTrips().then(function (tripData) {
-        trips = tripData;
-        createTripOverviewNavBarEntry();
-        createStepOverviewNavBarEntry();
-    });
+    createTripOverviewNavBarEntry();
+    createStepOverviewNavBarEntry();
 
     // React on state changes
     $rootScope.$on('$stateChangeStart', stateChangeStart);
@@ -30,13 +26,13 @@ function ContentController($rootScope, $state, $window, ENV, TripsService) {
         }
     };
 
-    vm.closeNavigation = function() {
+    vm.closeNavigation = function () {
         if (vm.navigationIsShown) {
             vm.navigationIsShown = false;
         }
     };
 
-    vm.openNavigation = function() {
+    vm.openNavigation = function () {
         if (!vm.navigationIsShown) {
             vm.navigationIsShown = true;
         }
