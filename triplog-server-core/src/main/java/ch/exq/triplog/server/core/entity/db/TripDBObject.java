@@ -25,6 +25,7 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
     public static final String TRIP_DATE = "tripDate";
     public static final String TRIP_LEAD = "tripLead";
     public static final String TRIP_TEXT = "tripText";
+    public static final String COVER_PICTURE = "coverPicture";
 
 
     public static TripDBObject from(DBObject dbObject) {
@@ -73,6 +74,14 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
 
     public void setTripText(String tripDescription) {
         put(TRIP_TEXT, tripDescription);
+    }
+
+    public String getCoverPicture() {
+        return getString(COVER_PICTURE);
+    }
+
+    public void setCoverPicture(String coverPicture) {
+        put(COVER_PICTURE, coverPicture);
     }
 
     @Override

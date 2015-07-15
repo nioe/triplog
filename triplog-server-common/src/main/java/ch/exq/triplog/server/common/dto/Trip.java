@@ -35,6 +35,9 @@ public class Trip {
     private String tripText;
 
     @XmlElement
+    private String coverPicture;
+
+    @XmlElement
     private List<Step> steps;
 
     public Trip() {
@@ -85,6 +88,14 @@ public class Trip {
 
     public void setTripText(String tripText) {
         this.tripText = tripText;
+    }
+
+    public String getCoverPicture() {
+        return coverPicture;
+    }
+
+    public void setCoverPicture(String coverPicture) {
+        this.coverPicture = coverPicture;
     }
 
     public List<Step> getSteps() {

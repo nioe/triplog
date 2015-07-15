@@ -40,6 +40,7 @@ public class TripToDBObjectMapTest {
         assertThat(actual.getTripDate()).isNull();
         assertThat(actual.getTripLead()).isNull();
         assertThat(actual.getTripText()).isNull();
+        assertThat(actual.getCoverPicture()).isNull();
     }
 
     @Test
@@ -55,6 +56,7 @@ public class TripToDBObjectMapTest {
         assertThat(actual.getTripDate()).isNull();
         assertThat(actual.getTripLead()).isNull();
         assertThat(actual.getTripText()).isNull();
+        assertThat(actual.getCoverPicture()).isNull();
     }
 
     @Test
@@ -70,6 +72,7 @@ public class TripToDBObjectMapTest {
         assertThat(actual.getTripDate()).isEqualTo(tripDate);
         assertThat(actual.getTripLead()).isNull();
         assertThat(actual.getTripText()).isNull();
+        assertThat(actual.getCoverPicture()).isNull();
     }
 
     @Test
@@ -85,6 +88,7 @@ public class TripToDBObjectMapTest {
         assertThat(actual.getTripDate()).isNull();
         assertThat(actual.getTripLead()).isEqualTo(tripLead);
         assertThat(actual.getTripText()).isNull();
+        assertThat(actual.getCoverPicture()).isNull();
     }
 
     @Test
@@ -100,6 +104,23 @@ public class TripToDBObjectMapTest {
         assertThat(actual.getTripDate()).isNull();
         assertThat(actual.getTripLead()).isNull();
         assertThat(actual.getTripText()).isEqualTo(tripText);
+        assertThat(actual.getCoverPicture()).isNull();
+    }
+
+    @Test
+    public void should_map_cover_picture() {
+        String coverPicture = "/url/to/coverPicture.jpg";
+        Trip trip = new Trip();
+        trip.setCoverPicture(coverPicture);
+
+        TripDBObject actual = mapper.map(trip, TripDBObject.class);
+
+        assertThat(actual.getTripId()).isNull();
+        assertThat(actual.getTripName()).isNull();
+        assertThat(actual.getTripDate()).isNull();
+        assertThat(actual.getTripLead()).isNull();
+        assertThat(actual.getTripText()).isNull();
+        assertThat(actual.getCoverPicture()).isEqualTo(coverPicture);
     }
 
     @Test

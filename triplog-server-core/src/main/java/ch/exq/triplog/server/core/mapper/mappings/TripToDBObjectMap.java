@@ -17,5 +17,6 @@ public class TripToDBObjectMap extends PropertyMap<Trip, TripDBObject> {
         map().setTripDate(source.getTripDate());
         map().setTripLead(source.getTripLead());
         map().setTripText(source.getTripText());
+        map().setCoverPicture(source.getCoverPicture());
     }
 }
