@@ -65,3 +65,11 @@
     @include transform(translateX(-80%));
   }
 }
+
+// This is needed for ng-animate to know how long a leaving node needs to stay
+@include keyframes(doNothing) {
+  from {
+  }
+  to {
+  }
+}

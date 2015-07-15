@@ -2,6 +2,7 @@
 [ui-view].page-container.ng-enter, [ui-view].page-container.ng-leave {
   position: absolute;
   width: 100%;
+  top: 0;
 }
 
 //Transitions
@@ -9,15 +10,14 @@
 // Welcome -> Content
 [ui-view].page-container.welcome.ng-leave {
   @include animation(moveToTop .6s ease both);
-}
-[ui-view].page-container.content.ng-enter {
-  @include animation(moveFromBottom .6s ease both);
+  z-index: 5;
 }
 
 // Content -> Welcome
 [ui-view].page-container.content.ng-leave {
-  @include animation(moveToBottom .6s ease both);
+  @include animation(doNothing .6s);
 }
 [ui-view].page-container.welcome.ng-enter {
   @include animation(moveFromTop .6s ease both);
+  z-index: 5;
 }
