@@ -28,20 +28,18 @@
   border-color: $bgHighlight;
 
   .navbar-brand {
-    color: $colDefault;
-    font-size: 20px;
+    color: #fff;
+    font-size: 28px;
     line-height: 50px;
     height: 50px;
     padding: 0 15px;
 
     .logo {
-      vertical-align: middle;
-      font-size: 2em;
+      font-size: 1.4em;
+      position: relative;
+      top: 6px;
     }
-
-    .text {
-      vertical-align: middle;
-    }
+  }
 
     &:hover, &:focus {
       color: $colHighlight;
