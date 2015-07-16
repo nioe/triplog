@@ -17,8 +17,6 @@
     display: table;
     background: none;
 
-    z-index: 1;
-
     .text-cell {
       display: table-cell;
       text-align: center;
@@ -65,7 +63,6 @@
     width: 100%;
     text-align: center;
     bottom: 30px;
-    z-index: 1;
 
     @media (min-width: $screen-md-min) {
       bottom: 100px;

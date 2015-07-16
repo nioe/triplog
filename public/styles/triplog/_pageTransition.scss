@@ -5,19 +5,22 @@
   top: 0;
 }
 
+[ui-view].page-container.welcome {
+  z-index: 5;
+}
+
 //Transitions
 
 // Welcome -> Content
 [ui-view].page-container.welcome.ng-leave {
   @include animation(moveToTop .6s ease both);
-  z-index: 5;
 }
 
 // Content -> Welcome
 [ui-view].page-container.content.ng-leave {
-  @include animation(doNothing .6s);
+  @include animation(doNothing .6s ease both);
 }
+
 [ui-view].page-container.welcome.ng-enter {
   @include animation(moveFromTop .6s ease both);
-  z-index: 5;
 }
