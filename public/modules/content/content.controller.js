@@ -6,6 +6,7 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
     var vm = this;
     vm.navBarEntries = [];
     vm.environment = ENV;
+    vm.trips = trips;
 
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
@@ -59,7 +60,7 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
     }
 
     function createTripOverviewNavBarEntry() {
-        sortByPropertyDescending(trips, 'tripId');
+        sortByPropertyDescending(vm.trips, 'tripId');
 
         var entries = [
             {
@@ -76,7 +77,7 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
             }
         ];
 
-        trips.forEach(function (trip) {
+        vm.trips.forEach(function (trip) {
             if (trip.steps && trip.steps.length > 0) {
                 entries.push({
                     id: trip.tripId,
@@ -123,7 +124,7 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
                 steps;
 
             if (tripIndex >= 0) {
-                steps = trips[tripIndex].steps;
+                steps = vm.trips[tripIndex].steps;
 
                 sortByPropertyDescending(steps, 'fromDate');
 
@@ -143,7 +144,7 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
 
                 vm.navBarEntries.push({
                     id: tripId,
-                    name: trips[tripIndex].tripName,
+                    name: vm.trips[tripIndex].tripName,
                     icon: 'trip',
                     entries: entries
                 });
@@ -172,8 +173,8 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
     }
 
     function indexOfTripWithId(tripId) {
-        for (var i = 0; i < trips.length; i++) {
-            if (trips[i].tripId === tripId) {
+        for (var i = 0; i < vm.trips.length; i++) {
+            if (vm.trips[i].tripId === tripId) {
                 return i;
             }
         }

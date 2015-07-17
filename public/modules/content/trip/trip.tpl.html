@@ -1,0 +1,6 @@
+<article class="trip-preview" style="background-image: url('{{ data.coverPicture }}')" ui-sref="content.allStepsOfTrip({tripId: '{{ data.tripId }}'})">
+    <div class="trip-content">
+        <h2>{{ data.tripName }} {{ data.tripDate | date : 'yyyy' }}</h2>
+        <p>{{ data.tripLead }}</p>
+    </div>
+</article>
