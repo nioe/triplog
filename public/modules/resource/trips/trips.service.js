@@ -21,8 +21,23 @@ function TripsService($rootScope, $q, TripsResource, localStorageService, STORAG
         }
     }
 
+    function getTripById(tripId) {
+        return getAllTrips().then(function (allTrips) {
+            var tripsWithGivenId = allTrips.filter(function (trip) {
+                return trip.tripId === tripId;
+            });
+
+            if (tripsWithGivenId.length > 0) {
+                return tripsWithGivenId[0];
+            } else {
+                return {};
+            }
+        });
+    }
+
     return {
-        getAllTrips: getAllTrips
+        getAllTrips: getAllTrips,
+        getTripById: getTripById
     };
 }
 

@@ -1,11 +1,11 @@
 'use strict';
 
 // @ngInject
-function StepOverviewController($state, $stateParams) {
+function StepOverviewController($state, trip) {
     var vm = this;
+    vm.trip = trip;
 
-    vm.tripId = $stateParams.tripId;
-    $state.current.data.pageTitle = 'Trip ' + $stateParams.tripId;
+    $state.current.data.pageTitle = vm.trip.tripName;
 }
 
 module.exports = StepOverviewController;

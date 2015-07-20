@@ -1,6 +1,10 @@
-<article class="trip-preview" style="background-image: url('{{ data.coverPicture }}')" ui-sref="content.allStepsOfTrip({tripId: '{{ data.tripId }}'})">
-    <div class="trip-content">
+<article class="col-xs-12 trip-preview"
+         ui-sref="content.stepOverview({tripId: '{{ data.tripId }}'})">
+
+    <div class="cover-picture" style="background-image: url('{{ data.coverPicture }}')"></div>
+    <div class="trip-description">
         <h2>{{ data.tripName }} {{ data.tripDate | date : 'yyyy' }}</h2>
-        <p>{{ data.tripLead }}</p>
+
+        <p class="lead">{{ data.tripLead }}</p>
     </div>
 </article>

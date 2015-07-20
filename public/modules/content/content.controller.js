@@ -84,10 +84,10 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
                     name: trip.tripName,
                     icon: 'trip',
                     action: function () {
-                        $state.go('content.allStepsOfTrip', {tripId: trip.tripId});
+                        $state.go('content.stepOverview', {tripId: trip.tripId});
                     },
                     active: function () {
-                        return ['content.allStepsOfTrip', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
+                        return ['content.stepOverview', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
                             $state.params.tripId === trip.tripId;
                     }
                 });
@@ -104,7 +104,7 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
 
 
     function createStepOverviewNavBarEntry() {
-        if (['content.allStepsOfTrip', 'content.stepOfTrip'].indexOf($state.current.name) !== -1) {
+        if (['content.stepOverview', 'content.stepOfTrip'].indexOf($state.current.name) !== -1) {
             var tripId = $state.params.tripId,
                 entries = [
                     {
@@ -112,11 +112,11 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
                         name: 'Overview',
                         icon: 'step-overview',
                         action: function () {
-                            $state.go('content.allStepsOfTrip', {tripId: tripId});
+                            $state.go('content.stepOverview', {tripId: tripId});
                         },
                         divider: true,
                         active: function () {
-                            return $state.current.name === 'content.allStepsOfTrip';
+                            return $state.current.name === 'content.stepOverview';
                         }
                     }
                 ],
