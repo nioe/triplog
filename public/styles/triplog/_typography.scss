@@ -28,6 +28,8 @@ body {
         @include column-count(3);
         @include column-gap(40px);
         @include column-rule(1px solid $font-color);
+        widows: 5;
+        orphans: 5;
       }
     }
   }
