@@ -1,12 +1,17 @@
 'use strict';
 
 // @ngInject
-function LoginController() {
+function LoginController(LoginService, $state) {
     var vm = this;
 
+    vm.loginError = false;
+
     vm.login = function () {
-        console.log('Username', vm.username);
-        console.log('Password', vm.password);
+        LoginService.login(vm.username, vm.password).then(function () {
+            $state.go('content.allTrips');
+        }, function () {
+            vm.loginError = true;
+        });
     };
 }
 

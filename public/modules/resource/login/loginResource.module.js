@@ -1,7 +1,6 @@
 'use strict';
 
-module.exports = angular.module('trips-resource', [
-    'ngResource',
+module.exports = angular.module('loginResource', [
     'LocalStorageModule',
     require('../../config/config.module').name
 ]);
@@ -13,9 +12,8 @@ module.exports.config(function (localStorageServiceProvider) {
         .setStorageCookieDomain('bros.pics');
 });
 
-module.exports.factory('TripsService', require('./trips.service'));
-module.exports.factory('TripsResource', require('./trips.resource'));
+module.exports.factory('LoginService', require('./login.service'));
 
 module.exports.constant('STORAGE_KEYS', {
-    ALL_TRIPS: 'all-trips'
+    LOGGED_IN_BEFORE: 'loggedInBefore'
 });
