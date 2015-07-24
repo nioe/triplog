@@ -30,6 +30,8 @@ module.exports = function (grunt) {
                         expand: true, flatten: true, src: 'public/styles/img/*', dest: 'dist/img'
                     }, {
                         expand: true, flatten: true, src: 'public/fonts/text/*', dest: 'dist/fonts/text'
+                    }, {
+                        src: 'public/favicon.ico', dest: 'dist/favicon.ico'
                     }
                 ]
             },
