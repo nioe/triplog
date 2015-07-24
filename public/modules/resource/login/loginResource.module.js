@@ -15,5 +15,6 @@ module.exports.config(function (localStorageServiceProvider) {
 module.exports.factory('LoginService', require('./login.service'));
 
 module.exports.constant('STORAGE_KEYS', {
+    AUTH_TOKEN: 'xAuthToken',
     LOGGED_IN_BEFORE: 'loggedInBefore'
 });

@@ -5,13 +5,32 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
 
     function login(username, password) {
         if ($rootScope.isOnline) {
-            return callLoginService(username, password).then(function (token) {
+            return callLoginService(username, password).then(function (response) {
                 localStorageService.set(STORAGE_KEYS.LOGGED_IN_BEFORE, username);
-                return token;
+                localStorageService.set(STORAGE_KEYS.AUTH_TOKEN, response.data);
+
+                $http.defaults.headers.common['X-AUTH-TOKEN'] = response.data.id;
+
+                console.log('Default Headers', $http.defaults.headers);
+
+                $rootScope.loggedIn = true;
+
+                return response;
             });
         } else {
             return checkLocalStorageIfUserHasBeenLoggedInBefore();
         }
+    }
+
+    function logout() {
+        return $http({
+            method: 'POST',
+            url: REST_URL_PREFIX + '/logout'
+        }).then(resetLoggedInStatus, function(response) {
+            if (response.status === 401) {
+                resetLoggedInStatus();
+            }
+        });
     }
 
     function callLoginService(username, password) {
@@ -38,8 +57,15 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
         });
     }
 
+    function resetLoggedInStatus() {
+        localStorageService.remove(STORAGE_KEYS.AUTH_TOKEN);
+        $http.defaults.headers.common['X-AUTH-TOKEN'] = undefined;
+        $rootScope.loggedIn = false;
+    }
+
     return {
-        login: login
+        login: login,
+        logout: logout
     };
 }
 

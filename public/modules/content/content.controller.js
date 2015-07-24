@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, trips) {
+function ContentController($rootScope, $state, $window, ENV, trips, LoginService) {
 
     var vm = this;
     vm.navBarEntries = [];
@@ -37,6 +37,10 @@ function ContentController($rootScope, $state, $window, ENV, trips) {
         if (!vm.navigationIsShown) {
             vm.navigationIsShown = true;
         }
+    };
+
+    vm.logout = function () {
+        LoginService.logout();
     };
 
     //************************************** Private Functions **************************************

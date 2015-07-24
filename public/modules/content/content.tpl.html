@@ -52,6 +52,15 @@
                     </ul>
                 </li>
             </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-if="!loggedIn">
+                    <a ui-sref="content.login"><span class="icon-login"></span> Login</a>
+                </li>
+                <li ng-if="loggedIn">
+                    <a href ng-click="content.logout()"><span class="icon-login"></span> Logout</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
