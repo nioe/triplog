@@ -1,5 +1,9 @@
 package ch.exq.triplog.server.common.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
 /**
@@ -7,37 +11,43 @@ import java.math.BigDecimal;
  * Date: 30.05.15
  * Time: 15:37
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GpsPoint {
-    private BigDecimal latitude;
-    private BigDecimal longitude;
+
+    @XmlElement(required = true)
+    private BigDecimal lat;
+
+    @XmlElement(required = true)
+    private BigDecimal lng;
 
     public GpsPoint() {
     }
 
     public GpsPoint(BigDecimal latitude, BigDecimal longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.lat = latitude;
+        this.lng = longitude;
     }
 
     public GpsPoint(String latitude, String longitude) {
-        this.latitude = new BigDecimal(latitude);
-        this.longitude = new BigDecimal(longitude);
+        this.lat = new BigDecimal(latitude);
+        this.lng = new BigDecimal(longitude);
     }
 
     public BigDecimal getLatitude() {
-        return latitude;
+        return lat;
     }
 
     public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
+        this.lat = latitude;
     }
 
     public BigDecimal getLongitude() {
-        return longitude;
+        return lng;
     }
 
     public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
+        this.lng = longitude;
     }
 
     @Override
@@ -47,15 +57,15 @@ public class GpsPoint {
 
         GpsPoint gpsPoint = (GpsPoint) o;
 
-        if (latitude != null ? !latitude.equals(gpsPoint.latitude) : gpsPoint.latitude != null) return false;
-        return !(longitude != null ? !longitude.equals(gpsPoint.longitude) : gpsPoint.longitude != null);
+        if (lat != null ? !lat.equals(gpsPoint.lat) : gpsPoint.lat != null) return false;
+        return !(lng != null ? !lng.equals(gpsPoint.lng) : gpsPoint.lng != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = latitude != null ? latitude.hashCode() : 0;
-        result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
+        int result = lat != null ? lat.hashCode() : 0;
+        result = 31 * result + (lng != null ? lng.hashCode() : 0);
         return result;
     }
 }
