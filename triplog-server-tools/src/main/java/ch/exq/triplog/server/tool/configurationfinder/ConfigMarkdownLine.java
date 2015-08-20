@@ -1,8 +1,8 @@
-package ch.exq.triplog.server.util.configurationfinder;
+package ch.exq.triplog.server.tool.configurationfinder;
 
 import ch.exq.triplog.server.util.config.Config;
 
-import static ch.exq.triplog.server.util.configurationfinder.ConfigMarkdown.*;
+import static ch.exq.triplog.server.tool.configurationfinder.ConfigMarkdown.*;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>

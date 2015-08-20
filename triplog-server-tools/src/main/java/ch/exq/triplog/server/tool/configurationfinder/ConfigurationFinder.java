@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.util.configurationfinder;
+package ch.exq.triplog.server.tool.configurationfinder;
 
 import ch.exq.triplog.server.util.config.Config;
 import org.reflections.Reflections;
