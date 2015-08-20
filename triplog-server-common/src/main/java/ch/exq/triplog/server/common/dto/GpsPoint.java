@@ -68,4 +68,12 @@ public class GpsPoint {
         result = 31 * result + (lng != null ? lng.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "GpsPoint{" +
+                "lat=" + lat +
+                ", lng=" + lng +
+                '}';
+    }
 }
