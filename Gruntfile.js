@@ -176,7 +176,7 @@ module.exports = function (grunt) {
             generate: {
                 options: {
                     basePath: 'dist',
-                    network: [config.REST_URL_PREFIX],
+                    network: ['*'],
                     preferOnline: false,
                     verbose: true,
                     timestamp: true,
@@ -184,7 +184,7 @@ module.exports = function (grunt) {
                     master: ['index.html'],
                 },
                 src: [
-                    'css/*','fonts/icons/*', 'fonts/text/*', 'img/*', 'js/*'
+                    'css/all.css', 'css/images/*', 'fonts/icons/*', 'fonts/text/*', 'img/*', 'js/*'
                 ],
                 dest: 'dist/manifest.appcache'
             }
