@@ -1,3 +1,7 @@
-.triplog-map {
+.triplog-map-container {
   height: 400px;
+
+  .triplog-map {
+    height: 100%;
+  }
 }
