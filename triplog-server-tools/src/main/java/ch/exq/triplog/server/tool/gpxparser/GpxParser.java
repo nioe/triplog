@@ -26,7 +26,7 @@ public class GpxParser {
 
     public static final String GPX_PACKAGE = "ch.exq.triplog.server.tool.gpxparser.gpx";
 
-    public static void main(String[] args) throws JAXBException, IOException {
+    public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("Please provide path to GPX file as first argument!");
             System.exit(1);
@@ -34,11 +34,33 @@ public class GpxParser {
 
         File gpxFile = new File(args[0]);
 
-        JAXBContext jc = JAXBContext.newInstance(GPX_PACKAGE);
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
+        if (!gpxFile.exists()) {
+            System.err.println("GPX File " + gpxFile.getAbsolutePath() + " could not be found!");
+            System.exit(2);
+        }
 
-        GpxType root = ((JAXBElement<GpxType>) unmarshaller.unmarshal(gpxFile)).getValue();
+        System.out.println("Converting " + gpxFile.getAbsolutePath() + " to JSON...");
 
+        GpxType root = getGpxRootNode(gpxFile);
+        List<GpsPoint> gpsPoints = getGpsPoints(root);
+        createJsonFile(gpxFile, gpsPoints);
+    }
+
+
+    private static GpxType getGpxRootNode(File gpxFile) {
+        GpxType root = null;
+        try {
+            JAXBContext jc = JAXBContext.newInstance(GPX_PACKAGE);
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
+            root = ((JAXBElement<GpxType>) unmarshaller.unmarshal(gpxFile)).getValue();
+        } catch (JAXBException e) {
+            System.err.println("Could not parse GPX file. Error: " + e.getMessage());
+            System.exit(3);
+        }
+
+        return root;
+    }
+    private static List<GpsPoint> getGpsPoints(GpxType root) {
         List<GpsPoint> gpsPoints = new ArrayList<>();
         for (TrkType trk : root.getTrk()) {
             for (TrksegType trkseg : trk.getTrkseg()) {
@@ -46,12 +68,24 @@ public class GpxParser {
             }
         }
 
+        System.out.println("Parsed " + gpsPoints.size() + " GPS points.");
+
+        return gpsPoints;
+    }
+
+    private static void createJsonFile(File gpxFile, List<GpsPoint> gpsPoints) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JaxbAnnotationModule());
 
         String jsonFileName = gpxFile.getParent() + File.separator + gpxFile.getName().substring(0, gpxFile.getName().lastIndexOf(".")) + ".json";
-        System.out.println(jsonFileName);
 
-        mapper.writeValue(new File(jsonFileName), gpsPoints);
+        try {
+            mapper.writeValue(new File(jsonFileName), gpsPoints);
+        } catch (IOException e) {
+            System.err.println("Could not create JSON file. Error: " + e.getMessage());
+            System.exit(4);
+        }
+
+        System.out.println("Successfully created JSON file: " + jsonFileName);
     }
 }
