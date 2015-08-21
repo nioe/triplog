@@ -1,6 +1,7 @@
 // Vendor
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
 @import "bourbon/app/assets/stylesheets/bourbon";
+@import "vendor/mapbox";
 
 // Triplog
 @import "triplog/variables";
@@ -15,3 +16,4 @@
 @import "triplog/contentPage";
 @import "triplog/tripOverview";
 @import "triplog/gallery";
+@import "triplog/map";

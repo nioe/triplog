@@ -20,18 +20,31 @@ module.exports = function (grunt) {
             dist: {
                 files: [
                     {
-                        src: 'public/index.html', dest: 'dist/index.html'
+                        src: 'public/index.html',
+                        dest: 'dist/index.html'
                     }, {
                         expand: true,
                         flatten: true,
                         src: 'public/fonts/icons/triplog.*',
                         dest: 'dist/fonts/icons'
                     }, {
-                        expand: true, flatten: true, src: 'public/styles/img/*', dest: 'dist/img'
+                        expand: true,
+                        flatten: true,
+                        src: 'public/styles/img/*',
+                        dest: 'dist/img'
                     }, {
-                        expand: true, flatten: true, src: 'public/fonts/text/*', dest: 'dist/fonts/text'
+                        expand: true,
+                        flatten: true,
+                        src: 'public/fonts/text/*',
+                        dest: 'dist/fonts/text'
                     }, {
-                        src: 'public/favicon.ico', dest: 'dist/favicon.ico'
+                        src: 'public/favicon.ico',
+                        dest: 'dist/favicon.ico'
+                    }, {
+                        expand: true,
+                        cwd: 'public/bower_components/mapbox.js/images/',
+                        src: ['*.svg', '*.png'],
+                        dest: 'dist/css/images'
                     }
                 ]
             },
@@ -48,6 +61,15 @@ module.exports = function (grunt) {
                 src: '**/*',
                 dest: 'dist/public/styles',
                 expand: true
+            },
+
+            css2sassHack: {
+                files: [
+                    {
+                        src: 'public/bower_components/mapbox.js/mapbox.uncompressed.css',
+                        dest: 'public/styles/vendor/_mapbox.scss'
+                    }
+                ]
             }
         },
 
@@ -255,10 +277,10 @@ module.exports = function (grunt) {
     });
 
     var target = grunt.option('prod') ? 'prod' : 'dev';
-    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'sass:dist', 'manifest', 'karma', 'clean:temp']);
+    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'copy:css2sassHack', 'sass:dist', 'manifest', 'karma', 'clean:temp']);
     grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
-    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty']);
+    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'copy:css2sassHack', 'sass:pretty']);
     grunt.registerTask('live', ['dist-pretty', 'concurrent:dev', 'karma']);
 
     grunt.registerTask('default', ['live']);

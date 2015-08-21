@@ -16,6 +16,7 @@ dist/
 bower_components/
 .sass-cache/
 _SpecRunner.html
+public/styles/vendor
 
 # Karma
 test-results.xml

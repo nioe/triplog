@@ -33,6 +33,7 @@
         "beforeEach": false,
         "afterEach": false,
         "spyOn": false,
-        "inject": false
+        "inject": false,
+        "L": false
     }
 }

@@ -3,7 +3,7 @@
 // @ngInject
 function StepDetailController() {
     var vm = this;
-    
+
     vm.pictures = [
         'http://www.china-tour.cn/images/China_Pictures/Chinese_Mountains/Wuyi_Mountain.jpg',
         'https://sandiego.ncsy.org/files/2013/10/mountain-04.jpg',
@@ -14,6 +14,8 @@ function StepDetailController() {
         'http://zermatt.com/wp-content/uploads/2014/03/Peak_of_the_Matterhorn_seen_from_Zermatt_Switzerland.jpg',
         'http://webneel.com/wallpaper/sites/default/files/images/04-2013/redy-mountain-wallpaper.jpg'
     ];
+
+    vm.gpsPoints = require('./dummyGpsPoints.json');
 }
 
 module.exports = StepDetailController;
