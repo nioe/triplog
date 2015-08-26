@@ -7,23 +7,27 @@ div.triplog-gallery {
   @include justify-content(center);
   @include flex-wrap(wrap);
 
-  > div {
+  div.gallery-picture {
+    @extend .paper-effect;
+    position: relative;
     width: 200px;
     height: 240px;
     cursor: pointer;
+    padding: 10px 10px 50px;
 
     @media (min-width: 350px) {
       width: 270px;
       height: 310px;
     }
 
-    border: 10px solid $polaroidColor;
-    border-bottom-width: 50px;
-    box-shadow: -2px 2px 15px black;
     transition: 0.2s ease;
 
-    background: no-repeat center;
-    background-size: cover;
+    > div {
+      position: relative;
+      height: 100%;
+      background: no-repeat center;
+      background-size: cover;
+    }
   }
 
   > div:nth-child(7n+1) {

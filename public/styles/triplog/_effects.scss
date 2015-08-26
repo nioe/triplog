@@ -1,25 +1,4 @@
 .paper-effect {
-  padding: 20px;
-  margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
-}
-
-.paper-effect:before, .paper-effect:after {
-  position: absolute;
-  width: 40%;
-  height: 10px;
-  content: ' ';
-  left: 12px;
-  bottom: 12px;
-  background: transparent;
-  transform: skew(-5deg) rotate(-5deg);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  z-index: -1;
-}
-
-.paper-effect:after {
-  left: auto;
-  right: 12px;
-  transform: skew(5deg) rotate(5deg);
 }
