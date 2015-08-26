@@ -99,7 +99,8 @@ module.exports = function (grunt) {
             options: {
                 name: 'config',
                 dest: 'public/modules/config/config.module.js',
-                wrap: '\'use strict\';\n\nmodule.exports = {%= __ngModule %}'
+                wrap: '\'use strict\';\n\nmodule.exports = {%= __ngModule %}',
+                constants: require('./config/default.json')
             },
             local: {
                 constants: require('./config/local.json')

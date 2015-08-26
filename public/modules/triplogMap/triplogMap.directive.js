@@ -1,6 +1,7 @@
 'use strict';
 
-function TriplogMapDirective() {
+// @ngInject
+function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
     function calcDistance(latlngs) {
         var coveredDistance = 0;
         for (var i = 1; i < latlngs.length; i++) {
@@ -31,7 +32,7 @@ function TriplogMapDirective() {
             gpsPoints: '='
         },
         link: function (scope, element) {
-            L.mapbox.accessToken = 'pk.eyJ1IjoibmVvemVyb29uZSIsImEiOiI5YjRmODE4YzM2OGNhOTNhYmE5NjQwYTkwMzlhYzQ2NyJ9.RdoIup-zRJ-ve3e0cWwiKw';
+            L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
             var map = L.mapbox.map(element[0], 'mapbox.outdoors');
 
             var polyline = L.polyline(scope.gpsPoints, {color: 'red'}).addTo(map);
