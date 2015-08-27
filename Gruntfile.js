@@ -28,9 +28,9 @@ module.exports = function (grunt) {
                         src: 'public/fonts/icons/triplog.*',
                         dest: 'dist/fonts/icons'
                     }, {
+                        cwd: 'public/styles/img',
                         expand: true,
-                        flatten: true,
-                        src: 'public/styles/img/*',
+                        src: '**/**',
                         dest: 'dist/img'
                     }, {
                         expand: true,
