@@ -185,7 +185,7 @@ module.exports = function (grunt) {
                     master: ['index.html'],
                 },
                 src: [
-                    'css/all.css', 'css/images/*', 'fonts/icons/*', 'fonts/text/*', 'img/*', 'js/*'
+                    'css/all.css', 'css/images/*', 'fonts/icons/*', 'fonts/text/*', 'img/wallpapers/*', 'js/*'
                 ],
                 dest: 'dist/manifest.appcache'
             }
