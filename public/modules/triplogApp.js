@@ -5,6 +5,7 @@ var triplogApp = angular.module('triplogApp', [
     'ui.bootstrap',
     'ngAnimate',
     'ngTouch',
+    'LocalStorageModule',
     require('./welcome/welcome.module').name,
     require('./content/content.module').name,
     require('./resource/trips/tripsResource.module').name
@@ -12,8 +13,17 @@ var triplogApp = angular.module('triplogApp', [
 
 triplogApp.config(function ($stateProvider, $urlRouterProvider) {
 
-    // For any unmatched url, redirect to /welcome
-    $urlRouterProvider.otherwise('/welcome');
+    $urlRouterProvider.otherwise(function($injector) {
+        var localStorageService = $injector.get('localStorageService'),
+            $state = $injector.get('$state'),
+            lastState = localStorageService.get('lastState');
+
+        if (lastState) {
+            $state.go(lastState.state.name, lastState.params);
+        } else {
+            $state.go('welcome');
+        }
+    });
 
     $stateProvider
         .state('welcome', {
@@ -77,7 +87,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider) {
         });
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', function ($rootScope, $state, $stateParams, $window) {
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', function ($rootScope, $state, $stateParams, $window, localStorageService) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
@@ -94,4 +104,11 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', function ($ro
             $rootScope.isOnline = true;
         });
     }, false);
+
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams) {
+        localStorageService.set('lastState', {
+            state: toState,
+            params: toParams
+        });
+    });
 }]);
