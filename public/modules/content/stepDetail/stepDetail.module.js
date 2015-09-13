@@ -1,11 +1,21 @@
 'use strict';
 
 module.exports = angular.module('stepDetail', [
+    'hc.marked',
     require('../../triplogGallery/triplogGallery.module').name,
     require('../../triplogMap/triplogMap.module').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./stepDetail.tpl.html').name
 ]);
+
+module.exports.config(['markedProvider', function(markedProvider) {
+    markedProvider.setRenderer({
+        heading: function(text, level) {
+            var subLevel = level + 1;
+            return '<h' + subLevel + '>' + text + '</h' + subLevel + '>';
+        }
+    });
+}]);
 
 module.exports.controller('StepDetailController', require('./stepDetail.controller'));

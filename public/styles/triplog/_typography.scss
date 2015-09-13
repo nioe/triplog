@@ -34,9 +34,23 @@ body {
     }
   }
 
-  p.lead {
+  div.lead {
     font-weight: 400;
     font-size: $font-size-base;
+  }
+
+  div.text {
+    h2, h3, h4, h5, h6 {
+      text-align: center;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+      padding: 5px 0px;
+    }
+
+    img {
+      width: 100%;
+      margin: 5px 0;
+    }
   }
 
   .navbar-default {
