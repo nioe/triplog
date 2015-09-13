@@ -34,12 +34,12 @@ body {
     }
   }
 
-  div.lead {
+  div.stepLead {
     font-weight: 400;
     font-size: $font-size-base;
   }
 
-  div.text {
+  div.stepText {
     h2, h3, h4, h5, h6 {
       text-align: center;
       border-top: 2px solid black;
