@@ -1,13 +1,13 @@
 'use strict';
 
 // @ngInject
-function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFIX, STORAGE_KEYS) {
+function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFIX, LOGIN_STORAGE_KEYS) {
 
     function login(username, password) {
         if ($rootScope.isOnline) {
             return callLoginService(username, password).then(function (response) {
-                localStorageService.set(STORAGE_KEYS.LOGGED_IN_BEFORE, username);
-                localStorageService.set(STORAGE_KEYS.AUTH_TOKEN, response.data);
+                localStorageService.set(LOGIN_STORAGE_KEYS.LOGGED_IN_BEFORE, username);
+                localStorageService.set(LOGIN_STORAGE_KEYS.AUTH_TOKEN, response.data);
 
                 $http.defaults.headers.common['X-AUTH-TOKEN'] = response.data.id;
 
@@ -47,7 +47,7 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
 
     function checkLocalStorageIfUserHasBeenLoggedInBefore(username) {
         $q(function (resolve, reject) {
-            if (localStorageService.get(STORAGE_KEYS.LOGGED_IN_BEFORE) === username) {
+            if (localStorageService.get(LOGIN_STORAGE_KEYS.LOGGED_IN_BEFORE) === username) {
                 resolve({
                     id: 'localToken'
                 });
@@ -58,7 +58,7 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
     }
 
     function resetLoggedInStatus() {
-        localStorageService.remove(STORAGE_KEYS.AUTH_TOKEN);
+        localStorageService.remove(LOGIN_STORAGE_KEYS.AUTH_TOKEN);
         $http.defaults.headers.common['X-AUTH-TOKEN'] = undefined;
         $rootScope.loggedIn = false;
     }
