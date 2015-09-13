@@ -14,6 +14,9 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
                 console.log('Default Headers', $http.defaults.headers);
 
                 $rootScope.loggedIn = true;
+                $rootScope.$broadcast('loginStateChanged', {
+                    loggedIn: true
+                });
 
                 return response;
             });
@@ -61,6 +64,10 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
         localStorageService.remove(LOGIN_STORAGE_KEYS.AUTH_TOKEN);
         $http.defaults.headers.common['X-AUTH-TOKEN'] = undefined;
         $rootScope.loggedIn = false;
+
+        $rootScope.$broadcast('loginStateChanged', {
+            loggedIn: false
+        });
     }
 
     return {

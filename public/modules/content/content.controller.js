@@ -4,19 +4,18 @@
 function ContentController($rootScope, $state, $window, ENV, trips, LoginService) {
 
     var vm = this;
-    vm.navBarEntries = [];
     vm.environment = ENV;
     vm.trips = trips;
 
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
-    createTripOverviewNavBarEntry();
-    createStepOverviewNavBarEntry();
+    reCreateNavigation();
 
     // React on state changes
     $rootScope.$on('$stateChangeStart', stateChangeStart);
     $rootScope.$on('$stateChangeSuccess', createStepOverviewNavBarEntry);
+    $rootScope.$on('loginStateChanged', reCreateNavigation);
 
     //************************************** Public Functions ***************************************
     vm.toggleNavigation = function () {
@@ -44,6 +43,12 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
     };
 
     //************************************** Private Functions **************************************
+    function reCreateNavigation() {
+        vm.navBarEntries = [];
+        createTripOverviewNavBarEntry();
+        createStepOverviewNavBarEntry();
+    }
+
     function stateChangeStart() {
         vm.closeNavigation();
         removeStepOverviewNavBarEntry();
@@ -98,6 +103,21 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
             }
         });
 
+        if ($rootScope.loggedIn) {
+            entries[entries.length - 1].divider = true;
+            entries.push({
+                id: 'addTrip',
+                name: 'Add trip',
+                icon: 'add',
+                action: function () {
+                    console.log('Not yet implemented... :(');
+                },
+                active: function () {
+                    return false; //TODO Implement function
+                }
+            });
+        }
+
         vm.navBarEntries.push({
             id: 'trips',
             name: 'Trips',
@@ -145,6 +165,21 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
                         }
                     });
                 });
+
+                if ($rootScope.loggedIn) {
+                    entries[entries.length - 1].divider = true;
+                    entries.push({
+                        id: 'addStep',
+                        name: 'Add step',
+                        icon: 'add',
+                        action: function () {
+                            console.log('Not yet implemented... :(');
+                        },
+                        active: function () {
+                            return false; //TODO Implement function
+                        }
+                    });
+                }
 
                 vm.navBarEntries.push({
                     id: tripId,
