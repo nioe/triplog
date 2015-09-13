@@ -1,14 +1,15 @@
 .content-container {
-  @include calc(height, "100% - #{$navbar-height}");
+  height: 100%;
+  padding-top: $navbar-height;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
   &.ios-status-bar-present {
     @media (max-width: $screen-xs-max) and (orientation: landscape) {
-      @include calc(height, "100% - #{$navbar-height}");
+      padding-top: $navbar-height;
     }
 
-    @include calc(height, "100% - #{$navbar-height} - #{$ios-status-bar-height}");
+    padding-top: $navbar-height + $ios-status-bar-height;
   }
 
   .ui-view-container {

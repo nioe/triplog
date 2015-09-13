@@ -16,9 +16,25 @@
   @include animation(moveToTop .6s ease both);
 }
 
+[ui-view].page-container.content.ng-enter {
+  @include animation(doNothing .6s ease both);
+
+  nav {
+    position: absolute;
+    top: 0;
+    z-index: -10
+  }
+}
+
 // Content -> Welcome
 [ui-view].page-container.content.ng-leave {
   @include animation(doNothing .6s ease both);
+
+  nav {
+    position: absolute;
+    top: 0;
+    z-index: -10;
+  }
 }
 
 [ui-view].page-container.welcome.ng-enter {

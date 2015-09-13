@@ -1,31 +1,24 @@
-@media (max-width: $screen-xs-max) and (orientation: landscape) {
-  .ios-title-bar {
-    display: none !important;
-  }
-}
-
-.ios-title-bar {
-  width: 100%;
-  height: $ios-status-bar-height;
-  background-color: $bgDefault;
-
-  @media (min-width: $screen-sm-min) {
-    &.navigation {
-      display: none;
-    }
-  }
-}
-
-.navbar {
-  position: inherit;
-  margin-bottom: 0;
-  border: none;
-  border-radius: 0;
-}
-
 .navbar-default {
   background-color: $bgDefault;
   border-color: $bgHighlight;
+  opacity: 0.95;
+
+  &.ios-status-bar {
+    padding-top: $ios-status-bar-height;
+
+    .navbar-collapse {
+      padding-top: $ios-status-bar-height;
+    }
+
+    @media (max-width: $screen-xs-max) and (orientation: landscape) {
+      // Do not display title bar on iPhone in landscape mode
+      padding-top: inherit;
+
+      .navbar-collapse {
+        padding-top: inherit;
+      }
+    }
+  }
 
   .navbar-brand {
     color: $colDefault;
@@ -48,6 +41,12 @@
     color: $colDefault;
   }
   .navbar-nav {
+    @media (min-width: $screen-sm-min) {
+      &.navbar-right {
+        margin-right: 0;
+      }
+    }
+
     > li {
       > a {
         color: $colDefault;
