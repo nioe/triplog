@@ -27,13 +27,13 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
     };
 
     vm.closeNavigation = function () {
-        if (vm.navigationIsShown) {
+        if (isDeviceWithSideNavigation() && vm.navigationIsShown) {
             vm.navigationIsShown = false;
         }
     };
 
     vm.openNavigation = function () {
-        if (!vm.navigationIsShown) {
+        if (isDeviceWithSideNavigation() && !vm.navigationIsShown) {
             vm.navigationIsShown = true;
         }
     };
@@ -219,6 +219,10 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
         }
 
         return -1;
+    }
+
+    function isDeviceWithSideNavigation() {
+        return $window.innerWidth < 768;
     }
 }
 

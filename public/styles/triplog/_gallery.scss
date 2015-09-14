@@ -59,7 +59,7 @@ div.triplog-gallery {
     @include transform(rotate(10deg));
   }
 
-  @media (min-width: $screen-md-min) {
+  @media (min-width: $screen-lg-min) {
     > div:hover {
       @include transform(rotate(0deg) scale(1.3));
       z-index: 1;
@@ -119,7 +119,7 @@ div.triplog-gallery {
       }
     }
 
-    @media (min-width: $screen-md-min) {
+    @media (min-width: $screen-lg-min) {
       .lightbox-navigation-button:hover {
         .lightbox-navigation-button-text {
           color: rgba(255, 255, 255, 1);
