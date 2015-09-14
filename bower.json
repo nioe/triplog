@@ -10,18 +10,16 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "angular-local-storage": "~0.2.2"
-  },
   "devDependencies": {
-    "angular": "1.3.16",
-    "angular-animate": "1.3.16",
-    "angular-bootstrap": "0.13.0",
-    "angular-bootstrap-lightbox": "0.6.1",
+    "angular": "1.4.5",
+    "angular-animate": "1.4.5",
+    "angular-bootstrap": "0.13.4",
+    "angular-bootstrap-lightbox": "0.9.0",
+    "angular-local-storage": "0.2.2",
     "angular-marked": "0.0.21",
-    "angular-mocks": "1.3.16",
-    "angular-resource": "1.3.16",
-    "angular-touch": "1.3.16",
+    "angular-mocks": "1.4.5",
+    "angular-resource": "1.4.5",
+    "angular-touch": "1.4.5",
     "angular-ui-router": "0.2.15",
     "bootstrap-sass": "3.3.5",
     "bourbon": "4.2.3",
