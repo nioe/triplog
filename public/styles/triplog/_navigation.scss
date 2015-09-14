@@ -6,8 +6,11 @@
   &.ios-status-bar {
     padding-top: $ios-status-bar-height;
 
-    .navbar-collapse {
-      padding-top: $ios-status-bar-height;
+    @media (max-width: $screen-xs-max) {
+      // Only add padding to navigation items on mobile phones (-> nav on the right side)
+      .navbar-collapse {
+        padding-top: $ios-status-bar-height;
+      }
     }
 
     @media (max-width: $screen-xs-max) and (orientation: landscape) {
