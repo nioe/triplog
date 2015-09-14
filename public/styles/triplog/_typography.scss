@@ -34,12 +34,12 @@ body {
     }
   }
 
-  div.stepLead {
+  .triplog-lead {
     font-weight: 400;
     font-size: $font-size-base;
   }
 
-  div.stepText {
+  .triplog-text {
     h2, h3, h4, h5, h6 {
       text-align: center;
       border-top: 2px solid black;
