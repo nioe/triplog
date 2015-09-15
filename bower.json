@@ -22,7 +22,7 @@
     "angular-touch": "1.4.5",
     "angular-ui-router": "0.2.15",
     "bootstrap-sass": "3.3.5",
-    "bourbon": "4.2.3",
+    "bourbon": "4.2.4",
     "mapbox.js": "2.2.1"
   }
 }
