@@ -34,6 +34,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
         link: function (scope, element) {
             L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
             var map = L.mapbox.map(element[0], 'mapbox.outdoors');
+            map.scrollWheelZoom.disable();
 
             var polyline = L.polyline(scope.gpsPoints, {color: 'red'}).addTo(map);
             map.fitBounds(polyline.getBounds());
