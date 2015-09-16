@@ -89,26 +89,39 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
         });
 
     AnalyticsProvider.setAccount(GOOGLE_ANALYTICS_TRACKING_CODE);
+    AnalyticsProvider.startOffline(true);
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 
 });
 
-/*jshint unused: false */
 triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', 'Analytics', function ($rootScope, $state, $stateParams, $window, localStorageService, Analytics) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
     $rootScope.isOnline = $window.navigator.onLine;
 
+    if ($rootScope.isOnline) {
+        Analytics.offline(false);
+        Analytics.createAnalyticsScriptTag();
+        $rootScope.scriptTagCreated = true;
+    }
+
     $window.addEventListener('offline', function () {
         $rootScope.$apply(function () {
             $rootScope.isOnline = false;
+            Analytics.offline(true);
         });
     }, false);
 
     $window.addEventListener('online', function () {
         $rootScope.$apply(function () {
             $rootScope.isOnline = true;
+            Analytics.offline(false);
+
+            if (!$rootScope.scriptTagCreated) {
+                Analytics.createAnalyticsScriptTag();
+                $rootScope.scriptTagCreated = true;
+            }
         });
     }, false);
 
