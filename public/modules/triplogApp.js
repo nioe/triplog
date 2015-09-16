@@ -6,12 +6,14 @@ var triplogApp = angular.module('triplogApp', [
     'ngAnimate',
     'ngTouch',
     'LocalStorageModule',
+    'angular-google-analytics',
     require('./welcome/welcome.module').name,
     require('./content/content.module').name,
-    require('./resource/trips/tripsResource.module').name
+    require('./resource/trips/tripsResource.module').name,
+    require('./config/config.module').name
 ]);
 
-triplogApp.config(function ($stateProvider, $urlRouterProvider) {
+triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvider, GOOGLE_ANALYTICS_TRACKING_CODE) {
 
     $urlRouterProvider.otherwise(function($injector) {
         var localStorageService = $injector.get('localStorageService'),
@@ -85,9 +87,14 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider) {
             controller: require('./content/login/login.controller'),
             controllerAs: 'login'
         });
+
+    AnalyticsProvider.setAccount(GOOGLE_ANALYTICS_TRACKING_CODE);
+    AnalyticsProvider.setPageEvent('$stateChangeSuccess');
+
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', function ($rootScope, $state, $stateParams, $window, localStorageService) {
+/*jshint unused: false */
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', 'Analytics', function ($rootScope, $state, $stateParams, $window, localStorageService, Analytics) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
