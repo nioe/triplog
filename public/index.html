@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" manifest="manifest.appcache" ng-app="triplogApp">
+<html lang="en" manifest="manifest.appcache" ng-app="triplogApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +8,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="bros.pics">
 
+    <meta name="description" content="Two guys who travel the world. Be part of our adventures.">
+    <meta name="robots" content="%robots_placeholder%">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="travel, bros, pictures, around the world, world journey, trip, gps, maps, blog" />
+
     <link rel="stylesheet" href="css/all.css">
 
-    <title>bros.pics | {{ $state.current.data.pageTitle }}</title>
+    <title ng-bind="$state.current.data.pageTitle + ' | bros.pics'">bros.pics</title>
 
     <link rel="apple-touch-icon-precomposed" href="img/app-icons/60.png" />
     <link rel="apple-touch-icon-precomposed" sizes="120x120" href="img/app-icons/120.png" />

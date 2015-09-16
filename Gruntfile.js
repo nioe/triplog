@@ -20,9 +20,6 @@ module.exports = function (grunt) {
             dist: {
                 files: [
                     {
-                        src: 'public/index.html',
-                        dest: 'dist/index.html'
-                    }, {
                         expand: true,
                         flatten: true,
                         src: 'public/fonts/icons/triplog.*',
@@ -47,6 +44,17 @@ module.exports = function (grunt) {
                         dest: 'dist/css/images'
                     }
                 ]
+            },
+
+            index: {
+                src: 'public/index.html',
+                dest: 'dist/index.html',
+                options: {
+                    process: function (content) {
+                        var robots = grunt.option('prod') ? 'index, follow' : 'noindex, nofollow';
+                        return content.replace(/%robots_placeholder%/g, robots);
+                    }
+                }
             },
 
             livejs: {
@@ -278,10 +286,10 @@ module.exports = function (grunt) {
     });
 
     var target = grunt.option('prod') ? 'prod' : 'dev';
-    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'browserify:dist', 'bower_concat:dist', 'uglify', 'copy:css2sassHack', 'sass:dist', 'manifest', 'karma', 'clean:temp']);
+    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'copy:index', 'browserify:dist', 'bower_concat:dist', 'uglify', 'copy:css2sassHack', 'sass:dist', 'manifest', 'karma', 'clean:temp']);
     grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
-    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'copy:css2sassHack', 'sass:pretty']);
+    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'copy:css2sassHack', 'sass:pretty', 'karma']);
     grunt.registerTask('live', ['dist-pretty', 'concurrent:dev', 'karma']);
 
     grunt.registerTask('default', ['live']);
