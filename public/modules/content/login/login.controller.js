@@ -6,8 +6,6 @@ function LoginController(LoginService, $state, $rootScope) {
 
     vm.loginError = false;
 
-    console.log('$state', $state);
-
     vm.login = function () {
         LoginService.login(vm.username, vm.password).then(function () {
             var referrer = $state.params.referrerState;
