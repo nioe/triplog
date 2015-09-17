@@ -24,9 +24,14 @@
 .alert-container {
   position: fixed;
   top: 80px;
-  left: 25%;
   width: 50%;
+  left: 25%;
   z-index: 10;
+
+  @media (max-width: $screen-xs-max) {
+    width: 90%;
+    left: 5%;
+  }
 
   .alert {
     &.ng-enter {

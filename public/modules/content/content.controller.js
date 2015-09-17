@@ -44,11 +44,13 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
                 msg: 'You have been successfully logged out.',
                 type: 'success'
             });
+            vm.closeNavigation();
         }, function () {
             $rootScope.alerts.push({
                 msg: 'There was an error during the logout process... :( Please try again.',
                 type: 'danger'
             });
+            vm.closeNavigation();
         });
     };
 
