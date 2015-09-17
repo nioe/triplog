@@ -98,6 +98,8 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorage
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    $rootScope.alerts = [];
+
     $rootScope.isOnline = $window.navigator.onLine;
 
     if ($rootScope.isOnline) {

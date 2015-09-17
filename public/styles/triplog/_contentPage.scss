@@ -20,3 +20,21 @@
     }
   }
 }
+
+.alert-container {
+  position: fixed;
+  top: 80px;
+  left: 25%;
+  width: 50%;
+  z-index: 10;
+
+  .alert {
+    &.ng-enter {
+      @include animation(alertIn .6s ease both);
+    }
+
+    &.ng-leave {
+      @include animation(alertOut .6s ease both);
+    }
+  }
+}

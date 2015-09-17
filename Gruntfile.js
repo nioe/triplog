@@ -289,7 +289,7 @@ module.exports = function (grunt) {
     grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'copy:index', 'browserify:dist', 'bower_concat:dist', 'uglify', 'copy:css2sassHack', 'sass:dist', 'manifest', 'karma', 'clean:temp']);
     grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
-    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'copy:css2sassHack', 'sass:pretty', 'karma']);
+    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'copy:css2sassHack', 'sass:pretty']);
     grunt.registerTask('live', ['dist-pretty', 'concurrent:dev', 'karma']);
 
     grunt.registerTask('default', ['live']);

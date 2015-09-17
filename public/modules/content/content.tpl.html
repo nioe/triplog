@@ -60,6 +60,10 @@
         </div>
     </nav>
 
+    <aside class="alert-container">
+        <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="alerts.splice($index, 1)" dismiss-on-timeout="5000">{{ alert.msg }}</alert>
+    </aside>
+
     <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
         <div class="container-fluid"
              ng-swipe-left="content.openNavigation()"

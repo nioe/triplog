@@ -39,7 +39,17 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
     };
 
     vm.logout = function () {
-        LoginService.logout();
+        LoginService.logout().then(function () {
+            $rootScope.alerts.push({
+                msg: 'You have been successfully logged out.',
+                type: 'success'
+            });
+        }, function () {
+            $rootScope.alerts.push({
+                msg: 'There was an error during the logout process... :( Please try again.',
+                type: 'danger'
+            });
+        });
     };
 
     //************************************** Private Functions **************************************

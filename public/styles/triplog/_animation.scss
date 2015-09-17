@@ -66,6 +66,20 @@
   }
 }
 
+@include keyframes(alertOut) {
+  from {
+  }
+  to {
+    @include transform(translateY(-500px));
+  }
+}
+
+@include keyframes(alertIn) {
+  from {
+    @include transform(translateY(-500px));
+  }
+}
+
 // This is needed for ng-animate to know how long a leaving node needs to stay
 @include keyframes(doNothing) {
   from {
