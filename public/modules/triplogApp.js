@@ -135,7 +135,10 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorage
         }
     });
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        fromParams.referrerState = undefined;
+        toParams.referrerState = {state: fromState, params: fromParams};
+
         localStorageService.set('lastState', {
             state: toState,
             params: toParams
