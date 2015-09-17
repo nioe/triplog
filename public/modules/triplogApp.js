@@ -15,7 +15,7 @@ var triplogApp = angular.module('triplogApp', [
 
 triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvider, GOOGLE_ANALYTICS_TRACKING_CODE) {
 
-    $urlRouterProvider.otherwise(function($injector) {
+    $urlRouterProvider.otherwise(function ($injector) {
         var localStorageService = $injector.get('localStorageService'),
             $state = $injector.get('$state'),
             lastState = localStorageService.get('lastState');
@@ -91,7 +91,6 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     AnalyticsProvider.setAccount(GOOGLE_ANALYTICS_TRACKING_CODE);
     AnalyticsProvider.startOffline(true);
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
-
 });
 
 triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', 'Analytics', function ($rootScope, $state, $stateParams, $window, localStorageService, Analytics) {
@@ -127,7 +126,16 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorage
         });
     }, false);
 
-    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
+        // Special Animations
+        if (toState.name === 'welcome' || fromState.name === 'welcome') {
+            $rootScope.animationClass = 'welcomeAnimation';
+        } else {
+            $rootScope.animationClass = undefined;
+        }
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
         localStorageService.set('lastState', {
             state: toState,
             params: toParams

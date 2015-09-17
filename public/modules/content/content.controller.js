@@ -40,6 +40,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
 
     vm.logout = function () {
         LoginService.logout().then(function () {
+            $state.go($state.$current, angular.copy($state.params), {reload: true});
             $rootScope.alerts.push({
                 msg: 'You have been successfully logged out.',
                 type: 'success'
@@ -99,20 +100,18 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
         ];
 
         vm.trips.forEach(function (trip) {
-            if (trip.steps && trip.steps.length > 0) {
-                entries.push({
-                    id: trip.tripId,
-                    name: trip.tripName,
-                    icon: 'trip',
-                    action: function () {
-                        $state.go('content.stepOverview', {tripId: trip.tripId});
-                    },
-                    active: function () {
-                        return ['content.stepOverview', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
-                            $state.params.tripId === trip.tripId;
-                    }
-                });
-            }
+            entries.push({
+                id: trip.tripId,
+                name: trip.displayName,
+                icon: 'trip',
+                action: function () {
+                    $state.go('content.stepOverview', {tripId: trip.tripId});
+                },
+                active: function () {
+                    return ['content.stepOverview', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
+                        $state.params.tripId === trip.tripId;
+                }
+            });
         });
 
         if ($rootScope.loggedIn) {

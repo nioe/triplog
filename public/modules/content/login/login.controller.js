@@ -8,7 +8,8 @@ function LoginController(LoginService, $state, $rootScope) {
 
     vm.login = function () {
         LoginService.login(vm.username, vm.password).then(function () {
-            $state.go('content.allTrips');
+            $state.go('content.allTrips', {}, { reload: true });
+
             $rootScope.alerts.push({
                 msg: 'Successfully logged in as user ' + vm.username + '.',
                 type: 'success'

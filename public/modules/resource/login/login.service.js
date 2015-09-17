@@ -11,8 +11,6 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
 
                 $http.defaults.headers.common['X-AUTH-TOKEN'] = response.data.id;
 
-                console.log('Default Headers', $http.defaults.headers);
-
                 $rootScope.loggedIn = true;
                 $rootScope.$broadcast('loginStateChanged', {
                     loggedIn: true
