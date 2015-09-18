@@ -7,10 +7,10 @@ var triplogApp = angular.module('triplogApp', [
     'ngTouch',
     'LocalStorageModule',
     'angular-google-analytics',
-    require('./welcome/welcome.module').name,
-    require('./content/content.module').name,
-    require('./resource/trips/tripsResource.module').name,
-    require('./config/config.module').name
+    require('modules/welcome').name,
+    require('modules/content').name,
+    require('modules/tripsResource').name,
+    require('modules/config').name
 ]);
 
 triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvider, GOOGLE_ANALYTICS_TRACKING_CODE) {

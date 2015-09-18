@@ -3,8 +3,17 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     var ngHtml2Js = require('browserify-ng-html2js')({
-        extension: 'tpl.html'
-    });
+            extension: 'tpl.html'
+        }),
+        remapifyPlugin = ['remapify', {
+            src: 'public/modules/**/*.js',
+            filter: function (alias, dirname, basename) {
+                if (basename.indexOf('module') != -1) {
+                    return 'modules/' + basename.replace(/\.module\.js$/, '');
+                }
+                return '../modules/' + basename.replace(/\.js$/, '');
+            }
+        }];
 
     var config;
     if (grunt.cli.tasks.indexOf('live') != -1 || grunt.cli.tasks.indexOf('dist-pretty') != -1) {
@@ -55,13 +64,6 @@ module.exports = function (grunt) {
                         return content.replace(/%robots_placeholder%/g, robots);
                     }
                 }
-            },
-
-            livejs: {
-                cwd: 'public/modules',
-                src: '**/*',
-                dest: 'dist/js/public/modules',
-                expand: true
             },
 
             livesass: {
@@ -123,7 +125,8 @@ module.exports = function (grunt) {
 
         browserify: {
             options: {
-                transform: [ngHtml2Js, 'debowerify', 'browserify-ngannotate']
+                transform: [ngHtml2Js, 'debowerify', 'browserify-ngannotate'],
+                plugin: [remapifyPlugin]
             },
             dist: {
                 files: {

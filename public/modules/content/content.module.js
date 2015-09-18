@@ -1,13 +1,13 @@
 'use strict';
 
 module.exports = angular.module('content', [
-    require('./trip/trip.module').name,
-    require('./stepOverview/stepOverview.module').name,
-    require('./stepDetail/stepDetail.module').name,
-    require('./login/login.module').name,
-    require('../config/config.module').name,
-    require('../resource/trips/tripsResource.module').name,
-    require('../resource/login/loginResource.module').name,
+    require('modules/trip').name,
+    require('modules/stepOverview').name,
+    require('modules/stepDetail').name,
+    require('modules/login').name,
+    require('modules/config').name,
+    require('modules/tripsResource').name,
+    require('modules/loginResource').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./content.tpl.html').name
