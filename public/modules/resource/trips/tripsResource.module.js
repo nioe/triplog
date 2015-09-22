@@ -6,12 +6,12 @@ module.exports = angular.module('trips-resource', [
     require('modules/config').name
 ]);
 
-module.exports.config(function (localStorageServiceProvider) {
+module.exports.config(['localStorageServiceProvider', function (localStorageServiceProvider) {
     localStorageServiceProvider
         .setPrefix('triplog')
         .setStorageCookie(0, '/')
         .setStorageCookieDomain('bros.pics');
-});
+}]);
 
 module.exports.factory('TripsService', require('./trips.service'));
 module.exports.factory('TripsResource', require('./trips.resource'));

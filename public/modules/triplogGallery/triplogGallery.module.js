@@ -8,7 +8,7 @@ module.exports = angular.module('triplogGallery', [
     require('./triplogGallery.lightbox.tpl.html').name
 ]);
 
-module.exports.config(function (LightboxProvider) {
+module.exports.config(['LightboxProvider', function (LightboxProvider) {
     LightboxProvider.templateUrl = 'triplogGallery.lightbox.tpl.html';
 
     LightboxProvider.getImageUrl = function (imageUrl) {
@@ -21,6 +21,6 @@ module.exports.config(function (LightboxProvider) {
             'height': 'auto'
         };
     };
-});
+}]);
 
 module.exports.directive('triplogGallery', require('./triplogGallery.directive'));
