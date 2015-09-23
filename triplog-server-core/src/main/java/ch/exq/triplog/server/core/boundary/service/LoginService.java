@@ -58,4 +58,12 @@ public class LoginService {
 
         return Response.ok().build();
     }
+
+    @POST
+    @Path("/tokenValidator")
+    @Produces(MediaType.APPLICATION_JSON)
+    @AuthenticationRequired
+    public Response validateToken() {
+        return Response.ok().build();
+    }
 }
