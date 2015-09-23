@@ -7,14 +7,9 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
         if ($rootScope.isOnline) {
             return callLoginService(username, password).then(function (response) {
                 localStorageService.set(LOGIN_STORAGE_KEYS.LOGGED_IN_BEFORE, username);
-                localStorageService.set(LOGIN_STORAGE_KEYS.AUTH_TOKEN, response.data);
+                localStorageService.set(LOGIN_STORAGE_KEYS.AUTH_TOKEN, response.data.id);
 
-                $http.defaults.headers.common['X-AUTH-TOKEN'] = response.data.id;
-
-                $rootScope.loggedIn = true;
-                $rootScope.$broadcast('loginStateChanged', {
-                    loggedIn: true
-                });
+                setLoggedInStatus(response.data.id);
 
                 return response;
             });
@@ -32,6 +27,21 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
                 resetLoggedInStatus();
             }
         });
+    }
+
+    function checkPresentToken() {
+        var xAuthToken = localStorageService.get(LOGIN_STORAGE_KEYS.AUTH_TOKEN);
+        if (xAuthToken) {
+            $http({
+                method: 'POST',
+                url: REST_URL_PREFIX + '/tokenValidator',
+                headers: {
+                    'X-AUTH-TOKEN': xAuthToken
+                }
+            }).then(setLoggedInStatus, resetLoggedInStatus);
+        } else {
+            resetLoggedInStatus();
+        }
     }
 
     function callLoginService(username, password) {
@@ -58,6 +68,15 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
         });
     }
 
+    function setLoggedInStatus(xAuthToken) {
+        $http.defaults.headers.common['X-AUTH-TOKEN'] = xAuthToken;
+        $rootScope.loggedIn = true;
+
+        $rootScope.$broadcast('loginStateChanged', {
+            loggedIn: true
+        });
+    }
+
     function resetLoggedInStatus() {
         localStorageService.remove(LOGIN_STORAGE_KEYS.AUTH_TOKEN);
         $http.defaults.headers.common['X-AUTH-TOKEN'] = undefined;
@@ -70,7 +89,8 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
 
     return {
         login: login,
-        logout: logout
+        logout: logout,
+        checkPresentToken: checkPresentToken
     };
 }
 

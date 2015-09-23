@@ -10,6 +10,7 @@ var triplogApp = angular.module('triplogApp', [
     require('modules/welcome').name,
     require('modules/content').name,
     require('modules/tripsResource').name,
+    require('modules/loginResource').name,
     require('modules/config').name
 ]);
 
@@ -93,7 +94,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', 'Analytics', function ($rootScope, $state, $stateParams, $window, localStorageService, Analytics) {
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', 'Analytics', 'LoginService', function ($rootScope, $state, $stateParams, $window, localStorageService, Analytics, LoginService) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
@@ -144,4 +145,6 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorage
             params: toParams
         });
     });
+
+    LoginService.checkPresentToken();
 }]);
