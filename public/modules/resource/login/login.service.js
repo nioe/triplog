@@ -38,7 +38,7 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
                 headers: {
                     'X-AUTH-TOKEN': xAuthToken
                 }
-            }).then(setLoggedInStatus, resetLoggedInStatus);
+            }).then(setLoggedInStatus.bind(undefined, xAuthToken), resetLoggedInStatus);
         } else {
             resetLoggedInStatus();
         }
