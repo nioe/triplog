@@ -43,6 +43,15 @@
 </head>
 
 <body ng-class="animationClass">
+
+<div ng-if="!hideStartScreen" class="start-screen">
+    <div class="content">
+        <div class="logo"></div>
+        <div class="text">Bros.pics</div>
+        <div class="subtext">loading...</div>
+    </div>
+</div>
+
 <aside ng-cloak class="alert-container">
     <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="alerts.splice($index, 1)" dismiss-on-timeout="5000">{{ alert.msg }}</alert>
 </aside>

@@ -94,7 +94,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorageService', 'Analytics', 'LoginService', function ($rootScope, $state, $stateParams, $window, localStorageService, Analytics, LoginService) {
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', 'localStorageService', 'Analytics', 'LoginService', function ($rootScope, $state, $stateParams, $timeout, $window, localStorageService, Analytics, LoginService) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
@@ -144,6 +144,12 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$window', 'localStorage
             state: toState,
             params: toParams
         });
+    });
+
+    $rootScope.$on('$viewContentLoaded', function() {
+        $timeout(function() {
+            $rootScope.hideStartScreen = true;
+        }, 0);
     });
 
     LoginService.checkPresentToken();
