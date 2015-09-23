@@ -9,7 +9,11 @@ function LoginController(LoginService, $state, $rootScope) {
     vm.login = function () {
         LoginService.login(vm.username, vm.password).then(function () {
             var referrer = $state.params.referrerState;
-            $state.go(referrer.state.name, referrer.params, {reload: true});
+            if (referrer.state.name) {
+                $state.go(referrer.state.name, referrer.params, {reload: true});
+            } else {
+                $state.go('content.allTrips', undefined, {reload: true});
+            }
 
             $rootScope.alerts.push({
                 msg: 'Successfully logged in as user ' + vm.username + '.',
