@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, trips, LoginService) {
+function ContentController($rootScope, $state, $window, ENV, trips, LoginService, AlertService) {
 
     var vm = this;
     vm.environment = ENV;
@@ -39,19 +39,12 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
     };
 
     vm.logout = function () {
+        vm.closeNavigation();
         LoginService.logout().then(function () {
             $state.go($state.$current, angular.copy($state.params), {reload: true});
-            $rootScope.alerts.push({
-                msg: 'You have been successfully logged out.',
-                type: 'success'
-            });
-            vm.closeNavigation();
+            AlertService.success('You have been successfully logged out.');
         }, function () {
-            $rootScope.alerts.push({
-                msg: 'There was an error during the logout process... :( Please try again.',
-                type: 'danger'
-            });
-            vm.closeNavigation();
+            AlertService.error('There was an error during the logout process... :( Please try again.');
         });
     };
 

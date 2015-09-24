@@ -7,10 +7,12 @@ var triplogApp = angular.module('triplogApp', [
     'ngTouch',
     'LocalStorageModule',
     'angular-google-analytics',
+    require('modules/loadingSpinner').name,
     require('modules/welcome').name,
     require('modules/content').name,
     require('modules/tripsResource').name,
     require('modules/loginResource').name,
+    require('modules/alert').name,
     require('modules/config').name
 ]);
 
@@ -94,71 +96,71 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', 'localStorageService', 'Analytics', 'LoginService', function ($rootScope, $state, $stateParams, $timeout, $window, localStorageService, Analytics, LoginService) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', 'localStorageService', 'Analytics', 'LoginService', 'AlertService',
+    function ($rootScope, $state, $stateParams, $timeout, $window, localStorageService, Analytics, LoginService, AlertService) {
 
-    $rootScope.alerts = [];
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
 
-    $rootScope.isOnline = $window.navigator.onLine;
+        $rootScope.alerts = [];
 
-    if ($rootScope.isOnline) {
-        Analytics.offline(false);
-        Analytics.createAnalyticsScriptTag();
-        $rootScope.scriptTagCreated = true;
-    }
+        $rootScope.isOnline = $window.navigator.onLine;
 
-    $window.addEventListener('offline', function () {
-        $rootScope.$apply(function () {
-            $rootScope.isOnline = false;
-            Analytics.offline(true);
-        });
-    }, false);
-
-    $window.addEventListener('online', function () {
-        $rootScope.$apply(function () {
-            $rootScope.isOnline = true;
+        if ($rootScope.isOnline) {
             Analytics.offline(false);
+            Analytics.createAnalyticsScriptTag();
+            $rootScope.scriptTagCreated = true;
+        }
 
-            if (!$rootScope.scriptTagCreated) {
-                Analytics.createAnalyticsScriptTag();
-                $rootScope.scriptTagCreated = true;
+        $window.addEventListener('offline', function () {
+            $rootScope.$apply(function () {
+                $rootScope.isOnline = false;
+                Analytics.offline(true);
+            });
+        }, false);
+
+        $window.addEventListener('online', function () {
+            $rootScope.$apply(function () {
+                $rootScope.isOnline = true;
+                Analytics.offline(false);
+
+                if (!$rootScope.scriptTagCreated) {
+                    Analytics.createAnalyticsScriptTag();
+                    $rootScope.scriptTagCreated = true;
+                }
+            });
+        }, false);
+
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
+            // Special Animations
+            if (toState.name === 'welcome' || fromState.name === 'welcome') {
+                $rootScope.animationClass = 'welcome-animation';
+            } else {
+                $rootScope.animationClass = undefined;
             }
         });
-    }, false);
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
-        // Special Animations
-        if (toState.name === 'welcome' || fromState.name === 'welcome') {
-            $rootScope.animationClass = 'welcomeAnimation';
-        } else {
-            $rootScope.animationClass = undefined;
-        }
-    });
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            fromParams.referrerState = undefined;
+            toParams.referrerState = {state: fromState, params: fromParams};
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        fromParams.referrerState = undefined;
-        toParams.referrerState = {state: fromState, params: fromParams};
-
-        localStorageService.set('lastState', {
-            state: toState,
-            params: toParams
+            localStorageService.set('lastState', {
+                state: toState,
+                params: toParams
+            });
         });
-    });
 
-    $rootScope.$on('$viewContentLoaded', function () {
-        $timeout(function () {
-            $rootScope.hideStartScreen = true;
-        }, 0);
-    });
-
-    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-        console.error('State Change Error:', error);
-        $rootScope.alerts.push({
-            msg: error,
-            type: 'info'
+        $rootScope.$on('$viewContentLoaded', function () {
+            $timeout(function () {
+                $rootScope.hideStartScreen = true;
+            }, 0);
         });
-    });
 
-    LoginService.checkPresentToken();
-}]);
+        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            console.error('State Change Error:', error);
+            AlertService.info(error.data);
+        });
+
+        LoginService.checkPresentToken();
+    }]
+);

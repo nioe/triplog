@@ -1,10 +1,10 @@
 'use strict';
 
 // @ngInject
-function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFIX, LOGIN_STORAGE_KEYS) {
+function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFIX, LOGIN_STORAGE_KEYS, ENV) {
 
     function login(username, password) {
-        if ($rootScope.isOnline) {
+        if ($rootScope.isOnline || ENV === 'local') {
             return callLoginService(username, password).then(function (response) {
                 localStorageService.set(LOGIN_STORAGE_KEYS.LOGGED_IN_BEFORE, username);
                 localStorageService.set(LOGIN_STORAGE_KEYS.AUTH_TOKEN, response.data.id);
@@ -57,13 +57,16 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
     }
 
     function checkLocalStorageIfUserHasBeenLoggedInBefore(username) {
-        $q(function (resolve, reject) {
+        return $q(function (resolve, reject) {
             if (localStorageService.get(LOGIN_STORAGE_KEYS.LOGGED_IN_BEFORE) === username) {
                 resolve({
                     id: 'localToken'
                 });
             } else {
-                reject('You seem to be offline and can therefore not login');
+                reject({
+                    status: 'offline',
+                    data: 'You seem to be offline and can therefore not login'
+                });
             }
         });
     }

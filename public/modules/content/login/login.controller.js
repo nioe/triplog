@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LoginController(LoginService, $state, $rootScope) {
+function LoginController(LoginService, AlertService, $state) {
     var vm = this;
 
     vm.loginError = false;
@@ -15,26 +15,21 @@ function LoginController(LoginService, $state, $rootScope) {
                 $state.go('content.allTrips', undefined, {reload: true});
             }
 
-            $rootScope.alerts.push({
-                msg: 'Successfully logged in as user ' + vm.username + '.',
-                type: 'success'
-            });
+            AlertService.success('Successfully logged in as user ' + vm.username + '.');
         }, function (response) {
-            if (response.status === 401) {
-                // Unauthorized
-                vm.loginError = true;
-                $rootScope.alerts.push({
-                    msg: 'Invalid username or password.',
-                    type: 'danger'
-                });
-            } else {
-                // Error occurred
-                $rootScope.alerts.push({
-                    msg: 'An unknown error occurred during the login process. Please try again.',
-                    type: 'danger'
-                });
-            }
+            switch (response.status) {
+                case 401:
+                    vm.loginError = true;
+                    AlertService.error('Invalid username or password.');
+                    break;
 
+                case 'offline':
+                    AlertService.info(response.data);
+                    break;
+
+                default:
+                    AlertService.error('An unknown error occurred during the login process. Please try again.');
+            }
         });
     };
 }

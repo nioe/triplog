@@ -20,7 +20,10 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
                 if (storedTrips && storedTrips.length > 0) {
                     resolve($filter('emptyTripFilter')(storedTrips));
                 } else {
-                    reject('You seem to be offline and there are no stored trips to show... :(');
+                    reject({
+                        status: 'offline',
+                        data: 'You seem to be offline and there are no stored trips to show... :('
+                    });
                 }
             });
         }
