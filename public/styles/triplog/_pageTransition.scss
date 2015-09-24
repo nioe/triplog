@@ -1,49 +1,37 @@
-// General
-[ui-view].page-container.ng-enter, [ui-view].page-container.ng-leave {
-  &.welcome, &.content {
+.page-container {
+  &.ng-enter, &.ng-leave {
     position: absolute;
     width: 100%;
     top: 0;
-  }
-}
-
-[ui-view].page-container.welcome {
-  z-index: 5;
-}
-
-//Transitions
-
-// Welcome -> Content
-.welcomeAnimation {
-  [ui-view].page-container.welcome.ng-leave {
-    @include animation(moveToTop .6s ease both);
+    overflow: hidden;
   }
 
-  [ui-view].page-container.content.ng-enter {
-    @include animation(none .6s);
-
-    nav {
-      position: absolute;
-      top: 0;
-      z-index: 1;
+  &.welcome {
+    &.ng-enter {
+      @include animation(moveFromTop .6s ease both);
     }
-  }
-}
 
-// Content -> Welcome
-.welcomeAnimation {
-  [ui-view].page-container.content.ng-leave {
-    @include animation(none .6s);
-    z-index: -10;
-
-    nav {
-      position: absolute;
-      top: 0;
-      z-index: 1;
+    &.ng-leave {
+      @include animation(moveToTop .6s ease both);
     }
   }
 
-  [ui-view].page-container.welcome.ng-enter {
-    @include animation(moveFromTop .6s ease both);
+  &.content {
+    &.ng-enter {
+      @include animation(none .6s);
+    }
+
+    &.ng-leave {
+      @include animation(none .6s);
+    }
+
+    &.ng-enter, &.ng-leave {
+      z-index: -10;
+      nav {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+      }
+    }
   }
 }
