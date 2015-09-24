@@ -1,10 +1,10 @@
 'use strict';
 
 // @ngInject
-function TripsService($rootScope, $q, $filter, TripsResource, localStorageService, TRIP_STORAGE_KEYS) {
+function TripsService($rootScope, $q, $filter, TripsResource, localStorageService, TRIP_STORAGE_KEYS, ENV) {
 
     function getAllTrips() {
-        if ($rootScope.isOnline) {
+        if ($rootScope.isOnline || ENV === 'local') {
             return TripsResource.query().$promise.then(function (tripData) {
                 tripData.forEach(function (trip) {
                     trip.displayName = trip.tripName + ' ' + $filter('date')(trip.tripDate, 'yyyy');
