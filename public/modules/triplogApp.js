@@ -146,10 +146,18 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', '
         });
     });
 
-    $rootScope.$on('$viewContentLoaded', function() {
-        $timeout(function() {
+    $rootScope.$on('$viewContentLoaded', function () {
+        $timeout(function () {
             $rootScope.hideStartScreen = true;
         }, 0);
+    });
+
+    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+        console.error('State Change Error:', error);
+        $rootScope.alerts.push({
+            msg: error,
+            type: 'info'
+        });
     });
 
     LoginService.checkPresentToken();

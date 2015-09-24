@@ -31,7 +31,7 @@ function LoginController(LoginService, $state, $rootScope) {
                 // Error occurred
                 $rootScope.alerts.push({
                     msg: 'An unknown error occurred during the login process. Please try again.',
-                    type: 'alert'
+                    type: 'danger'
                 });
             }
 
