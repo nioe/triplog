@@ -20,26 +20,3 @@
     }
   }
 }
-
-.alert-container {
-  position: fixed;
-  top: 80px;
-  width: 50%;
-  left: 25%;
-  z-index: 10;
-
-  @media (max-width: $screen-xs-max) {
-    width: 90%;
-    left: 5%;
-  }
-
-  .alert {
-    &.ng-enter {
-      @include animation(alertIn .6s ease both);
-    }
-
-    &.ng-leave {
-      @include animation(alertOut .6s ease both);
-    }
-  }
-}

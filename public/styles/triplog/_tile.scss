@@ -1,0 +1,44 @@
+.triplog-tile-box {
+  width: 100%;
+  margin: 30px auto;
+  @include align-items(flex-start);
+  @include display(flex);
+  @include flex-direction(row);
+  @include justify-content(space-around);
+  @include flex-wrap(wrap);
+
+  .triplog-tile {
+    position: relative;
+    @include flex-grow(0);
+    width: 400px;
+    max-width: 100%;
+    margin: 5px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      top: 0;
+      bottom: 0;
+      left: 10px;
+      right: 10px;
+      border-radius: 100px / 10px;
+    }
+
+    .cover-picture {
+      position: relative;
+      background: no-repeat center;
+      background-size: cover;
+      width: 100%;
+      height: 250px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+  }
+}
