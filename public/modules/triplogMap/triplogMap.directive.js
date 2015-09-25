@@ -25,7 +25,6 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
 
     return {
         restrict: 'E',
-        transclude: true,
         replace: true,
         templateUrl: 'triplogMap.tpl.html',
         scope: {
