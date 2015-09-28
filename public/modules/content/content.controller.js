@@ -60,23 +60,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
         removeStepOverviewNavBarEntry();
     }
 
-    function sortByPropertyDescending(arr, property) {
-        arr.sort(function (a, b) {
-            if (a[property] > b[property]) {
-                return -1;
-            }
-
-            if (a[property] < b[property]) {
-                return 1;
-            }
-
-            return 0;
-        });
-    }
-
     function createTripOverviewNavBarEntry() {
-        sortByPropertyDescending(vm.trips, 'tripId');
-
         var entries = [
             {
                 id: 'overview',
@@ -148,15 +132,10 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
                         }
                     }
                 ],
-                tripIndex = indexOfTripWithId(tripId),
-                steps;
+                tripIndex = indexOfTripWithId(tripId);
 
             if (tripIndex >= 0) {
-                steps = vm.trips[tripIndex].steps;
-
-                sortByPropertyDescending(steps, 'fromDate');
-
-                steps.forEach(function (step) {
+                vm.trips[tripIndex].steps.forEach(function (step) {
                     entries.push({
                         id: step.stepId,
                         name: step.stepName,

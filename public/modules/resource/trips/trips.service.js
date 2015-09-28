@@ -6,8 +6,12 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
     function getAllTrips() {
         if ($rootScope.isOnline || ENV === 'local') {
             return TripsResource.query().$promise.then(function (tripData) {
+                sortByPropertyDescending(tripData, 'tripDate');
+
                 tripData.forEach(function (trip) {
                     trip.displayName = trip.tripName + ' ' + $filter('date')(trip.tripDate, 'yyyy');
+
+                    sortByPropertyDescending(trip.steps, 'fromDate');
                 });
 
                 localStorageService.set(TRIP_STORAGE_KEYS.ALL_TRIPS, tripData);
@@ -40,6 +44,20 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
             } else {
                 return {};
             }
+        });
+    }
+
+    function sortByPropertyDescending(arr, property) {
+        arr.sort(function (a, b) {
+            if (a[property] > b[property]) {
+                return -1;
+            }
+
+            if (a[property] < b[property]) {
+                return 1;
+            }
+
+            return 0;
         });
     }
 
