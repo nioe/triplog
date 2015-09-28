@@ -166,7 +166,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
 
                 vm.navBarEntries.push({
                     id: tripId,
-                    name: vm.trips[tripIndex].tripName,
+                    name: vm.trips[tripIndex].displayName,
                     icon: 'trip',
                     entries: entries
                 });
