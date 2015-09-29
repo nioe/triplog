@@ -24,6 +24,7 @@
     "angular-ui-router": "0.2.15",
     "bootstrap-sass": "3.3.5",
     "bourbon": "4.2.4",
+    "leaflet.fullscreen": "1.3.0",
     "mapbox.js": "2.2.1"
   }
 }

@@ -51,6 +51,11 @@ module.exports = function (grunt) {
                         cwd: 'public/bower_components/mapbox.js/images/',
                         src: ['*.svg', '*.png'],
                         dest: 'dist/css/images'
+                    }, {
+                        expand: true,
+                        cwd: 'public/bower_components/leaflet.fullscreen/',
+                        src: ['*.svg', '*.png'],
+                        dest: 'dist/css/images'
                     }
                 ]
             },
@@ -78,8 +83,17 @@ module.exports = function (grunt) {
                     {
                         src: 'public/bower_components/mapbox.js/mapbox.uncompressed.css',
                         dest: 'public/styles/vendor/_mapbox.scss'
+                    },
+                    {
+                        src: 'public/bower_components/leaflet.fullscreen/Control.FullScreen.css',
+                        dest: 'public/styles/vendor/_mapbox-full-screen.scss'
                     }
-                ]
+                ],
+                options: {
+                    process: function (content) {
+                        return content.replace(/url\((icon)/g, 'url(./images/$1'); // MapBox icons
+                    }
+                }
             }
         },
 
@@ -170,8 +184,10 @@ module.exports = function (grunt) {
                     'jquery',
                     'bourbon',
                     'angular-mocks'
-                ]
-
+                ],
+                dependencies: {
+                    'leaflet.fullscreen': 'mapbox.js'
+                }
             },
             pretty: {
                 dest: 'dist/js/vendor.js',
@@ -180,7 +196,10 @@ module.exports = function (grunt) {
                     'jquery',
                     'bourbon',
                     'angular-mocks'
-                ]
+                ],
+                dependencies: {
+                    'leaflet.fullscreen': 'mapbox.js'
+                }
             }
         },
 
