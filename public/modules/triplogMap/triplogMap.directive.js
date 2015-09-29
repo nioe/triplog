@@ -42,6 +42,14 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
 
             var coveredDistance = calcDistance(polyline._latlngs);
             console.log('coveredDistance', coveredDistance.distance + ' ' + coveredDistance.unit);
+
+            map.on('enterFullscreen', function(){
+                map.scrollWheelZoom.enable();
+            });
+
+            map.on('exitFullscreen', function(){
+                map.scrollWheelZoom.disable();
+            });
         }
     };
 }
