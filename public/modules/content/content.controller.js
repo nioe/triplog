@@ -8,7 +8,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
     vm.trips = trips;
 
     vm.navigationIsShown = false;
-    vm.isIosFullscreen = $window.navigator.standalone ? true : false;
+    vm.isIosFullscreen = false;//$window.navigator.standalone ? true : false;
 
     reCreateNavigation();
 

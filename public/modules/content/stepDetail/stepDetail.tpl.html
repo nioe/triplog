@@ -49,6 +49,6 @@
     </div>
 </article>
 
-<triplog-map gps-points="stepDetail.gpsPoints"></triplog-map>
+<triplog-map gps-points="stepDetail.gpsPoints" ng-if="isOnline"></triplog-map>
 
 <triplog-gallery pictures="stepDetail.pictures"></triplog-gallery>
