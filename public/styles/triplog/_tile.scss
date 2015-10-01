@@ -1,10 +1,10 @@
 .triplog-tile-box {
   width: 100%;
   margin: 30px auto;
-  @include align-items(flex-start);
+  @include align-items(stretch);
   @include display(flex);
   @include flex-direction(row);
-  @include justify-content(space-around);
+  @include justify-content(center);
   @include flex-wrap(wrap);
 
   .triplog-tile {
