@@ -176,7 +176,11 @@ module.exports = function (grunt) {
             }
         },
 
+        // TODO only one config
         bower_concat: {
+            options: {
+                separator: grunt.util.linefeed + ';' + grunt.util.linefeed
+            },
             dist: {
                 dest: '.tmp/scripts/vendor.js',
                 exclude: [
