@@ -11,6 +11,7 @@ var triplogApp = angular.module('triplogApp', [
     require('modules/welcome').name,
     require('modules/content').name,
     require('modules/tripsResource').name,
+    require('modules/stepsResource').name,
     require('modules/loginResource').name,
     require('modules/alert').name,
     require('modules/config').name
@@ -79,7 +80,12 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
                 pageTitle: 'Step'
             },
             controller: require('./content/stepDetail/stepDetail.controller'),
-            controllerAs: 'stepDetail'
+            controllerAs: 'stepDetail',
+            resolve: {
+                step: function (StepsService, $stateParams) {
+                    return StepsService.getStepOfTrip($stateParams.tripId, $stateParams.stepId);
+                }
+            }
         })
         .state('content.login', {
             url: '/login',
@@ -158,7 +164,14 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', '
 
         $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
             console.error('State Change Error:', error);
-            AlertService.info(error.data);
+
+            switch (error.status) {
+                case 404:
+                    AlertService.info('Could not find what you were looking for...');
+                    break;
+                default:
+                    AlertService.info(error.data);
+            }
         });
 
         LoginService.checkPresentToken();

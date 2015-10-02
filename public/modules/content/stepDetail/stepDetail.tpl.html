@@ -1,54 +1,19 @@
-<h1 class="line">
-    <span>Step Detail</span>
-</h1>
+<header>
+    <h1 class="line">
+        <span>{{ stepDetail.step.stepName }}</span>
+    </h1>
+
+    <date-line from-date="{{ stepDetail.step.fromDate }}" to-date="{{ stepDetail.step.toDate }}"></date-line>
+</header>
 
 <article class="columns">
     <div class="triplog-lead">
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-        dolore
-        magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-        gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-        sadipscing
-        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+        {{ stepDetail.step.stepLead }}
     </div>
 
-    <div class="triplog-text" marked>
-        # Blubb
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-        dolore
-        magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-        gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-        sadipscing
-        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-
-        ## Step 1
-        Try with a link [click here](http://www.google.ch)
-        __bold__
-        *italic*
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-        dolore
-        magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-        gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-        sadipscing
-        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-
-        ## Step 2
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-        dolore
-        magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-        gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-        sadipscing
-        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-        ![Alternative image text](http://bhodbuzz.com/wp-content/uploads/2015/06/6924750-mountain-wallpaper.jpg "My image :)")
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-        dolore
-        magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-        gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-        sadipscing
-        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-    </div>
+    <div class="triplog-text" marked="stepDetail.step.stepText"></div>
 </article>
 
-<triplog-map gps-points="stepDetail.gpsPoints" ng-if="isOnline"></triplog-map>
+<triplog-map gps-points="stepDetail.step.gpsPoints" ng-if="stepDetail.showMap()"></triplog-map>
 
-<triplog-gallery pictures="stepDetail.pictures"></triplog-gallery>
+<triplog-gallery pictures="stepDetail.step.pictures"></triplog-gallery>

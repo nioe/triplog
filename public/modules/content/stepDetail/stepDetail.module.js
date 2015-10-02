@@ -6,7 +6,8 @@ module.exports = angular.module('stepDetail', [
     require('modules/triplogMap').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./stepDetail.tpl.html').name
+    require('./stepDetail.tpl.html').name,
+    require('./dateLine.tpl.html').name
 ]);
 
 module.exports.config(['markedProvider', function(markedProvider) {
@@ -19,3 +20,4 @@ module.exports.config(['markedProvider', function(markedProvider) {
 }]);
 
 module.exports.controller('StepDetailController', require('./stepDetail.controller'));
+module.exports.directive('dateLine', require('./dateLine.directive'));
