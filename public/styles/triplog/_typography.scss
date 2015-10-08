@@ -43,8 +43,8 @@ body {
   .triplog-text {
     h2, h3, h4, h5, h6 {
       text-align: center;
-      border-top: 1px solid black;
-      border-bottom: 1px solid black;
+      border-top: 1px solid dimgrey;
+      border-bottom: 1px solid dimgrey;
       padding: 10px 0;
     }
 
@@ -62,7 +62,7 @@ body {
 
   .dateLine {
     position: relative;
-    top: -35px;
+    top: -25px;
     font-weight: 400;
     font-size: 1.1em;
     text-align: center;
@@ -73,34 +73,31 @@ body {
     font-family: 'Pacifico', serif;
 
     &.line {
-      margin: 50px 0;
+      line-height: 0.8;
+      margin: 40px 0;
       text-align: center;
-      z-index: 1;
 
-      &:after {
-        content: "";
-        position: absolute;
-        border-top: 2px solid $font-color;
-        margin: 0 auto;
-        top: 50%;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        max-width: 80%;
+      span {
+        display: inline-block;
+        position: relative;
 
-        @media(max-width: $screen-xs-max) {
-          max-width: 100%;
+        &:before, &:after {
+          content: "";
+          position: absolute;
+          height: 0;
+          border-bottom: 2px solid dimgrey;
+          top: 50%;
+          width: 65%;
         }
-        
-        z-index: -1;
-      }
 
-      > span {
-        background-color: white;
-        padding: 0 30px;
+        &:before {
+          right: 100%;
+          margin-right: 20px;
+        }
 
-        @media(max-width: $screen-xs-max) {
-          padding: 0 10px;
+        &:after {
+          left: 100%;
+          margin-left: 20px;
         }
       }
     }
