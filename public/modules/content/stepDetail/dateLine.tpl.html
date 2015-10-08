@@ -1,4 +1,7 @@
 <div class="dateLine">
-    <span ng-if="fromDate !== toDate">{{ fromDate | date:'fullDate'}} &ndash; {{ toDate | date:'fullDate'}}</span>
+    <span ng-if="fromDate !== toDate">
+        <span class="avoid-wrap">{{ fromDate | date:'fullDate'}} &ndash;</span>
+        <span class="avoid-wrap">{{ toDate | date:'fullDate'}}</span>
+    </span>
     <span ng-if="fromDate === toDate">{{ fromDate | date:'fullDate'}}</span>
 </div>
