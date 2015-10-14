@@ -1,4 +1,4 @@
-# TripLog #
+# TripLog [![Build Status](https://travis-ci.org/nioe/triplog-server.svg?branch=master)](https://travis-ci.org/nioe/triplog-server) #
 
 TripLog is a Client-Server-Application which is used to manage trips with serveral steps.
 Each step can have a description, several photos and and GPS points to show the distance you covered.
