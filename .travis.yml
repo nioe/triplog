@@ -1,4 +1,6 @@
 language: java
 jdk: oraclejdk8
 
-after_success: ls -lisa ./triplog-server-core/target
+after_success:
+  - chmod 755 ./scripts/deploy.sh
+  - ./scripts/deploy.sh
