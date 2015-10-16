@@ -12,6 +12,7 @@
         <module>triplog-server-tools</module>
         <module>triplog-server-util</module>
         <module>triplog-server-common</module>
+        <module>triplog-client</module>
     </modules>
 
     <packaging>pom</packaging>

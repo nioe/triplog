@@ -1,6 +1,24 @@
+# General
 Tools/
 data/
-.idea/
-target/
 lib/
+
+# Maven
+target/
+
+# IntelliJ
+.idea/
 *.iml
+
+# Triplog Client
+triplog-client/public/modules/config/
+.ftpauth
+log/
+tmp/
+node_modules/
+dist/
+bower_components/
+.sass-cache/
+triplog-client/_SpecRunner.html
+triplog-client/public/styles/vendor
+test-results.xml
