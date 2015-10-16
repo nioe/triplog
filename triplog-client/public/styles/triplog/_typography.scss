@@ -1,0 +1,111 @@
+@include font-face("Pacifico", "/fonts/text/pacifico", $weight: 400, $file-formats: eot svg ttf woff woff2);
+@include font-face("Raleway", "/fonts/text/raleway-extralight", $weight: 200, $file-formats: eot svg ttf woff woff2);
+@include font-face("Raleway", "/fonts/text/raleway-regular", $weight: 400, $file-formats: eot svg ttf woff woff2);
+
+body {
+  font-family: 'Raleway', serif;
+  font-weight: 200;
+  font-size: $font-size-base;
+  color: $font-color;
+
+  .welcome-page {
+    .text {
+      .quote {
+        font-family: 'Pacifico', serif;
+      }
+
+      .author {
+        font-family: 'Raleway', serif;
+      }
+    }
+  }
+
+  article {
+    margin-bottom: 20px;
+
+    &.columns {
+      @media(min-width: $screen-sm-min) {
+        @include column-count(3);
+        @include column-gap(40px);
+        @include column-rule(1px solid $font-color);
+        widows: 5;
+        orphans: 5;
+      }
+    }
+  }
+
+  .triplog-lead {
+    font-weight: 400;
+    font-size: $font-size-base;
+    text-align: justify;
+  }
+
+  .triplog-text {
+    h2, h3, h4, h5, h6 {
+      text-align: center;
+      border-top: 1px solid dimgrey;
+      border-bottom: 1px solid dimgrey;
+      padding: 10px 0;
+    }
+
+    img {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+
+  .navbar-default {
+    .navbar-brand {
+      font-family: 'Pacifico', serif;
+    }
+  }
+
+  .dateLine {
+    position: relative;
+    top: -25px;
+    font-weight: 400;
+    font-size: 1.1em;
+    text-align: center;
+  }
+
+  span.avoid-wrap {
+    display: inline-block;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    font-family: 'Pacifico', serif;
+
+    &.line {
+      line-height: 0.8;
+      margin: 40px 0;
+      text-align: center;
+
+      @media (min-width: $screen-sm-min) {
+        span {
+          display: inline-block;
+          position: relative;
+
+          &:before, &:after {
+            content: "";
+            position: absolute;
+            height: 0;
+            border-bottom: 2px solid dimgrey;
+            top: 50%;
+            width: 65%;
+          }
+
+          &:before {
+            right: 100%;
+            margin-right: 20px;
+          }
+
+          &:after {
+            left: 100%;
+            margin-left: 20px;
+          }
+        }
+      }
+    }
+  }
+}

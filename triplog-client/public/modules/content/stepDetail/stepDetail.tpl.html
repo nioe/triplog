@@ -1,0 +1,19 @@
+<header>
+    <h1 class="line">
+        <span>{{ stepDetail.step.stepName }}</span>
+    </h1>
+
+    <date-line from-date="{{ stepDetail.step.fromDate }}" to-date="{{ stepDetail.step.toDate }}"></date-line>
+</header>
+
+<article class="columns">
+    <div class="triplog-lead">
+        {{ stepDetail.step.stepLead }}
+    </div>
+
+    <div class="triplog-text" marked="stepDetail.step.stepText"></div>
+</article>
+
+<triplog-map gps-points="stepDetail.step.gpsPoints" ng-if="stepDetail.showMap()"></triplog-map>
+
+<triplog-gallery pictures="stepDetail.step.pictures"></triplog-gallery>

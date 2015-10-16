@@ -1,0 +1,76 @@
+<div class="page content-page" ng-class="{ 'navigation-is-shown': content.navigationIsShown }">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-class="{ 'ios-status-bar': content.isIosFullscreen }">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-class="{ 'active': content.navigationIsShown }"
+                    ng-click="content.toggleNavigation()">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="welcome">
+                <span class="logo icon-triplog"></span>
+                <span class="text">Bros.Pics</span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="navbar-collapse" ng-swipe-right="content.closeNavigation()">
+            <ul class="nav navbar-nav">
+                <!-- Normal Link -->
+                <li ng-repeat-start="entry in content.navBarEntries"
+                    ng-class="{ active: entry.active() }"
+                    ng-if="!entry.entries">
+
+                    <a href ng-click="entry.action()"><span class="icon-{{ entry.icon }}"></span> {{ entry.name }}</a>
+                </li>
+
+                <!-- Dropdown -->
+                <li ng-class="{ active: entry.active() }"
+                    class="dropdown"
+                    dropdown
+                    on-toggle="toggled(open)"
+                    ng-if="entry.entries"
+                    ng-repeat-end>
+
+                    <a href class="dropdown-toggle" role="button" dropdown-toggle>
+                        <span class="icon-{{ entry.icon }}"></span>
+                        {{ entry.name }}
+                        <span class="icon-dropdown"></span>
+                    </a>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-class="{ active: dropDownEntry.active() }" ng-repeat-start="(dropDownEntryId, dropDownEntry) in entry.entries">
+                            <a href ng-click="dropDownEntry.action()"><span
+                                    class="icon-{{ dropDownEntry.icon }}"></span> {{ dropDownEntry.name }}</a>
+                        </li>
+                        <li class="divider" ng-if="dropDownEntry.divider" ng-repeat-end></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-if="!loggedIn">
+                    <a ui-sref="content.login"><span class="icon-login"></span> Login</a>
+                </li>
+                <li ng-if="loggedIn">
+                    <a href ng-click="content.logout()"><span class="icon-login"></span> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
+        <div class="container-fluid"
+             ng-swipe-left="content.openNavigation()"
+             ng-swipe-right="content.closeNavigation()"
+             ng-swipe-disable-mouse>
+
+            <div class="row">
+                <div class="col-xs-12 col-lg-8 col-lg-offset-2 ui-view-container">
+                    <div class="content" ui-view></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,146 @@
+div.triplog-gallery {
+  width: 90%;
+  margin: 70px auto;
+  @include align-items(flex-start);
+  @include display(flex);
+  @include flex-direction(row);
+  @include justify-content(center);
+  @include flex-wrap(wrap);
+
+  div.gallery-picture {
+    @extend .paper-effect;
+    position: relative;
+    width: 200px;
+    height: 240px;
+    cursor: pointer;
+    padding: 10px 10px 50px;
+
+    @media (min-width: 350px) {
+      width: 270px;
+      height: 310px;
+    }
+
+    transition: 0.2s ease;
+
+    > div {
+      position: relative;
+      height: 100%;
+      background: no-repeat center;
+      background-size: cover;
+    }
+  }
+
+  > div:nth-child(7n+1) {
+    @include transform(rotate(17deg));
+  }
+
+  > div:nth-child(7n+2) {
+    @include transform(rotate(-8deg));
+  }
+
+  > div:nth-child(7n+3) {
+    @include transform(rotate(-3deg));
+  }
+
+  > div:nth-child(7n+4) {
+    @include transform(rotate(6deg));
+    transform: rotate(6deg);
+  }
+
+  > div:nth-child(7n+5) {
+    @include transform(rotate(-15deg));
+  }
+
+  > div:nth-child(7n+6) {
+    @include transform(rotate(3deg));
+  }
+
+  > div:nth-child(7n+7) {
+    @include transform(rotate(10deg));
+  }
+
+  @media (min-width: $screen-lg-min) {
+    > div:hover {
+      @include transform(rotate(0deg) scale(1.3));
+      z-index: 1;
+    }
+  }
+}
+
+.modal.lightbox-modal {
+  height: 100%;
+
+  .modal-dialog {
+    position: relative;
+    top: 50%;
+    @include transform(translateY(-50%));
+    margin: 0 auto;
+
+    @media (max-width: $screen-xs-max ) and (orientation: portrait) {
+      margin: 0 10px;
+    }
+  }
+
+  .lightbox-image-navigation {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+
+    .lightbox-navigation-button {
+      height: 100%;
+      cursor: pointer;
+
+      .lightbox-navigation-button-text {
+        position: relative;
+        top: 50%;
+        @include transform(translateY(-50%));
+
+        font-size: 50px;
+        color: rgba(255, 255, 255, 0.4);
+
+        transition: 0.2s ease;
+      }
+
+      &.prev {
+        .lightbox-navigation-button-text {
+          text-align: left;
+          padding-left: 20px;
+        }
+      }
+
+      &.next {
+        transition: 0.2s ease;
+
+        .lightbox-navigation-button-text {
+          text-align: right;
+          padding-right: 20px;
+        }
+      }
+    }
+
+    @media (min-width: $screen-lg-min) {
+      .lightbox-navigation-button:hover {
+        .lightbox-navigation-button-text {
+          color: rgba(255, 255, 255, 1);
+        }
+
+        &.prev {
+          @include linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+
+          .lightbox-navigation-button-text {
+            padding-left: 10px;
+          }
+        }
+
+        &.next {
+          @include linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+
+          .lightbox-navigation-button-text {
+            padding-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}

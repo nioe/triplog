@@ -1,0 +1,17 @@
+<h1 class="line"><span>{{ stepOverview.trip.displayName }}</span></h1>
+
+<article class="columns">
+    <div class="triplog-lead">{{ stepOverview.trip.tripLead }}</div>
+    <div class="triplog-text" marked="stepOverview.trip.tripText"></div>
+</article>
+
+<triplog-tile-box>
+    <triplog-tile
+            ng-repeat="step in stepOverview.trip.steps"
+            title="{{ step.stepName }}"
+            picture="{{ step.coverPicture }}"
+            ui-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip.tripId }}', stepId: '{{ step.stepId }}'})">
+
+        {{ step.stepLead }}
+    </triplog-tile>
+</triplog-tile-box>

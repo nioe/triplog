@@ -1,0 +1,39 @@
+.welcome-animation {
+  .page-container {
+    &.ng-enter, &.ng-leave {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      overflow: hidden;
+    }
+
+    &.welcome {
+      &.ng-enter {
+        @include animation(moveFromTop .6s ease both);
+      }
+
+      &.ng-leave {
+        @include animation(moveToTop .6s ease both);
+      }
+    }
+
+    &.content {
+      &.ng-enter {
+        @include animation(none .6s);
+      }
+
+      &.ng-leave {
+        @include animation(none .6s);
+      }
+
+      &.ng-enter, &.ng-leave {
+        z-index: -10;
+        nav {
+          position: absolute;
+          top: 0;
+          z-index: 1;
+        }
+      }
+    }
+  }
+}

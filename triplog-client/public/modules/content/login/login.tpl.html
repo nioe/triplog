@@ -1,0 +1,23 @@
+<h1 class="line"><span>Login</span></h1>
+
+<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+    <form class="form-horizontal">
+        <div class="form-group" ng-class="{'has-error': login.loginError}">
+            <div class="input-group">
+                <div class="input-group-addon icon-user"></div>
+                <input type="text" class="form-control input-lg" placeholder="Username" ng-model="login.username">
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': login.loginError}">
+            <div class="input-group">
+                <div class="input-group-addon icon-password"></div>
+                <input type="password" class="form-control input-lg" placeholder="Password" ng-model="login.password">
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <button class="btn btn-default btn-lg" ng-click="login.login()" ng-disabled="!(login.username && login.password)">
+                <span class="icon-login"></span> Login
+            </button>
+        </div>
+    </form>
+</div>

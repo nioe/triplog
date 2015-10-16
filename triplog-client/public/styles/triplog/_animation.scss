@@ -1,0 +1,81 @@
+@include keyframes(moveToTop) {
+  from {
+  }
+  to {
+    @include transform(translateY(-100%));
+  }
+}
+
+@include keyframes(moveFromTop) {
+  from {
+    @include transform(translateY(-100%));
+  }
+}
+
+@include keyframes(moveToRight) {
+  from {
+    @include transform(translateX(-100%));
+  }
+}
+
+@include keyframes(moveToRight80) {
+  from {
+    @include transform(translateX(-80%));
+  }
+}
+
+@include keyframes(moveToBottom) {
+  from {
+  }
+  to {
+    @include transform(translateY(100%));
+  }
+}
+
+@include keyframes(moveFromBottom) {
+  from {
+    @include transform(translateY(100%));
+  }
+}
+
+@include keyframes(moveToLeft) {
+  from {
+  }
+  to {
+    @include transform(translateX(-100%));
+  }
+}
+
+@include keyframes(moveToLeft80) {
+  from {
+  }
+  to {
+    @include transform(translateX(-80%));
+  }
+}
+
+@include keyframes(moveFromLeft) {
+  from {
+    @include transform(translateX(-100%));
+  }
+}
+
+@include keyframes(moveFromLeft80) {
+  from {
+    @include transform(translateX(-80%));
+  }
+}
+
+@include keyframes(alertOut) {
+  from {
+  }
+  to {
+    @include transform(translateY(-500px));
+  }
+}
+
+@include keyframes(alertIn) {
+  from {
+    @include transform(translateY(-500px));
+  }
+}

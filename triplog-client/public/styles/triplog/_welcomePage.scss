@@ -1,0 +1,71 @@
+.welcome-page {
+  .background-image {
+    position: fixed;
+    background: url(../img/wallpapers/mountains.jpg) no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+
+    display: table;
+    background: none;
+
+    .text-cell {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+
+      .text {
+        margin: 20px;
+
+        @media (min-width: $screen-md-min) {
+          margin: 100px;
+        }
+
+        color: white;
+        text-shadow: -2px 0px 3px #555;
+
+        .quote {
+          font-size: 3em;
+
+          @media (min-width: $screen-md-min) {
+            font-size: 5em;
+          }
+        }
+
+        .author {
+          text-align: right;
+          font-size: 1.5em;
+
+          @media (orientation: portrait) {
+            padding-top: 30px;
+          }
+
+          @media (min-width: $screen-md-min) {
+            font-size: 2em;
+            text-align: center;
+            padding-top: 30px;
+          }
+        }
+      }
+    }
+  }
+
+  .button {
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    bottom: 30px;
+
+    @media (min-width: $screen-md-min) {
+      bottom: 100px;
+    }
+  }
+}
