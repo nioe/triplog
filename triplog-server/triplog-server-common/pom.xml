@@ -12,7 +12,7 @@
     <artifactId>triplog-server-common</artifactId>
     <packaging>jar</packaging>
 
-    <name>TripLog Server Common</name>
+    <name>Triplog Server Common</name>
 
     <dependencies>
         <!-- Other modules -->

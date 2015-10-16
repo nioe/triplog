@@ -12,7 +12,7 @@
     <artifactId>triplog-server-core</artifactId>
     <packaging>war</packaging>
 
-    <name>TripLog Server Core</name>
+    <name>Triplog Server Core</name>
 
     <dependencies>
         <!-- Other modules -->

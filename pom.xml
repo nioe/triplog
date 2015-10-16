@@ -5,19 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ch.exq.triplog</groupId>
-    <artifactId>triplog-server</artifactId>
+    <artifactId>triplog</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>triplog-server-core</module>
-        <module>triplog-server-tools</module>
-        <module>triplog-server-util</module>
-        <module>triplog-server-common</module>
         <module>triplog-client</module>
+        <module>triplog-server</module>
+        <module>triplog-tools</module>
     </modules>
 
     <packaging>pom</packaging>
 
-    <name>TripLog Server</name>
+    <name>Triplog</name>
 
     <contributors>
         <contributor>
