@@ -1,6 +1,8 @@
 language: java
 jdk: oraclejdk8
 
+before_install: gem install sass
+
 after_success:
   - chmod 755 ./scripts/deploy.sh
   - ./scripts/deploy.sh
