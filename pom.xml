@@ -11,6 +11,7 @@
         <module>triplog-client</module>
         <module>triplog-server</module>
         <module>triplog-tools</module>
+        <module>triplog-ear</module>
     </modules>
 
     <packaging>pom</packaging>
