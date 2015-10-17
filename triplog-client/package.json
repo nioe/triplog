@@ -11,6 +11,7 @@
     "express": "^4.12.3"
   },
   "devDependencies": {
+    "bower": "^1.6.3",
     "browserify": "^11.1.0",
     "browserify-ng-html2js": "^1.0.1",
     "browserify-ngannotate": "^0.7.1",

@@ -42,7 +42,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>bower</executable>
+                            <executable>${project.basedir}/node_modules/.bin/bower</executable>
                             <workingDirectory>${project.basedir}</workingDirectory>
                             <arguments>
                                 <argument>prune</argument>
@@ -56,7 +56,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>bower</executable>
+                            <executable>${project.basedir}/node_modules/.bin/bower</executable>
                             <workingDirectory>${project.basedir}</workingDirectory>
                             <arguments>
                                 <argument>install</argument>
@@ -70,7 +70,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>bower</executable>
+                            <executable>${project.basedir}/node_modules/.bin/bower</executable>
                             <workingDirectory>${project.basedir}</workingDirectory>
                             <arguments>
                                 <argument>update</argument>
@@ -84,7 +84,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>grunt</executable>
+                            <executable>${project.basedir}/node_modules/.bin/grunt</executable>
                             <workingDirectory>${project.basedir}</workingDirectory>
                             <arguments>
                                 <argument>dist</argument>
