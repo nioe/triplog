@@ -1,5 +1,4 @@
 {
   "ENV": "prod",
-  "REST_URL_PREFIX": "http://service.bros.pics",
   "GOOGLE_ANALYTICS_TRACKING_CODE": "UA-63099545-1"
 }
