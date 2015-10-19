@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.*;
+import static java.time.LocalDateTime.now;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -27,53 +28,50 @@ public class AuthTokenHandlerTest {
     }
 
     @Test
-    public void testGetNewToken() {
+    public void should_create_new_token_with_correct_expiry_date() {
         authTokenHandler.sessionTimeout = Hardcoded.configuration("60");
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime testStartTime = now();
         AuthToken authToken = authTokenHandler.getNewToken();
 
-        assertNotNull(authToken);
-        assertNotNull(authToken.getId());
-        assertNotNull(authToken.getExpiryDate());
-        assertTrue(now.isBefore(authToken.getExpiryDate()));
-
-        assertTrue(now.plusMinutes(60).isBefore(authToken.getExpiryDate()));
-        assertTrue(LocalDateTime.now().plusMinutes(60).isAfter(authToken.getExpiryDate()));
+        assertThat(authToken).isNotNull();
+        assertThat(authToken.getId()).isNotNull();
+        assertThat(authToken.getExpiryDate()).isAfterOrEqualTo(testStartTime.plusMinutes(60));
+        assertThat(authToken.getExpiryDate()).isBeforeOrEqualTo(now().plusMinutes(60));
     }
 
     @Test
-    public void testIsValid_ValidToken() {
+    public void should_create_new_token_which_is_valid_now() {
         authTokenHandler.sessionTimeout = Hardcoded.configuration("60");
         AuthToken authToken = authTokenHandler.getNewToken();
 
-        assertTrue(authTokenHandler.isValidToken(authToken.getId()));
+        assertThat(authTokenHandler.isValidToken(authToken.getId())).isTrue();
     }
 
     @Test
-    public void testIsValid_ExpiredToken() {
+    public void should_create_new_token_which_is_invalid_now() {
         authTokenHandler.sessionTimeout = Hardcoded.configuration("-60");
         AuthToken authToken = authTokenHandler.getNewToken();
 
-        assertFalse(authTokenHandler.isValidToken(authToken.getId()));
+        assertThat(authTokenHandler.isValidToken(authToken.getId())).isFalse();
     }
 
     @Test
-    public void testIsValid_EmptyToken() {
-        assertFalse(authTokenHandler.isValidToken(""));
+    public void should_return_false_for_empty_string() {
+        assertThat(authTokenHandler.isValidToken("")).isFalse();
     }
 
     @Test
-    public void testIsValid_NullToken() {
-        assertFalse(authTokenHandler.isValidToken(null));
+    public void should_return_false_for_null() {
+        assertThat(authTokenHandler.isValidToken(null)).isFalse();
     }
 
     @Test
-    public void testRemoveToken() {
+    public void should_remove_token() {
         authTokenHandler.sessionTimeout = Hardcoded.configuration("10000");
         AuthToken authToken = authTokenHandler.getNewToken();
 
-        assertTrue(authTokenHandler.isValidToken(authToken.getId()));
+        assertThat(authTokenHandler.isValidToken(authToken.getId())).isTrue();
         authTokenHandler.removeToken(authToken.getId());
-        assertFalse(authTokenHandler.isValidToken(authToken.getId()));
+        assertThat(authTokenHandler.isValidToken(authToken.getId())).isFalse();
     }
 }
