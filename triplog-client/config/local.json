@@ -1,4 +1,5 @@
 {
   "ENV": "local",
+  "REST_URL_PREFIX": "http://localhost:8080/services",
   "GOOGLE_ANALYTICS_TRACKING_CODE": "UA-63099545-2"
 }
