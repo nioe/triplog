@@ -1,4 +1,4 @@
-# TripLog [![Build Status](https://travis-ci.org/nioe/triplog-server.svg?branch=master)](https://travis-ci.org/nioe/triplog-server) #
+# Triplog [![Build Status](https://travis-ci.org/nioe/triplog-server.svg?branch=master)](https://travis-ci.org/nioe/triplog-server) #
 
 TripLog is a Client-Server-Application which is used to manage trips with serveral steps.
 Each step can have a description, several photos and and GPS points to show the distance you covered.
@@ -13,6 +13,12 @@ Each step can have a description, several photos and and GPS points to show the 
 
 ### Client ###
 * AngularJS
+
+## Build ##
+To build and test the project simply run Maven in the root directory. It will install all needed backend & frontend dependencies automatically.
+```shell
+mvn clean package
+```
 
 ## JBoss Configuration - System properties ##
 The server application is reading the configuration from system properties set in *standalone.xml*.
