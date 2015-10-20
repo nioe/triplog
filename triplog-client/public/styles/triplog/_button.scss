@@ -1,6 +1,12 @@
-.btn.btn-default.transparent {
-  background: none;
-  border-width: 2px;
-  padding: 15px;
-  color: $btn-default-bg;
+.btn.btn-default{
+  &.transparent {
+    background: none;
+    border-width: 2px;
+    padding: 15px;
+    color: $btn-default-bg;
+  }
+
+  &.glow {
+    @include animation(white-pulse 2s infinite);
+  }
 }

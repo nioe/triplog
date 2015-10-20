@@ -79,3 +79,15 @@
     @include transform(translateY(-500px));
   }
 }
+
+@include keyframes(white-pulse) {
+  from {
+    box-shadow: 0 0 0 white;
+  }
+  50% {
+    box-shadow: 0 0 50px white;
+  }
+  to {
+    box-shadow: 0 0 0 white;
+  }
+}
