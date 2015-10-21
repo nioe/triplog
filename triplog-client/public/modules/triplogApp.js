@@ -19,7 +19,7 @@ var triplogApp = angular.module('triplogApp', [
 
 triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvider, GOOGLE_ANALYTICS_TRACKING_CODE) {
 
-    $urlRouterProvider.otherwise(function ($injector) {
+    $urlRouterProvider.when('', function ($injector) {
         var localStorageService = $injector.get('localStorageService'),
             $state = $injector.get('$state'),
             lastState = localStorageService.get('lastState');
@@ -31,6 +31,8 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
         }
     });
 
+    $urlRouterProvider.otherwise('/welcome');
+
     $stateProvider
         .state('welcome', {
             url: '/welcome',
@@ -41,7 +43,6 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             }
         })
         .state('content', {
-            url: '/content',
             abstract: true,
             templateUrl: require('./content/content.tpl.html').name,
             controller: require('./content/content.controller'),
@@ -56,14 +57,14 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             }
         })
         .state('content.allTrips', {
-            url: '/trip',
+            url: '/trips',
             templateUrl: require('./content/trip/tripOverview.tpl.html').name,
             data: {
                 pageTitle: 'Trip Overview'
             }
         })
         .state('content.stepOverview', {
-            url: '/trip/:tripId',
+            url: '/trips/:tripId',
             templateUrl: require('./content/stepOverview/stepOverview.tpl.html').name,
             controller: require('./content/stepOverview/stepOverview.controller'),
             controllerAs: 'stepOverview',
@@ -74,7 +75,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             }
         })
         .state('content.stepOfTrip', {
-            url: '/trip/:tripId/step/:stepId',
+            url: '/trips/:tripId/:stepId',
             templateUrl: require('./content/stepDetail/stepDetail.tpl.html').name,
             data: {
                 pageTitle: 'Step'
@@ -103,77 +104,77 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
 });
 
 triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', 'localStorageService', 'Analytics', 'LoginService', 'AlertService',
-    function ($rootScope, $state, $stateParams, $timeout, $window, localStorageService, Analytics, LoginService, AlertService) {
+        function ($rootScope, $state, $stateParams, $timeout, $window, localStorageService, Analytics, LoginService, AlertService) {
 
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
+            $rootScope.$state = $state;
+            $rootScope.$stateParams = $stateParams;
 
-        $rootScope.alerts = [];
+            $rootScope.alerts = [];
 
-        $rootScope.isOnline = $window.navigator.onLine;
+            $rootScope.isOnline = $window.navigator.onLine;
 
-        if ($rootScope.isOnline) {
-            Analytics.offline(false);
-            Analytics.createAnalyticsScriptTag();
-            $rootScope.scriptTagCreated = true;
-        }
-
-        $window.addEventListener('offline', function () {
-            $rootScope.$apply(function () {
-                $rootScope.isOnline = false;
-                Analytics.offline(true);
-            });
-        }, false);
-
-        $window.addEventListener('online', function () {
-            $rootScope.$apply(function () {
-                $rootScope.isOnline = true;
+            if ($rootScope.isOnline) {
                 Analytics.offline(false);
+                Analytics.createAnalyticsScriptTag();
+                $rootScope.scriptTagCreated = true;
+            }
 
-                if (!$rootScope.scriptTagCreated) {
-                    Analytics.createAnalyticsScriptTag();
-                    $rootScope.scriptTagCreated = true;
+            $window.addEventListener('offline', function () {
+                $rootScope.$apply(function () {
+                    $rootScope.isOnline = false;
+                    Analytics.offline(true);
+                });
+            }, false);
+
+            $window.addEventListener('online', function () {
+                $rootScope.$apply(function () {
+                    $rootScope.isOnline = true;
+                    Analytics.offline(false);
+
+                    if (!$rootScope.scriptTagCreated) {
+                        Analytics.createAnalyticsScriptTag();
+                        $rootScope.scriptTagCreated = true;
+                    }
+                });
+            }, false);
+
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
+                // Special Animations
+                if (toState.name === 'welcome' || fromState.name === 'welcome') {
+                    $rootScope.animationClass = 'welcome-animation';
+                } else {
+                    $rootScope.animationClass = undefined;
                 }
             });
-        }, false);
 
-        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
-            // Special Animations
-            if (toState.name === 'welcome' || fromState.name === 'welcome') {
-                $rootScope.animationClass = 'welcome-animation';
-            } else {
-                $rootScope.animationClass = undefined;
-            }
-        });
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                fromParams.referrerState = undefined;
+                toParams.referrerState = {state: fromState, params: fromParams};
 
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            fromParams.referrerState = undefined;
-            toParams.referrerState = {state: fromState, params: fromParams};
-
-            localStorageService.set('lastState', {
-                state: toState,
-                params: toParams
+                localStorageService.set('lastState', {
+                    state: toState,
+                    params: toParams
+                });
             });
-        });
 
-        $rootScope.$on('$viewContentLoaded', function () {
-            $timeout(function () {
-                $rootScope.hideStartScreen = true;
-            }, 0);
-        });
+            $rootScope.$on('$viewContentLoaded', function () {
+                $timeout(function () {
+                    $rootScope.hideStartScreen = true;
+                }, 0);
+            });
 
-        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-            console.error('State Change Error:', error);
+            $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+                console.error('State Change Error:', error);
 
-            switch (error.status) {
-                case 404:
-                    AlertService.info('Could not find what you were looking for...');
-                    break;
-                default:
-                    AlertService.info(error.data);
-            }
-        });
+                switch (error.status) {
+                    case 404:
+                        AlertService.info('Could not find what you were looking for...');
+                        break;
+                    default:
+                        AlertService.info(error.data);
+                }
+            });
 
-        LoginService.checkPresentToken();
-    }]
+            LoginService.checkPresentToken();
+        }]
 );
