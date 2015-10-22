@@ -19,7 +19,7 @@
 				{}
 			],
 			"properties": {
-				"order": 33,
+				"order": 64,
 				"id": 221,
 				"prevSize": 32,
 				"code": 58890,
@@ -44,7 +44,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 175,
-				"order": 34,
+				"order": 65,
 				"prevSize": 32,
 				"code": 58884,
 				"name": "trip-overview"
@@ -68,7 +68,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 88,
-				"order": 35,
+				"order": 66,
 				"prevSize": 32,
 				"code": 58888,
 				"name": "trip"
@@ -92,7 +92,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 210,
-				"order": 36,
+				"order": 67,
 				"prevSize": 32,
 				"code": 58886,
 				"name": "step"
@@ -116,7 +116,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 220,
-				"order": 37,
+				"order": 68,
 				"prevSize": 32,
 				"code": 58887,
 				"name": "step-overview"
@@ -140,7 +140,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 41,
-				"order": 38,
+				"order": 69,
 				"prevSize": 32,
 				"code": 58881,
 				"name": "prev"
@@ -164,7 +164,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 42,
-				"order": 39,
+				"order": 70,
 				"prevSize": 32,
 				"code": 58882,
 				"name": "next"
@@ -188,7 +188,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 36,
-				"order": 40,
+				"order": 71,
 				"prevSize": 32,
 				"code": 58880,
 				"name": "dropdown"
@@ -212,7 +212,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 39,
-				"order": 41,
+				"order": 72,
 				"prevSize": 32,
 				"code": 58885,
 				"name": "dropup"
@@ -236,7 +236,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 126,
-				"order": 42,
+				"order": 73,
 				"prevSize": 32,
 				"code": 58889,
 				"name": "delete"
@@ -260,7 +260,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 128,
-				"order": 43,
+				"order": 74,
 				"prevSize": 32,
 				"code": 58891,
 				"name": "add"
@@ -284,7 +284,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 191,
-				"order": 44,
+				"order": 75,
 				"prevSize": 32,
 				"code": 58894,
 				"name": "info"
@@ -308,7 +308,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 140,
-				"order": 45,
+				"order": 76,
 				"prevSize": 32,
 				"code": 58892,
 				"name": "expensive"
@@ -332,7 +332,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 161,
-				"order": 46,
+				"order": 77,
 				"prevSize": 32,
 				"code": 58893,
 				"name": "worth-seeing"
@@ -356,7 +356,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 284,
-				"order": 47,
+				"order": 78,
 				"prevSize": 32,
 				"code": 58895,
 				"name": "star-empty"
@@ -380,7 +380,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 285,
-				"order": 48,
+				"order": 79,
 				"prevSize": 32,
 				"code": 58896,
 				"name": "star"
@@ -404,7 +404,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 122,
-				"order": 49,
+				"order": 80,
 				"prevSize": 32,
 				"code": 58883,
 				"name": "camera"
@@ -428,7 +428,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 288,
-				"order": 50,
+				"order": 81,
 				"prevSize": 32,
 				"code": 58897,
 				"name": "user"
@@ -452,7 +452,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 286,
-				"order": 51,
+				"order": 83,
 				"prevSize": 32,
 				"code": 58898,
 				"name": "password"
@@ -476,7 +476,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 287,
-				"order": 52,
+				"order": 82,
 				"prevSize": 32,
 				"code": 58899,
 				"name": "login"
@@ -484,6 +484,30 @@
 			"setIdx": 1,
 			"setId": 1,
 			"iconIdx": 19
+		},
+		{
+			"icon": {
+				"paths": [
+					"M870.4 153.6h-51.2v102.4h-153.6v-102.4h-307.2v102.4h-153.6v-102.4h-51.2c-56.371 0-102.4 46.080-102.4 102.4v614.4c0 56.32 46.029 102.4 102.4 102.4h716.8c56.32 0 102.4-46.080 102.4-102.4v-614.4c0-56.32-46.080-102.4-102.4-102.4zM870.4 870.4h-716.8v-409.6h716.8v409.6zM332.8 51.2h-102.4v179.2h102.4v-179.2zM793.6 51.2h-102.4v179.2h102.4v-179.2z"
+				],
+				"attrs": [],
+				"isMulticolor": false,
+				"tags": [
+					"calendar"
+				],
+				"grid": 20
+			},
+			"attrs": [],
+			"properties": {
+				"id": 289,
+				"order": 60,
+				"prevSize": 32,
+				"code": 59648,
+				"name": "date"
+			},
+			"setIdx": 1,
+			"setId": 1,
+			"iconIdx": 20
 		}
 	],
 	"height": 1024,

@@ -5,13 +5,13 @@
     <div class="triplog-text" marked="stepOverview.trip.tripText"></div>
 </article>
 
-<triplog-tile-box>
-    <triplog-tile
+<triplog-timeline>
+    <triplog-timeline-moment
             ng-repeat="step in stepOverview.trip.steps"
             title="{{ step.stepName }}"
             picture="{{ step.coverPicture }}"
             ui-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip.tripId }}', stepId: '{{ step.stepId }}'})">
 
         {{ step.stepLead }}
-    </triplog-tile>
-</triplog-tile-box>
+    </triplog-timeline-moment>
+</triplog-timeline>
