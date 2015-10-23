@@ -1,9 +1,17 @@
 <li>
-    <div class="timeline-badge"><i class="icon-step"></i></div>
+    <div class="timeline-badge"></div>
     <div class="timeline-panel" ui-sref="{{ momentSref }}">
+        <div ng-if="picture" class="timeline-picture" style="background-image: url({{ picture }});"></div>
         <div class="timeline-heading">
-            <h3 class="timeline-title">{{ title }}</h3>
-            <p><small class="text-muted"><i class="icon-date"></i> 11 hours ago via Twitter</small></p>
+            <div class="timeline-title">{{ momentTitle }}</div>
+            <p class="timeline-date">
+                <i></i>
+                <span ng-if="fromDate !== toDate">
+                    <span class="avoid-wrap">{{ fromDate | date:'fullDate'}} &ndash;</span>
+                    <span class="avoid-wrap">{{ toDate | date:'fullDate'}}</span>
+                </span>
+                <span ng-if="fromDate === toDate">{{ fromDate | date:'fullDate'}}</span>
+            </p>
         </div>
         <div class="timeline-body" ng-transclude>
         </div>

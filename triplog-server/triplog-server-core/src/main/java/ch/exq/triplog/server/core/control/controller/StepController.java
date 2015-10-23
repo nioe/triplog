@@ -49,7 +49,7 @@ public class StepController {
         List<Step> allStepDetails = stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .collect(Collectors.toList());
 
-        allStepDetails.forEach(this::changePictureLinksFor);
+        //allStepDetails.forEach(this::changePictureLinksFor);
 
         return allStepDetails;
     }

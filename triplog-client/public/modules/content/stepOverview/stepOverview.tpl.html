@@ -8,10 +8,11 @@
 <triplog-timeline>
     <triplog-timeline-moment
             ng-repeat="step in stepOverview.trip.steps"
-            title="{{ step.stepName }}"
+            moment-title="{{ step.stepName }}"
             picture="{{ step.coverPicture }}"
+            from-date="{{ step.fromDate }}"
+            to-date="{{ step.toDate }}"
             moment-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip.tripId }}', stepId: '{{ step.stepId }}'})">
-
         {{ step.stepLead }}
     </triplog-timeline-moment>
 </triplog-timeline>

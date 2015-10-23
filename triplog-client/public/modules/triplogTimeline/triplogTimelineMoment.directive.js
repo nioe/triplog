@@ -10,7 +10,7 @@ function TriplogTimelineMoment() {
         transclude: true,
         templateUrl: 'triplogTimelineMoment.tpl.html',
         scope: {
-            title: '@',
+            momentTitle: '@',
             picture: '@',
             fromDate: '@',
             toDate: '@',
