@@ -174,6 +174,9 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
                 console.error('State Change Error:', error);
 
                 switch (error.status) {
+                    case 0:
+                        AlertService.info('Oops, there was a problem loading the data. Please try again later.');
+                        break;
                     case 404:
                         AlertService.info('Could not find what you were looking for...');
                         break;
