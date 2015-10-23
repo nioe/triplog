@@ -10,7 +10,7 @@
             ng-repeat="step in stepOverview.trip.steps"
             title="{{ step.stepName }}"
             picture="{{ step.coverPicture }}"
-            ui-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip.tripId }}', stepId: '{{ step.stepId }}'})">
+            moment-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip.tripId }}', stepId: '{{ step.stepId }}'})">
 
         {{ step.stepLead }}
     </triplog-timeline-moment>

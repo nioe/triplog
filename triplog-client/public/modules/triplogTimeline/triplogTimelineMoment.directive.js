@@ -13,7 +13,8 @@ function TriplogTimelineMoment() {
             title: '@',
             picture: '@',
             fromDate: '@',
-            toDate: '@'
+            toDate: '@',
+            momentSref: '@'
         }
     };
 }

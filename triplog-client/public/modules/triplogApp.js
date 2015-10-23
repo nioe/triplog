@@ -39,7 +39,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             templateUrl: require('./welcome/welcome.tpl.html').name,
             data: {
                 pageTitle: 'Welcome',
-                transitionSelectorClass: 'welcome'
+                transitionSelectorClass: 'welcome-transition'
             }
         })
         .state('content', {
@@ -48,7 +48,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controller: require('./content/content.controller'),
             controllerAs: 'content',
             data: {
-                transitionSelectorClass: 'content'
+                transitionSelectorClass: 'content-transition'
             },
             resolve: {
                 trips: function (TripsService) {
@@ -103,8 +103,8 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', 'localStorageService', 'Analytics', 'LoginService', 'AlertService',
-        function ($rootScope, $state, $stateParams, $timeout, $window, localStorageService, Analytics, LoginService, AlertService) {
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document', '$window', 'localStorageService', 'Analytics', 'LoginService', 'AlertService',
+        function ($rootScope, $state, $stateParams, $timeout, $document, $window, localStorageService, Analytics, LoginService, AlertService) {
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
@@ -148,6 +148,13 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', '
             });
 
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                // Scroll to top of content container after state change
+                var contentContainer = $document[0].querySelector('.content-container');
+                if (contentContainer) {
+                    contentContainer.scrollTop = 0;
+                }
+
+                // Save current state to local storage
                 fromParams.referrerState = undefined;
                 toParams.referrerState = {state: fromState, params: fromParams};
 

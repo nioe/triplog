@@ -7,7 +7,7 @@
       overflow: hidden;
     }
 
-    &.welcome {
+    &.welcome-transition {
       &.ng-enter {
         @include animation(moveFromTop .6s ease both);
       }
@@ -17,7 +17,7 @@
       }
     }
 
-    &.content {
+    &.content-transition {
       &.ng-enter {
         @include animation(none .6s);
       }
