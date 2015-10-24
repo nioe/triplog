@@ -7,7 +7,7 @@ Each step can have a description, several photos and and GPS points to show the 
 
 ### Server ###
 * Java SE 8, EE 7
-* Wildfly (JBoss 8)
+* Wildfly
 * MongoDB
 * JAX-RS
 
