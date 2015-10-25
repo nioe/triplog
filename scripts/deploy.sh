@@ -1,8 +1,6 @@
 #!/bin/bash
 readonly WILDFLY_URL="${WILDFLY_PROTOCOL}://${WILDFLY_USER}:${WILDFLY_PASSWORD}@${WILDFLY_HOST}:${WILDFLY_PORT}/management"
 
-echo ${WILDFLY_URL}
-
 echo "Undeploy old ear"
 curl -k -S -H "content-Type: application/json" -d "{\"operation\":\"undeploy\", \"address\":[{\"deployment\":\"${ARTIFACT_NAME}\"}]}" --digest ${WILDFLY_URL}
 echo ""
