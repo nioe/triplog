@@ -1,11 +1,14 @@
 package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
-import ch.exq.triplog.server.util.http.HttpHeader;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
+
+import static ch.exq.triplog.server.util.http.HttpHeader.AUTHENTICATION_TYPE_BASIC;
+import static ch.exq.triplog.server.util.http.HttpHeader.WWW_Authenticate;
+import static javax.ws.rs.core.Response.Status.*;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -19,17 +22,18 @@ public class ResponseController {
     ResourceController resourceController;
 
     public Response badRequest(DisplayableException ex) {
-        return Response.status(Response.Status.BAD_REQUEST).entity(ex.getJsonExceptionMessage()).build();
+        return Response.status(BAD_REQUEST).entity(ex.getJsonExceptionMessage()).build();
     }
 
     public Response unauthorized() {
-        return Response.status(Response.Status.UNAUTHORIZED)
-                .header(HttpHeader.WWW_Authenticate.key(), buildWwwAuthenticateHeader())
+        return Response.status(UNAUTHORIZED)
+                .header(WWW_Authenticate.key(), buildWwwAuthenticateHeader())
                 .build();
     }
 
     private String buildWwwAuthenticateHeader() {
-        StringBuilder sb = new StringBuilder(HttpHeader.AUTHENTICATION_TYPE_BASIC.key());
+        StringBuilder sb = new StringBuilder();
+        sb.append("x").append(AUTHENTICATION_TYPE_BASIC.key());
         sb.append(" realm=\"").append(resourceController.getLoginUrl()).append("\"");
 
         return  sb.toString();
