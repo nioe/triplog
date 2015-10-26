@@ -42,7 +42,9 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
             if (tripsWithGivenId.length > 0) {
                 return tripsWithGivenId[0];
             } else {
-                return {};
+                return $q.reject({
+                    status: 404
+                });
             }
         });
     }
