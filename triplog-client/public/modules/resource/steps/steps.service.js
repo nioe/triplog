@@ -6,15 +6,24 @@ function TripsService($rootScope, $q, StepsResource, localStorageService, STEP_S
     function getStepOfTrip(tripId, stepId) {
         if ($rootScope.isOnline || ENV === 'local') {
             return StepsResource.get({tripId: tripId, stepId: stepId}).$promise.then(function (stepData) {
-                storeStepDate(stepData);
+                saveStepInLocalStorage(stepData);
 
                 return stepData;
+            }, function (error) {
+                if (error.status === 0) {
+                    var step = readStepFromLocalStorage(tripId, stepId);
+                    if (step) {
+                        return step;
+                    }
+                }
+
+                $q.reject(error);
             });
         } else {
             return $q(function (resolve, reject) {
-                var allStoredSteps = localStorageService.get(STEP_STORAGE_KEYS.ALL_STEPS);
-                if (allStoredSteps && allStoredSteps[tripId] && allStoredSteps[tripId][stepId]) {
-                    resolve(allStoredSteps[tripId][stepId]);
+                var step = readStepFromLocalStorage(tripId, stepId);
+                if (step) {
+                    resolve(step);
                 } else {
                     reject({
                         status: 'offline',
@@ -25,7 +34,7 @@ function TripsService($rootScope, $q, StepsResource, localStorageService, STEP_S
         }
     }
 
-    function storeStepDate(stepData) {
+    function saveStepInLocalStorage(stepData) {
         var allStoredSteps = localStorageService.get(STEP_STORAGE_KEYS.ALL_STEPS) || {};
 
         if (!allStoredSteps[stepData.tripId]) {
@@ -35,6 +44,11 @@ function TripsService($rootScope, $q, StepsResource, localStorageService, STEP_S
         allStoredSteps[stepData.tripId][stepData.stepId] = stepData;
 
         localStorageService.set(STEP_STORAGE_KEYS.ALL_STEPS, allStoredSteps);
+    }
+
+    function readStepFromLocalStorage(tripId, stepId) {
+        var allStoredSteps = localStorageService.get(STEP_STORAGE_KEYS.ALL_STEPS);
+        return allStoredSteps && allStoredSteps[tripId] && allStoredSteps[tripId][stepId] ? allStoredSteps[tripId][stepId] : undefined;
     }
 
     return {
