@@ -25,7 +25,7 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
                     }
                 }
 
-                $q.reject(error);
+                return $q.reject(error);
             });
         } else {
             return $q(function (resolve, reject) {

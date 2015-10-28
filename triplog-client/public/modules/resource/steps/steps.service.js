@@ -17,7 +17,7 @@ function TripsService($rootScope, $q, StepsResource, localStorageService, STEP_S
                     }
                 }
 
-                $q.reject(error);
+                return $q.reject(error);
             });
         } else {
             return $q(function (resolve, reject) {
