@@ -39,13 +39,13 @@
     }
 
     .timeline-panel {
+      @extend .paper-effect;
       width: 46%;
       float: left;
       border: 1px solid #d4d4d4;
       border-radius: 2px;
       padding: 20px;
       position: relative;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 
       &:before {
         position: absolute;
@@ -65,8 +65,8 @@
         right: -14px;
         display: inline-block;
         border-top: 14px solid transparent;
-        border-left: 14px solid #fff;
-        border-right: 0 solid #fff;
+        border-left: 14px solid #F3F3F3;
+        border-right: 0 solid #F3F3F3;
         border-bottom: 14px solid transparent;
         content: " ";
       }
