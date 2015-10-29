@@ -1,7 +1,9 @@
 package ch.exq.triplog.server.core.control.controller;
 
+import ch.exq.triplog.server.common.comparator.StepFromDateComparator;
 import ch.exq.triplog.server.common.dto.Step;
 import ch.exq.triplog.server.common.dto.StepDetail;
+import ch.exq.triplog.server.common.dto.StepMin;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.StepDAO;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
@@ -61,6 +63,7 @@ public class StepController {
         if (stepDBObject != null) {
             stepDetail = mapper.map(stepDBObject, StepDetail.class);
             changePictureLinksFor(stepDetail);
+            findPreviousAndNext(stepDetail);
         }
 
         return stepDetail;
@@ -149,6 +152,18 @@ public class StepController {
                     .collect(Collectors.toList()));
 
         }
+    }
+
+    private void findPreviousAndNext(StepDetail stepDetail) {
+        List<Step> allStepsOfTrip = getAllStepsOfTrip(stepDetail.getTripId());
+        allStepsOfTrip.sort(new StepFromDateComparator());
+
+        int index = allStepsOfTrip.indexOf(stepDetail);
+        int prevIndex = index - 1;
+        int nextIndex = index + 1;
+
+        stepDetail.setPreviousStep(prevIndex >= 0 && prevIndex < allStepsOfTrip.size() ? new StepMin(allStepsOfTrip.get(prevIndex)) : null);
+        stepDetail.setNextStep(nextIndex >= 0 && nextIndex < allStepsOfTrip.size() ? new StepMin(allStepsOfTrip.get(nextIndex)) : null);
     }
 
     private void checkFromDateIsBeforeOrEqualsToDate(StepDBObject stepDBObject) throws DisplayableException {

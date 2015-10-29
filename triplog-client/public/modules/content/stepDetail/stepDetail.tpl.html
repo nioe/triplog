@@ -15,3 +15,19 @@
 <triplog-map gps-points="stepDetail.step.gpsPoints" ng-if="stepDetail.showMap()"></triplog-map>
 
 <triplog-gallery pictures="stepDetail.step.pictures"></triplog-gallery>
+
+<aside class="previousNextStep">
+    <div class="prev"
+         ng-if="stepDetail.step.previousStep"
+         ui-sref="content.stepOfTrip({tripId: '{{ stepDetail.step.tripId }}', stepId: '{{ stepDetail.step.previousStep.stepId }}'})">
+
+        {{ stepDetail.step.previousStep.stepName }}
+    </div>
+
+    <div class="prev-placeholder" ng-if="!stepDetail.step.previousStep"></div>
+    <div class="next"
+         ng-if="stepDetail.step.nextStep"
+         ui-sref="content.stepOfTrip({tripId: '{{ stepDetail.step.tripId }}', stepId: '{{ stepDetail.step.nextStep.stepId }}'})">
+        {{ stepDetail.step.nextStep.stepName }}
+    </div>
+</aside>

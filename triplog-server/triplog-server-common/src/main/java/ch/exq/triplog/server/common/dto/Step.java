@@ -16,15 +16,10 @@ import java.time.LocalDate;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Step {
-    @XmlElement
-    private String stepId;
+public class Step extends StepMin {
 
     @XmlElement(required = true)
     private String tripId;
-
-    @XmlElement(required = true)
-    private String stepName;
 
     @XmlElement(required = true)
     @XmlJavaTypeAdapter(JsonDateAdapter.class)
@@ -45,21 +40,13 @@ public class Step {
     }
 
     public Step(String stepId, String tripId, String stepName, LocalDate fromDate, LocalDate toDate, String stepLead, String coverPicture) {
-        this.stepId = stepId;
+        super(stepId, stepName);
+
         this.tripId = tripId;
-        this.stepName = stepName;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.stepLead = stepLead;
         this.coverPicture = coverPicture;
-    }
-
-    public String getStepId() {
-        return stepId;
-    }
-
-    public void setStepId(String stepId) {
-        this.stepId = stepId;
     }
 
     public String getTripId() {
@@ -68,14 +55,6 @@ public class Step {
 
     public void setTripId(String tripId) {
         this.tripId = tripId;
-    }
-
-    public String getStepName() {
-        return stepName;
-    }
-
-    public void setStepName(String stepName) {
-        this.stepName = stepName;
     }
 
     public LocalDate getFromDate() {
@@ -108,22 +87,5 @@ public class Step {
 
     public void setCoverPicture(String coverPicture) {
         this.coverPicture = coverPicture;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Step step = (Step) o;
-
-        if (stepId != null ? !stepId.equals(step.stepId) : step.stepId != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return stepId != null ? stepId.hashCode() : 0;
     }
 }

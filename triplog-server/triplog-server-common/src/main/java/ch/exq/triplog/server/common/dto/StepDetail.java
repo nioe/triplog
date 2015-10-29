@@ -26,6 +26,12 @@ public class StepDetail extends Step {
     @XmlElement
     private List<GpsPoint> gpsPoints;
 
+    @XmlElement
+    private StepMin previousStep;
+
+    @XmlElement
+    private StepMin nextStep;
+
     public StepDetail() {
         pictures = new ArrayList<>();
         gpsPoints = new ArrayList<>();
@@ -68,5 +74,21 @@ public class StepDetail extends Step {
 
     public void setGpsPoints(List<GpsPoint> gpsPoints) {
         this.gpsPoints = gpsPoints;
+    }
+
+    public StepMin getPreviousStep() {
+        return previousStep;
+    }
+
+    public void setPreviousStep(StepMin previousStep) {
+        this.previousStep = previousStep;
+    }
+
+    public StepMin getNextStep() {
+        return nextStep;
+    }
+
+    public void setNextStep(StepMin nextStep) {
+        this.nextStep = nextStep;
     }
 }

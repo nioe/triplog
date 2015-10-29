@@ -18,5 +18,29 @@
     p {
       text-align: justify;
     }
+
+    .previousNextStep {
+      @extend .row;
+      margin-bottom: 30px;
+
+      .prev, .prev-placeholder, .next {
+        @extend .col-xs-6;
+        @extend .h4;
+      }
+
+      .prev {
+        &:before {
+          @extend .icon, .icon-prev;
+        }
+      }
+
+      .next {
+        text-align: right;
+
+        &:after {
+          @extend .icon, .icon-next, .after;
+        }
+      }
+    }
   }
 }
