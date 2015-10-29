@@ -5,7 +5,7 @@
 <triplog-tile-box>
     <triplog-tile
             ng-repeat="trip in content.trips"
-            title="{{ trip.displayName }}"
+            tile-title="{{ trip.displayName }}"
             picture="{{ trip.coverPicture }}"
             ui-sref="content.stepOverview({tripId: '{{ trip.tripId }}'})">
 

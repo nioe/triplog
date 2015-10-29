@@ -9,7 +9,7 @@ function TriplogTile() {
         replace: true,
         templateUrl: 'triplogTile.tpl.html',
         scope: {
-            title: '@',
+            tileTitle: '@',
             picture: '@'
         }
     };
