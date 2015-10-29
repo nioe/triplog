@@ -12,6 +12,8 @@ html, body {
   cursor: pointer;
 }
 
-*:not(html) {
-  -webkit-transform: translate3d(0, 0, 0);
+.content-container {
+  position: relative;
+  z-index: 1000;
+  display: block
 }
