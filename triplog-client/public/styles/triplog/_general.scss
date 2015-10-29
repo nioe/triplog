@@ -11,3 +11,7 @@ html, body {
 [ui-sref] {
   cursor: pointer;
 }
+
+*:not(html) {
+  -webkit-transform: translate3d(0, 0, 0);
+}
