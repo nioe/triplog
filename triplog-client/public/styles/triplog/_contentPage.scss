@@ -26,19 +26,58 @@
       .prev, .prev-placeholder, .next {
         @extend .col-xs-6;
         @extend .h4;
+
+        .link-holder {
+          display: table;
+          height: 40px;
+
+          div {
+            display: table-cell;
+            vertical-align: middle;
+          }
+        }
       }
 
       .prev {
-        &:before {
-          @extend .icon, .icon-prev;
+        .link-holder {
+          .text {
+            padding-left: 10px;
+          }
         }
       }
 
       .next {
-        text-align: right;
+        .link-holder {
+          text-align: right;
+          float: right;
 
-        &:after {
-          @extend .icon, .icon-next, .after;
+          .text {
+            padding-right: 10px;
+          }
+        }
+      }
+
+      @media (min-width: $screen-lg-min) {
+        .prev, .next {
+          .text {
+            transition: .2s ease;
+          }
+        }
+
+        .prev {
+          .link-holder:hover {
+            .text {
+              padding-left: 5px;
+            }
+          }
+        }
+
+        .next {
+          .link-holder:hover {
+            .text {
+              padding-right: 5px;
+            }
+          }
         }
       }
     }
