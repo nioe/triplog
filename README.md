@@ -1,7 +1,8 @@
 # Triplog [![Build Status](https://travis-ci.org/nioe/triplog.svg?branch=master)](https://travis-ci.org/nioe/triplog) #
 
-TripLog is a Client-Server-Application which is used to manage trips with serveral steps.
-Each step can have a description, several photos and and GPS points to show the distance you covered.
+You took beautiful photos on your last trip, have a great story to tell about what you've seen but no place where to publish it?
+Then you are at the right place here! __TripLog__ is a Client-Server-Application which is used to manage trips with several steps.
+Each step can have a description, photos and and GPS points to show the distance you covered.
 
 ## Technology Stack ##
 
@@ -14,11 +15,22 @@ Each step can have a description, several photos and and GPS points to show the 
 ### Client ###
 * AngularJS
 
-## Build ##
+## Contribute ##
+I appreciate every feedback or pull request!
+
+### Maven build ###
 To build and test the project simply run Maven in the root directory. It will install all needed backend & frontend dependencies automatically.
 ```shell
 mvn clean package
 ```
+### Frontend ###
+If you are working on the frontend only it might be useful to have live reload in place. Do do so simply run
+```shell
+grunt live
+```
+in the subfolder ``/triplog-client``.This will start a small web server which automatically updates changed sources. In order to refresh your browser you'll need a LiveReload plugin.
+Here for example the [Chrome Plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei).
+
 
 ## JBoss Configuration - System properties ##
 The server application is reading the configuration from system properties set in *standalone.xml*.
