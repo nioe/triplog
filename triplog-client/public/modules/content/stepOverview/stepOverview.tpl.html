@@ -5,7 +5,7 @@
     <div class="triplog-text" marked="stepOverview.trip.tripText"></div>
 </article>
 
-<triplog-timeline>
+<triplog-timeline ng-if="stepOverview.trip.steps && stepOverview.trip.steps.length > 0">
     <triplog-timeline-moment
             ng-repeat="step in stepOverview.trip.steps"
             moment-title="{{ step.stepName }}"
