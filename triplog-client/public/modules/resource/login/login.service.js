@@ -22,9 +22,11 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
         return $http({
             method: 'POST',
             url: REST_URL_PREFIX + '/logout'
-        }).then(resetLoggedInStatus, function(response) {
-            if (response.status === 401) {
+        }).then(resetLoggedInStatus, function(error) {
+            if (error.status === 401) {
                 resetLoggedInStatus();
+            } else {
+                $q.reject(error);
             }
         });
     }

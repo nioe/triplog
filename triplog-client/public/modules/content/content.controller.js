@@ -41,7 +41,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
     vm.logout = function () {
         vm.closeNavigation();
         LoginService.logout().then(function () {
-            $state.go($state.$current, angular.copy($state.params), {reload: true});
+            $state.go('content.allTrips', {}, {reload: true});
             AlertService.success('You have been successfully logged out.');
         }, function () {
             AlertService.error('There was an error during the logout process... :( Please try again.');

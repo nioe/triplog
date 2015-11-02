@@ -13,6 +13,7 @@ var triplogApp = angular.module('triplogApp', [
     require('modules/tripsResource').name,
     require('modules/stepsResource').name,
     require('modules/loginResource').name,
+    require('modules/error').name,
     require('modules/alert').name,
     require('modules/config').name
 ]);
@@ -96,6 +97,12 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             },
             controller: require('./content/login/login.controller'),
             controllerAs: 'login'
+        })
+        .state('content.notFound', {
+            templateUrl: require('./content/error/notFound.tpl.html').name,
+            data: {
+                pageTitle: 'Not found'
+            }
         });
 
     AnalyticsProvider.setAccount(GOOGLE_ANALYTICS_TRACKING_CODE);
@@ -178,7 +185,7 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
                         AlertService.info('Oops, there was a problem loading the data. Please try again later.');
                         break;
                     case 404:
-                        AlertService.info('Could not find what you were looking for...');
+                        $state.go('content.notFound', {}, {reset: true});
                         break;
                     default:
                         AlertService.info(error.data);

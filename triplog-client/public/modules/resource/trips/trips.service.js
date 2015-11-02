@@ -52,7 +52,8 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
                 return tripsWithGivenId[0];
             } else {
                 return $q.reject({
-                    status: 404
+                    status: 404,
+                    data: 'Trip with ID ' + tripId + ' could not be found.'
                 });
             }
         });
