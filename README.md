@@ -47,6 +47,7 @@ The server application is reading the configuration from system properties set i
 |---|---|---|
 |triplog.admin.password|The admin password which is used to add, delete or update content|password|
 |triplog.admin.user|The admin username which is used to add, delete or update content|admin|
+|triplog.media.path|Path on server where pictures are stored|-|
 |triplog.mongodb.dbname|The database name where TripLog stores its data|triplog|
 |triplog.mongodb.host|The MongoDB server hostname|localhost|
 |triplog.mongodb.password|The MongoDB password|-|
@@ -55,4 +56,5 @@ The server application is reading the configuration from system properties set i
 |triplog.server.host|TripLog server's hostname|localhost|
 |triplog.server.port|Server port for TripLog services|8080|
 |triplog.server.protocol|The protocol which is used to access the TripLog services|http|
+|triplog.server.relative|false: Use a absolute server path e.g. http://localhost:8080/trips, true: Use a relative service path e.g. /trips|false|
 |triplog.session.timeout|Session timeout in minutes|60|

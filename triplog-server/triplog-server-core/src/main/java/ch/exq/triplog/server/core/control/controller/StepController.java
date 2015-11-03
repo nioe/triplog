@@ -143,14 +143,14 @@ public class StepController {
 
     private void changePictureLinksFor(Step step) {
         if (step.getCoverPicture() != null) {
-            step.setCoverPicture(resourceController.getPictureUrl(step.getCoverPicture()));
+            step.setCoverPicture(resourceController.getPictureUrl(step.getTripId(), step.getTripId(), step.getCoverPicture()));
         }
 
         if (step instanceof StepDetail) {
             StepDetail stepDetail = (StepDetail) step;
-            stepDetail.setPictures(stepDetail.getPictures().stream().map(resourceController::getPictureUrl)
+            stepDetail.setPictures(stepDetail.getPictures().stream()
+                    .map(picture -> resourceController.getPictureUrl(step.getTripId(), step.getTripId(), picture))
                     .collect(Collectors.toList()));
-
         }
     }
 
