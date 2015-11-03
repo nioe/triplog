@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
  */
-@Path("/")
+@Path("/trips/{tripId : [0-9a-z-]*}/steps")
 public class StepService {
 
     @Inject
@@ -24,7 +24,7 @@ public class StepService {
     ResponseController responseController;
 
     @GET
-    @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}")
+    @Path("{stepId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId) {
         StepDetail stepDetail = stepController.getStep(tripId, stepId);
@@ -37,14 +37,12 @@ public class StepService {
     }
 
     @GET
-    @Path("/trips/{tripId : [0-9a-z-]*}/steps")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStepsOfTrip(@PathParam("tripId") String tripId) {
         return Response.ok(stepController.getAllStepsOfTrip(tripId)).build();
     }
 
     @POST
-    @Path("/trips/{tripId : [0-9a-z-]*}/steps")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -59,7 +57,7 @@ public class StepService {
     }
 
     @PUT
-    @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}")
+    @Path("{stepId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -77,7 +75,7 @@ public class StepService {
     }
 
     @DELETE
-    @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}")
+    @Path("{stepId : [0-9a-z-]*}")
     @AuthenticationRequired
     public Response deleteStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId) {
         boolean deleted = stepController.deleteStep(tripId, stepId);

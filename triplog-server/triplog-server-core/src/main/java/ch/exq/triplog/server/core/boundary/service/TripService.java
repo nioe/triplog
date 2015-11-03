@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 27.03.2014.
  */
-@Path("/")
+@Path("/trips")
 public class TripService {
     @Inject
     TripController tripController;
@@ -25,7 +25,7 @@ public class TripService {
     ResponseController responseController;
 
     @GET
-    @Path("/trips/{tripId : [0-9a-z-]*}")
+    @Path("{tripId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTrip(@PathParam("tripId") String tripId) {
         Trip trip = tripController.getTripById(tripId);
@@ -37,7 +37,7 @@ public class TripService {
     }
 
     @GET
-    @Path("/trips/{tripId : [0-9a-z-]*}/gpsPoints")
+    @Path("{tripId : [0-9a-z-]*}/gpsPoints")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllGpsPointsOfTrip(@PathParam("tripId") String tripId) {
         List<GpsPoint> gpsPoints = tripController.getAllGpsPointsOfTrip(tripId);
@@ -49,14 +49,12 @@ public class TripService {
     }
 
     @GET
-    @Path("/trips")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllTrips() {
         return Response.ok(tripController.getAllTrips()).build();
     }
 
     @POST
-    @Path("/trips")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -69,7 +67,7 @@ public class TripService {
     }
 
     @PUT
-    @Path("/trips/{tripId : [0-9a-z-]*}")
+    @Path("{tripId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @AuthenticationRequired
@@ -87,7 +85,7 @@ public class TripService {
     }
 
     @DELETE
-    @Path("/trips/{tripId : [0-9a-z-]*}")
+    @Path("{tripId : [0-9a-z-]*}")
     @AuthenticationRequired
     public Response deleteTrip(@PathParam("tripId") String tripId) {
         boolean deleted = tripController.deleteTripWithId(tripId);
