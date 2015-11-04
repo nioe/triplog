@@ -39,8 +39,8 @@ public class StepDAO {
         return steps;
     }
 
-    public StepDBObject getStep(String stepId) {
-        DBCursor cursor = db.getStepCollection().find(idDBObject(stepId));
+    public StepDBObject getStep(String tripId, String stepId) {
+        DBCursor cursor = db.getStepCollection().find(idDBObject(tripId, stepId));
         if (cursor.count() == 0) {
             return null;
         } else if (cursor.count() > 1) {
@@ -58,8 +58,8 @@ public class StepDAO {
         return db.getStepCollection().remove(step);
     }
 
-    public WriteResult updateStep(String stepId, StepDBObject step) {
-        return db.getStepCollection().update(idDBObject(stepId), step);
+    public WriteResult updateStep(String tripId, String stepId, StepDBObject step) {
+        return db.getStepCollection().update(idDBObject(tripId, stepId), step);
     }
 
     public WriteResult deleteAllStepsOfTrip(String tripId) {
@@ -67,7 +67,7 @@ public class StepDAO {
     }
 
 
-    private BasicDBObject idDBObject(String stepId) {
-        return new BasicDBObject(StepDBObject.STEP_ID, stepId);
+    private BasicDBObject idDBObject(String tripId, String stepId) {
+        return new BasicDBObject(StepDBObject.TRIP_ID, tripId).append(StepDBObject.STEP_ID, stepId);
     }
 }

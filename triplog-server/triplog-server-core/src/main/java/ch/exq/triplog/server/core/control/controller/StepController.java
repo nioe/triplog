@@ -51,13 +51,13 @@ public class StepController {
         List<Step> allStepDetails = stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .collect(Collectors.toList());
 
-        //allStepDetails.forEach(this::changePictureLinksFor);
+        allStepDetails.forEach(this::changePictureLinksFor);
 
         return allStepDetails;
     }
 
     public StepDetail getStep(String tripId, String stepId) {
-        StepDBObject stepDBObject = stepDAO.getStep(stepId);
+        StepDBObject stepDBObject = stepDAO.getStep(tripId, stepId);
         StepDetail stepDetail = null;
 
         if (stepDBObject != null) {
@@ -97,7 +97,7 @@ public class StepController {
     }
 
     public StepDetail updateStep(String tripId, String stepId, StepDetail stepDetail) throws DisplayableException {
-        StepDBObject currentStep = stepDAO.getStep(stepId);
+        StepDBObject currentStep = stepDAO.getStep(tripId, stepId);
         if (currentStep == null) {
             throw new DisplayableException("Step " + stepId + " could not be found");
         }
@@ -118,7 +118,7 @@ public class StepController {
         }
 
         checkFromDateIsBeforeOrEqualsToDate(currentStep);
-        stepDAO.updateStep(stepId, currentStep);
+        stepDAO.updateStep(tripId, stepId, currentStep);
 
         StepDetail updatedStep = mapper.map(currentStep, StepDetail.class);
         changePictureLinksFor(updatedStep);
@@ -127,7 +127,7 @@ public class StepController {
     }
 
     public boolean deleteStep(String tripId, String stepId) {
-        StepDBObject stepDBObject = stepDAO.getStep(stepId);
+        StepDBObject stepDBObject = stepDAO.getStep(tripId, stepId);
         if (stepDBObject == null) {
             return false;
         }
