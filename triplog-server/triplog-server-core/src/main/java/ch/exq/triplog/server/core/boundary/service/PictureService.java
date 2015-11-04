@@ -26,7 +26,7 @@ public class PictureService {
     @GET
     @Path("{pictureName}")
     @Produces("image/*")
-    public Response getImage(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) {
+    public Response getPicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) {
         File picture = pictureController.getPicture(tripId, stepId, pictureName);
 
         if (picture == null) {
@@ -39,7 +39,7 @@ public class PictureService {
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadFile(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @MultipartForm FileAttachment attachment) {
+    public Response uploadPicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @MultipartForm FileAttachment attachment) {
         if (attachment.getContent() == null) {
             throw new WebApplicationException("File must not be empty.", 400);
         }
@@ -51,6 +51,19 @@ public class PictureService {
             throw new WebApplicationException(ex.getMessage(), ex, 404);
         } catch (IOException ex) {
             throw new WebApplicationException("Picture could not be saved.", ex, 500);
+        }
+    }
+
+    @DELETE
+    @Path("{pictureName}")
+    public Response deletePicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) {
+        try {
+            pictureController.delete(tripId, stepId, pictureName);
+            return Response.ok().build();
+        } catch (IllegalArgumentException ex) {
+            throw new WebApplicationException(ex.getMessage(), ex, 404);
+        } catch (IOException ex) {
+            throw new WebApplicationException("Picture could not be deleted.", ex, 500);
         }
     }
 }

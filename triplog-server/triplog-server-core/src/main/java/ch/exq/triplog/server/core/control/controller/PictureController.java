@@ -46,6 +46,19 @@ public class PictureController {
         return uniquePictureName;
     }
 
+    public void delete(String tripId, String stepId, String pictureName) throws IOException {
+        if (stepController.getStep(tripId, stepId) == null) {
+            throw new IllegalArgumentException("Given step could not be found!");
+        }
+
+        Path picturePath = getPicturePath(tripId, stepId, pictureName);
+        if (!Files.exists(picturePath)) {
+            throw new IllegalArgumentException("No such file " + picturePath.toString());
+        }
+
+        Files.delete(picturePath);
+    }
+
     private Path getPicturePath(String tripId, String stepId, String pictureName) {
         if (mediaPath.getString() == null) {
             throw new RuntimeException("triplog.media.path system property must be set!");
