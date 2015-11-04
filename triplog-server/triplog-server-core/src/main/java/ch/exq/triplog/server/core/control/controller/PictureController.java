@@ -12,10 +12,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import static ch.exq.triplog.server.util.misc.UUIDUtil.getRandomUUID;
+
 public class PictureController {
 
     @Inject
     Logger logger;
+
+    @Inject
+    StepController stepController;
 
     @Inject
     @Config(key = "triplog.media.path", description = "Path on server where pictures are stored")
@@ -26,14 +31,19 @@ public class PictureController {
         return picture.exists() ? picture : null;
     }
 
-    public boolean savePicture(String tripId, String stepId, String pictureName, byte[] content) {
-        try {
-            Files.write(getPicturePath(tripId, stepId, pictureName), content, StandardOpenOption.CREATE_NEW);
-            return true;
-        } catch (IOException e) {
-            logger.error("Could not save picture!", e);
-            return false;
+    public String savePicture(String tripId, String stepId, String pictureName, byte[] content) throws IOException {
+        if (stepController.getStep(tripId, stepId) == null) {
+            throw new IllegalArgumentException("Given step could not be found!");
         }
+
+        String pictureExtension = pictureName.substring(pictureName.lastIndexOf('.'));
+        String uniquePictureName = getRandomUUID() + pictureExtension;
+
+        Path picturePath = getPicturePath(tripId, stepId, uniquePictureName);
+        Files.createDirectories(picturePath.getParent());
+        Files.write(picturePath, content, StandardOpenOption.CREATE_NEW);
+
+        return uniquePictureName;
     }
 
     private Path getPicturePath(String tripId, String stepId, String pictureName) {

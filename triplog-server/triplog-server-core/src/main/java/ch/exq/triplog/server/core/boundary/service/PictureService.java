@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}/pictures")
@@ -29,7 +30,7 @@ public class PictureService {
         File picture = pictureController.getPicture(tripId, stepId, pictureName);
 
         if (picture == null) {
-            throw new WebApplicationException(404);
+            throw new WebApplicationException("Picture could not be found.", 404);
         }
 
         String mimeType = new MimetypesFileTypeMap().getContentType(picture);
@@ -39,11 +40,17 @@ public class PictureService {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadFile(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @MultipartForm FileAttachment attachment) {
-        if (pictureController.savePicture(tripId, stepId, attachment.getName(), attachment.getContent())) {
-            // TODO Replace with created 201
-            return Response.created(URI.create(resourceController.getPictureUrl(tripId, stepId, attachment.getName()))).build();
-        } else {
-            return Response.serverError().build();
+        if (attachment.getContent() == null) {
+            throw new WebApplicationException("File must not be empty.", 400);
+        }
+
+        try {
+            String pictureName = pictureController.savePicture(tripId, stepId, attachment.getName(), attachment.getContent());
+            return Response.created(URI.create(resourceController.getPictureUrl(tripId, stepId, pictureName))).build();
+        } catch (IllegalArgumentException ex) {
+            throw new WebApplicationException(ex.getMessage(), ex, 404);
+        } catch (IOException ex) {
+            throw new WebApplicationException("Picture could not be saved.", ex, 500);
         }
     }
 }
