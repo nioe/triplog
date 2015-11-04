@@ -10,10 +10,10 @@ public class FileAttachment {
     private final String name;
 
     public FileAttachment() {
-        this(null, null, null); // For REST-Easy
+        this(null, null); // For REST-Easy
     }
 
-    public FileAttachment(byte[] content, String name, String mimeType) {
+    public FileAttachment(byte[] content, String name) {
         this.content = content;
         this.name = name;
     }
