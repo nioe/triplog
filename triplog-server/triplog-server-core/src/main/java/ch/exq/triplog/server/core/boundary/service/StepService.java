@@ -1,10 +1,10 @@
 package ch.exq.triplog.server.core.boundary.service;
 
+import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
+import ch.exq.triplog.server.core.control.controller.ResponseController;
 import ch.exq.triplog.server.core.control.controller.StepController;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
-import ch.exq.triplog.server.common.dto.StepDetail;
-import ch.exq.triplog.server.core.control.controller.ResponseController;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
