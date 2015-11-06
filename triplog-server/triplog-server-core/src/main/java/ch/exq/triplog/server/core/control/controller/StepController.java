@@ -48,12 +48,8 @@ public class StepController {
             return null;
         }
 
-        List<Step> allStepDetails = stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
+        return stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .collect(Collectors.toList());
-
-        //allStepDetails.forEach(this::changePictureLinksFor);
-
-        return allStepDetails;
     }
 
     public StepDetail getStep(String tripId, String stepId) {
@@ -62,7 +58,6 @@ public class StepController {
 
         if (stepDBObject != null) {
             stepDetail = mapper.map(stepDBObject, StepDetail.class);
-            //changePictureLinksFor(stepDetail);
             findPreviousAndNext(stepDetail);
         }
 
@@ -120,10 +115,7 @@ public class StepController {
         checkFromDateIsBeforeOrEqualsToDate(currentStep);
         stepDAO.updateStep(tripId, stepId, currentStep);
 
-        StepDetail updatedStep = mapper.map(currentStep, StepDetail.class);
-        //changePictureLinksFor(updatedStep);
-
-        return updatedStep;
+        return mapper.map(currentStep, StepDetail.class);
     }
 
     public boolean deleteStep(String tripId, String stepId) {
@@ -139,19 +131,6 @@ public class StepController {
     public boolean deleteAllStepsOfTrip(String tripId) {
         WriteResult result = stepDAO.deleteAllStepsOfTrip(tripId);
         return result.getN() > 0 && result.getError() == null;
-    }
-
-    private void changePictureLinksFor(Step step) {
-        if (step.getCoverPicture() != null) {
-            step.setCoverPicture(resourceController.getPictureUrl(step.getTripId(), step.getTripId(), step.getCoverPicture()));
-        }
-
-        if (step instanceof StepDetail) {
-            StepDetail stepDetail = (StepDetail) step;
-            stepDetail.setPictures(stepDetail.getPictures().stream()
-                    .map(picture -> resourceController.getPictureUrl(step.getTripId(), step.getTripId(), picture))
-                    .collect(Collectors.toList()));
-        }
     }
 
     private void findPreviousAndNext(StepDetail stepDetail) {
