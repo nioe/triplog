@@ -1,6 +1,11 @@
 #!/bin/bash
 readonly WILDFLY_URL="${WILDFLY_PROTOCOL}://${WILDFLY_USER}:${WILDFLY_PASSWORD}@${WILDFLY_HOST}:${WILDFLY_PORT}/management"
 
+if [ ${TRAVIS_BRANCH} != "master" ]; then
+  echo "Only deploy for master branch. Current branch is ${TRAVIS_BRANCH}."
+  exit 0
+fi
+
 echo "Undeploy old ear"
 curl -k -S -H "content-Type: application/json" -d "{\"operation\":\"undeploy\", \"address\":[{\"deployment\":\"${ARTIFACT_NAME}\"}]}" --digest ${WILDFLY_URL}
 echo ""
