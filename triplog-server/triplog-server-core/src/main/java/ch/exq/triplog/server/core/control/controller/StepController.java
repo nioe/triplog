@@ -51,7 +51,7 @@ public class StepController {
         List<Step> allStepDetails = stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .collect(Collectors.toList());
 
-        allStepDetails.forEach(this::changePictureLinksFor);
+        //allStepDetails.forEach(this::changePictureLinksFor);
 
         return allStepDetails;
     }
@@ -62,7 +62,7 @@ public class StepController {
 
         if (stepDBObject != null) {
             stepDetail = mapper.map(stepDBObject, StepDetail.class);
-            changePictureLinksFor(stepDetail);
+            //changePictureLinksFor(stepDetail);
             findPreviousAndNext(stepDetail);
         }
 
@@ -121,7 +121,7 @@ public class StepController {
         stepDAO.updateStep(tripId, stepId, currentStep);
 
         StepDetail updatedStep = mapper.map(currentStep, StepDetail.class);
-        changePictureLinksFor(updatedStep);
+        //changePictureLinksFor(updatedStep);
 
         return updatedStep;
     }
