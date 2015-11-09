@@ -13,7 +13,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.stream.Collectors;
 
 @Provider
@@ -39,9 +38,7 @@ public class PictureLinkFilter implements ContainerResponseFilter {
     }
 
     private void changePictureLinkFor(Iterable iterable) {
-        Iterator it = iterable.iterator();
-        while (it.hasNext()) {
-            Object entity = it.next();
+        for (Object entity : iterable) {
             if (entity instanceof Trip) {
                 changePictureLinkFor(((Trip) entity).getSteps());
             } else if (entity instanceof Step) {
