@@ -10,6 +10,7 @@ div.triplog-gallery {
   div.gallery-picture {
     @extend .paper-effect;
     position: relative;
+    background-color: rgb(250, 250, 250);
     width: 200px;
     height: 240px;
     cursor: pointer;
