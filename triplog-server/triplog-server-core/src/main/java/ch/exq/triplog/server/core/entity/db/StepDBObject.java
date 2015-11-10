@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
 import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
@@ -93,21 +92,18 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
         put(STEP_TEXT, stepText);
     }
 
-    public List<String> getPictures() {
-        List<String> images = new ArrayList<>();
+    public List<PictureDBObject> getPictures() {
+        List<PictureDBObject> pictures = new ArrayList<>();
 
-        Object imagesObject = get(PICTURES);
-        if (imagesObject != null) {
-            ListIterator<Object> imagesList = ((BasicDBList) imagesObject).listIterator();
-            while (imagesList.hasNext()) {
-                images.add((String) imagesList.next());
-            }
+        Object picturesObject = get(PICTURES);
+        if (picturesObject != null) {
+            ((BasicDBList) picturesObject).forEach(dbObject -> pictures.add(new PictureDBObject((BasicDBObject) dbObject)));
         }
 
-        return images;
+        return pictures;
     }
 
-    public void setPictures(List<String> pictures) {
+    public void setPictures(List<PictureDBObject> pictures) {
         BasicDBList basicDBList = new BasicDBList();
         if (pictures != null) {
             pictures.stream().forEach(basicDBList::add);

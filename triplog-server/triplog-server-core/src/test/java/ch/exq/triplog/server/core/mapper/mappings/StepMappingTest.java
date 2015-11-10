@@ -1,9 +1,11 @@
 package ch.exq.triplog.server.core.mapper.mappings;
 
 import ch.exq.triplog.server.common.dto.GpsPoint;
+import ch.exq.triplog.server.common.dto.Picture;
 import ch.exq.triplog.server.common.dto.Step;
 import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.entity.db.GpsPointDBObject;
+import ch.exq.triplog.server.core.entity.db.PictureDBObject;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +33,14 @@ public class StepMappingTest {
     public static final String LEAD = "lead";
     public static final String COVER_PICTURE = "cover pic";
     public static final String STEP_TEXT = "text";
-    public static final List<String> PICTURES = Arrays.asList("pic1", "pic2", "pic3");
+    public static final List<Picture> PICTURES = Arrays.asList(
+            new Picture("pic1", new GpsPoint("0.482", "1.396"), "caption1", true),
+            new Picture("pic2", new GpsPoint("0.932", "1.849"), "caption2", false)
+    );
+    public static final List<PictureDBObject> PICTURE_DB_OBJECTS = Arrays.asList(
+            new PictureDBObject("pic1", new GpsPointDBObject(new BigDecimal("0.482"), new BigDecimal("1.396")), "caption1", true),
+            new PictureDBObject("pic2", new GpsPointDBObject(new BigDecimal("0.932"), new BigDecimal("1.849")), "caption2", false)
+    );
     public static final List<GpsPoint> GPS_POINTS = Arrays.asList(new GpsPoint("1.23", "0.456"), new GpsPoint("0.567", "1.89"));
     public static final List<GpsPointDBObject> GPS_POINT_DB_OBJECTS = Arrays.asList(
             new GpsPointDBObject(new BigDecimal("1.23"), new BigDecimal("0.456")),
@@ -74,7 +83,7 @@ public class StepMappingTest {
         assertThat(actual.getStepLead()).isEqualTo(LEAD);
         assertThat(actual.getCoverPicture()).isEqualTo(COVER_PICTURE);
         assertThat(actual.getStepText()).isEqualTo(STEP_TEXT);
-        assertThat(actual.getPictures()).containsExactly("pic1", "pic2", "pic3");
+        assertThat(actual.getPictures()).containsAll(PICTURE_DB_OBJECTS);
         assertThat(actual.getGpsPoints()).containsAll(GPS_POINT_DB_OBJECTS);
     }
 
@@ -93,7 +102,7 @@ public class StepMappingTest {
         stepDBObject.setStepLead(LEAD);
         stepDBObject.setCoverPicture(COVER_PICTURE);
         stepDBObject.setStepText(STEP_TEXT);
-        stepDBObject.setPictures(PICTURES);
+        stepDBObject.setPictures(PICTURE_DB_OBJECTS);
         stepDBObject.setGpsPoints(GPS_POINT_DB_OBJECTS);
 
         // when
@@ -108,7 +117,7 @@ public class StepMappingTest {
         assertThat(actual.getStepLead()).isEqualTo(LEAD);
         assertThat(actual.getCoverPicture()).isEqualTo(COVER_PICTURE);
         assertThat(actual.getStepText()).isEqualTo(STEP_TEXT);
-        assertThat(actual.getPictures()).containsExactly("pic1", "pic2", "pic3");
+        assertThat(actual.getPictures()).containsAll(PICTURES);
         assertThat(actual.getGpsPoints()).containsAll(GPS_POINTS);
     }
 
@@ -127,7 +136,7 @@ public class StepMappingTest {
         stepDBObject.setStepLead(LEAD);
         stepDBObject.setCoverPicture(COVER_PICTURE);
         stepDBObject.setStepText(STEP_TEXT);
-        stepDBObject.setPictures(PICTURES);
+        stepDBObject.setPictures(PICTURE_DB_OBJECTS);
         stepDBObject.setGpsPoints(GPS_POINT_DB_OBJECTS);
 
         // when

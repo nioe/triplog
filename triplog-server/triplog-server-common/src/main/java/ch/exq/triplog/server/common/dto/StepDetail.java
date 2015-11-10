@@ -21,7 +21,7 @@ public class StepDetail extends Step {
     private String stepText;
 
     @XmlElement
-    private List<String> pictures;
+    private List<Picture> pictures;
 
     @XmlElement
     private List<GpsPoint> gpsPoints;
@@ -38,13 +38,13 @@ public class StepDetail extends Step {
     }
 
     public StepDetail(String tripId, String stepName, LocalDate fromDate, LocalDate toDate, String stepLead,
-                      String stepText, List<String> pictures, List<GpsPoint> gpsPoints, String coverPicture) {
+                      String stepText, List<Picture> pictures, List<GpsPoint> gpsPoints, String coverPicture) {
         this(IdGenerator.generateIdWithFullDate(stepName, fromDate), tripId, stepName, fromDate, toDate, stepLead,
                 stepText, pictures, gpsPoints, coverPicture);
     }
 
     public StepDetail(String stepId, String tripId, String stepName, LocalDate fromDate, LocalDate toDate, String stepLead,
-                      String stepText, List<String> pictures, List<GpsPoint> gpsPoints, String coverPicture) {
+                      String stepText, List<Picture> pictures, List<GpsPoint> gpsPoints, String coverPicture) {
 
         super(stepId, tripId, stepName, fromDate, toDate, stepLead, coverPicture);
         this.stepText = stepText;
@@ -60,11 +60,11 @@ public class StepDetail extends Step {
         this.stepText = stepText;
     }
 
-    public List<String> getPictures() {
+    public List<Picture> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<String> pictures) {
+    public void setPictures(List<Picture> pictures) {
         this.pictures = pictures;
     }
 

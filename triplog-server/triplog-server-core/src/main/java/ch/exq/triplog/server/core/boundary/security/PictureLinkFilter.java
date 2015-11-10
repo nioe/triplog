@@ -13,7 +13,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 @Provider
 public class PictureLinkFilter implements ContainerResponseFilter {
@@ -56,9 +55,7 @@ public class PictureLinkFilter implements ContainerResponseFilter {
 
         if (step instanceof StepDetail) {
             StepDetail stepDetail = (StepDetail) step;
-            stepDetail.setPictures(stepDetail.getPictures().stream()
-                    .map(picture -> baseUri + resourceController.getPictureUrl(step.getTripId(), step.getStepId(), picture))
-                    .collect(Collectors.toList()));
+            stepDetail.getPictures().stream().forEach(picture -> picture.setUrl(baseUri + resourceController.getPictureUrl(step.getTripId(), step.getStepId(), picture.getName())));
         }
     }
 }
