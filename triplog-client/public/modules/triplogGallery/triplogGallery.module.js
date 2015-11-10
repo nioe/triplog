@@ -11,10 +11,6 @@ module.exports = angular.module('triplogGallery', [
 module.exports.config(['LightboxProvider', function (LightboxProvider) {
     LightboxProvider.templateUrl = 'triplogGallery.lightbox.tpl.html';
 
-    LightboxProvider.getImageUrl = function (imageUrl) {
-        return imageUrl;
-    };
-
     LightboxProvider.calculateModalDimensions = function (dimensions) {
         return {
             'width': dimensions.imageDisplayWidth + 32,
