@@ -18,8 +18,15 @@ public class GpsPointDBObject extends BasicDBObject {
     }
 
     public GpsPointDBObject(BasicDBObject object) {
-        setLatitude(new BigDecimal((String) object.get(LATITUDE)));
-        setLongitude(new BigDecimal((String) object.get(LONGITUDE)));
+        String latitude = (String) object.get(LATITUDE);
+        String longitude = (String) object.get(LONGITUDE);
+
+        if (latitude == null || longitude == null) {
+            throw new IllegalArgumentException("Invalid null value for longitude or latitude while parsing GPSPointDBObject from DBObject");
+        }
+
+        setLatitude(new BigDecimal(latitude));
+        setLongitude(new BigDecimal(longitude));
     }
 
     public GpsPointDBObject(BigDecimal latitude, BigDecimal longitude) {

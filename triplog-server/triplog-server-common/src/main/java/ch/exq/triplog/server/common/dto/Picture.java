@@ -27,6 +27,10 @@ public class Picture {
     public Picture() {
     }
 
+    public Picture(String name, GpsPoint location) {
+        this(name, location, null, true);
+    }
+
     public Picture(String name, GpsPoint location, String caption, boolean shownInGallery) {
         this.name = name;
         this.location = location;

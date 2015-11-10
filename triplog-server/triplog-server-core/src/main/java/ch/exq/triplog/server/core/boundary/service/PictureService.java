@@ -3,6 +3,8 @@ package ch.exq.triplog.server.core.boundary.service;
 import ch.exq.triplog.server.core.boundary.service.upload.FileAttachment;
 import ch.exq.triplog.server.core.control.controller.PictureController;
 import ch.exq.triplog.server.core.control.controller.ResourceController;
+import ch.exq.triplog.server.core.control.controller.ResponseController;
+import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -22,6 +24,9 @@ public class PictureService {
 
     @Inject
     ResourceController resourceController;
+
+    @Inject
+    ResponseController responseController;
 
     @GET
     @Path("{pictureName}")
@@ -51,6 +56,8 @@ public class PictureService {
             throw new WebApplicationException(ex.getMessage(), ex, 404);
         } catch (IOException ex) {
             throw new WebApplicationException("Picture could not be saved.", ex, 500);
+        } catch (DisplayableException e) {
+            return responseController.badRequest(e);
         }
     }
 

@@ -1,5 +1,8 @@
 package ch.exq.triplog.server.core.control.controller;
 
+import ch.exq.triplog.server.common.dto.Picture;
+import ch.exq.triplog.server.common.dto.StepDetail;
+import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
 import org.slf4j.Logger;
@@ -31,8 +34,9 @@ public class PictureController {
         return picture.exists() ? picture : null;
     }
 
-    public String savePicture(String tripId, String stepId, String pictureName, byte[] content) throws IOException {
-        if (stepController.getStep(tripId, stepId) == null) {
+    public String savePicture(String tripId, String stepId, String pictureName, byte[] content) throws IOException, DisplayableException {
+        StepDetail step = stepController.getStep(tripId, stepId);
+        if (step == null) {
             throw new IllegalArgumentException("Given step could not be found!");
         }
 
@@ -42,6 +46,9 @@ public class PictureController {
         Path picturePath = getPicturePath(tripId, stepId, uniquePictureName);
         Files.createDirectories(picturePath.getParent());
         Files.write(picturePath, content, StandardOpenOption.CREATE_NEW);
+
+        step.getPictures().add(new Picture(uniquePictureName, null));
+        stepController.updateStep(tripId, stepId, step);
 
         return uniquePictureName;
     }

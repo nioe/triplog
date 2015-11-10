@@ -99,10 +99,9 @@ public class StepController {
 
         StepDBObject changedStep = mapper.map(stepDetail, StepDBObject.class);
 
-        //We never change ids or images like this
+        //We never change ids like this
         changedStep.setStepId(null);
         changedStep.setTripId(null);
-        changedStep.setPictures(null);
 
         try {
             currentStep.updateFrom(changedStep);
