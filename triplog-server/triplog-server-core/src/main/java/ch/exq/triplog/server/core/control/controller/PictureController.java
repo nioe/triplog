@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static ch.exq.triplog.server.util.misc.UUIDUtil.getRandomUUID;
 
@@ -53,8 +55,9 @@ public class PictureController {
         return uniquePictureName;
     }
 
-    public void delete(String tripId, String stepId, String pictureName) throws IOException {
-        if (stepController.getStep(tripId, stepId) == null) {
+    public void delete(String tripId, String stepId, String pictureName) throws IOException, DisplayableException {
+        StepDetail step = stepController.getStep(tripId, stepId);
+        if (step == null) {
             throw new IllegalArgumentException("Given step could not be found!");
         }
 
@@ -64,6 +67,14 @@ public class PictureController {
         }
 
         Files.delete(picturePath);
+
+        List<Picture> pictureToDelete = step.getPictures().stream().filter(picture -> picture.getName().equals(pictureName)).collect(Collectors.toList());
+        if (pictureToDelete.size() > 1) {
+            throw new IllegalArgumentException("More than one picture with ID " + pictureName + " found on step " + stepId + " of trip " + tripId);
+        } else if (pictureToDelete.size() == 1) {
+            step.getPictures().remove(pictureToDelete.get(0));
+            stepController.updateStep(tripId, stepId, step);
+        }
     }
 
     private Path getPicturePath(String tripId, String stepId, String pictureName) {

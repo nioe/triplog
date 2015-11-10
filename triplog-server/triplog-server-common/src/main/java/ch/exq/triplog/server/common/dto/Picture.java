@@ -88,8 +88,8 @@ public class Picture {
         if (shownInGallery != picture.shownInGallery) return false;
         if (name != null ? !name.equals(picture.name) : picture.name != null) return false;
         if (location != null ? !location.equals(picture.location) : picture.location != null) return false;
-        return !(caption != null ? !caption.equals(picture.caption) : picture.caption != null);
 
+        return !(caption != null ? !caption.equals(picture.caption) : picture.caption != null);
     }
 
     @Override

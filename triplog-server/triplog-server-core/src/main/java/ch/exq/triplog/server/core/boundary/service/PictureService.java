@@ -71,6 +71,8 @@ public class PictureService {
             throw new WebApplicationException(ex.getMessage(), ex, 404);
         } catch (IOException ex) {
             throw new WebApplicationException("Picture could not be deleted.", ex, 500);
+        } catch (DisplayableException e) {
+            return responseController.badRequest(e);
         }
     }
 }
