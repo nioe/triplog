@@ -14,7 +14,7 @@
 
 <triplog-map gps-points="stepDetail.step.gpsPoints" ng-if="stepDetail.showMap()"></triplog-map>
 
-<triplog-gallery ng-if="stepDetail.step.pictures && stepDetail.step.pictures.length > 0" pictures="stepDetail.step.pictures"></triplog-gallery>
+<triplog-gallery ng-if="stepDetail.galleryPictures && stepDetail.galleryPictures.length > 0" pictures="stepDetail.galleryPictures"></triplog-gallery>
 
 <aside class="previousNextStep">
     <div class="prev" ng-if="stepDetail.step.previousStep">

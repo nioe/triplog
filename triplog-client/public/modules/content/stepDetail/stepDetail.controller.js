@@ -4,6 +4,9 @@
 function StepDetailController($rootScope, $state, step) {
     var vm = this;
     vm.step = step;
+    vm.galleryPictures = step.pictures.filter(function (picture) {
+        return picture.shownInGallery;
+    });
 
     $state.current.data.pageTitle = vm.step.stepName;
 
