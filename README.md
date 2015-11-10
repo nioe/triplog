@@ -53,8 +53,4 @@ The server application is reading the configuration from system properties set i
 |triplog.mongodb.password|The MongoDB password|-|
 |triplog.mongodb.port|The MongoDB server port|27017|
 |triplog.mongodb.user|The MongoDB user|-|
-|triplog.server.host|TripLog server's hostname|localhost|
-|triplog.server.port|Server port for TripLog services|8080|
-|triplog.server.protocol|The protocol which is used to access the TripLog services|http|
-|triplog.server.relative|false: Use a absolute server path e.g. http://localhost:8080/trips, true: Use a relative service path e.g. /trips|false|
 |triplog.session.timeout|Session timeout in minutes|60|
