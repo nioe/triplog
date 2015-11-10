@@ -1,8 +1,11 @@
 language: java
 jdk: oraclejdk8
 
-before_install: gem install sass
+before_install:
+  - gem install sass
+  - pip install --user codecov
 
 after_success:
+  - codecov
   - chmod 755 ./scripts/deploy.sh
   - ./scripts/deploy.sh
