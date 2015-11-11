@@ -51,7 +51,8 @@ public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
     }
 
     public GpsPointDBObject getLocation() {
-        return new GpsPointDBObject((BasicDBObject) get(LOCATION));
+        BasicDBObject location = (BasicDBObject) get(LOCATION);
+        return location != null ? new GpsPointDBObject(location) : null;
     }
 
     public void setLocation(GpsPointDBObject location) {
@@ -77,5 +78,24 @@ public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
     @Override
     protected Logger logger() {
         return logger;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        PictureDBObject that = (PictureDBObject) o;
+
+        return !(getName() != null ? !getName().equals(that.getName()) : that.getName() != null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+
+        return result;
     }
 }

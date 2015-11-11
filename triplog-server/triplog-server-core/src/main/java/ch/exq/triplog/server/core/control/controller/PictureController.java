@@ -14,8 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static ch.exq.triplog.server.util.misc.UUIDUtil.getRandomUUID;
 
@@ -49,8 +47,10 @@ public class PictureController {
         Files.createDirectories(picturePath.getParent());
         Files.write(picturePath, content, StandardOpenOption.CREATE_NEW);
 
-        step.getPictures().add(new Picture(uniquePictureName, null));
-        stepController.updateStep(tripId, stepId, step);
+        // TODO get GPS data from picture
+        Picture picture = new Picture(uniquePictureName, null);
+
+        stepController.addPicture(tripId, stepId, picture);
 
         return uniquePictureName;
     }
@@ -68,13 +68,7 @@ public class PictureController {
 
         Files.delete(picturePath);
 
-        List<Picture> pictureToDelete = step.getPictures().stream().filter(picture -> picture.getName().equals(pictureName)).collect(Collectors.toList());
-        if (pictureToDelete.size() > 1) {
-            throw new IllegalArgumentException("More than one picture with ID " + pictureName + " found on step " + stepId + " of trip " + tripId);
-        } else if (pictureToDelete.size() == 1) {
-            step.getPictures().remove(pictureToDelete.get(0));
-            stepController.updateStep(tripId, stepId, step);
-        }
+        stepController.deletePicture(tripId, stepId, pictureName);
     }
 
     private Path getPicturePath(String tripId, String stepId, String pictureName) {

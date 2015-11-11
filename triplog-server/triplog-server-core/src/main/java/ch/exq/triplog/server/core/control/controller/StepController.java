@@ -1,12 +1,14 @@
 package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.common.comparator.StepFromDateComparator;
+import ch.exq.triplog.server.common.dto.Picture;
 import ch.exq.triplog.server.common.dto.Step;
 import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.common.dto.StepMin;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.StepDAO;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
+import ch.exq.triplog.server.core.entity.db.PictureDBObject;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
 import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import ch.exq.triplog.server.util.id.IdGenerator;
@@ -16,8 +18,10 @@ import org.slf4j.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -49,7 +53,7 @@ public class StepController {
         }
 
         return stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public StepDetail getStep(String tripId, String stepId) {
@@ -92,16 +96,14 @@ public class StepController {
     }
 
     public StepDetail updateStep(String tripId, String stepId, StepDetail stepDetail) throws DisplayableException {
-        StepDBObject currentStep = stepDAO.getStep(tripId, stepId);
-        if (currentStep == null) {
-            throw new DisplayableException("Step " + stepId + " could not be found");
-        }
-
+        StepDBObject currentStep = getStepOrThrowException(tripId, stepId);
         StepDBObject changedStep = mapper.map(stepDetail, StepDBObject.class);
 
         //We never change ids like this
         changedStep.setStepId(null);
         changedStep.setTripId(null);
+
+        List<PictureDBObject> pictures = updatePictures(currentStep, changedStep);
 
         try {
             currentStep.updateFrom(changedStep);
@@ -111,10 +113,41 @@ public class StepController {
             throw new DisplayableException(message, e);
         }
 
+        currentStep.setPictures(pictures);
+
         checkFromDateIsBeforeOrEqualsToDate(currentStep);
         stepDAO.updateStep(tripId, stepId, currentStep);
 
         return mapper.map(currentStep, StepDetail.class);
+    }
+
+    public StepDetail addPicture(String tripId, String stepId, Picture picture) throws DisplayableException {
+        StepDBObject step = getStepOrThrowException(tripId, stepId);
+
+        List<PictureDBObject> updatedPictures = step.getPictures();
+        updatedPictures.add(mapper.map(picture, PictureDBObject.class));
+        step.setPictures(updatedPictures);
+        stepDAO.updateStep(tripId, stepId, step);
+
+        return mapper.map(step, StepDetail.class);
+    }
+
+    public StepDetail deletePicture(String tripId, String stepId, String pictureName) throws DisplayableException {
+        StepDBObject step = getStepOrThrowException(tripId, stepId);
+
+        List<PictureDBObject> pictureToDelete = step.getPictures().stream().filter(picture -> picture.getName().equals(pictureName)).collect(toList());
+        if (pictureToDelete.size() > 1) {
+            throw new IllegalArgumentException("More than one picture with ID " + pictureName + " found on step " + stepId + " of trip " + tripId);
+        } else if (pictureToDelete.size() == 1) {
+            List<PictureDBObject> updatedPictures = step.getPictures();
+            updatedPictures.remove(pictureToDelete.get(0));
+            step.setPictures(updatedPictures);
+            stepDAO.updateStep(tripId, stepId, step);
+        } else {
+           throw new DisplayableException("No picture with ID " + pictureName + " found on step " + stepId + " of trip " + tripId);
+        }
+
+        return mapper.map(step, StepDetail.class);
     }
 
     public boolean deleteStep(String tripId, String stepId) {
@@ -148,5 +181,35 @@ public class StepController {
         if (!(stepDBObject.getFromDate().isBefore(stepDBObject.getToDate()) || stepDBObject.getFromDate().isEqual(stepDBObject.getToDate()))) {
             throw new DisplayableException("FromDate has to be before or equal toDate");
         }
+    }
+
+    private StepDBObject getStepOrThrowException(String tripId, String stepId) throws DisplayableException {
+        StepDBObject currentStep = stepDAO.getStep(tripId, stepId);
+        if (currentStep == null) {
+            throw new DisplayableException("Step " + stepId + " could not be found");
+        }
+
+        return currentStep;
+    }
+
+    private List<PictureDBObject> updatePictures(StepDBObject currentStep, StepDBObject changedStep) throws DisplayableException {
+        List<PictureDBObject> changedPictures = changedStep.getPictures();
+        if (changedPictures != null) {
+            List<PictureDBObject> pictures = new ArrayList<>();
+
+            for (PictureDBObject currentPicture : currentStep.getPictures()) {
+                List<PictureDBObject> changedPicture = changedPictures.stream().filter(candidate -> candidate.getName().equals(currentPicture.getName())).collect(toList());
+                if (changedPicture.size() > 1) {
+                    throw new DisplayableException("More than one picture with name " + currentPicture.getName() + " found.");
+                } else if (changedPicture.size() == 1) {
+                    PictureDBObject picture = changedPicture.get(0);
+                    pictures.add(new PictureDBObject(currentPicture.getName(), currentPicture.getLocation(), picture.getCaption(), picture.isShownInGallery()));
+                }
+            }
+
+            return pictures;
+        }
+
+        return new ArrayList<>(currentStep.getPictures());
     }
 }
