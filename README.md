@@ -2,7 +2,7 @@
 
 You took beautiful photos on your last trip, have a great story to tell about what you've seen but no place where to publish it?
 Then you are at the right place here! __Triplog__ is a Client-Server-Application which is used to manage trips with several steps.
-Each step can have a description, photos and and GPS points to show the distance you covered.
+Each step can have a description, photos and GPS points to show the distance you covered.
 
 ## Technology Stack ##
 
