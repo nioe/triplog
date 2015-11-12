@@ -1,4 +1,4 @@
-# Triplog [![Build Status](https://travis-ci.org/nioe/triplog.svg?branch=master)](https://travis-ci.org/nioe/triplog) [![codecov.io](https://codecov.io/github/nioe/triplog/coverage.svg?branch=master)](https://codecov.io/github/nioe/triplog?branch=master) #
+# Triplog [![Build Status](https://travis-ci.org/nioe/triplog.svg?branch=master)](https://travis-ci.org/nioe/triplog) [![codecov.io](https://codecov.io/github/nioe/triplog/coverage.svg?branch=master)](https://codecov.io/github/nioe/triplog?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/grade/786fe941b5b640089e53a4a280a60ffe)](https://www.codacy.com/app/noe/triplog) #
 
 You took beautiful photos on your last trip, have a great story to tell about what you've seen but no place where to publish it?
 Then you are at the right place here! __Triplog__ is a Client-Server-Application which is used to manage trips with several steps.
