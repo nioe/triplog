@@ -27,9 +27,7 @@ public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
         setName(object.getString(NAME));
 
         BasicDBObject location = (BasicDBObject) object.get(LOCATION);
-        if (location != null) {
-            setLocation(new GpsPointDBObject(location));
-        }
+        setLocation(location != null ? new GpsPointDBObject(location) : null);
 
         setCaption(object.getString(CAPTION));
         setShownInGallery(object.getBoolean(SHOWN_IN_GALLERY));
