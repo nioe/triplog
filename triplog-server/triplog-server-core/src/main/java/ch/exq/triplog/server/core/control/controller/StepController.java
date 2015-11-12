@@ -144,7 +144,7 @@ public class StepController {
             step.setPictures(updatedPictures);
             stepDAO.updateStep(tripId, stepId, step);
         } else {
-           throw new DisplayableException("No picture with ID " + pictureName + " found on step " + stepId + " of trip " + tripId);
+            throw new DisplayableException("No picture with ID " + pictureName + " found on step " + stepId + " of trip " + tripId);
         }
 
         return mapper.map(step, StepDetail.class);
@@ -198,12 +198,14 @@ public class StepController {
             List<PictureDBObject> pictures = new ArrayList<>();
 
             for (PictureDBObject currentPicture : currentStep.getPictures()) {
-                List<PictureDBObject> changedPicture = changedPictures.stream().filter(candidate -> candidate.getName().equals(currentPicture.getName())).collect(toList());
-                if (changedPicture.size() > 1) {
+                List<PictureDBObject> matchingChangedPictures = changedPictures.stream().filter(candidate -> candidate.getName().equals(currentPicture.getName())).collect(toList());
+                if (matchingChangedPictures.size() > 1) {
                     throw new DisplayableException("More than one picture with name " + currentPicture.getName() + " found.");
-                } else if (changedPicture.size() == 1) {
-                    PictureDBObject picture = changedPicture.get(0);
-                    pictures.add(new PictureDBObject(currentPicture.getName(), currentPicture.getLocation(), picture.getCaption(), picture.isShownInGallery()));
+                } else if (matchingChangedPictures.size() == 1) {
+                    PictureDBObject changedPicture = matchingChangedPictures.get(0);
+                    pictures.add(new PictureDBObject(currentPicture.getName(), currentPicture.getLocation(), changedPicture.getCaption(), changedPicture.isShownInGallery()));
+                } else {
+                    pictures.add(currentPicture);
                 }
             }
 
