@@ -1,15 +1,22 @@
 package ch.exq.triplog.server.core.control.controller;
 
+import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.common.dto.Picture;
 import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.lang.GeoLocation;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.GpsDirectory;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,8 +54,14 @@ public class PictureController {
         Files.createDirectories(picturePath.getParent());
         Files.write(picturePath, content, StandardOpenOption.CREATE_NEW);
 
-        // TODO get GPS data from picture
-        Picture picture = new Picture(uniquePictureName, null);
+        Metadata metadata = null;
+        try {
+            metadata = ImageMetadataReader.readMetadata(picturePath.toFile());
+        } catch (ImageProcessingException e) {
+            logger.warn("Could not read metadata of " + picturePath);
+        }
+
+        Picture picture = new Picture(uniquePictureName, extractGpsData(metadata));
 
         stepController.addPicture(tripId, stepId, picture);
 
@@ -77,5 +90,17 @@ public class PictureController {
         }
 
         return Paths.get(mediaPath.getString(), tripId, stepId, pictureName);
+    }
+
+    private GpsPoint extractGpsData(Metadata metadata) {
+        if (metadata != null) {
+            GpsDirectory gpsDirectory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
+            if (gpsDirectory != null) {
+                GeoLocation geoLocation = gpsDirectory.getGeoLocation();
+                return new GpsPoint(BigDecimal.valueOf(geoLocation.getLatitude()), BigDecimal.valueOf(geoLocation.getLongitude()));
+            }
+        }
+
+        return null;
     }
 }
