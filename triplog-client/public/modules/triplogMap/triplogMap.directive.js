@@ -23,12 +23,33 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
         }
     }
 
+    function pictureToGeoJson(picture) {
+        return {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [picture.location.lng, picture.location.lat]
+            },
+            properties: {
+                title: picture.caption,
+                icon: {
+                    iconUrl: picture.url,
+                    iconSize: [100, 100],
+                    iconAnchor: [50, 50],
+                    popupAnchor: [0, -50],
+                    className: 'dot'
+                }
+            }
+        };
+    }
+
     return {
         restrict: 'E',
         replace: true,
         templateUrl: 'triplogMap.tpl.html',
         scope: {
-            gpsPoints: '='
+            gpsPoints: '=',
+            pictures: '='
         },
         link: function (scope, element) {
             L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
@@ -40,14 +61,27 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
             var polyline = L.polyline(scope.gpsPoints, {color: 'red'}).addTo(map);
             map.fitBounds(polyline.getBounds());
 
+            if (scope.pictures && scope.pictures.length > 0) {
+                var pictureLayer = L.mapbox.featureLayer().addTo(map);
+
+                pictureLayer.on('layeradd', function (e) {
+                    var marker = e.layer,
+                        feature = marker.feature;
+
+                    marker.setIcon(L.icon(feature.properties.icon));
+                });
+
+                pictureLayer.setGeoJSON(scope.pictures.map(pictureToGeoJson));
+            }
+
             var coveredDistance = calcDistance(polyline._latlngs);
             console.log('coveredDistance', coveredDistance.distance + ' ' + coveredDistance.unit);
 
-            map.on('enterFullscreen', function(){
+            map.on('enterFullscreen', function () {
                 map.scrollWheelZoom.enable();
             });
 
-            map.on('exitFullscreen', function(){
+            map.on('exitFullscreen', function () {
                 map.scrollWheelZoom.disable();
             });
         }
