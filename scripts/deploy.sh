@@ -16,7 +16,6 @@ echo ""
 
 echo "Upload new ear"
 bytes_value=`curl -k -F "file=@${ARTIFACT_PATH}/${ARTIFACT_NAME}" --digest ${WILDFLY_URL}/add-content | perl -pe 's/^.*"BYTES_VALUE"\s*:\s*"(.*)".*$/$1/'`
-echo $bytes_value
 
 json_string_start='{"content":[{"hash": {"BYTES_VALUE" : "'
 json_string_end="\"}}], \"address\": [{\"deployment\":\"${ARTIFACT_NAME}\"}], \"operation\":\"add\", \"enabled\":\"true\"}"
