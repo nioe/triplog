@@ -1,9 +1,37 @@
 'use strict';
 
 // @ngInject
-function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
-    function calcDistance(latlngs) {
-        var coveredDistance = 0;
+function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
+
+    var polyline;
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'triplogMap.tpl.html',
+        scope: {
+            gpsPoints: '=',
+            pictures: '='
+        },
+        link: function (scope, element) {
+            L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
+            var map = L.mapbox.map(element[0], MAP_BOX_STYLE);
+            map.scrollWheelZoom.disable();
+
+            addFullScreenControl(map);
+            addGpsPoints(map, scope.gpsPoints);
+            addPictures(map, scope.pictures);
+
+            var coveredDistance = calcDistance();
+            console.log('coveredDistance', coveredDistance.distance + ' ' + coveredDistance.unit);
+        }
+    };
+
+
+    function calcDistance() {
+        var latlngs = polyline._latlngs,
+            coveredDistance = 0;
+
         for (var i = 1; i < latlngs.length; i++) {
             coveredDistance += latlngs[i - 1].distanceTo(latlngs[i]);
         }
@@ -47,55 +75,43 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
         };
     }
 
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'triplogMap.tpl.html',
-        scope: {
-            gpsPoints: '=',
-            pictures: '='
-        },
-        link: function (scope, element) {
-            L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
-            var map = L.mapbox.map(element[0], 'mapbox.outdoors');
-            map.scrollWheelZoom.disable();
+    function addGpsPoints(map, gpsPoints) {
+        polyline = L.polyline(gpsPoints, {color: 'red'}).addTo(map);
+        map.fitBounds(polyline.getBounds());
+    }
 
-            L.control.fullscreen().addTo(map);
+    function addPictures(map, pictures) {
+        if (pictures && pictures.length > 0) {
+            var pictureLayer = L.mapbox.featureLayer();
 
-            var polyline = L.polyline(scope.gpsPoints, {color: 'red'}).addTo(map);
-            map.fitBounds(polyline.getBounds());
+            pictureLayer.on('layeradd', function (e) {
+                var marker = e.layer,
+                    feature = marker.feature;
 
-            if (scope.pictures && scope.pictures.length > 0) {
-                var pictureLayer = L.mapbox.featureLayer();
-
-                pictureLayer.on('layeradd', function (e) {
-                    var marker = e.layer,
-                        feature = marker.feature;
-
-                    marker.setIcon(L.icon(feature.properties.icon));
-                });
-
-                pictureLayer.setGeoJSON(scope.pictures.filter(onlyPicturesWithLocation).map(pictureToGeoJson));
-
-                var clusterGroup = new L.MarkerClusterGroup();
-                pictureLayer.eachLayer(function (layer) {
-                    clusterGroup.addLayer(layer);
-                });
-                map.addLayer(clusterGroup);
-            }
-
-            var coveredDistance = calcDistance(polyline._latlngs);
-            console.log('coveredDistance', coveredDistance.distance + ' ' + coveredDistance.unit);
-
-            map.on('enterFullscreen', function () {
-                map.scrollWheelZoom.enable();
+                marker.setIcon(L.icon(feature.properties.icon));
             });
 
-            map.on('exitFullscreen', function () {
-                map.scrollWheelZoom.disable();
+            pictureLayer.setGeoJSON(pictures.filter(onlyPicturesWithLocation).map(pictureToGeoJson));
+
+            var clusterGroup = new L.MarkerClusterGroup();
+            pictureLayer.eachLayer(function (layer) {
+                clusterGroup.addLayer(layer);
             });
+            map.addLayer(clusterGroup);
         }
-    };
+    }
+
+    function addFullScreenControl(map) {
+        L.control.fullscreen().addTo(map);
+
+        map.on('enterFullscreen', function () {
+            map.scrollWheelZoom.enable();
+        });
+
+        map.on('exitFullscreen', function () {
+            map.scrollWheelZoom.disable();
+        });
+    }
 }
 
 module.exports = TriplogMapDirective;
