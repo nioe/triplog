@@ -87,6 +87,14 @@ module.exports = function (grunt) {
                     {
                         src: 'public/bower_components/leaflet.fullscreen/Control.FullScreen.css',
                         dest: 'public/styles/vendor/_mapbox-full-screen.scss'
+                    },
+                    {
+                        src: 'public/bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css',
+                        dest: 'public/styles/vendor/_mapbox-marker-cluster-default.scss'
+                    },
+                    {
+                        src: 'public/bower_components/leaflet.markercluster/dist/MarkerCluster.css',
+                        dest: 'public/styles/vendor/_mapbox-marker-cluster-animation.scss'
                     }
                 ],
                 options: {
@@ -190,7 +198,11 @@ module.exports = function (grunt) {
                     'angular-mocks'
                 ],
                 dependencies: {
-                    'leaflet.fullscreen': 'mapbox.js'
+                    'leaflet.fullscreen': 'mapbox.js',
+                    'leaflet.markercluster': 'mapbox.js'
+                },
+                mainFiles: {
+                    'leaflet.markercluster': 'dist/leaflet.markercluster-src.js'
                 }
             },
             pretty: {
@@ -202,7 +214,11 @@ module.exports = function (grunt) {
                     'angular-mocks'
                 ],
                 dependencies: {
-                    'leaflet.fullscreen': 'mapbox.js'
+                    'leaflet.fullscreen': 'mapbox.js',
+                    'leaflet.markercluster': 'mapbox.js'
+                },
+                mainFiles: {
+                    'leaflet.markercluster': 'dist/leaflet.markercluster-src.js'
                 }
             }
         },

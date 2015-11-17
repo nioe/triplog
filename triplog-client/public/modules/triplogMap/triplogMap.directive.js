@@ -23,6 +23,10 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
         }
     }
 
+    function onlyPicturesWithLocation(pictrue) {
+        return pictrue.location && pictrue.location.lng && pictrue.location.lat;
+    }
+
     function pictureToGeoJson(picture) {
         return {
             type: 'Feature',
@@ -62,7 +66,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
             map.fitBounds(polyline.getBounds());
 
             if (scope.pictures && scope.pictures.length > 0) {
-                var pictureLayer = L.mapbox.featureLayer().addTo(map);
+                var pictureLayer = L.mapbox.featureLayer();
 
                 pictureLayer.on('layeradd', function (e) {
                     var marker = e.layer,
@@ -71,7 +75,13 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN) {
                     marker.setIcon(L.icon(feature.properties.icon));
                 });
 
-                pictureLayer.setGeoJSON(scope.pictures.map(pictureToGeoJson));
+                pictureLayer.setGeoJSON(scope.pictures.filter(onlyPicturesWithLocation).map(pictureToGeoJson));
+
+                var clusterGroup = new L.MarkerClusterGroup();
+                pictureLayer.eachLayer(function (layer) {
+                    clusterGroup.addLayer(layer);
+                });
+                map.addLayer(clusterGroup);
             }
 
             var coveredDistance = calcDistance(polyline._latlngs);

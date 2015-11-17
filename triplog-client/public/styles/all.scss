@@ -3,6 +3,8 @@
 @import "bourbon/app/assets/stylesheets/bourbon";
 @import "vendor/mapbox";
 @import "vendor/mapbox-full-screen";
+@import "vendor/mapbox-marker-cluster-default";
+@import "vendor/mapbox-marker-cluster-animation";
 
 // Triplog
 @import "triplog/variables";
