@@ -72,11 +72,10 @@
       }
 
       .timeline-picture {
-        position: relative;
         background: no-repeat center;
         background-size: cover;
         width: 100%;
-        height: 250px;
+        padding-top: 75%; // 4:3
         margin-bottom: 15px;
       }
 
