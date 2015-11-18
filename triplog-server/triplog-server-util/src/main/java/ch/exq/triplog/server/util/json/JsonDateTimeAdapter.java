@@ -2,7 +2,9 @@ package ch.exq.triplog.server.util.json;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
+import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -11,15 +13,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class JsonDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
     @Override
     public LocalDateTime unmarshal(String v) throws Exception {
-        return LocalDateTime.parse(v, FORMATTER);
+        return convertToDateTime(v);
     }
 
     @Override
     public String marshal(LocalDateTime v) throws Exception {
-        return v.format(FORMATTER);
+        return convertToString(v);
     }
 }

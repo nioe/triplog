@@ -7,22 +7,18 @@ import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.entity.db.GpsPointDBObject;
 import ch.exq.triplog.server.core.entity.db.PictureDBObject;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
+import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.modelmapper.ModelMapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 03.06.15
- * Time: 08:10
- */
 public class StepMappingTest {
 
     public static final String STEP_ID = "123";
@@ -33,13 +29,14 @@ public class StepMappingTest {
     public static final String LEAD = "lead";
     public static final String COVER_PICTURE = "cover pic";
     public static final String STEP_TEXT = "text";
+    public static final LocalDateTime CAPTURE_DATE = LocalDateTime.of(2015, 11, 18, 7, 31, 15);
     public static final List<Picture> PICTURES = Arrays.asList(
-            new Picture("pic1", new GpsPoint("0.482", "1.396"), "caption1", true),
-            new Picture("pic2", new GpsPoint("0.932", "1.849"), "caption2", false)
+            new Picture("pic1", new GpsPoint("0.482", "1.396"), "caption1", CAPTURE_DATE, 123, 456, true),
+            new Picture("pic2", new GpsPoint("0.932", "1.849"), "caption2", CAPTURE_DATE, 321, 654, false)
     );
     public static final List<PictureDBObject> PICTURE_DB_OBJECTS = Arrays.asList(
-            new PictureDBObject("pic1", new GpsPointDBObject(new BigDecimal("0.482"), new BigDecimal("1.396")), "caption1", true),
-            new PictureDBObject("pic2", new GpsPointDBObject(new BigDecimal("0.932"), new BigDecimal("1.849")), "caption2", false)
+            new PictureDBObject("pic1", new GpsPointDBObject(new BigDecimal("0.482"), new BigDecimal("1.396")), "caption1", CAPTURE_DATE, 123, 456, true),
+            new PictureDBObject("pic2", new GpsPointDBObject(new BigDecimal("0.932"), new BigDecimal("1.849")), "caption2", CAPTURE_DATE, 321, 654, false)
     );
     public static final List<GpsPoint> GPS_POINTS = Arrays.asList(new GpsPoint("1.23", "0.456"), new GpsPoint("0.567", "1.89"));
     public static final List<GpsPointDBObject> GPS_POINT_DB_OBJECTS = Arrays.asList(
@@ -47,18 +44,16 @@ public class StepMappingTest {
             new GpsPointDBObject(new BigDecimal("0.567"), new BigDecimal("1.89"))
     );
 
-    private ModelMapper mapper;
+    private TriplogMapper mapper = new TriplogMapper();
 
     @Before
     public void setUp() {
-
+        mapper.conf();
     }
 
     @Test
     public void should_map_step_details_object_to_db_object() throws Exception {
         // given
-        mapper = new ModelMapper();
-
         StepDetail stepDetail = new StepDetail();
         stepDetail.setStepId(STEP_ID);
         stepDetail.setTripId(TRIP_ID);
@@ -90,9 +85,6 @@ public class StepMappingTest {
     @Test
     public void should_map_db_object_to_step_detail() throws Exception {
         // given
-        mapper = new ModelMapper();
-        mapper.addMappings(new DBObjectToStepDetailMap());
-
         StepDBObject stepDBObject = new StepDBObject();
         stepDBObject.setStepId(STEP_ID);
         stepDBObject.setTripId(TRIP_ID);
@@ -124,9 +116,6 @@ public class StepMappingTest {
     @Test
     public void should_map_db_object_to_step() throws Exception {
         // given
-        mapper = new ModelMapper();
-        mapper.addMappings(new DBObjectToStepMap());
-
         StepDBObject stepDBObject = new StepDBObject();
         stepDBObject.setStepId(STEP_ID);
         stepDBObject.setTripId(TRIP_ID);

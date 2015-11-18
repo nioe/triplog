@@ -4,6 +4,10 @@ import com.mongodb.BasicDBObject;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+
+import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
+import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -18,6 +22,9 @@ public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
     private static final String NAME = "name";
     private static final String LOCATION = "location";
     private static final String CAPTION = "caption";
+    private static final String CAPTURE_DATE = "captureDate";
+    private static final String WIDTH = "width";
+    private static final String HEIGHT = "height";
     private static final String SHOWN_IN_GALLERY = "shownInGallery";
 
     public PictureDBObject() {
@@ -30,13 +37,24 @@ public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
         setLocation(location != null ? new GpsPointDBObject(location) : null);
 
         setCaption(object.getString(CAPTION));
+        setCaptureDate(convertToDateTime(object.getString(CAPTURE_DATE)));
+
+        String width = object.getString(WIDTH);
+        setWidth(width != null ? object.getInt(WIDTH) : 0);
+
+        String height = object.getString(HEIGHT);
+        setHeight(height != null ? object.getInt(HEIGHT) : 0);
+
         setShownInGallery(object.getBoolean(SHOWN_IN_GALLERY));
     }
 
-    public PictureDBObject(String name, GpsPointDBObject location, String caption, boolean showInGallery) {
+    public PictureDBObject(String name, GpsPointDBObject location, String caption, LocalDateTime captureDate, int width, int height, boolean showInGallery) {
         setName(name);
         setLocation(location);
         setCaption(caption);
+        setCaptureDate(captureDate);
+        setWidth(width);
+        setHeight(height);
         setShownInGallery(showInGallery);
     }
 
@@ -63,6 +81,30 @@ public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
 
     public void setCaption(String caption) {
         put(CAPTION, caption);
+    }
+
+    public LocalDateTime getCaptureDate() {
+        return convertToDateTime(getString(CAPTURE_DATE));
+    }
+
+    public void setCaptureDate(LocalDateTime captureDate) {
+        put(CAPTURE_DATE, convertToString(captureDate));
+    }
+
+    public int getWidth() {
+        return getInt(WIDTH);
+    }
+
+    public void setWidth(int width) {
+        put(WIDTH, width);
+    }
+
+    public int getHeight() {
+        return getInt(HEIGHT);
+    }
+
+    public void setHeight(int height) {
+        put(HEIGHT, height);
     }
 
     public boolean isShownInGallery() {

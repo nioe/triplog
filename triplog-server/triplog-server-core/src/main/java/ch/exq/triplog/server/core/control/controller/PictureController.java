@@ -6,10 +6,12 @@ import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
+import ch.exq.triplog.server.util.picture.PictureSize;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
 import org.slf4j.Logger;
 
@@ -21,6 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static ch.exq.triplog.server.util.misc.UUIDUtil.getRandomUUID;
 
@@ -61,7 +66,13 @@ public class PictureController {
             logger.warn("Could not read metadata of " + picturePath);
         }
 
-        Picture picture = new Picture(uniquePictureName, extractGpsData(metadata));
+        PictureSize pictureSize = PictureSize.valueOf(metadata);
+        Picture picture;
+        if (pictureSize == null) {
+            picture = new Picture(uniquePictureName, extractGpsData(metadata), extractCaptureDate(metadata));
+        } else {
+            picture = new Picture(uniquePictureName, extractGpsData(metadata), extractCaptureDate(metadata), pictureSize.getWidth(), pictureSize.getHeight());
+        }
 
         stepController.addPicture(tripId, stepId, picture);
 
@@ -102,5 +113,26 @@ public class PictureController {
         }
 
         return null;
+    }
+
+    private LocalDateTime extractCaptureDate(Metadata metadata) {
+        if (metadata != null) {
+            ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+            if (exifSubIFDDirectory != null) {
+                Date captureDate = exifSubIFDDirectory.getDate(exifSubIFDDirectory.TAG_DATETIME_DIGITIZED);
+                if (captureDate == null) {
+                    captureDate = exifSubIFDDirectory.getDate(exifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+                }
+                if (captureDate == null) {
+                    captureDate = exifSubIFDDirectory.getDate(exifSubIFDDirectory.TAG_DATETIME);
+                }
+
+                if (captureDate != null) {
+                    return captureDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                }
+            }
+        }
+
+        return LocalDateTime.now();
     }
 }

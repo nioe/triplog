@@ -124,9 +124,9 @@ public class StepController {
     public StepDetail addPicture(String tripId, String stepId, Picture picture) throws DisplayableException {
         StepDBObject step = getStepOrThrowException(tripId, stepId);
 
-        List<PictureDBObject> updatedPictures = step.getPictures();
-        updatedPictures.add(mapper.map(picture, PictureDBObject.class));
-        step.setPictures(updatedPictures);
+        List<PictureDBObject> existingPictures = step.getPictures();
+        existingPictures.add(mapper.map(picture, PictureDBObject.class));
+        step.setPictures(existingPictures);
         stepDAO.updateStep(tripId, stepId, step);
 
         return mapper.map(step, StepDetail.class);
@@ -142,6 +142,11 @@ public class StepController {
             List<PictureDBObject> updatedPictures = step.getPictures();
             updatedPictures.remove(pictureToDelete.get(0));
             step.setPictures(updatedPictures);
+
+            if (pictureName.equals(step.getCoverPicture())) {
+                step.setCoverPicture(null);
+            }
+
             stepDAO.updateStep(tripId, stepId, step);
         } else {
             throw new DisplayableException("No picture with ID " + pictureName + " found on step " + stepId + " of trip " + tripId);
@@ -203,7 +208,14 @@ public class StepController {
                     throw new DisplayableException("More than one picture with name " + currentPicture.getName() + " found.");
                 } else if (matchingChangedPictures.size() == 1) {
                     PictureDBObject changedPicture = matchingChangedPictures.get(0);
-                    pictures.add(new PictureDBObject(currentPicture.getName(), currentPicture.getLocation(), changedPicture.getCaption(), changedPicture.isShownInGallery()));
+                    pictures.add(new PictureDBObject(
+                            currentPicture.getName(),
+                            currentPicture.getLocation(),
+                            changedPicture.getCaption(),
+                            changedPicture.getCaptureDate(),
+                            currentPicture.getWidth(),
+                            currentPicture.getHeight(),
+                            changedPicture.isShownInGallery()));
                 } else {
                     pictures.add(currentPicture);
                 }

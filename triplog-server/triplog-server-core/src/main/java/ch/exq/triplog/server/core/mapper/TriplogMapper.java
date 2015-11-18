@@ -27,5 +27,8 @@ public class TriplogMapper extends ModelMapper {
         //Step
         addMappings(new DBObjectToStepMap());
         addMappings(new DBObjectToStepDetailMap());
+
+        //Picture
+        addMappings(new DBObjectToPictureMap());
     }
 }
