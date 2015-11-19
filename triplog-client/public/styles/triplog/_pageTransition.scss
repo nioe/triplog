@@ -18,15 +18,9 @@
     }
 
     &.content-transition {
-      &.ng-enter {
-        @include animation(none .6s);
-      }
-
-      &.ng-leave {
-        @include animation(none .6s);
-      }
-
       &.ng-enter, &.ng-leave {
+        @include animation(none .6s);
+
         z-index: -10;
         nav {
           position: absolute;

@@ -81,68 +81,70 @@ div.triplog-gallery {
     @include transform(translateY(-50%));
     margin: 0 auto;
 
-    @media (max-width: $screen-xs-max ) and (orientation: portrait) {
+    @media (max-width: $screen-xs-max) and (orientation: portrait) {
       margin: 0 10px;
     }
-  }
 
-  .lightbox-image-navigation {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
+    .modal-content .modal-body .lightbox-image-container {
+      .lightbox-image-navigation {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
 
-    .lightbox-navigation-button {
-      height: 100%;
-      cursor: pointer;
-
-      .lightbox-navigation-button-text {
-        position: relative;
-        top: 50%;
-        @include transform(translateY(-50%));
-
-        font-size: 50px;
-        color: rgba(255, 255, 255, 0.4);
-
-        transition: 0.2s ease;
-      }
-
-      &.prev {
-        .lightbox-navigation-button-text {
-          text-align: left;
-          padding-left: 20px;
-        }
-      }
-
-      &.next {
-        transition: 0.2s ease;
-
-        .lightbox-navigation-button-text {
-          text-align: right;
-          padding-right: 20px;
-        }
-      }
-    }
-
-    @media (min-width: $screen-lg-min) {
-      .lightbox-navigation-button:hover {
-        .lightbox-navigation-button-text {
-          color: rgba(255, 255, 255, 1);
-        }
-
-        &.prev {
-          @include linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+        .lightbox-navigation-button {
+          height: 100%;
+          cursor: pointer;
 
           .lightbox-navigation-button-text {
-            padding-left: 10px;
+            position: relative;
+            top: 50%;
+            @include transform(translateY(-50%));
+
+            font-size: 50px;
+            color: rgba(255, 255, 255, 0.4);
+
+            transition: 0.2s ease;
+          }
+
+          &.prev {
+            .lightbox-navigation-button-text {
+              text-align: left;
+              padding-left: 20px;
+            }
+          }
+
+          &.next {
+            transition: 0.2s ease;
+
+            .lightbox-navigation-button-text {
+              text-align: right;
+              padding-right: 20px;
+            }
           }
         }
 
-        &.next {
-          @include linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+        @media (min-width: $screen-lg-min) {
+          .lightbox-navigation-button:hover {
+            .lightbox-navigation-button-text {
+              color: rgba(255, 255, 255, 1);
+            }
 
-          .lightbox-navigation-button-text {
-            padding-right: 10px;
+            &.prev {
+              @include linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+
+              .lightbox-navigation-button-text {
+                padding-left: 10px;
+              }
+            }
+
+            &.next {
+              @include linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+
+              .lightbox-navigation-button-text {
+                padding-right: 10px;
+              }
+            }
           }
         }
       }
