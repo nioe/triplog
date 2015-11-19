@@ -51,11 +51,13 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
         }
     }
 
-    function onlyPicturesWithLocation(pictrue) {
-        return pictrue.location && pictrue.location.lng && pictrue.location.lat;
+    function onlyDisplayablePictures(picture) {
+        return picture.location && picture.location.lng && picture.location.lat && picture.width && picture.height;
     }
 
     function pictureToGeoJson(picture) {
+        var iconSize = calculateIconSize(picture);
+
         return {
             type: 'Feature',
             geometry: {
@@ -66,13 +68,23 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
                 title: picture.caption,
                 icon: {
                     iconUrl: picture.url,
-                    iconSize: [100, 100],
-                    iconAnchor: [50, 50],
-                    popupAnchor: [0, -50],
-                    className: 'dot'
+                    iconSize: iconSize,
+                    iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
+                    popupAnchor: [0, iconSize[1] / 2 * -1],
+                    className: 'picture-marker'
                 }
             }
         };
+    }
+
+    function calculateIconSize(picture) {
+        var longEdge = 150;
+
+        if (picture.width > picture.height) {
+            return [longEdge, picture.height * (longEdge / picture.width)];
+        }
+
+        return [picture.width * (longEdge / picture.height), longEdge];
     }
 
     function addGpsPoints(map, gpsPoints) {
@@ -91,7 +103,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
                 marker.setIcon(L.icon(feature.properties.icon));
             });
 
-            pictureLayer.setGeoJSON(pictures.filter(onlyPicturesWithLocation).map(pictureToGeoJson));
+            pictureLayer.setGeoJSON(pictures.filter(onlyDisplayablePictures).map(pictureToGeoJson));
 
             var clusterGroup = new L.MarkerClusterGroup();
             pictureLayer.eachLayer(function (layer) {
