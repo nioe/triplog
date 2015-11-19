@@ -9,8 +9,8 @@ import static org.junit.Assert.assertEquals;
 
 public class JsonDateTimeAdapterTest {
 
-    private static final String DATE_STRING = "2014-08-22 15:56:00";
-    private static final LocalDateTime DATE = LocalDateTime.of(2014, 8, 22, 15, 56, 00);
+    private static final String DATE_STRING = "2014-08-22T15:56:13";
+    private static final LocalDateTime DATE = LocalDateTime.of(2014, 8, 22, 15, 56, 13);
 
     private JsonDateTimeAdapter adapter;
 
