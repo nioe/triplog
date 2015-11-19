@@ -20,7 +20,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
 
             addFullScreenControl(map);
             addGpsPoints(map, scope.gpsPoints);
-            addPictures(map, scope.pictures);
+            addPictures(map, scope.pictures, scope);
 
             var coveredDistance = calcDistance();
             console.log('coveredDistance', coveredDistance.distance + ' ' + coveredDistance.unit);
@@ -66,6 +66,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
             },
             properties: {
                 title: picture.caption,
+                pictureName: picture.name,
                 icon: {
                     iconUrl: picture.url,
                     iconSize: iconSize,
@@ -92,7 +93,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
         map.fitBounds(polyline.getBounds());
     }
 
-    function addPictures(map, pictures) {
+    function addPictures(map, pictures, scope) {
         if (pictures && pictures.length > 0) {
             var pictureLayer = L.mapbox.featureLayer();
 
@@ -110,6 +111,10 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
                 clusterGroup.addLayer(layer);
             });
             map.addLayer(clusterGroup);
+
+            pictureLayer.on('click', function(e) {
+                scope.$emit('triplogOpenPicture', e.layer.feature.properties.pictureName);
+            });
         }
     }
 
