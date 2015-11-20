@@ -7,7 +7,6 @@ import ch.exq.triplog.server.core.entity.dao.TripDAO;
 import ch.exq.triplog.server.core.entity.db.TripDBObject;
 import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import ch.exq.triplog.server.util.id.IdGenerator;
-import ch.exq.triplog.server.util.mongodb.MongoDbUtil;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -67,12 +66,17 @@ public class TripController {
             throw new DisplayableException("Trip incomplete: At least tripName must be set");
         }
 
-        trip.setTripId(IdGenerator.generateIdWithYear(trip.getTripName(), trip.getTripDate()));
+        String tripId = IdGenerator.generateIdWithYear(trip.getTripName(), trip.getTripDate());
+        trip.setTripId(tripId);
+
+        // We never update created and updated timestamps here
+        trip.setCreated(null);
+        trip.setLastUpdated(null);
 
         TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
         tripDAO.createTrip(tripDBObject);
 
-        return mapper.map(tripDBObject, Trip.class);
+        return mapper.map(tripDAO.getTripById(tripId), Trip.class);
     }
 
     public Trip updateTrip(String tripId, Trip trip) throws DisplayableException {
@@ -87,8 +91,10 @@ public class TripController {
 
         TripDBObject changedTrip = mapper.map(trip, TripDBObject.class);
 
-        //We never update the id
+        //We never update the id, created and updated timestamps here
         changedTrip.setTripId(null);
+        changedTrip.setCreated(null);
+        changedTrip.setLastUpdated(null);
 
         try {
             currentTrip.updateFrom(changedTrip);
@@ -100,7 +106,7 @@ public class TripController {
 
         tripDAO.updateTrip(tripId, currentTrip);
 
-        return mapper.map(currentTrip, Trip.class);
+        return mapper.map(tripDAO.getTripById(tripId), Trip.class);
     }
 
     public boolean deleteTripWithId(String tripId) {

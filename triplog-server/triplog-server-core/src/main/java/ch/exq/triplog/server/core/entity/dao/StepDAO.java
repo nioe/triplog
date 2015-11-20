@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.LocalDateTime.now;
+
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
  */
@@ -51,6 +53,7 @@ public class StepDAO {
     }
 
     public WriteResult createStep(StepDBObject step) {
+        step.setCreated(now());
         return db.getStepCollection().insert(step);
     }
 
@@ -59,6 +62,7 @@ public class StepDAO {
     }
 
     public WriteResult updateStep(String tripId, String stepId, StepDBObject step) {
+        step.setLastUpdated(now());
         return db.getStepCollection().update(idDBObject(tripId, stepId), step);
     }
 

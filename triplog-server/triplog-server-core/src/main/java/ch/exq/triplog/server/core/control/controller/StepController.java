@@ -69,8 +69,9 @@ public class StepController {
     }
 
     public StepDetail createStep(final StepDetail stepDetail) throws DisplayableException {
-        if (stepDetail.getTripId() == null || tripDAO.getTripById(stepDetail.getTripId()) == null) {
-            throw new DisplayableException("Could not find trip with id " + stepDetail.getTripId());
+        String tripId = stepDetail.getTripId();
+        if (tripId == null || tripDAO.getTripById(tripId) == null) {
+            throw new DisplayableException("Could not find trip with id " + tripId);
         }
 
         if (stepDetail.getStepName() == null || stepDetail.getStepName().isEmpty()) {
@@ -81,7 +82,12 @@ public class StepController {
             throw new DisplayableException("Step incomplete: fromDate and toDate must be set");
         }
 
-        stepDetail.setStepId(IdGenerator.generateIdWithFullDate(stepDetail.getStepName(), stepDetail.getFromDate()));
+        String stepId = IdGenerator.generateIdWithFullDate(stepDetail.getStepName(), stepDetail.getFromDate());
+        stepDetail.setStepId(stepId);
+
+        // We never update created and updated timestamps here
+        stepDetail.setCreated(null);
+        stepDetail.setLastUpdated(null);
 
         StepDBObject stepDBObject = mapper.map(stepDetail, StepDBObject.class);
         checkFromDateIsBeforeOrEqualsToDate(stepDBObject);
@@ -92,16 +98,18 @@ public class StepController {
 
         stepDAO.createStep(stepDBObject);
 
-        return mapper.map(stepDBObject, StepDetail.class);
+        return mapper.map(stepDAO.getStep(tripId, stepId), StepDetail.class);
     }
 
     public StepDetail updateStep(String tripId, String stepId, StepDetail stepDetail) throws DisplayableException {
         StepDBObject currentStep = getStepOrThrowException(tripId, stepId);
         StepDBObject changedStep = mapper.map(stepDetail, StepDBObject.class);
 
-        //We never change ids like this
+        //We never change ids, created and updated timestamps here
         changedStep.setStepId(null);
         changedStep.setTripId(null);
+        stepDetail.setCreated(null);
+        stepDetail.setLastUpdated(null);
 
         List<PictureDBObject> pictures = updatePictures(currentStep, changedStep);
 
@@ -118,7 +126,7 @@ public class StepController {
         checkFromDateIsBeforeOrEqualsToDate(currentStep);
         stepDAO.updateStep(tripId, stepId, currentStep);
 
-        return mapper.map(currentStep, StepDetail.class);
+        return mapper.map(stepDAO.getStep(tripId, stepId), StepDetail.class);
     }
 
     public StepDetail addPicture(String tripId, String stepId, Picture picture) throws DisplayableException {
@@ -156,6 +164,7 @@ public class StepController {
     }
 
     public boolean deleteStep(String tripId, String stepId) {
+        // TODO Delete pictures on file system
         StepDBObject stepDBObject = stepDAO.getStep(tripId, stepId);
         if (stepDBObject == null) {
             return false;
@@ -166,6 +175,7 @@ public class StepController {
     }
 
     public boolean deleteAllStepsOfTrip(String tripId) {
+        // TODO Delete pictures on file system
         WriteResult result = stepDAO.deleteAllStepsOfTrip(tripId);
         return result.getN() > 0 && result.getError() == null;
     }

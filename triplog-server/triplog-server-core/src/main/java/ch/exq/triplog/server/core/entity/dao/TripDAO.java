@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.LocalDateTime.now;
+
 /**
  * Created by Nicolas Oeschger <noe@exq.ch> on 28.03.2014.
  */
@@ -48,15 +50,17 @@ public class TripDAO {
     }
 
     public WriteResult createTrip(TripDBObject trip) throws DisplayableException {
+        trip.setCreated(now());
         return db.getTripCollection().insert(trip);
     }
 
-    public WriteResult deleteTrip(TripDBObject tripDBObject) {
-        return db.getTripCollection().remove(tripDBObject);
+    public WriteResult deleteTrip(TripDBObject trip) {
+        return db.getTripCollection().remove(trip);
     }
 
-    public WriteResult updateTrip(String tripId, TripDBObject tripDBObject) {
-        return db.getTripCollection().update(idDBObject(tripId), tripDBObject);
+    public WriteResult updateTrip(String tripId, TripDBObject trip) {
+        trip.setLastUpdated(now());
+        return db.getTripCollection().update(idDBObject(tripId), trip);
     }
 
     private BasicDBObject idDBObject(String tripId) {
