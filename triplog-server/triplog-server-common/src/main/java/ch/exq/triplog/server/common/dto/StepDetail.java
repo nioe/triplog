@@ -1,12 +1,9 @@
 package ch.exq.triplog.server.common.dto;
 
-import ch.exq.triplog.server.util.id.IdGenerator;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +24,9 @@ public class StepDetail extends Step {
     private List<GpsPoint> gpsPoints;
 
     @XmlElement
+    private List<String> traveledCountries;
+
+    @XmlElement
     private StepMin previousStep;
 
     @XmlElement
@@ -35,21 +35,7 @@ public class StepDetail extends Step {
     public StepDetail() {
         pictures = new ArrayList<>();
         gpsPoints = new ArrayList<>();
-    }
-
-    public StepDetail(String tripId, String stepName, LocalDate fromDate, LocalDate toDate, String stepLead,
-                      String stepText, List<Picture> pictures, List<GpsPoint> gpsPoints, String coverPicture) {
-        this(IdGenerator.generateIdWithFullDate(stepName, fromDate), tripId, stepName, fromDate, toDate, stepLead,
-                stepText, pictures, gpsPoints, coverPicture);
-    }
-
-    public StepDetail(String stepId, String tripId, String stepName, LocalDate fromDate, LocalDate toDate, String stepLead,
-                      String stepText, List<Picture> pictures, List<GpsPoint> gpsPoints, String coverPicture) {
-
-        super(stepId, tripId, stepName, fromDate, toDate, stepLead, coverPicture);
-        this.stepText = stepText;
-        this.pictures = pictures;
-        this.gpsPoints = gpsPoints;
+        traveledCountries = new ArrayList<>();
     }
 
     public String getStepText() {
@@ -74,6 +60,14 @@ public class StepDetail extends Step {
 
     public void setGpsPoints(List<GpsPoint> gpsPoints) {
         this.gpsPoints = gpsPoints;
+    }
+
+    public List<String> getTraveledCountries() {
+        return traveledCountries;
+    }
+
+    public void setTraveledCountries(List<String> traveledCountries) {
+        this.traveledCountries = traveledCountries;
     }
 
     public StepMin getPreviousStep() {

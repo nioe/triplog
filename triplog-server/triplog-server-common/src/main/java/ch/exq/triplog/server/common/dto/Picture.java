@@ -130,25 +130,15 @@ public class Picture {
 
         Picture picture = (Picture) o;
 
-        if (width != picture.width) return false;
-        if (height != picture.height) return false;
-        if (shownInGallery != picture.shownInGallery) return false;
         if (name != null ? !name.equals(picture.name) : picture.name != null) return false;
-        if (location != null ? !location.equals(picture.location) : picture.location != null) return false;
-        if (caption != null ? !caption.equals(picture.caption) : picture.caption != null) return false;
-        return !(captureDate != null ? !captureDate.equals(picture.captureDate) : picture.captureDate != null);
-
+        return !(location != null ? !location.equals(picture.location) : picture.location != null);
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (caption != null ? caption.hashCode() : 0);
-        result = 31 * result + (captureDate != null ? captureDate.hashCode() : 0);
-        result = 31 * result + width;
-        result = 31 * result + height;
-        result = 31 * result + (shownInGallery ? 1 : 0);
+
         return result;
     }
 

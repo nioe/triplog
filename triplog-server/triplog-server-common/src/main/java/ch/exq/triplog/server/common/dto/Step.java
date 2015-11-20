@@ -1,6 +1,7 @@
 package ch.exq.triplog.server.common.dto;
 
 import ch.exq.triplog.server.util.json.JsonDateAdapter;
+import ch.exq.triplog.server.util.json.JsonDateTimeAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -35,8 +37,19 @@ public class Step extends StepMin {
     @XmlElement
     private String coverPicture;
 
-    public Step() {
+    @XmlElement
+    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
+    private LocalDateTime created;
 
+    @XmlElement
+    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
+    private LocalDateTime lastUpdated;
+
+    @XmlElement
+    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
+    private LocalDateTime published;
+
+    public Step() {
     }
 
     public Step(String stepId, String tripId, String stepName, LocalDate fromDate, LocalDate toDate, String stepLead, String coverPicture) {
@@ -87,5 +100,29 @@ public class Step extends StepMin {
 
     public void setCoverPicture(String coverPicture) {
         this.coverPicture = coverPicture;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public LocalDateTime getPublished() {
+        return published;
+    }
+
+    public void setPublished(LocalDateTime published) {
+        this.published = published;
     }
 }

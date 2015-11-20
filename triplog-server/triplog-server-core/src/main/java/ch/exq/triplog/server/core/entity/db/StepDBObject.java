@@ -7,10 +7,12 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
+import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
 import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
 
 /**
@@ -35,6 +37,11 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
     public static final String STEP_TEXT = "stepText";
     public static final String GPS_POINTS = "gpsPoints";
     public static final String PICTURES = "pictures";
+    public static final String TRAVELED_COUNTRIES = "traveledCountries";
+
+    public static final String CREATED = "created";
+    public static final String LAST_UPDATED = "lastUpdated";
+    public static final String PUBLISHED = "published";
 
 
     public static StepDBObject from(DBObject dbObject) {
@@ -133,6 +140,26 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
         put(GPS_POINTS, basicDBList);
     }
 
+    public List<String> getTraveledCountries() {
+        List<String> traveledCountries = new ArrayList<>();
+
+        Object traveledCountriesObject = get(TRAVELED_COUNTRIES);
+        if (traveledCountriesObject != null) {
+            ((BasicDBList) traveledCountriesObject).forEach(country -> traveledCountries.add((String) country));
+        }
+
+        return traveledCountries;
+    }
+
+    public void setTraveledCountries(List<String> traveledCountries) {
+        BasicDBList basicDBList = new BasicDBList();
+        if (traveledCountries != null) {
+            traveledCountries.stream().forEach(basicDBList::add);
+        }
+
+        put(TRAVELED_COUNTRIES, basicDBList);
+    }
+
     public LocalDate getFromDate() {
         String fromDate = getString(FROM_DATE);
         if (fromDate == null) {
@@ -162,6 +189,30 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> {
         if (toDate != null) {
             put(TO_DATE, convertToString(toDate));
         }
+    }
+
+    public LocalDateTime getCreated() {
+        return convertToDateTime(getString(CREATED));
+    }
+
+    public void setCreated(LocalDateTime created) {
+        put(CREATED, convertToString(created));
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return convertToDateTime(getString(LAST_UPDATED));
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        put(LAST_UPDATED, convertToString(lastUpdated));
+    }
+
+    public LocalDateTime getPublished() {
+        return convertToDateTime(getString(PUBLISHED));
+    }
+
+    public void setPublished(LocalDateTime published) {
+        put(PUBLISHED, convertToString(published));
     }
 
     protected Logger logger() {

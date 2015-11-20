@@ -1,6 +1,7 @@
 package ch.exq.triplog.server.common.dto;
 
 import ch.exq.triplog.server.util.json.JsonDateAdapter;
+import ch.exq.triplog.server.util.json.JsonDateTimeAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +42,20 @@ public class Trip {
     @XmlElement
     private List<Step> steps;
 
+    @XmlElement
+    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
+    private LocalDateTime created;
+
+    @XmlElement
+    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
+    private LocalDateTime lastUpdated;
+
+    @XmlElement
+    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
+    private LocalDateTime published;
+
     public Trip() {
         steps = new ArrayList<>();
-    }
-
-    public Trip(String tripName, String tripDescription) {
-        this();
-        this.tripName = tripName;
-        this.tripText = tripDescription;
     }
 
     public String getTripId() {
@@ -108,6 +116,30 @@ public class Trip {
 
     public boolean hasSteps() {
         return steps != null && !steps.isEmpty();
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public LocalDateTime getPublished() {
+        return published;
+    }
+
+    public void setPublished(LocalDateTime published) {
+        this.published = published;
     }
 
     @Override

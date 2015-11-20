@@ -22,7 +22,6 @@ public class TriplogMapper extends ModelMapper {
     public void conf() {
         //Trip
         addMappings(new DBObjectToTripMap());
-        addMappings(new TripToDBObjectMap());
 
         //Step
         addMappings(new DBObjectToStepMap());

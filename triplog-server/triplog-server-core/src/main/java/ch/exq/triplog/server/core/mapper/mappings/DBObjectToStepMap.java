@@ -15,5 +15,8 @@ public class DBObjectToStepMap extends PropertyMap<StepDBObject, Step> {
     protected void configure() {
         map().setFromDate(source.getFromDate());
         map().setToDate(source.getToDate());
+        map().setCreated(source.getCreated());
+        map().setLastUpdated(source.getLastUpdated());
+        map().setPublished(source.getPublished());
     }
 }

@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
+import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
 import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
 
 /**
@@ -26,6 +28,9 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
     public static final String TRIP_LEAD = "tripLead";
     public static final String TRIP_TEXT = "tripText";
     public static final String COVER_PICTURE = "coverPicture";
+    public static final String CREATED = "created";
+    public static final String LAST_UPDATED = "lastUpdated";
+    public static final String PUBLISHED = "published";
 
 
     public static TripDBObject from(DBObject dbObject) {
@@ -82,6 +87,30 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> {
 
     public void setCoverPicture(String coverPicture) {
         put(COVER_PICTURE, coverPicture);
+    }
+
+    public LocalDateTime getCreated() {
+        return convertToDateTime(getString(CREATED));
+    }
+
+    public void setCreated(LocalDateTime created) {
+        put(CREATED, convertToString(created));
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return convertToDateTime(getString(LAST_UPDATED));
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        put(LAST_UPDATED, convertToString(lastUpdated));
+    }
+
+    public LocalDateTime getPublished() {
+        return convertToDateTime(getString(PUBLISHED));
+    }
+
+    public void setPublished(LocalDateTime published) {
+        put(PUBLISHED, convertToString(published));
     }
 
     @Override

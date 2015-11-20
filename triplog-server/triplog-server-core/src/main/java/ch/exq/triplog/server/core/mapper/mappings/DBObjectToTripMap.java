@@ -13,10 +13,6 @@ public class DBObjectToTripMap extends PropertyMap<TripDBObject, Trip> {
 
     @Override
     protected void configure() {
-        map().setTripId(source.getTripId());
-        map().setTripName(source.getTripName());
         map().setTripDate(source.getTripDate());
-        map().setTripLead(source.getTripLead());
-        map().setTripText(source.getTripText());
     }
 }

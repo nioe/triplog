@@ -21,25 +21,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StepMappingTest {
 
-    public static final String STEP_ID = "123";
-    public static final String TRIP_ID = "456";
-    public static final String STEP_NAME = "name";
-    public static final LocalDate FROM_DATE = LocalDate.of(2015, 6, 1);
-    public static final LocalDate TO_DATE = LocalDate.of(2016, 6, 3);
-    public static final String LEAD = "lead";
-    public static final String COVER_PICTURE = "cover pic";
-    public static final String STEP_TEXT = "text";
-    public static final LocalDateTime CAPTURE_DATE = LocalDateTime.of(2015, 11, 18, 7, 31, 15);
-    public static final List<Picture> PICTURES = Arrays.asList(
+    private static final String STEP_ID = "123";
+    private static final String TRIP_ID = "456";
+    private static final String STEP_NAME = "name";
+    private static final LocalDate FROM_DATE = LocalDate.of(2015, 6, 1);
+    private static final LocalDate TO_DATE = LocalDate.of(2016, 6, 3);
+    private static final String LEAD = "lead";
+    private static final String COVER_PICTURE = "cover pic";
+    private static final String STEP_TEXT = "text";
+    private static final LocalDateTime CAPTURE_DATE = LocalDateTime.of(2015, 11, 18, 7, 31, 15);
+    private static final LocalDateTime CREATED = LocalDateTime.of(2015, 11, 20, 7, 52, 15);
+    private static final LocalDateTime LAST_UPDATED = LocalDateTime.of(2015, 11, 20, 8, 10, 13);
+    private static final LocalDateTime PUBLISHED = LocalDateTime.of(2015, 11, 20, 10, 17, 28);
+    private static final List<String> TRAVELED_COUNTRIES = Arrays.asList("CH", "DE", "AT");
+    private static final List<Picture> PICTURES = Arrays.asList(
             new Picture("pic1", new GpsPoint("0.482", "1.396"), "caption1", CAPTURE_DATE, 123, 456, true),
             new Picture("pic2", new GpsPoint("0.932", "1.849"), "caption2", CAPTURE_DATE, 321, 654, false)
     );
-    public static final List<PictureDBObject> PICTURE_DB_OBJECTS = Arrays.asList(
+    private static final List<PictureDBObject> PICTURE_DB_OBJECTS = Arrays.asList(
             new PictureDBObject("pic1", new GpsPointDBObject(new BigDecimal("0.482"), new BigDecimal("1.396")), "caption1", CAPTURE_DATE, 123, 456, true),
             new PictureDBObject("pic2", new GpsPointDBObject(new BigDecimal("0.932"), new BigDecimal("1.849")), "caption2", CAPTURE_DATE, 321, 654, false)
     );
-    public static final List<GpsPoint> GPS_POINTS = Arrays.asList(new GpsPoint("1.23", "0.456"), new GpsPoint("0.567", "1.89"));
-    public static final List<GpsPointDBObject> GPS_POINT_DB_OBJECTS = Arrays.asList(
+    private static final List<GpsPoint> GPS_POINTS = Arrays.asList(new GpsPoint("1.23", "0.456"), new GpsPoint("0.567", "1.89"));
+    private static final List<GpsPointDBObject> GPS_POINT_DB_OBJECTS = Arrays.asList(
             new GpsPointDBObject(new BigDecimal("1.23"), new BigDecimal("0.456")),
             new GpsPointDBObject(new BigDecimal("0.567"), new BigDecimal("1.89"))
     );
@@ -65,6 +69,10 @@ public class StepMappingTest {
         stepDetail.setStepText(STEP_TEXT);
         stepDetail.setPictures(PICTURES);
         stepDetail.setGpsPoints(GPS_POINTS);
+        stepDetail.setTraveledCountries(TRAVELED_COUNTRIES);
+        stepDetail.setCreated(CREATED);
+        stepDetail.setLastUpdated(LAST_UPDATED);
+        stepDetail.setPublished(PUBLISHED);
 
         // when
         StepDBObject actual = mapper.map(stepDetail, StepDBObject.class);
@@ -80,6 +88,10 @@ public class StepMappingTest {
         assertThat(actual.getStepText()).isEqualTo(STEP_TEXT);
         assertThat(actual.getPictures()).containsAll(PICTURE_DB_OBJECTS);
         assertThat(actual.getGpsPoints()).containsAll(GPS_POINT_DB_OBJECTS);
+        assertThat(actual.getTraveledCountries()).containsAll(TRAVELED_COUNTRIES);
+        assertThat(actual.getCreated()).isEqualTo(CREATED);
+        assertThat(actual.getLastUpdated()).isEqualTo(LAST_UPDATED);
+        assertThat(actual.getPublished()).isEqualTo(PUBLISHED);
     }
 
     @Test
@@ -96,6 +108,10 @@ public class StepMappingTest {
         stepDBObject.setStepText(STEP_TEXT);
         stepDBObject.setPictures(PICTURE_DB_OBJECTS);
         stepDBObject.setGpsPoints(GPS_POINT_DB_OBJECTS);
+        stepDBObject.setTraveledCountries(TRAVELED_COUNTRIES);
+        stepDBObject.setCreated(CREATED);
+        stepDBObject.setLastUpdated(LAST_UPDATED);
+        stepDBObject.setPublished(PUBLISHED);
 
         // when
         StepDetail actual = mapper.map(stepDBObject, StepDetail.class);
@@ -111,6 +127,10 @@ public class StepMappingTest {
         assertThat(actual.getStepText()).isEqualTo(STEP_TEXT);
         assertThat(actual.getPictures()).containsAll(PICTURES);
         assertThat(actual.getGpsPoints()).containsAll(GPS_POINTS);
+        assertThat(actual.getTraveledCountries()).containsAll(TRAVELED_COUNTRIES);
+        assertThat(actual.getCreated()).isEqualTo(CREATED);
+        assertThat(actual.getLastUpdated()).isEqualTo(LAST_UPDATED);
+        assertThat(actual.getPublished()).isEqualTo(PUBLISHED);
     }
 
     @Test
