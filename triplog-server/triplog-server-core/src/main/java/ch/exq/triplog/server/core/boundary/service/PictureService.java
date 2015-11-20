@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.core.boundary.service;
 
+import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.core.boundary.service.upload.FileAttachment;
 import ch.exq.triplog.server.core.control.controller.PictureController;
 import ch.exq.triplog.server.core.control.controller.ResourceController;
@@ -44,6 +45,7 @@ public class PictureService {
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @AuthenticationRequired
     public Response uploadPicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @MultipartForm FileAttachment attachment) {
         if (attachment.getContent() == null) {
             throw new WebApplicationException("File must not be empty.", 400);
@@ -63,6 +65,7 @@ public class PictureService {
 
     @DELETE
     @Path("{pictureName}")
+    @AuthenticationRequired
     public Response deletePicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) {
         try {
             pictureController.delete(tripId, stepId, pictureName);
