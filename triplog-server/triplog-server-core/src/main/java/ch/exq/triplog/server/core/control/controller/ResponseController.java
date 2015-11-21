@@ -2,24 +2,22 @@ package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import static ch.exq.triplog.server.util.http.HttpHeader.AUTHENTICATION_TYPE_BASIC;
 import static ch.exq.triplog.server.util.http.HttpHeader.WWW_Authenticate;
-import static javax.ws.rs.core.Response.Status.*;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 25.04.14
- * Time: 10:34
- */
-@Stateless
 public class ResponseController {
 
+    private ResourceController resourceController;
+
     @Inject
-    ResourceController resourceController;
+    public ResponseController(ResourceController resourceController) {
+        this.resourceController = resourceController;
+    }
 
     public Response badRequest(DisplayableException ex) {
         return Response.status(BAD_REQUEST).entity(ex.getJsonExceptionMessage()).build();

@@ -6,6 +6,7 @@ import ch.exq.triplog.server.common.dto.Step;
 import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.common.dto.StepMin;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
+import ch.exq.triplog.server.core.entity.dao.PictureDAO;
 import ch.exq.triplog.server.core.entity.dao.StepDAO;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
 import ch.exq.triplog.server.core.entity.db.PictureDBObject;
@@ -15,45 +16,37 @@ import ch.exq.triplog.server.util.id.IdGenerator;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 25.04.14
- * Time: 15:58
- */
-@Stateless
 public class StepController {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
+    private TripDAO tripDAO;
+    private StepDAO stepDAO;
+    private PictureDAO pictureDAO;
+    private TriplogMapper mapper;
 
     @Inject
-    TripDAO tripDAO;
-
-    @Inject
-    StepDAO stepDAO;
-
-    @Inject
-    ResourceController resourceController;
-
-    @Inject
-    TriplogMapper mapper;
-
+    public StepController(Logger logger, TripDAO tripDAO, StepDAO stepDAO, PictureDAO pictureDAO, TriplogMapper mapper) {
+        this.logger = logger;
+        this.tripDAO = tripDAO;
+        this.stepDAO = stepDAO;
+        this.pictureDAO = pictureDAO;
+        this.mapper = mapper;
+    }
 
     public List<Step> getAllStepsOfTrip(String tripId) {
         if (tripDAO.getTripById(tripId) == null) {
             return null;
         }
 
-        return stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class))
-                .collect(toList());
+        return stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class)).collect(toList());
     }
 
     public StepDetail getStep(String tripId, String stepId) {
@@ -164,20 +157,42 @@ public class StepController {
     }
 
     public boolean deleteStep(String tripId, String stepId) {
-        // TODO Delete pictures on file system
         StepDBObject stepDBObject = stepDAO.getStep(tripId, stepId);
         if (stepDBObject == null) {
             return false;
         }
 
         WriteResult result = stepDAO.deleteStep(stepDBObject);
-        return result.getN() == 1 && result.getError() == null;
+        boolean deleted = result.getN() == 1 && result.getError() == null;
+
+        if (deleted) {
+            deleteAllPicturesOfStep(stepDBObject);
+        }
+
+        return deleted;
+    }
+
+    private void deleteAllPicturesOfStep(StepDBObject stepDBObject) {
+        stepDBObject.getPictures().stream().forEach(picture -> {
+            try {
+                pictureDAO.deletePicture(stepDBObject.getTripId(), stepDBObject.getStepId(), picture.getName());
+            } catch (IOException e) {
+                logger.error("Could not delete picture while deleting step", e);
+            }
+        });
     }
 
     public boolean deleteAllStepsOfTrip(String tripId) {
-        // TODO Delete pictures on file system
+        List<StepDBObject> allStepsOfTrip = stepDAO.getAllStepsOfTrip(tripId);
+
         WriteResult result = stepDAO.deleteAllStepsOfTrip(tripId);
-        return result.getN() > 0 && result.getError() == null;
+        boolean deleted = result.getN() > 0 && result.getError() == null;
+
+        if (deleted) {
+            allStepsOfTrip.stream().forEach(this::deleteAllPicturesOfStep);
+        }
+
+        return deleted;
     }
 
     private void findPreviousAndNext(StepDetail stepDetail) {

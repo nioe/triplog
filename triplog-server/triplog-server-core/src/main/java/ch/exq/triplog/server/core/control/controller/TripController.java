@@ -11,34 +11,27 @@ import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 25.04.14
- * Time: 15:58
- */
-@Stateless
 public class TripController {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
+    private TripDAO tripDAO;
+    private StepController stepController;
+    private ResourceController resourceController;
+    private TriplogMapper mapper;
 
     @Inject
-    TripDAO tripDAO;
-
-    @Inject
-    StepController stepController;
-
-    @Inject
-    ResourceController resourceController;
-
-    @Inject
-    TriplogMapper mapper;
+    public TripController(Logger logger, TripDAO tripDAO, StepController stepController, ResourceController resourceController, TriplogMapper mapper) {
+        this.logger = logger;
+        this.tripDAO = tripDAO;
+        this.stepController = stepController;
+        this.resourceController = resourceController;
+        this.mapper = mapper;
+    }
 
     public Trip getTripById(String tripId) {
         TripDBObject tripDBObject = tripDAO.getTripById(tripId);

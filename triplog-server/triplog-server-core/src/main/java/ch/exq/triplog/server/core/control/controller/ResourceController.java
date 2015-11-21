@@ -1,13 +1,5 @@
 package ch.exq.triplog.server.core.control.controller;
 
-import javax.ejb.Stateless;
-
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 02.05.14
- * Time: 14:09
- */
-@Stateless
 public class ResourceController {
 
     private static final String PATH_DELIMITER = "/";

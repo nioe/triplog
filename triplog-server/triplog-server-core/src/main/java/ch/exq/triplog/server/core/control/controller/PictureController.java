@@ -4,8 +4,7 @@ import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.common.dto.Picture;
 import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
-import ch.exq.triplog.server.util.config.Config;
-import ch.exq.triplog.server.util.config.SystemProperty;
+import ch.exq.triplog.server.core.entity.dao.PictureDAO;
 import ch.exq.triplog.server.util.picture.PictureSize;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
@@ -19,10 +18,7 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -31,18 +27,19 @@ import static ch.exq.triplog.server.util.misc.UUIDUtil.getRandomUUID;
 
 public class PictureController {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
+    private StepController stepController;
+    private PictureDAO pictureDAO;
 
     @Inject
-    StepController stepController;
-
-    @Inject
-    @Config(key = "triplog.media.path", description = "Path on server where pictures are stored")
-    SystemProperty mediaPath;
+    public PictureController(final Logger logger, final StepController stepController, final PictureDAO pictureDAO) {
+        this.logger = logger;
+        this.stepController = stepController;
+        this.pictureDAO = pictureDAO;
+    }
 
     public File getPicture(String tripId, String stepId, String pictureName) {
-        File picture = getPicturePath(tripId, stepId, pictureName).toFile();
+        File picture = pictureDAO.getPicturePath(tripId, stepId, pictureName).toFile();
         return picture.exists() ? picture : null;
     }
 
@@ -55,9 +52,7 @@ public class PictureController {
         String pictureExtension = pictureName.substring(pictureName.lastIndexOf('.'));
         String uniquePictureName = getRandomUUID() + pictureExtension;
 
-        Path picturePath = getPicturePath(tripId, stepId, uniquePictureName);
-        Files.createDirectories(picturePath.getParent());
-        Files.write(picturePath, content, StandardOpenOption.CREATE_NEW);
+        Path picturePath = pictureDAO.savePicture(tripId, stepId, uniquePictureName, content);
 
         Metadata metadata = null;
         try {
@@ -85,22 +80,8 @@ public class PictureController {
             throw new IllegalArgumentException("Given step could not be found!");
         }
 
-        Path picturePath = getPicturePath(tripId, stepId, pictureName);
-        if (!Files.exists(picturePath)) {
-            throw new IllegalArgumentException("No such file " + picturePath.toString());
-        }
-
-        Files.delete(picturePath);
-
+        pictureDAO.deletePicture(tripId, stepId, pictureName);
         stepController.deletePicture(tripId, stepId, pictureName);
-    }
-
-    private Path getPicturePath(String tripId, String stepId, String pictureName) {
-        if (mediaPath.getString() == null) {
-            throw new RuntimeException("triplog.media.path system property must be set!");
-        }
-
-        return Paths.get(mediaPath.getString(), tripId, stepId, pictureName);
     }
 
     private GpsPoint extractGpsData(Metadata metadata) {
