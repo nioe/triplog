@@ -1,6 +1,7 @@
 package ch.exq.triplog.server.core.boundary.service;
 
 import ch.exq.triplog.server.common.dto.StepDetail;
+import ch.exq.triplog.server.core.boundary.security.AuthTokenHandler;
 import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.core.control.controller.ResponseController;
 import ch.exq.triplog.server.core.control.controller.StepController;
@@ -11,23 +12,29 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
- */
 @Path("/trips/{tripId : [0-9a-z-]*}/steps")
 public class StepService {
 
-    @Inject
-    StepController stepController;
+    private StepController stepController;
+    private ResponseController responseController;
+    private AuthTokenHandler authTokenHandler;
+
+    private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
+
+    public StepService() {}
 
     @Inject
-    ResponseController responseController;
+    public StepService(StepController stepController, ResponseController responseController, AuthTokenHandler authTokenHandler) {
+        this.stepController = stepController;
+        this.responseController = responseController;
+        this.authTokenHandler = authTokenHandler;
+    }
 
     @GET
     @Path("{stepId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId) {
-        StepDetail stepDetail = stepController.getStep(tripId, stepId);
+    public Response getStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
+        StepDetail stepDetail = stepController.getStep(tripId, stepId, authTokenHandler.isValidToken(xAuthToken, true));
 
         if (stepDetail == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -38,8 +45,8 @@ public class StepService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllStepsOfTrip(@PathParam("tripId") String tripId) {
-        return Response.ok(stepController.getAllStepsOfTrip(tripId, true)).build(); // TODO check token
+    public Response getAllStepsOfTrip(@PathParam("tripId") String tripId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
+        return Response.ok(stepController.getAllStepsOfTrip(tripId, authTokenHandler.isValidToken(xAuthToken, true))).build();
     }
 
     @POST

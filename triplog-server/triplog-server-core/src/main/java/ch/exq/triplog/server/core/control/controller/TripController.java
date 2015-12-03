@@ -23,15 +23,13 @@ public class TripController {
     private Logger logger;
     private TripDAO tripDAO;
     private StepController stepController;
-    private ResourceController resourceController;
     private TriplogMapper mapper;
 
     @Inject
-    public TripController(Logger logger, TripDAO tripDAO, StepController stepController, ResourceController resourceController, TriplogMapper mapper) {
+    public TripController(Logger logger, TripDAO tripDAO, StepController stepController, TriplogMapper mapper) {
         this.logger = logger;
         this.tripDAO = tripDAO;
         this.stepController = stepController;
-        this.resourceController = resourceController;
         this.mapper = mapper;
     }
 
@@ -123,7 +121,7 @@ public class TripController {
     }
 
     // TODO implement method
-    public List<GpsPoint> getAllGpsPointsOfTrip(String tripId, boolean validToken) {
+    public List<GpsPoint> getAllGpsPointsOfTrip(String tripId, boolean isAuthenticatedUser) {
         throw new NotImplementedException();
     }
 

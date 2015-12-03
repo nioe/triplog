@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.core.entity.db;
 
+import ch.exq.triplog.server.common.dto.dataprovider.MetaDataProvider;
 import com.mongodb.DBObject;
 import org.slf4j.Logger;
 
@@ -16,7 +17,7 @@ import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
  * Date: 04.04.14
  * Time: 14:43
  */
-public class TripDBObject extends AbstractDBObject<TripDBObject> {
+public class TripDBObject extends AbstractDBObject<TripDBObject> implements MetaDataProvider {
 
     @Inject
     Logger logger;

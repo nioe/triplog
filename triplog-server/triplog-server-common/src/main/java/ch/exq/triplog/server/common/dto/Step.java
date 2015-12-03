@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.common.dto;
 
+import ch.exq.triplog.server.common.dto.dataprovider.MetaDataProvider;
 import ch.exq.triplog.server.util.json.JsonDateAdapter;
 import ch.exq.triplog.server.util.json.JsonDateTimeAdapter;
 
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Step extends StepMin {
+public class Step extends StepMin implements MetaDataProvider {
 
     @XmlElement(required = true)
     private String tripId;

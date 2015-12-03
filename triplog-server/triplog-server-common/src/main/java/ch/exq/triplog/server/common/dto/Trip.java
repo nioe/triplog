@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.common.dto;
 
+import ch.exq.triplog.server.common.dto.dataprovider.MetaDataProvider;
 import ch.exq.triplog.server.util.json.JsonDateAdapter;
 import ch.exq.triplog.server.util.json.JsonDateTimeAdapter;
 
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Trip {
+public class Trip implements MetaDataProvider {
 
     @XmlElement
     private String tripId;

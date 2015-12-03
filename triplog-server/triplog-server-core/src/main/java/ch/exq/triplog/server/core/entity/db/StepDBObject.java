@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.core.entity.db;
 
+import ch.exq.triplog.server.common.dto.dataprovider.MetaDataProvider;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -20,7 +21,7 @@ import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
  * Date: 16.04.14
  * Time: 13:23
  */
-public class StepDBObject extends AbstractDBObject<StepDBObject> {
+public class StepDBObject extends AbstractDBObject<StepDBObject> implements MetaDataProvider {
 
     @Inject
     Logger logger;

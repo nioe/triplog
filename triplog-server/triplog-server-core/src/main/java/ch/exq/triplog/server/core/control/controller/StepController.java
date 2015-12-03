@@ -22,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.time.LocalDateTime.now;
+import static ch.exq.triplog.server.core.control.controller.filter.PublishedChecker.shouldBeShown;
 import static java.util.stream.Collectors.toList;
 
 public class StepController {
@@ -49,17 +49,17 @@ public class StepController {
 
         return stepDAO.getAllStepsOfTrip(tripId).stream()
                 .map(stepDBObject -> mapper.map(stepDBObject, Step.class))
-                .filter(step -> isAuthenticatedUser || (step.getPublished() != null && !step.getPublished().isAfter(now())))
+                .filter(step -> shouldBeShown(step, isAuthenticatedUser))
                 .collect(toList());
     }
 
-    public StepDetail getStep(String tripId, String stepId) {
+    public StepDetail getStep(String tripId, String stepId, boolean isAuthenticatedUser) {
         StepDBObject stepDBObject = stepDAO.getStep(tripId, stepId);
         StepDetail stepDetail = null;
 
-        if (stepDBObject != null) {
+        if (stepDBObject != null && shouldBeShown(stepDBObject, isAuthenticatedUser)) {
             stepDetail = mapper.map(stepDBObject, StepDetail.class);
-            findPreviousAndNext(stepDetail);
+            findPreviousAndNext(stepDetail, isAuthenticatedUser);
         }
 
         return stepDetail;
@@ -199,8 +199,8 @@ public class StepController {
         return deleted;
     }
 
-    private void findPreviousAndNext(StepDetail stepDetail) {
-        List<Step> allStepsOfTrip = getAllStepsOfTrip(stepDetail.getTripId(), true); // TODO filter
+    private void findPreviousAndNext(StepDetail stepDetail, boolean isAuthenticatedUser) {
+        List<Step> allStepsOfTrip = getAllStepsOfTrip(stepDetail.getTripId(), isAuthenticatedUser);
         allStepsOfTrip.sort(new StepFromDateComparator());
 
         int index = allStepsOfTrip.indexOf(stepDetail);
