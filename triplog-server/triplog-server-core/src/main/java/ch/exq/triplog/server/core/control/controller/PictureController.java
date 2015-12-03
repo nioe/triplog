@@ -100,12 +100,12 @@ public class PictureController {
         if (metadata != null) {
             ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
             if (exifSubIFDDirectory != null) {
-                Date captureDate = exifSubIFDDirectory.getDate(exifSubIFDDirectory.TAG_DATETIME_DIGITIZED);
+                Date captureDate = exifSubIFDDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_DIGITIZED);
                 if (captureDate == null) {
-                    captureDate = exifSubIFDDirectory.getDate(exifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+                    captureDate = exifSubIFDDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
                 }
                 if (captureDate == null) {
-                    captureDate = exifSubIFDDirectory.getDate(exifSubIFDDirectory.TAG_DATETIME);
+                    captureDate = exifSubIFDDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME);
                 }
 
                 if (captureDate != null) {
