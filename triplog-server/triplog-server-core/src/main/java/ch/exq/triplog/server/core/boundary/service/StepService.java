@@ -39,7 +39,7 @@ public class StepService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStepsOfTrip(@PathParam("tripId") String tripId) {
-        return Response.ok(stepController.getAllStepsOfTrip(tripId)).build();
+        return Response.ok(stepController.getAllStepsOfTrip(tripId, true)).build(); // TODO check token
     }
 
     @POST

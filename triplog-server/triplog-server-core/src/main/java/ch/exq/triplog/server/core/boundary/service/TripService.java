@@ -2,6 +2,7 @@ package ch.exq.triplog.server.core.boundary.service;
 
 import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.common.dto.Trip;
+import ch.exq.triplog.server.core.boundary.security.AuthTokenHandler;
 import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
 import ch.exq.triplog.server.core.control.controller.ResponseController;
 import ch.exq.triplog.server.core.control.controller.TripController;
@@ -13,16 +14,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-/**
- * Created by Nicolas Oeschger <noe@exq.ch> on 27.03.2014.
- */
 @Path("/trips")
 public class TripService {
-    @Inject
-    TripController tripController;
+
+    private TripController tripController;
+    private ResponseController responseController;
+    private AuthTokenHandler authTokenHandler;
+
+    private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
+
+    public TripService() {}
 
     @Inject
-    ResponseController responseController;
+    public TripService(TripController tripController, ResponseController responseController, AuthTokenHandler authTokenHandler) {
+        this.tripController = tripController;
+        this.responseController = responseController;
+        this.authTokenHandler = authTokenHandler;
+    }
 
     @GET
     @Path("{tripId : [0-9a-z-]*}")
@@ -50,8 +58,8 @@ public class TripService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllTrips() {
-        return Response.ok(tripController.getAllTrips()).build();
+    public Response getAllTrips(@HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
+        return Response.ok(tripController.getAllTrips(authTokenHandler.isValidToken(xAuthToken, true))).build();
     }
 
     @POST

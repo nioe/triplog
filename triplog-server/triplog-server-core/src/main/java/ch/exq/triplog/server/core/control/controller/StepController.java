@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.LocalDateTime.now;
 import static java.util.stream.Collectors.toList;
 
 public class StepController {
@@ -41,12 +42,15 @@ public class StepController {
         this.mapper = mapper;
     }
 
-    public List<Step> getAllStepsOfTrip(String tripId) {
+    public List<Step> getAllStepsOfTrip(String tripId, boolean isAuthenticatedUser) {
         if (tripDAO.getTripById(tripId) == null) {
             return null;
         }
 
-        return stepDAO.getAllStepsOfTrip(tripId).stream().map(stepDBObject -> mapper.map(stepDBObject, Step.class)).collect(toList());
+        return stepDAO.getAllStepsOfTrip(tripId).stream()
+                .map(stepDBObject -> mapper.map(stepDBObject, Step.class))
+                .filter(step -> isAuthenticatedUser || (step.getPublished() != null && !step.getPublished().isAfter(now())))
+                .collect(toList());
     }
 
     public StepDetail getStep(String tripId, String stepId) {
@@ -196,7 +200,7 @@ public class StepController {
     }
 
     private void findPreviousAndNext(StepDetail stepDetail) {
-        List<Step> allStepsOfTrip = getAllStepsOfTrip(stepDetail.getTripId());
+        List<Step> allStepsOfTrip = getAllStepsOfTrip(stepDetail.getTripId(), true); // TODO filter
         allStepsOfTrip.sort(new StepFromDateComparator());
 
         int index = allStepsOfTrip.indexOf(stepDetail);

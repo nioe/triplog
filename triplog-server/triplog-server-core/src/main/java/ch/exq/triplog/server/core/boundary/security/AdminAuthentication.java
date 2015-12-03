@@ -11,9 +11,6 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.StringTokenizer;
 
-/**
- * Created by Nicolas Oeschger <noe@exq.ch> on 27.03.2014.
- */
 @RequestScoped
 public class AdminAuthentication implements Serializable {
 

@@ -16,6 +16,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.time.LocalDateTime.now;
+
 public class TripController {
 
     private Logger logger;
@@ -38,7 +40,7 @@ public class TripController {
 
         if (tripDBObject != null) {
             Trip trip = mapper.map(tripDBObject, Trip.class);
-            addStepsToTrip(trip);
+            addStepsToTrip(trip, true); // TODO filter not published trips
 
             return trip;
         }
@@ -46,10 +48,13 @@ public class TripController {
         return null;
     }
 
-    public List<Trip> getAllTrips() {
-        List<Trip> allTrips = tripDAO.getAllTrips().stream().map(tripDBObject -> mapper.map(tripDBObject, Trip.class))
-                                                            .collect(Collectors.toList());
-        allTrips.forEach(this::addStepsToTrip);
+    public List<Trip> getAllTrips(final boolean isAuthenticatedUser) {
+        List<Trip> allTrips = tripDAO.getAllTrips().stream()
+                .map(tripDBObject -> mapper.map(tripDBObject, Trip.class))
+                .filter(trip -> isAuthenticatedUser || (trip.getPublished() != null && !trip.getPublished().isAfter(now())))
+                .collect(Collectors.toList());
+
+        allTrips.forEach(trip -> addStepsToTrip(trip, isAuthenticatedUser));
 
         return allTrips;
     }
@@ -122,7 +127,7 @@ public class TripController {
         throw new NotImplementedException();
     }
 
-    private void addStepsToTrip(Trip trip) {
-        trip.setSteps(stepController.getAllStepsOfTrip(trip.getTripId()));
+    private void addStepsToTrip(Trip trip, boolean isAuthenticatedUser) {
+        trip.setSteps(stepController.getAllStepsOfTrip(trip.getTripId(), isAuthenticatedUser));
     }
 }

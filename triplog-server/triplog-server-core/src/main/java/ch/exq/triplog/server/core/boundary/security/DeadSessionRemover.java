@@ -8,11 +8,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 22.08.14
- * Time: 16:27
- */
 @Singleton
 @Startup
 public class DeadSessionRemover {

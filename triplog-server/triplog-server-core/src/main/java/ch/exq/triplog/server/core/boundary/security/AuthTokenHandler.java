@@ -14,11 +14,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 16.04.14
- * Time: 15:28
- */
 @ApplicationScoped
 public class AuthTokenHandler {
 
@@ -46,6 +41,10 @@ public class AuthTokenHandler {
     }
 
     public boolean isValidToken(String tokenId) {
+        return isValidToken(tokenId, false);
+    }
+
+    public boolean isValidToken(String tokenId, boolean updateTime) {
         if (tokenId == null || tokenId.isEmpty()) {
             return false;
         }
@@ -60,18 +59,19 @@ public class AuthTokenHandler {
             return false;
         }
 
+        if (updateTime) {
+            updateValidTime(tokenId);
+        }
+
         return true;
     }
 
-    public AuthToken updateValidTime(String tokenId) throws NotValidTokenException {
+    public AuthToken updateValidTimeChecked(String tokenId) throws NotValidTokenException {
         if (!isValidToken(tokenId)) {
             throw new NotValidTokenException();
         }
 
-        AuthToken authToken = authTokenMap.get(tokenId);
-        authToken.setExpiryDate(LocalDateTime.now().plusMinutes(sessionTimeout.getLong()));
-
-        return authToken;
+        return updateValidTime(tokenId);
     }
 
     public void removeToken(String tokenId) {
@@ -81,5 +81,12 @@ public class AuthTokenHandler {
 
     Set<String> getTokens() {
         return new HashSet<>(authTokenMap.keySet());
+    }
+
+    private AuthToken updateValidTime(String tokenId) {
+        AuthToken authToken = authTokenMap.get(tokenId);
+        authToken.setExpiryDate(LocalDateTime.now().plusMinutes(sessionTimeout.getLong()));
+
+        return authToken;
     }
 }
