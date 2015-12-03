@@ -7,11 +7,6 @@ import ch.exq.triplog.server.core.entity.db.TripDBObject;
 
 import static java.time.LocalDateTime.now;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 03.12.15
- * Time: 07:36
- */
 public class PublishedChecker {
 
     public static boolean shouldBeShown(TripDBObject tripDBObject, boolean isAuthenticatedUser) {
