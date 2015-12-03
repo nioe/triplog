@@ -6,7 +6,6 @@ import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
 import ch.exq.triplog.server.core.entity.db.TripDBObject;
 import ch.exq.triplog.server.core.mapper.TriplogMapper;
-import ch.exq.triplog.server.util.id.IdGenerator;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -16,7 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.time.LocalDateTime.now;
+import static ch.exq.triplog.server.core.control.controller.filter.PublishedChecker.shouldBeShown;
+import static ch.exq.triplog.server.util.id.IdGenerator.generateIdWithYear;
 
 public class TripController {
 
@@ -35,12 +35,12 @@ public class TripController {
         this.mapper = mapper;
     }
 
-    public Trip getTripById(String tripId) {
+    public Trip getTripById(String tripId, boolean isAuthenticatedUser) {
         TripDBObject tripDBObject = tripDAO.getTripById(tripId);
 
-        if (tripDBObject != null) {
+        if (tripDBObject != null && shouldBeShown(tripDBObject, isAuthenticatedUser)) {
             Trip trip = mapper.map(tripDBObject, Trip.class);
-            addStepsToTrip(trip, true); // TODO filter not published trips
+            addStepsToTrip(trip, isAuthenticatedUser);
 
             return trip;
         }
@@ -51,7 +51,7 @@ public class TripController {
     public List<Trip> getAllTrips(final boolean isAuthenticatedUser) {
         List<Trip> allTrips = tripDAO.getAllTrips().stream()
                 .map(tripDBObject -> mapper.map(tripDBObject, Trip.class))
-                .filter(trip -> isAuthenticatedUser || (trip.getPublished() != null && !trip.getPublished().isAfter(now())))
+                .filter(trip -> shouldBeShown(trip, isAuthenticatedUser))
                 .collect(Collectors.toList());
 
         allTrips.forEach(trip -> addStepsToTrip(trip, isAuthenticatedUser));
@@ -64,7 +64,7 @@ public class TripController {
             throw new DisplayableException("Trip incomplete: At least tripName must be set");
         }
 
-        String tripId = IdGenerator.generateIdWithYear(trip.getTripName(), trip.getTripDate());
+        String tripId = generateIdWithYear(trip.getTripName(), trip.getTripDate());
         trip.setTripId(tripId);
 
         // We never update created and updated timestamps here
@@ -123,7 +123,7 @@ public class TripController {
     }
 
     // TODO implement method
-    public List<GpsPoint> getAllGpsPointsOfTrip(String tripId) {
+    public List<GpsPoint> getAllGpsPointsOfTrip(String tripId, boolean validToken) {
         throw new NotImplementedException();
     }
 

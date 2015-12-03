@@ -35,8 +35,8 @@ public class TripService {
     @GET
     @Path("{tripId : [0-9a-z-]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTrip(@PathParam("tripId") String tripId) {
-        Trip trip = tripController.getTripById(tripId);
+    public Response getTrip(@PathParam("tripId") String tripId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
+        Trip trip = tripController.getTripById(tripId, authTokenHandler.isValidToken(xAuthToken, true));
         if (trip == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -47,8 +47,8 @@ public class TripService {
     @GET
     @Path("{tripId : [0-9a-z-]*}/gpsPoints")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllGpsPointsOfTrip(@PathParam("tripId") String tripId) {
-        List<GpsPoint> gpsPoints = tripController.getAllGpsPointsOfTrip(tripId);
+    public Response getAllGpsPointsOfTrip(@PathParam("tripId") String tripId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
+        List<GpsPoint> gpsPoints = tripController.getAllGpsPointsOfTrip(tripId, authTokenHandler.isValidToken(xAuthToken, true));
         if (gpsPoints == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
