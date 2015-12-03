@@ -14,9 +14,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Nicolas Oeschger <noe@exq.ch> on 28.03.2014.
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Trip implements MetaDataProvider {

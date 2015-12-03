@@ -7,9 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepDetail extends Step {

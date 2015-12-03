@@ -2,11 +2,6 @@ package ch.exq.triplog.server.common.dto;
 
 import javax.xml.bind.annotation.XmlElement;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 29.10.15
- * Time: 07:44
- */
 public class StepMin {
 
     @XmlElement

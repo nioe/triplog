@@ -1,5 +1,6 @@
 package ch.exq.triplog.server.core.control.controller;
 
+import ch.exq.triplog.server.common.comparator.TripDateComparator;
 import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.common.dto.Trip;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
@@ -53,6 +54,7 @@ public class TripController {
                 .collect(Collectors.toList());
 
         allTrips.forEach(trip -> addStepsToTrip(trip, isAuthenticatedUser));
+        allTrips.sort(new TripDateComparator());
 
         return allTrips;
     }

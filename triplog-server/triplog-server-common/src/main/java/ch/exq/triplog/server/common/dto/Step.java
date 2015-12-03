@@ -12,11 +12,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 30.05.15
- * Time: 16:26
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Step extends StepMin implements MetaDataProvider {

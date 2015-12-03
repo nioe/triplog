@@ -47,10 +47,13 @@ public class StepController {
             return null;
         }
 
-        return stepDAO.getAllStepsOfTrip(tripId).stream()
+        List<Step> allStepsOfTrip = stepDAO.getAllStepsOfTrip(tripId).stream()
                 .map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .filter(step -> shouldBeShown(step, isAuthenticatedUser))
                 .collect(toList());
+        allStepsOfTrip.sort(new StepFromDateComparator());
+
+        return allStepsOfTrip;
     }
 
     public StepDetail getStep(String tripId, String stepId, boolean isAuthenticatedUser) {

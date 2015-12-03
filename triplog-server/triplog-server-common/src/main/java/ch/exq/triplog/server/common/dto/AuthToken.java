@@ -10,11 +10,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 16.04.14
- * Time: 15:21
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AuthToken {

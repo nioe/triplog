@@ -6,11 +6,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 30.05.15
- * Time: 15:37
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GpsPoint {
