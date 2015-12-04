@@ -16,12 +16,12 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
 
                 localStorageService.set(TRIP_STORAGE_KEYS.ALL_TRIPS, tripData);
 
-                return $filter('emptyTripFilter')(tripData);
+                return tripData;
             }, function (error) {
                 if (error.status === 0) {
                     var storedTrips = localStorageService.get(TRIP_STORAGE_KEYS.ALL_TRIPS);
                     if (storedTrips && storedTrips.length > 0) {
-                        return $filter('emptyTripFilter')(storedTrips);
+                        return storedTrips;
                     }
                 }
 
@@ -31,7 +31,7 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
             return $q(function (resolve, reject) {
                 var storedTrips = localStorageService.get(TRIP_STORAGE_KEYS.ALL_TRIPS);
                 if (storedTrips && storedTrips.length > 0) {
-                    resolve($filter('emptyTripFilter')(storedTrips));
+                    resolve(storedTrips);
                 } else {
                     reject({
                         status: 'offline',
