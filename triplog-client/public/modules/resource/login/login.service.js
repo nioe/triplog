@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFIX, LOGIN_STORAGE_KEYS, ENV) {
+function LoginService($rootScope, $q, $http, $cacheFactory, localStorageService, REST_URL_PREFIX, LOGIN_STORAGE_KEYS, ENV) {
 
     function login(username, password) {
         if ($rootScope.isOnline || ENV === 'local') {
@@ -77,6 +77,8 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
         $http.defaults.headers.common['X-AUTH-TOKEN'] = xAuthToken;
         $rootScope.loggedIn = true;
 
+        invalidateHttpCache();
+
         $rootScope.$broadcast('loginStateChanged', {
             loggedIn: true
         });
@@ -87,9 +89,15 @@ function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFI
         $http.defaults.headers.common['X-AUTH-TOKEN'] = undefined;
         $rootScope.loggedIn = false;
 
+        invalidateHttpCache();
+
         $rootScope.$broadcast('loginStateChanged', {
             loggedIn: false
         });
+    }
+
+    function invalidateHttpCache() {
+        $cacheFactory.get('$http').removeAll();
     }
 
     return {
