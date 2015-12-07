@@ -5,7 +5,6 @@ import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
 import org.slf4j.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -17,20 +16,19 @@ import java.util.Set;
 @ApplicationScoped
 public class AuthTokenHandler {
 
-    @Inject
-    @Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "60")
-    SystemProperty sessionTimeout;
 
-    @Inject
-    Logger logger;
+    private SystemProperty sessionTimeout;
+    private Logger logger;
 
     private Map<String, AuthToken> authTokenMap;
-    private Set<String> tokensToBeRemoved;
 
-    @PostConstruct
-    public void init() {
+    public AuthTokenHandler() {}
+
+    @Inject
+    public AuthTokenHandler(@Config(key = "triplog.session.timeout", description = "Session timeout in minutes", fallback = "60") SystemProperty sessionTimeout, Logger logger) {
+        this.sessionTimeout = sessionTimeout;
+        this.logger = logger;
         this.authTokenMap = new HashMap<>();
-        this.tokensToBeRemoved = new HashSet<>();
     }
 
     public AuthToken getNewToken() {

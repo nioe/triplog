@@ -12,11 +12,16 @@ import javax.inject.Inject;
 @Startup
 public class DeadSessionRemover {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
+    private AuthTokenHandler authTokenHandler;
+
+    public DeadSessionRemover() {}
 
     @Inject
-    AuthTokenHandler authTokenHandler;
+    public DeadSessionRemover(Logger logger, AuthTokenHandler authTokenHandler) {
+        this.logger = logger;
+        this.authTokenHandler = authTokenHandler;
+    }
 
     @PostConstruct
     public void started() {

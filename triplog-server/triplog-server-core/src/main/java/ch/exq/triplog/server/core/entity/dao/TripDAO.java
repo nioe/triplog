@@ -15,17 +15,19 @@ import java.util.List;
 
 import static java.time.LocalDateTime.now;
 
-/**
- * Created by Nicolas Oeschger <noe@exq.ch> on 28.03.2014.
- */
 @Stateless
 public class TripDAO {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
+    private TriplogDB db;
+
+    public TripDAO() {}
 
     @Inject
-    TriplogDB db;
+    public TripDAO(Logger logger, TriplogDB db) {
+        this.logger = logger;
+        this.db = db;
+    }
 
     public List<TripDBObject> getAllTrips() {
         List<TripDBObject> trips = new ArrayList<>();

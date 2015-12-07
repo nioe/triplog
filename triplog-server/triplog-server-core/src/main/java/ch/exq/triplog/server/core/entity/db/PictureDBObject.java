@@ -2,22 +2,16 @@ package ch.exq.triplog.server.core.entity.db;
 
 import com.mongodb.BasicDBObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 
 import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
 import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 09.11.15
- * Time: 07:42
- */
 public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
 
     private static final String NAME = "name";
     private static final String LOCATION = "location";
@@ -28,6 +22,7 @@ public class PictureDBObject extends AbstractDBObject<PictureDBObject> {
     private static final String SHOWN_IN_GALLERY = "shownInGallery";
 
     public PictureDBObject() {
+        this.logger = LoggerFactory.getLogger(PictureDBObject.class);
     }
 
     public PictureDBObject(BasicDBObject object) {

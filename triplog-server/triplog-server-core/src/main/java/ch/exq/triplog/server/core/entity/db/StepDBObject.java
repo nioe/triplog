@@ -5,26 +5,18 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
-import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
-import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
+import static ch.exq.triplog.server.util.date.DateConverter.*;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 16.04.14
- * Time: 13:23
- */
 public class StepDBObject extends AbstractDBObject<StepDBObject> implements MetaDataProvider {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
 
     public static final String COLLECTION_NAME = "step";
     public static final String STEP_ID = "stepId";
@@ -44,6 +36,9 @@ public class StepDBObject extends AbstractDBObject<StepDBObject> implements Meta
     public static final String LAST_UPDATED = "lastUpdated";
     public static final String PUBLISHED = "published";
 
+    public StepDBObject() {
+        this.logger = LoggerFactory.getLogger(StepDBObject.class);
+    }
 
     public static StepDBObject from(DBObject dbObject) {
         StepDBObject stepDBObject = new StepDBObject();

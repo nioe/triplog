@@ -8,7 +8,7 @@ module.exports = function (grunt) {
         remapifyPlugin = ['remapify', {
             src: 'public/modules/**/*.js',
             filter: function (alias, dirname, basename) {
-                if (basename.indexOf('module') != -1) {
+                if (basename.indexOf('module') !== -1) {
                     return 'modules/' + basename.replace(/\.module\.js$/, '');
                 }
                 return '../modules/' + basename.replace(/\.js$/, '');
@@ -16,7 +16,7 @@ module.exports = function (grunt) {
         }];
 
     var config;
-    if (grunt.cli.tasks.indexOf('live') != -1 || grunt.cli.tasks.indexOf('dist-pretty') != -1) {
+    if (grunt.cli.tasks.indexOf('live') !== -1 || grunt.cli.tasks.indexOf('dist-pretty') !== -1) {
         config = require('./config/local.json');
     } else {
         config = grunt.option('prod') ? require('./config/prod.json') : require('./config/dev.json');

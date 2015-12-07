@@ -15,21 +15,19 @@ import java.util.List;
 
 import static java.time.LocalDateTime.now;
 
-/**
- * Created by Nicolas Oeschger <noe@exq.ch> on 31.03.2014.
- */
 @Stateless
 public class StepDAO {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
+    private TriplogDB db;
+
+    public StepDAO() {}
 
     @Inject
-    TriplogDB db;
-
-    @Inject
-    TriplogMapper mapper;
-
+    public StepDAO(Logger logger, TriplogDB db, TriplogMapper mapper) {
+        this.logger = logger;
+        this.db = db;
+    }
 
     public List<StepDBObject> getAllStepsOfTrip(String tripId) {
         ArrayList<StepDBObject> steps = new ArrayList<>();

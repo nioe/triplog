@@ -4,11 +4,6 @@ import com.mongodb.BasicDBObject;
 
 import java.math.BigDecimal;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 02.06.15
- * Time: 17:08
- */
 public class GpsPointDBObject extends BasicDBObject {
 
     private static final String LATITUDE = "latitude";

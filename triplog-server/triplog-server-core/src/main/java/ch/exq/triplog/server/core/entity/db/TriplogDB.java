@@ -10,39 +10,37 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 04.04.14
- * Time: 10:23
- */
 @RequestScoped
 public class TriplogDB {
 
-    @Inject
-    Logger logger;
-
-    @Inject
-    @Config(key = "triplog.mongodb.host", description = "The MongoDB server hostname", fallback = "localhost")
-    SystemProperty host;
-
-    @Inject
-    @Config(key = "triplog.mongodb.port", description = "The MongoDB server port", fallback = "27017")
-    SystemProperty port;
-
-    @Inject
-    @Config(key = "triplog.mongodb.user", description = "The MongoDB user")
-    SystemProperty user;
-
-    @Inject
-    @Config(key = "triplog.mongodb.password", description = "The MongoDB password")
-    SystemProperty password;
-
-    @Inject
-    @Config(key = "triplog.mongodb.dbname", description = "The database name where TripLog stores its data", fallback = "triplog")
-    SystemProperty dbName;
+    private Logger logger;
+    private SystemProperty host;
+    private SystemProperty port;
+    private SystemProperty user;
+    private SystemProperty password;
+    private SystemProperty dbName;
 
     private MongoClient mongoClient;
     private DB db;
+
+    public TriplogDB() {}
+
+    @Inject
+    public TriplogDB(
+            Logger logger,
+            @Config(key = "triplog.mongodb.host", description = "The MongoDB server hostname", fallback = "localhost") SystemProperty host,
+            @Config(key = "triplog.mongodb.port", description = "The MongoDB server port", fallback = "27017") SystemProperty port,
+            @Config(key = "triplog.mongodb.user", description = "The MongoDB user") SystemProperty user,
+            @Config(key = "triplog.mongodb.password", description = "The MongoDB password") SystemProperty password,
+            @Config(key = "triplog.mongodb.dbname", description = "The database name where TripLog stores its data", fallback = "triplog") SystemProperty dbName
+    ) {
+        this.logger = logger;
+        this.host = host;
+        this.port = port;
+        this.user = user;
+        this.password = password;
+        this.dbName = dbName;
+    }
 
     @PostConstruct
     public void init() {
@@ -52,10 +50,8 @@ public class TriplogDB {
 
             db = mongoClient.getDB(dbName.getString());
 
-            if (user.getString() != null || password.getString() != null) {
-                if (!db.authenticate(user.getString(), password.getString().toCharArray())) {
-                    throw new RuntimeException("Not able to authenticate with MongoDB");
-                }
+            if (user.getString() != null && password.getString() != null && !db.authenticate(user.getString(), password.getString().toCharArray())) {
+                throw new RuntimeException("Not able to authenticate with MongoDB");
             }
         } catch (Exception e) {
             logger.error("DB Connection could not be established!", e);

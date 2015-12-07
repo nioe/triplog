@@ -7,11 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 28.04.14
- * Time: 13:41
- */
 public abstract class AbstractDBObject<T> extends BasicDBObject {
 
     protected abstract Logger logger();

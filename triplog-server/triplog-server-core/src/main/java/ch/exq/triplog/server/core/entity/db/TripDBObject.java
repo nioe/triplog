@@ -3,24 +3,16 @@ package ch.exq.triplog.server.core.entity.db;
 import ch.exq.triplog.server.common.dto.dataprovider.MetaDataProvider;
 import com.mongodb.DBObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
-import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
-import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
+import static ch.exq.triplog.server.util.date.DateConverter.*;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 04.04.14
- * Time: 14:43
- */
 public class TripDBObject extends AbstractDBObject<TripDBObject> implements MetaDataProvider {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
 
     public static final String COLLECTION_NAME = "trip";
     public static final String TRIP_ID = "tripId";
@@ -33,6 +25,9 @@ public class TripDBObject extends AbstractDBObject<TripDBObject> implements Meta
     public static final String LAST_UPDATED = "lastUpdated";
     public static final String PUBLISHED = "published";
 
+    public TripDBObject() {
+        this.logger = LoggerFactory.getLogger(TripDBObject.class);
+    }
 
     public static TripDBObject from(DBObject dbObject) {
         TripDBObject tripDBObject = new TripDBObject();

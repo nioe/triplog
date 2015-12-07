@@ -18,17 +18,21 @@ import static ch.exq.triplog.server.util.http.HttpHeader.X_AUTH_TOKEN;
 @AuthenticationRequired
 public class AuthenticationFilter implements ContainerRequestFilter {
 
-    @Inject
-    Logger logger;
-
-    @Inject
-    AuthTokenHandler authTokenHandler;
-
-    @Inject
-    ResponseController responseController;
+    private Logger logger;
+    private AuthTokenHandler authTokenHandler;
+    private ResponseController responseController;
 
     @Context
     HttpServletRequest request;
+
+    public AuthenticationFilter() {}
+
+    @Inject
+    public AuthenticationFilter(Logger logger, AuthTokenHandler authTokenHandler, ResponseController responseController) {
+        this.logger = logger;
+        this.authTokenHandler = authTokenHandler;
+        this.responseController = responseController;
+    }
 
     @Override
     public void filter(ContainerRequestContext context) throws IOException {

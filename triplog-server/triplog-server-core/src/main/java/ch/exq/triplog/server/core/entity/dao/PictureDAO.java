@@ -3,18 +3,17 @@ package ch.exq.triplog.server.core.entity.dao;
 import ch.exq.triplog.server.util.config.Config;
 import ch.exq.triplog.server.util.config.SystemProperty;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.*;
 
-/**
- * User: Nicolas Oeschger <noe@exq.ch>
- * Date: 21.11.15
- * Time: 14:32
- */
+@Stateless
 public class PictureDAO {
 
     private Path mediaPath;
+
+    public PictureDAO() {}
 
     @Inject
     public PictureDAO(@Config(key = "triplog.media.path", description = "Path on server where pictures are stored") final SystemProperty mediaPathProperty) {

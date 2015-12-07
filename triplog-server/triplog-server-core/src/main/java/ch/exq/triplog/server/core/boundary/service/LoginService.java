@@ -24,17 +24,20 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class LoginService {
 
-    @Inject
-    Logger logger;
+    private Logger logger;
+    private AdminAuthentication adminAuthentication;
+    private AuthTokenHandler authTokenHandler;
+    private ResponseController responseController;
+
+    public LoginService() {}
 
     @Inject
-    AdminAuthentication adminAuthentication;
-
-    @Inject
-    AuthTokenHandler authTokenHandler;
-
-    @Inject
-    ResponseController responseController;
+    public LoginService(Logger logger, AdminAuthentication adminAuthentication, AuthTokenHandler authTokenHandler, ResponseController responseController) {
+        this.logger = logger;
+        this.adminAuthentication = adminAuthentication;
+        this.authTokenHandler = authTokenHandler;
+        this.responseController = responseController;
+    }
 
     @POST
     @Path("/login")
