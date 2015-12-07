@@ -34,7 +34,7 @@ function LoginService($rootScope, $q, $http, $cacheFactory, localStorageService,
     function checkPresentToken() {
         var xAuthToken = localStorageService.get(LOGIN_STORAGE_KEYS.AUTH_TOKEN);
         if (xAuthToken) {
-            $http({
+            return $http({
                 method: 'POST',
                 url: REST_URL_PREFIX + '/tokenValidator',
                 headers: {
@@ -42,7 +42,7 @@ function LoginService($rootScope, $q, $http, $cacheFactory, localStorageService,
                 }
             }).then(setLoggedInStatus.bind(undefined, xAuthToken), resetLoggedInStatus);
         } else {
-            resetLoggedInStatus();
+            return $q.resolve().then(resetLoggedInStatus);
         }
     }
 

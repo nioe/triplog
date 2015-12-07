@@ -52,7 +52,10 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
                 transitionSelectorClass: 'content-transition'
             },
             resolve: {
-                trips: function (TripsService) {
+                loggedInBefore: function(LoginService) {
+                    return LoginService.checkPresentToken();
+                },
+                trips: function (loggedInBefore, TripsService) {
                     return TripsService.getAllTrips();
                 }
             }
@@ -110,8 +113,8 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document', '$window', 'localStorageService', 'Analytics', 'LoginService', 'AlertService',
-        function ($rootScope, $state, $stateParams, $timeout, $document, $window, localStorageService, Analytics, LoginService, AlertService) {
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document', '$window', 'localStorageService', 'Analytics', 'AlertService',
+        function ($rootScope, $state, $stateParams, $timeout, $document, $window, localStorageService, Analytics, AlertService) {
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
@@ -191,7 +194,5 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
                         AlertService.info(error.data);
                 }
             });
-
-            LoginService.checkPresentToken();
         }]
 );
