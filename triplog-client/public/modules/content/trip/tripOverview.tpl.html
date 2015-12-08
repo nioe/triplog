@@ -1,14 +1,12 @@
 <h1 class="line">Trip Overview</h1>
 
-<p>On this page you can see an overivew over all Trips we already did or are planning to do.</p>
+<p>On this page you can see an overview over all trips we already did or are planning to do.</p>
 
 <triplog-tile-box>
-    <triplog-tile
-            ng-repeat="trip in content.trips"
-            tile-title="{{ trip.displayName }}"
-            picture="{{ trip.coverPicture }}"
-            ui-sref="content.stepOverview({tripId: '{{ trip.tripId }}'})">
-
+    <triplog-tile ng-repeat="trip in content.trips"
+                  tile-title="{{ trip.displayName }}"
+                  picture="{{ trip.coverPicture }}"
+                  ui-sref="content.stepOverview({tripId: '{{ trip.tripId }}'})">
         {{ trip.tripLead }}
     </triplog-tile>
 </triplog-tile-box>
