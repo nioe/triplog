@@ -17,5 +17,6 @@ module.exports.factory('TripsService', require('./trips.service'));
 module.exports.factory('TripsResource', require('./trips.resource'));
 
 module.exports.constant('TRIP_STORAGE_KEYS', {
-    ALL_TRIPS: 'all-trips'
+    ALL_TRIPS: 'all-trips',
+    ALL_TRIPS_ADMIN: 'all-trips-admin'
 });

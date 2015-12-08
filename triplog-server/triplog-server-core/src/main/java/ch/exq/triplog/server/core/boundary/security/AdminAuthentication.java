@@ -5,6 +5,7 @@ import ch.exq.triplog.server.util.config.SystemProperty;
 import ch.exq.triplog.server.util.http.HttpHeader;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Base64;
@@ -18,6 +19,7 @@ public class AdminAuthentication implements Serializable {
 
     public AdminAuthentication() {}
 
+    @Inject
     public AdminAuthentication(
             @Config(key = "triplog.admin.user", description = "The admin username which is used to add, delete or update content", fallback = "admin") SystemProperty adminUser,
             @Config(key = "triplog.admin.password", description = "The admin password which is used to add, delete or update content", fallback = "password") SystemProperty adminPassword

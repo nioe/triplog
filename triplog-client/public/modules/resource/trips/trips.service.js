@@ -14,13 +14,13 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
                     sortByPropertyDescending(trip.steps, 'fromDate');
                 });
 
-                localStorageService.set(TRIP_STORAGE_KEYS.ALL_TRIPS, tripData);
+                localStorageService.set($rootScope.loggedIn ? TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN : TRIP_STORAGE_KEYS.ALL_TRIPS, tripData);
 
                 return tripData;
             }, function (error) {
                 if (error.status === 0) {
-                    var storedTrips = localStorageService.get(TRIP_STORAGE_KEYS.ALL_TRIPS);
-                    if (storedTrips && storedTrips.length > 0) {
+                    var storedTrips = getTripsFromLocalStorage();
+                    if (storedTrips) {
                         return storedTrips;
                     }
                 }
@@ -29,8 +29,8 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
             });
         } else {
             return $q(function (resolve, reject) {
-                var storedTrips = localStorageService.get(TRIP_STORAGE_KEYS.ALL_TRIPS);
-                if (storedTrips && storedTrips.length > 0) {
+                var storedTrips = getTripsFromLocalStorage();
+                if (storedTrips) {
                     resolve(storedTrips);
                 } else {
                     reject({
@@ -71,6 +71,19 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
 
             return 0;
         });
+    }
+
+    function getTripsFromLocalStorage() {
+        var storedTrips;
+        if ($rootScope.loggedIn) {
+            storedTrips = localStorageService.get(TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN);
+        }
+
+        if (!storedTrips || storedTrips.length === 0) {
+            storedTrips = localStorageService.get(TRIP_STORAGE_KEYS.ALL_TRIPS);
+        }
+
+        return storedTrips && storedTrips.length > 0 ? storedTrips : undefined;
     }
 
     return {
