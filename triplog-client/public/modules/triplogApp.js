@@ -56,7 +56,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
                     return LoginService.checkPresentToken();
                 },
                 trips: function (loggedInBefore, TripsService) {
-                    return TripsService.getAllTrips();
+                    return TripsService.getTrips();
                 }
             }
         })
@@ -74,7 +74,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controllerAs: 'stepOverview',
             resolve: {
                 trip: function (TripsService, $stateParams) {
-                    return TripsService.getTripById($stateParams.tripId);
+                    return TripsService.getTrip($stateParams.tripId);
                 }
             }
         })

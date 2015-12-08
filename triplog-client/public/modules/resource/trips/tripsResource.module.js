@@ -18,5 +18,6 @@ module.exports.factory('TripsResource', require('./trips.resource'));
 
 module.exports.constant('TRIP_STORAGE_KEYS', {
     ALL_TRIPS: 'all-trips',
-    ALL_TRIPS_ADMIN: 'all-trips-admin'
+    ALL_TRIPS_ADMIN: 'all-trips-admin',
+    TRIPS_TO_DELETE: 'trips-to-delete'
 });
