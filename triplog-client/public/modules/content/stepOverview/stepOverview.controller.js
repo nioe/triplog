@@ -1,9 +1,10 @@
 'use strict';
 
 // @ngInject
-function StepOverviewController($state, trip) {
+function StepOverviewController($rootScope, $state, trip) {
     var vm = this;
     vm.trip = trip;
+    vm.editMode = $state.params.edit && $rootScope.loggedIn;
 
     $state.current.data.pageTitle = vm.trip.displayName;
 }

@@ -68,7 +68,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             }
         })
         .state('content.stepOverview', {
-            url: '/trips/:tripId',
+            url: '/trips/:tripId?edit',
             templateUrl: require('./content/stepOverview/stepOverview.tpl.html').name,
             controller: require('./content/stepOverview/stepOverview.controller'),
             controllerAs: 'stepOverview',
