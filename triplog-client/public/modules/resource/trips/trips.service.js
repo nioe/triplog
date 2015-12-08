@@ -146,7 +146,11 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
         localStorageService.set(TRIP_STORAGE_KEYS.TRIPS_TO_DELETE, tripsToDelete);
 
         return $q(function (resolve, reject) {
-            error ? reject(error) : resolve();
+            if (error) {
+                reject(error);
+            }
+
+            resolve();
         });
     }
 }
