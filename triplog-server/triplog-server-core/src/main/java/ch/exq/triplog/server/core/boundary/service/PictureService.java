@@ -20,14 +20,18 @@ import java.net.URI;
 @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}/pictures")
 public class PictureService {
 
-    @Inject
-    PictureController pictureController;
+    private PictureController pictureController;
+    private ResourceController resourceController;
+    private ResponseController responseController;
+
+    public PictureService() {}
 
     @Inject
-    ResourceController resourceController;
-
-    @Inject
-    ResponseController responseController;
+    public PictureService(PictureController pictureController, ResourceController resourceController, ResponseController responseController) {
+        this.pictureController = pictureController;
+        this.resourceController = resourceController;
+        this.responseController = responseController;
+    }
 
     @GET
     @Path("{pictureName}")

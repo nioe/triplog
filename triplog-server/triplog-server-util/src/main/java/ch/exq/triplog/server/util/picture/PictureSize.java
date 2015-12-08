@@ -11,8 +11,8 @@ import com.drew.metadata.png.PngDirectory;
 
 public class PictureSize {
 
-    final int width;
-    final int height;
+    private final int width;
+    private final int height;
 
     public static PictureSize valueOf(final Metadata metadata) {
         if (metadata == null) {

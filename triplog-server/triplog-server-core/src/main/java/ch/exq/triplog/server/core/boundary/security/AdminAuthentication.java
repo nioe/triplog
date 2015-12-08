@@ -1,11 +1,10 @@
 package ch.exq.triplog.server.core.boundary.security;
 
 import ch.exq.triplog.server.util.config.Config;
-import ch.exq.triplog.server.util.http.HttpHeader;
 import ch.exq.triplog.server.util.config.SystemProperty;
+import ch.exq.triplog.server.util.http.HttpHeader;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Base64;
@@ -14,13 +13,18 @@ import java.util.StringTokenizer;
 @RequestScoped
 public class AdminAuthentication implements Serializable {
 
-    @Inject
-    @Config(key = "triplog.admin.user", description = "The admin username which is used to add, delete or update content", fallback = "admin")
-    SystemProperty adminUser;
+    private SystemProperty adminUser;
+    private SystemProperty adminPassword;
 
-    @Inject
-    @Config(key = "triplog.admin.password", description = "The admin password which is used to add, delete or update content", fallback = "password")
-    SystemProperty adminPassword;
+    public AdminAuthentication() {}
+
+    public AdminAuthentication(
+            @Config(key = "triplog.admin.user", description = "The admin username which is used to add, delete or update content", fallback = "admin") SystemProperty adminUser,
+            @Config(key = "triplog.admin.password", description = "The admin password which is used to add, delete or update content", fallback = "password") SystemProperty adminPassword
+    ) {
+        this.adminUser = adminUser;
+        this.adminPassword = adminPassword;
+    }
 
     public boolean isValid(String user, String password) {
         return adminUser.getString().equals(user) && adminPassword.getString().equals(password);

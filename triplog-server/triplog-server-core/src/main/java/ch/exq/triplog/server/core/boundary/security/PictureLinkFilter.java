@@ -18,10 +18,10 @@ import java.io.IOException;
 public class PictureLinkFilter implements ContainerResponseFilter {
 
     @Context
-    UriInfo uriInfo;
+    private UriInfo uriInfo;
 
     @Inject
-    ResourceController resourceController;
+    private ResourceController resourceController;
 
     @Override
     public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext containerResponseContext) throws IOException {

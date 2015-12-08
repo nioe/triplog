@@ -2,7 +2,6 @@ package ch.exq.triplog.server.core.entity.dao;
 
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
 import ch.exq.triplog.server.core.entity.db.TriplogDB;
-import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
@@ -24,7 +23,7 @@ public class StepDAO {
     public StepDAO() {}
 
     @Inject
-    public StepDAO(Logger logger, TriplogDB db, TriplogMapper mapper) {
+    public StepDAO(Logger logger, TriplogDB db) {
         this.logger = logger;
         this.db = db;
     }

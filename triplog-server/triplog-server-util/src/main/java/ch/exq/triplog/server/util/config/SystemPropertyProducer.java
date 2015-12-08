@@ -15,7 +15,7 @@ public class SystemPropertyProducer implements Serializable {
 
     @Produces
     @Config(key = "")
-    SystemProperty getConfig(InjectionPoint injectionPoint) {
+    public SystemProperty getConfig(InjectionPoint injectionPoint) {
         final Config config = injectionPoint.getAnnotated().getAnnotation(Config.class);
         return new SystemProperty(config);
     }

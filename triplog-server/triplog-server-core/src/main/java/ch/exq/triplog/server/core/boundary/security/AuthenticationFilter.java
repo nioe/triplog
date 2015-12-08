@@ -23,7 +23,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     private ResponseController responseController;
 
     @Context
-    HttpServletRequest request;
+    private HttpServletRequest request;
 
     public AuthenticationFilter() {}
 
