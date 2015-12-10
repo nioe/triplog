@@ -8,8 +8,12 @@ function StepOverviewController($rootScope, $state, trip) {
 
     $state.current.data.pageTitle = vm.trip.displayName;
 
-    vm.templateToShow = function() {
+    vm.templateToShow = function () {
         return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
+    };
+
+    vm.deleteTrip = function () {
+        console.log('Deleting trip with id', trip.tripId);
     };
 }
 

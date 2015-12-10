@@ -1,12 +1,19 @@
-.btn.btn-default{
-  &.transparent {
-    background: none;
-    border-width: 2px;
-    padding: 15px;
-    color: $btn-default-bg;
-  }
+.btn-glow {
+  @extend .btn;
+  @extend .btn-default;
+  @extend .btn-lg;
+  @include animation(white-pulse 2s infinite);
+}
 
-  &.glow {
-    @include animation(white-pulse 2s infinite);
+.btn-delete {
+  @extend .btn;
+  @extend .btn-danger;
+  margin: 20px auto;
+  display: block;
+  width: 40%;
+  min-width: 300px;
+
+  .name {
+    font-style: italic;
   }
 }
