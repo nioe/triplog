@@ -52,10 +52,10 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
                 transitionSelectorClass: 'content-transition'
             },
             resolve: {
-                loggedInBefore: function(LoginService) {
+                checkLoginBefore: function(LoginService) {
                     return LoginService.checkPresentToken();
                 },
-                trips: function (loggedInBefore, TripsService) {
+                trips: function (checkLoginBefore, TripsService) {
                     return TripsService.getTrips();
                 }
             }
@@ -73,7 +73,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controller: require('./content/stepOverview/stepOverview.controller'),
             controllerAs: 'stepOverview',
             resolve: {
-                trip: function (TripsService, $stateParams) {
+                trip: function (checkLoginBefore, TripsService, $stateParams) {
                     return TripsService.getTrip($stateParams.tripId);
                 }
             }
@@ -87,7 +87,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controller: require('./content/stepDetail/stepDetail.controller'),
             controllerAs: 'stepDetail',
             resolve: {
-                step: function (StepsService, $stateParams) {
+                step: function (checkLoginBefore, StepsService, $stateParams) {
                     return StepsService.getStepOfTrip($stateParams.tripId, $stateParams.stepId);
                 }
             }
