@@ -124,11 +124,11 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
                         name: 'Overview',
                         icon: 'step-overview',
                         action: function () {
-                            $state.go('content.stepOverview', {tripId: tripId});
+                            $state.go('content.stepOverview', {tripId: tripId, edit: undefined});
                         },
                         divider: true,
                         active: function () {
-                            return $state.current.name === 'content.stepOverview';
+                            return $state.current.name === 'content.stepOverview' && !$state.params.edit;
                         }
                     }
                 ],
@@ -151,17 +151,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
 
                 if ($rootScope.loggedIn) {
                     entries[entries.length - 1].divider = true;
-                    entries.push({
-                        id: 'addStep',
-                        name: 'Add step',
-                        icon: 'add',
-                        action: function () {
-                            console.log('Not yet implemented... :(');
-                        },
-                        active: function () {
-                            return false; //TODO Implement function
-                        }
-                    });
+                    entries = entries.concat(tripControls(tripId));
                 }
 
                 vm.navBarEntries.push({
@@ -206,6 +196,48 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
 
     function isDeviceWithSideNavigation() {
         return $window.innerWidth < 768;
+    }
+
+    function tripControls(tripId) {
+        var controls = [];
+
+        controls.push({
+            id: 'editTrip',
+            name: 'Edit Trip',
+            icon: 'edit',
+            action: function () {
+                $state.go('content.stepOverview', {tripId: tripId, edit: true});
+            },
+            active: function () {
+                return $state.current.name === 'content.stepOverview' && $state.params.edit;
+            }
+        });
+
+        controls.push({
+            id: 'deleteTrip',
+            name: 'Delete Trip',
+            icon: 'delete',
+            action: function () {
+                console.log('Delete trip with id', tripId);
+            },
+            active: function () {
+                return false;
+            }
+        });
+
+        controls.push({
+            id: 'addStep',
+            name: 'Add step',
+            icon: 'add',
+            action: function () {
+                console.log('Not yet implemented... :(');
+            },
+            active: function () {
+                return false; //TODO Implement function
+            }
+        });
+
+        return controls;
     }
 }
 
