@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h3>{{ modalInstance.modalData.title }}</h3>
+</div>
+<div class="modal-body">
+    <p>{{ modalInstance.modalData.message }}</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" data-ng-click="modalInstance.cancel()">
+        {{ modalInstance.modalData.cancelText }}
+    </button>
+    <button class="btn btn-primary" data-ng-click="modalInstance.ok()">
+        {{ modalInstance.modalData.okText }}
+    </button>
+</div>

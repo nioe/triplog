@@ -61,7 +61,7 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
 
     function deleteTrip(tripId) {
         if ($rootScope.isOnline || ENV === 'local') {
-            TripsResource.delete({tripId: tripId}).$promise.then(deleteTripFromLocalStorage.bind(undefined, tripId), function (error) {
+            return TripsResource.delete({tripId: tripId}).$promise.then(deleteTripFromLocalStorage.bind(undefined, tripId), function (error) {
                 if (error && error.status === 404) {
                     return $q.reject({
                         status: 404,

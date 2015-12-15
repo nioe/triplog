@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, trips, LoginService, AlertService) {
+function ContentController($rootScope, $state, $window, ENV, trips, TripsService, LoginService, AlertService, showModal) {
 
     var vm = this;
     vm.environment = ENV;
@@ -17,7 +17,6 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
     $rootScope.$on('$stateChangeSuccess', createStepOverviewNavBarEntry);
     $rootScope.$on('loginStateChanged', reCreateNavigation);
 
-    //************************************** Public Functions ***************************************
     vm.toggleNavigation = function () {
         if (vm.navigationIsShown) {
             vm.closeNavigation();
@@ -48,7 +47,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
         });
     };
 
-    //************************************** Private Functions **************************************
+    /************************************** Private Functions **************************************/
     function reCreateNavigation() {
         vm.navBarEntries = [];
         createTripOverviewNavBarEntry();
@@ -218,7 +217,17 @@ function ContentController($rootScope, $state, $window, ENV, trips, LoginService
             name: 'Delete Trip',
             icon: 'delete',
             action: function () {
-                console.log('Delete trip with id', tripId);
+                var trip = trips[indexOfTripWithId(tripId)];
+
+                showModal('Delete ' + trip.tripName, 'Caution: This cannot be undone. All trip data including all stpes and pictures will be deleted!', 'OK', 'Cancel').then(function () {
+                    TripsService.deleteTrip(tripId).then(function() {
+                        $state.go('content.allTrips', {}, {reload: true});
+                        AlertService.info('Trip ' + trip.tripName + ' has been successfully deleted.');
+                    }, function(error) {
+                        console.error('Error while deleting trip with id ', tripId, error);
+                        AlertService.error(error.data);
+                    });
+                });
             },
             active: function () {
                 return false;

@@ -9,6 +9,7 @@ module.exports = angular.module('content', [
     require('modules/tripsResource').name,
     require('modules/loginResource').name,
     require('modules/alert').name,
+    require('modules/modalMessage').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./content.tpl.html').name
