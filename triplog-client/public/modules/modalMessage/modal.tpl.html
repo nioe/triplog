@@ -8,7 +8,7 @@
     <button type="button" class="btn {{ modalInstance.modalData.cancelClass }}" data-ng-click="modalInstance.cancel()">
         {{ modalInstance.modalData.cancelText }}
     </button>
-    <button class="btn {{ modalInstance.modalData.okClass }}" data-ng-click="modalInstance.ok()">
+    <button ng-if="modalInstance.modalData.okText" class="btn {{ modalInstance.modalData.okClass }}" data-ng-click="modalInstance.ok()">
         {{ modalInstance.modalData.okText }}
     </button>
 </div>
