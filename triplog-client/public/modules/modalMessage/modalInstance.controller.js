@@ -2,6 +2,7 @@
 
 module.exports = ModalInstanceController;
 
+// @ngInject
 function ModalInstanceController($modalInstance, modalData) {
     var vm = this;
 

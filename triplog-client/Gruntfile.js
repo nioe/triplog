@@ -168,9 +168,6 @@ module.exports = function (grunt) {
         },
 
         uglify: {
-            options: {
-                mangle: false
-            },
             all: {
                 options: {
                     sourceMap: false,
