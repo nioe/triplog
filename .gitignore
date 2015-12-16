@@ -22,3 +22,4 @@ bower_components/
 triplog-client/_SpecRunner.html
 triplog-client/public/styles/vendor
 test-results.xml
+TESTS-PhantomJS_1.9.8_(Mac_OS_X_0.0.0).xml
