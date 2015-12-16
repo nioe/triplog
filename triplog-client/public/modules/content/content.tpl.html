@@ -28,12 +28,12 @@
                 <!-- Dropdown -->
                 <li ng-class="{ active: entry.active() }"
                     class="dropdown"
-                    dropdown
+                    uib-dropdown
                     on-toggle="toggled(open)"
                     ng-if="entry.entries"
                     ng-repeat-end>
 
-                    <a href class="dropdown-toggle" role="button" dropdown-toggle>
+                    <a href class="dropdown-toggle" role="button" uib-dropdown-toggle>
                         <span class="icon-{{ entry.icon }}"></span>
                         {{ entry.name }}
                         <span class="icon-dropdown"></span>

@@ -3,9 +3,9 @@
 module.exports = ShowModal;
 
 // @ngInject
-function ShowModal($modal) {
+function ShowModal($uibModal) {
     return function (title, message, okText, cancelText) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: require('./modal.tpl.html').name,
             controller: require('./modalInstance.controller'),
             controllerAs: 'modalInstance',
