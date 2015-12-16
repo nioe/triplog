@@ -1,0 +1,15 @@
+.modal-dialog {
+  .triplog-modal-header {
+    @extend .modal-header;
+    border: none;
+  }
+
+  .triplog-modal-body {
+    @extend .modal-body;
+  }
+
+  .triplog-modal-footer {
+    @extend .modal-footer;
+    border: none;
+  }
+}

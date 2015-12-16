@@ -217,9 +217,17 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
             name: 'Delete Trip',
             icon: 'delete',
             action: function () {
-                var trip = trips[indexOfTripWithId(tripId)];
+                var trip = trips[indexOfTripWithId(tripId)],
+                    deleteTripModalData = {
+                        title: 'Delete ' + trip.tripName,
+                        message: 'Caution: This cannot be undone. All trip data including all stpes and pictures will be deleted!',
+                        okText: 'Delete',
+                        okClass: 'btn-danger',
+                        cancelText: 'Cancel',
+                        cancelClass: 'btn-primary'
+                    };
 
-                showModal('Delete ' + trip.tripName, 'Caution: This cannot be undone. All trip data including all stpes and pictures will be deleted!', 'OK', 'Cancel').then(function () {
+                showModal(deleteTripModalData).then(function () {
                     TripsService.deleteTrip(tripId).then(function() {
                         $state.go('content.allTrips', {}, {reload: true});
                         AlertService.info('Trip ' + trip.tripName + ' has been successfully deleted.');
