@@ -14,7 +14,12 @@ function ShowModal($uibModal) {
             cancelClass: 'btn-danger'
         };
 
+        if (!modalData) {
+            modalData = defaultModalData;
+        }
+
         return $uibModal.open({
+            backdrop: 'static',
             templateUrl: require('./modal.tpl.html').name,
             controller: require('./modalInstance.controller'),
             controllerAs: 'modalInstance',
