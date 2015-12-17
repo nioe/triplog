@@ -12,8 +12,13 @@ function StepOverviewController($rootScope, $state, trip) {
         return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
     };
 
-    vm.deleteTrip = function () {
-        console.log('Deleting trip with id', trip.tripId);
+    vm.cancelEdit = function() {
+        $state.go('content.stepOverview', {edit: undefined});
+    };
+
+    vm.saveTrip = function() {
+        console.log('Save trip');
+        $state.go('content.stepOverview', {edit: undefined});
     };
 }
 

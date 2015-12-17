@@ -6,6 +6,9 @@ function TripsService($rootScope, $q, StepsResource, localStorageService, STEP_S
     function getStepOfTrip(tripId, stepId) {
         if ($rootScope.isOnline || ENV === 'local') {
             return StepsResource.get({tripId: tripId, stepId: stepId}).$promise.then(function (stepData) {
+                stepData.fromDate = new Date(stepData.fromDate);
+                stepData.toDate = new Date(stepData.toDate);
+
                 saveStepInLocalStorage(stepData);
 
                 return stepData;
