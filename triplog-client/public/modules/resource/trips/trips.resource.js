@@ -8,7 +8,7 @@ function TripsResource($resource, REST_URL_PREFIX) {
     }, {
         get: {method: 'GET', cache: true},
         query: {method: 'GET', isArray: true, cache: true},
-        update: {method: 'POST'}
+        update: {method: 'PUT'}
     });
 }
 

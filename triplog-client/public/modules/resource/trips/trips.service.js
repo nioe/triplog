@@ -1,11 +1,12 @@
 'use strict';
 
 // @ngInject
-function TripsService($rootScope, $q, $filter, TripsResource, localStorageService, TRIP_STORAGE_KEYS, ENV) {
+function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, localStorageService, TRIP_STORAGE_KEYS, ENV) {
 
     return {
         getTrips: getTrips,
         getTrip: getTrip,
+        updateTrip: updateTrip,
         deleteTrip: deleteTrip
     };
 
@@ -58,6 +59,31 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
         });
     }
 
+    function updateTrip(trip) {
+        if ($rootScope.isOnline || ENV === 'local') {
+            return TripsResource.update({tripId: trip.tripId}, trip).$promise.then(updateTripInLocalStorage, function (error) {
+                if (error && error.status >= 400 && error.status <= 499) {
+                    // Client side problem
+                    return $q.reject(error);
+                }
+
+                // Save changed trip in local storage
+                updateTripInLocalStorage(trip);
+
+                return saveTripToBeUpdated(trip, {
+                    status: error.status,
+                    data: 'Trip ' + trip.tripName + ' could not be updated at th moment due to an unknown error. However it is marked to be updated in the future.'
+                });
+            });
+        } else {
+            updateTripInLocalStorage(trip);
+            return saveTripToBeUpdated(trip, {
+                status: 'offline',
+                data: 'You seem to be offline. Therefore the trip ' + trip.tripName + ' could only be updated locally. It will be updated on the server as soon as you have an internet connection'
+            });
+        }
+    }
+
     function deleteTrip(tripId) {
         if ($rootScope.isOnline || ENV === 'local') {
             return TripsResource.delete({tripId: tripId}).$promise.then(deleteTripFromLocalStorage.bind(undefined, tripId), function (error) {
@@ -76,7 +102,7 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
         } else {
             return saveTripToBeDeleted(tripId, {
                 status: 'offline',
-                data: 'You seem to be offline. Therefore the trip with the ID ' + tripId + ' could only be deleted locally. It will be deleted on the server as soon as you have a internet connection'
+                data: 'You seem to be offline. Therefore the trip with the ID ' + tripId + ' could only be deleted locally. It will be deleted on the server as soon as you have an internet connection'
             });
         }
     }
@@ -119,8 +145,27 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
         return tripsWithGivenId.length > 0 ? tripsWithGivenId[0] : undefined;
     }
 
+    function updateTripInLocalStorage(trip) {
+        deleteTripFromLocalStorage(trip.tripId);
+
+        function addTripToLocalStorageWithKey (trip, localStorageKey) {
+            var storedTrips = localStorageService.get(localStorageKey);
+            if (!storedTrips) {
+                storedTrips = [];
+            }
+
+            storedTrips.push(trip);
+            localStorageService.set(localStorageKey, storedTrips);
+        }
+
+        addTripToLocalStorageWithKey(trip, TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN);
+        addTripToLocalStorageWithKey(trip, TRIP_STORAGE_KEYS.ALL_TRIPS);
+
+        clearCache();
+    }
+
     function deleteTripFromLocalStorage(tripId) {
-        var deleteTripFromLocalStorageWithKey = function(tripId, localStorageKey) {
+        function deleteTripFromLocalStorageWithKey (tripId, localStorageKey) {
             var storedTrips = localStorageService.get(localStorageKey);
 
             if (storedTrips) {
@@ -128,13 +173,28 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
                     return trip.tripId !== tripId;
                 }));
             }
-        };
+        }
 
         deleteTripFromLocalStorageWithKey(tripId, TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN);
         deleteTripFromLocalStorageWithKey(tripId, TRIP_STORAGE_KEYS.ALL_TRIPS);
+
+        clearCache();
     }
 
-    function saveTripToBeDeleted(tripId, error) {
+    function saveTripToBeUpdated(trip, info) {
+        var tripsToUpdate = localStorageService.get(TRIP_STORAGE_KEYS.TRIPS_TO_UPDATE);
+
+        if (!tripsToUpdate) {
+            tripsToUpdate = [];
+        }
+
+        tripsToUpdate.push(trip);
+        localStorageService.set(TRIP_STORAGE_KEYS.TRIPS_TO_UPDATE, tripsToUpdate);
+
+        return $q.resolve(info);
+    }
+
+    function saveTripToBeDeleted(tripId, info) {
         var tripsToDelete = localStorageService.get(TRIP_STORAGE_KEYS.TRIPS_TO_DELETE);
 
         if (!tripsToDelete) {
@@ -144,13 +204,11 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
         tripsToDelete.push(tripId);
         localStorageService.set(TRIP_STORAGE_KEYS.TRIPS_TO_DELETE, tripsToDelete);
 
-        return $q(function (resolve, reject) {
-            if (error) {
-                reject(error);
-            }
+        return $q.resolve(info);
+    }
 
-            resolve();
-        });
+    function clearCache() {
+        $cacheFactory.get('$http').removeAll();
     }
 }
 

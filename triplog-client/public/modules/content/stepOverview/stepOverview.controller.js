@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function StepOverviewController($rootScope, $state, trip, showModal) {
+function StepOverviewController($rootScope, $state, trip, showModal, TripsService, AlertService) {
     var vm = this;
     vm.trip = trip;
     vm.editableTrip = createEditableTrip();
@@ -32,8 +32,10 @@ function StepOverviewController($rootScope, $state, trip, showModal) {
     };
 
     vm.saveTrip = function () {
-        console.log('Save trip');
-        $state.go('content.stepOverview', {edit: undefined});
+        TripsService.updateTrip(createSendableTrip()).then(function () {
+            AlertService.success('Trip has been updated.');
+            $state.go('content.stepOverview', {edit: undefined}, {reload: true});
+        });
     };
 
     function createEditableTrip() {
@@ -42,6 +44,16 @@ function StepOverviewController($rootScope, $state, trip, showModal) {
         editableTrip.published = trip.published ? new Date(trip.published) : undefined;
 
         return editableTrip;
+    }
+
+    function createSendableTrip() {
+        var sendableTrip = angular.copy(vm.editableTrip);
+
+        delete sendableTrip.displayName;
+        sendableTrip.tripDate = vm.editableTrip.tripDate.toJSON().substr(0, 10);
+        sendableTrip.published = vm.editableTrip.published ? vm.editableTrip.published.toJSON().substr(0, 19) : undefined;
+
+        return sendableTrip;
     }
 }
 

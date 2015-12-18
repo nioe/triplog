@@ -1,6 +1,8 @@
 .triplog-markdown-preview {
   .preview {
     @extend .form-control;
+
     height: inherit;
+    min-height: 204px;
   }
 }

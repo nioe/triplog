@@ -230,7 +230,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
                 showModal(deleteTripModalData).then(function () {
                     TripsService.deleteTrip(tripId).then(function() {
                         $state.go('content.allTrips', {}, {reload: true});
-                        AlertService.info('Trip ' + trip.tripName + ' has been successfully deleted.');
+                        AlertService.success('Trip ' + trip.tripName + ' has been successfully deleted.');
                     }, function(error) {
                         console.error('Error while deleting trip with id ', tripId, error);
                         AlertService.error(error.data);

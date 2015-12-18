@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = angular.module('steps-resource', [
+module.exports = angular.module('stepsResource', [
     'ngResource',
     'LocalStorageModule',
     require('modules/config').name
