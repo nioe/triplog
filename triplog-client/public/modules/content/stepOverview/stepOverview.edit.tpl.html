@@ -3,15 +3,15 @@
     <div class="form-group">
         <label for="trip-name" class="col-xs-12 col-sm-2 control-label">Name</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="text" class="form-control" id="trip-name" placeholder="Trip Name" ng-model="stepOverview.trip.tripName">
+            <input type="text" class="form-control" id="trip-name" placeholder="Trip Name" ng-model="stepOverview.editableTrip.tripName">
         </div>
     </div>
 
     <!-- Trip Date -->
     <div class="form-group">
-        <label for="trip-date" class="col-xs-12 col-sm-2 control-label">Name</label>
+        <label for="trip-date" class="col-xs-12 col-sm-2 control-label">Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="date" class="form-control" id="trip-date" placeholder="Trip Name" ng-model="stepOverview.trip.tripDate">
+            <input type="date" class="form-control" id="trip-date" placeholder="Trip Name" ng-model="stepOverview.editableTrip.tripDate">
         </div>
     </div>
 
@@ -19,7 +19,7 @@
     <div class="form-group">
         <label for="trip-lead" class="col-xs-12 col-sm-2 control-label">Lead</label>
         <div class="col-xs-12 col-sm-10">
-            <textarea class="form-control" id="trip-lead" rows="5" ng-model="stepOverview.trip.tripLead"></textarea>
+            <textarea class="form-control" id="trip-lead" rows="5" ng-model="stepOverview.editableTrip.tripLead"></textarea>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
     <div class="form-group">
         <label for="trip-text" class="col-xs-12 col-sm-2 control-label">Text</label>
         <div class="col-xs-12 col-sm-10">
-            <textarea class="form-control" id="trip-text" rows="10" ng-model="stepOverview.trip.tripText"></textarea>
+            <textarea class="form-control" id="trip-text" rows="10" ng-model="stepOverview.editableTrip.tripText"></textarea>
         </div>
     </div>
 
@@ -35,17 +35,26 @@
     <div class="form-group">
         <label for="cover-picture" class="col-xs-12 col-sm-2 control-label">Cover Picture</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="text" class="form-control" id="cover-picture" placeholder="Trip Name" ng-model="stepOverview.trip.coverPicture">
+            <input type="text" class="form-control" id="cover-picture" placeholder="http://url.to/cover/picture.jpg" ng-model="stepOverview.editableTrip.coverPicture">
+        </div>
+    </div>
+
+    <!-- Publish Date -->
+    <div class="form-group">
+        <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Publish Date</label>
+        <div class="col-xs-12 col-sm-10">
+            <input type="datetime" class="form-control" id="publish-date" ng-model="stepOverview.editableTrip.published">
         </div>
     </div>
 
     <!-- Buttons -->
     <div class="form-group">
-        <div class="col-xs-6 col-sm-offset-2 col-sm-5">
-            <button ng-click="stepOverview.cancelEdit()" class="btn btn-default">Cancel</button>
+        <div class="col-xs-4 col-sm-offset-2 col-sm-3 btn-col">
+            <button ng-click="stepOverview.reset()" class="btn-reset">Reset</button>
         </div>
-        <div class="col-xs-6 col-sm-5">
-            <button ng-click="stepOverview.saveTrip()" class="btn btn-primary">Save</button>
+        <div class="col-xs-8 col-sm-7 btn-col right">
+            <button ng-click="stepOverview.cancelEdit()" class="btn-cancel">Cancel</button>
+            <button ng-click="stepOverview.saveTrip()" class="btn-ok">Save</button>
         </div>
     </div>
 </form>

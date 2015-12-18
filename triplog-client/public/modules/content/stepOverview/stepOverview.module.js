@@ -2,6 +2,7 @@
 
 module.exports = angular.module('stepOverview', [
     require('modules/triplogTimeline').name,
+    require('modules/modalMessage').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./stepOverview.tpl.html').name,

@@ -16,8 +16,6 @@ function TripsService($rootScope, $q, $filter, TripsResource, localStorageServic
 
                 tripData.forEach(function (trip) {
                     trip.displayName = trip.tripName + ' ' + $filter('date')(trip.tripDate, 'yyyy');
-                    trip.tripDate = new Date(trip.tripDate);
-
                     sortByPropertyDescending(trip.steps, 'fromDate');
                 });
 

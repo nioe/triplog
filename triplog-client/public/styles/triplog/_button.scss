@@ -25,3 +25,24 @@
     font-style: italic;
   }
 }
+
+.btn-col {
+  &.right {
+    text-align: right;
+  }
+
+  .btn-ok {
+    @extend .btn;
+    @extend .btn-primary;
+  }
+
+  .btn-cancel {
+    @extend .btn;
+    @extend .btn-default;
+  }
+
+  .btn-reset {
+    @extend .btn;
+    @extend .btn-default;
+  }
+}

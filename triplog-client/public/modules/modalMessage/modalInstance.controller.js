@@ -3,16 +3,16 @@
 module.exports = ModalInstanceController;
 
 // @ngInject
-function ModalInstanceController($modalInstance, modalData) {
+function ModalInstanceController($uibModalInstance, modalData) {
     var vm = this;
 
     vm.modalData = modalData;
 
     vm.ok = function (result) {
-        $modalInstance.close(result);
+        $uibModalInstance.close(result);
     };
 
     vm.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 }
