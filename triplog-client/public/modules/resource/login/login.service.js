@@ -74,30 +74,32 @@ function LoginService($rootScope, $q, $http, $cacheFactory, localStorageService,
     }
 
     function setLoggedInStatus(xAuthToken) {
+        var originalLoginStatus = $rootScope.loggedIn;
+
         $http.defaults.headers.common['X-AUTH-TOKEN'] = xAuthToken;
         $rootScope.loggedIn = true;
 
-        invalidateHttpCache();
-
-        $rootScope.$broadcast('loginStateChanged', {
-            loggedIn: true
-        });
+        reactOnLoggedInStatusChange(originalLoginStatus);
     }
 
     function resetLoggedInStatus() {
+        var originalLoginStatus = $rootScope.loggedIn;
+
         localStorageService.remove(LOGIN_STORAGE_KEYS.AUTH_TOKEN);
         $http.defaults.headers.common['X-AUTH-TOKEN'] = undefined;
         $rootScope.loggedIn = false;
 
-        invalidateHttpCache();
-
-        $rootScope.$broadcast('loginStateChanged', {
-            loggedIn: false
-        });
+        reactOnLoggedInStatusChange(originalLoginStatus);
     }
 
-    function invalidateHttpCache() {
-        $cacheFactory.get('$http').removeAll();
+    function reactOnLoggedInStatusChange(originalLoginStatus) {
+        if (originalLoginStatus !== $rootScope.loggedIn) {
+            $cacheFactory.get('$http').removeAll();
+
+            $rootScope.$broadcast('loginStateChanged', {
+                loggedIn: $rootScope.loggedIn
+            });
+        }
     }
 
     return {
