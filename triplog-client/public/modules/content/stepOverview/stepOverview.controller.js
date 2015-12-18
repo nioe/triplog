@@ -7,16 +7,11 @@ function StepOverviewController($rootScope, $state, trip, showModal) {
     vm.editableTrip = createEditableTrip();
 
     vm.editMode = $state.params.edit && $rootScope.loggedIn;
-    vm.tripTextPreview = false;
 
     $state.current.data.pageTitle = vm.trip.displayName;
 
     vm.templateToShow = function () {
         return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
-    };
-
-    vm.toggleTripTextPreview = function () {
-        vm.tripTextPreview = !vm.tripTextPreview;
     };
 
     vm.reset = function () {
