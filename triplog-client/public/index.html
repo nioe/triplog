@@ -54,7 +54,7 @@
 
 
 <aside ng-cloak class="alert-container">
-    <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="alerts.splice($index, 1)" dismiss-on-timeout="5000">{{ alert.msg }}</alert>
+    <uib-alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="alerts.splice($index, 1)" dismiss-on-timeout="5000">{{ alert.msg }}</uib-alert>
 </aside>
 
 <div ng-cloak class="page-container" ng-class="$state.current.data.transitionSelectorClass" ui-view>
