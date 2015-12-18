@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LoadingSpinnerDirective() {
+function MarkdownPreviewDirective() {
     return {
         restrict: 'E',
         replace: true,
@@ -15,4 +15,4 @@ function LoadingSpinnerDirective() {
     };
 }
 
-module.exports = LoadingSpinnerDirective;
+module.exports = MarkdownPreviewDirective;
