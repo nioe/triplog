@@ -10,6 +10,10 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
+    vm.openPicture = function (imageName) {
+      $rootScope.$emit('triplogOpenPicture', imageName);
+    };
+
     reCreateNavigation();
 
     // React on state changes
