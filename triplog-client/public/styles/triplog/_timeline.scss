@@ -79,6 +79,18 @@
         margin-bottom: 15px;
       }
 
+      .timeline-unread-flag {
+        position: absolute;
+        font-size: .8em;
+        border: 1px solid $triplog-blue-dark;
+        padding: 1px 10px;
+        top: 5px;
+        left: -8px;
+        background-color: $triplog-blue;
+        border-radius: 3px;
+        color: white;
+      }
+
       .timeline-heading {
         margin-bottom: 10px;
 
@@ -133,9 +145,14 @@
       transition: .8s ease;
     }
 
-    &:nth-child(2n+2) {
+    &:nth-child(even) {
       .timeline-panel {
         float: right;
+
+        .timeline-unread-flag {
+          right: -8px;
+          left: inherit;
+        }
 
         &:before {
           border-left-width: 0;
@@ -159,32 +176,40 @@
       left: 20px;
     }
 
-    > li > .timeline-panel {
-      @include calc(width, "100% - 60px");
-    }
+    li {
+      .timeline-panel {
+        @include calc(width, "100% - 60px");
+        padding: 12px;
 
-    > li > .timeline-badge {
-      left: 0;
-      margin-left: 0;
-      top: 16px;
-    }
+        .timeline-unread-flag {
+          right: -8px;
+          left: inherit;
+        }
+      }
 
-    > li > .timeline-panel {
-      float: right;
-    }
+      .timeline-badge {
+        left: 0;
+        margin-left: 0;
+        top: 16px;
+      }
 
-    > li > .timeline-panel:before {
-      border-left-width: 0;
-      border-right-width: 15px;
-      left: -15px;
-      right: auto;
-    }
+      .timeline-panel {
+        float: right;
+      }
 
-    > li > .timeline-panel:after {
-      border-left-width: 0;
-      border-right-width: 14px;
-      left: -14px;
-      right: auto;
+      .timeline-panel:before {
+        border-left-width: 0;
+        border-right-width: 15px;
+        left: -15px;
+        right: auto;
+      }
+
+      .timeline-panel:after {
+        border-left-width: 0;
+        border-right-width: 14px;
+        left: -14px;
+        right: auto;
+      }
     }
   }
 }

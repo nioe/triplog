@@ -2,6 +2,7 @@
     <div class="timeline-badge"></div>
     <div class="timeline-panel" ui-sref="{{ momentSref }}">
         <div ng-if="picture" class="timeline-picture" style="background-image: url({{ picture }});"></div>
+        <div ng-if="unreadFlag" class="timeline-unread-flag">Unread</div>
         <div class="timeline-heading">
             <div class="timeline-title">{{ momentTitle }}</div>
             <p class="timeline-date">

@@ -10,6 +10,7 @@
             picture="{{ step.coverPicture }}"
             from-date="{{ step.fromDate }}"
             to-date="{{ step.toDate }}"
+            unread-flag="stepOverview.isUnread(step)"
             moment-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip.tripId }}', stepId: '{{ step.stepId }}'})">
         {{ step.stepLead }}
     </triplog-timeline-moment>

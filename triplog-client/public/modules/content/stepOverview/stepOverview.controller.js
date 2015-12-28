@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function StepOverviewController($rootScope, $state, trip, showModal, TripsService, AlertService) {
+function StepOverviewController($rootScope, $state, trip, showModal, TripsService, AlertService, CONTENT_STORAGE_KEYS, localStorageService) {
     var vm = this;
     vm.trip = trip;
     vm.editableTrip = createEditableTrip();
@@ -36,6 +36,11 @@ function StepOverviewController($rootScope, $state, trip, showModal, TripsServic
             AlertService.success('Trip has been updated.');
             $state.go('content.stepOverview', {edit: undefined}, {reload: true});
         });
+    };
+
+    vm.isUnread = function (step){
+        var readSteps = localStorageService.get(CONTENT_STORAGE_KEYS.READ_STEPS) || [];
+        return readSteps.indexOf(trip.tripId + '/' + step.stepId) === -1;
     };
 
     function createEditableTrip() {

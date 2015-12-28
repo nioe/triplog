@@ -2,6 +2,7 @@
 
 module.exports = angular.module('content', [
     'hc.marked',
+    'LocalStorageModule',
     require('modules/trip').name,
     require('modules/stepOverview').name,
     require('modules/stepDetail').name,
@@ -26,3 +27,7 @@ module.exports.config(['markedProvider', function(markedProvider) {
 }]);
 
 module.exports.controller('ContentController', require('./content.controller'));
+
+module.exports.constant('CONTENT_STORAGE_KEYS', {
+    READ_STEPS: 'read-steps'
+});

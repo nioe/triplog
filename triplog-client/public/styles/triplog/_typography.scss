@@ -81,6 +81,12 @@ body {
       margin: 40px 0;
       text-align: center;
 
+      @media (max-width: $screen-xs-max) {
+        padding: 5px 0;
+        border-top: 2px solid dimgray;
+        border-bottom: 2px solid dimgray;
+      }
+
       @media (min-width: $screen-sm-min) {
         height: 70px;
         line-height: 65px;

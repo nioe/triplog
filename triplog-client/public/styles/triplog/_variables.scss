@@ -1,12 +1,13 @@
 // Colors
 $triplog-blue: #3c6ee7;
+$triplog-blue-dark: #3c5dbd;
 
 // iOS status bar
 $ios-status-bar-height: 20px;
 
 // Navigation
 $bgDefault: $triplog-blue;
-$bgHighlight: #3c5dbd;
+$bgHighlight: $triplog-blue-dark;
 $colDefault: #ffffff;
 $colHighlight: #ffffff;
 $dropDown: false;

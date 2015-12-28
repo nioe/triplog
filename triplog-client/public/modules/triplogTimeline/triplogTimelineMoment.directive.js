@@ -14,6 +14,7 @@ function TriplogTimelineMoment() {
             picture: '@',
             fromDate: '@',
             toDate: '@',
+            unreadFlag: '=',
             momentSref: '@'
         }
     };
