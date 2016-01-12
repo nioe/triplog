@@ -1,32 +1,15 @@
 package ch.exq.triplog.server.common.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class StepDetail extends Step {
 
-    @XmlElement
     private String stepText;
-
-    @XmlElement
     private List<Picture> pictures;
-
-    @XmlElement
     private List<GpsPoint> gpsPoints;
-
-    @XmlElement
     private List<String> traveledCountries;
-
-    @XmlElement
     private StepMin previousStep;
-
-    @XmlElement
     private StepMin nextStep;
 
     public StepDetail() {

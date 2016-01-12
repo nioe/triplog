@@ -1,24 +1,12 @@
 package ch.exq.triplog.server.common.dto;
 
-import ch.exq.triplog.server.util.json.JsonDateTimeAdapter;
 import ch.exq.triplog.server.util.misc.UUIDUtil;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class AuthToken {
 
-    @XmlElement
     private final String id;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
     private LocalDateTime expiryDate;
 
     public AuthToken(LocalDateTime expiryDate) {

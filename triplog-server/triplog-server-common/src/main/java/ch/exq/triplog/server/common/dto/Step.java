@@ -1,48 +1,19 @@
 package ch.exq.triplog.server.common.dto;
 
 import ch.exq.triplog.server.common.dto.dataprovider.MetaDataProvider;
-import ch.exq.triplog.server.util.json.JsonDateAdapter;
-import ch.exq.triplog.server.util.json.JsonDateTimeAdapter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Step extends StepMin implements MetaDataProvider {
 
-    @XmlElement(required = true)
     private String tripId;
-
-    @XmlElement(required = true)
-    @XmlJavaTypeAdapter(JsonDateAdapter.class)
     private LocalDate fromDate;
-
-    @XmlElement(required = true)
-    @XmlJavaTypeAdapter(JsonDateAdapter.class)
     private LocalDate toDate;
-
-    @XmlElement(required = true)
     private String stepLead;
-
-    @XmlElement
     private String coverPicture;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
     private LocalDateTime created;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
     private LocalDateTime lastUpdated;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
     private LocalDateTime published;
 
     public Step() {

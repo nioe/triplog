@@ -14,7 +14,7 @@
     <name>Triplog Tools</name>
 
     <properties>
-        <jackson.version>2.6.1</jackson.version>
+        <jackson.version>2.5.1</jackson.version>
     </properties>
 
     <dependencies>

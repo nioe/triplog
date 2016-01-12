@@ -32,7 +32,7 @@ function StepOverviewController($rootScope, $state, trip, showModal, TripsServic
     };
 
     vm.saveTrip = function () {
-        TripsService.updateTrip(createSendableTrip()).then(function () {
+        TripsService.updateTrip(vm.editableTrip).then(function () {
             AlertService.success('Trip has been updated.');
             $state.go('content.stepOverview', {edit: undefined}, {reload: true});
         });
@@ -49,16 +49,6 @@ function StepOverviewController($rootScope, $state, trip, showModal, TripsServic
         editableTrip.published = trip.published ? new Date(trip.published) : undefined;
 
         return editableTrip;
-    }
-
-    function createSendableTrip() {
-        var sendableTrip = angular.copy(vm.editableTrip);
-
-        delete sendableTrip.displayName;
-        sendableTrip.tripDate = vm.editableTrip.tripDate.toJSON().substr(0, 10);
-        sendableTrip.published = vm.editableTrip.published ? vm.editableTrip.published.toJSON().substr(0, 19) : undefined;
-
-        return sendableTrip;
     }
 }
 

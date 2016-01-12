@@ -1,41 +1,16 @@
 package ch.exq.triplog.server.common.dto;
 
-import ch.exq.triplog.server.util.json.JsonDateTimeAdapter;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Picture {
 
-    @XmlElement(required = true)
     private String name;
-
-    @XmlElement
     private String url;
-
-    @XmlElement
     private GpsPoint location;
-
-    @XmlElement
     private String caption;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JsonDateTimeAdapter.class)
     private LocalDateTime captureDate;
-
-    @XmlElement
     private int width;
-
-    @XmlElement
     private int height;
-
-    @XmlElement
     private boolean shownInGallery;
 
     public Picture() {

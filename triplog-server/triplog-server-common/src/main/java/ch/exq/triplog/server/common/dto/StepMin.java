@@ -1,17 +1,11 @@
 package ch.exq.triplog.server.common.dto;
 
-import javax.xml.bind.annotation.XmlElement;
-
 public class StepMin {
 
-    @XmlElement
     private String stepId;
-
-    @XmlElement(required = true)
     private String stepName;
 
     public StepMin() {
-
     }
 
     public StepMin(String stepId, String stepName) {

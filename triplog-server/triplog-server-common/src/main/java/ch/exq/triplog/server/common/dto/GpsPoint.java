@@ -1,19 +1,10 @@
 package ch.exq.triplog.server.common.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class GpsPoint {
 
-    @XmlElement(required = true)
     private BigDecimal lat;
-
-    @XmlElement(required = true)
     private BigDecimal lng;
 
     public GpsPoint() {
