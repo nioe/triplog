@@ -11,14 +11,15 @@ function TripsService($rootScope, $q, StepsResource, localStorageService, STEP_S
 
                 return stepData;
             }, function (error) {
-                if (error.status === 0) {
-                    var step = readStepFromLocalStorage(tripId, stepId);
-                    if (step) {
-                        return step;
-                    }
+                var step = readStepFromLocalStorage(tripId, stepId);
+                if (step) {
+                    return step;
                 }
 
-                return $q.reject(error);
+                return $q.reject({
+                    status: error.status,
+                    data: 'Step could not be fetched from server and is not cached locally.'
+                });
             });
         } else {
             return $q(function (resolve, reject) {

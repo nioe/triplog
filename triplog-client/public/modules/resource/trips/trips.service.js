@@ -24,14 +24,15 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
 
                 return tripData;
             }, function (error) {
-                if (error.status === 0) {
-                    var storedTrips = getTripsFromLocalStorage();
-                    if (storedTrips) {
-                        return storedTrips;
-                    }
+                var storedTrips = getTripsFromLocalStorage();
+                if (storedTrips) {
+                    return storedTrips;
                 }
 
-                return $q.reject(error);
+                return $q.reject({
+                    status: error.status,
+                    data: 'Trip could not be fetched from server and is not cached locally.'
+                });
             });
         } else {
             return $q(function (resolve, reject) {
@@ -61,20 +62,23 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
 
     function updateTrip(trip) {
         if ($rootScope.isOnline || ENV === 'local') {
-            return TripsResource.update({tripId: trip.tripId}, trip).$promise.then(updateTripInLocalStorage, function (error) {
-                if (error && error.status >= 400 && error.status <= 499) {
-                    // Client side problem
-                    return $q.reject(error);
+            return TripsResource.update({tripId: trip.tripId}, trip).$promise.then(
+                function (response) {
+                    return response;
+                },
+                function (error) {
+                    var msg = 'Trip ' + trip.tripName + ' could not be updated.';
+
+                    if (error.data) {
+                        msg += '\nError Message: "' + error.data + '"';
+                    }
+
+                    $q.reject({
+                        status: error.status,
+                        data: msg
+                    });
                 }
-
-                // Save changed trip in local storage
-                updateTripInLocalStorage(trip);
-
-                return saveTripToBeUpdated(trip, {
-                    status: error.status,
-                    data: 'Trip ' + trip.tripName + ' could not be updated at th moment due to an unknown error. However it is marked to be updated in the future.'
-                });
-            });
+            );
         } else {
             updateTripInLocalStorage(trip);
             return saveTripToBeUpdated(trip, {
@@ -148,7 +152,7 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
     function updateTripInLocalStorage(trip) {
         deleteTripFromLocalStorage(trip.tripId);
 
-        function addTripToLocalStorageWithKey (trip, localStorageKey) {
+        function addTripToLocalStorageWithKey(trip, localStorageKey) {
             var storedTrips = localStorageService.get(localStorageKey);
             if (!storedTrips) {
                 storedTrips = [];
@@ -165,7 +169,7 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
     }
 
     function deleteTripFromLocalStorage(tripId) {
-        function deleteTripFromLocalStorageWithKey (tripId, localStorageKey) {
+        function deleteTripFromLocalStorageWithKey(tripId, localStorageKey) {
             var storedTrips = localStorageService.get(localStorageKey);
 
             if (storedTrips) {
