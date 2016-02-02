@@ -31,7 +31,7 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
 
                 return $q.reject({
                     status: error.status,
-                    data: 'Trip could not be fetched from server and is not cached locally.'
+                    data: 'Trips could not be fetched from server and there are no locally cached trips.'
                 });
             });
         } else {
@@ -163,7 +163,6 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
         }
 
         addTripToLocalStorageWithKey(trip, TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN);
-        addTripToLocalStorageWithKey(trip, TRIP_STORAGE_KEYS.ALL_TRIPS);
 
         clearCache();
     }
@@ -180,7 +179,6 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
         }
 
         deleteTripFromLocalStorageWithKey(tripId, TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN);
-        deleteTripFromLocalStorageWithKey(tripId, TRIP_STORAGE_KEYS.ALL_TRIPS);
 
         clearCache();
     }

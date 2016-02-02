@@ -6,9 +6,9 @@ module.exports = function (config) {
         browsers: ['PhantomJS'],
         reporters: ['progress'],
         files: [
-            'dist/js/vendor.js',
+            '.tmp/scripts/vendor.js',
             'public/bower_components/angular-mocks/angular-mocks.js',
-            'dist/js/triplogApp.js',
+            '.tmp/scripts/triplogApp.js',
             'test/**/*.js',
             {
                 pattern: 'test/fixtures/**/*.test-data.json',
