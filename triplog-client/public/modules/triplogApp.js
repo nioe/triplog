@@ -113,17 +113,17 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document', '$window', 'localStorageService', 'Analytics', 'AlertService',
-        function ($rootScope, $state, $stateParams, $timeout, $document, $window, localStorageService, Analytics, AlertService) {
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document', '$window', 'localStorageService', 'Analytics', 'AlertService', 'ENV',
+        function ($rootScope, $state, $stateParams, $timeout, $document, $window, localStorageService, Analytics, AlertService, ENV) {
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.alerts = [];
 
-            $rootScope.isOnline = $window.navigator.onLine;
+            $rootScope.isOnline = $window.navigator.onLine || ENV === 'local';
 
-            if ($rootScope.isOnline) {
+            if ($rootScope.isOnline && ENV !== 'local') {
                 Analytics.offline(false);
                 Analytics.createAnalyticsScriptTag();
                 $rootScope.scriptTagCreated = true;
@@ -131,19 +131,23 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
 
             $window.addEventListener('offline', function () {
                 $rootScope.$apply(function () {
-                    $rootScope.isOnline = false;
-                    Analytics.offline(true);
+                    if (ENV !== 'local') {
+                        $rootScope.isOnline = false;
+                        Analytics.offline(true);
+                    }
                 });
             }, false);
 
             $window.addEventListener('online', function () {
                 $rootScope.$apply(function () {
-                    $rootScope.isOnline = true;
-                    Analytics.offline(false);
+                    if (ENV !== 'local') {
+                        $rootScope.isOnline = true;
+                        Analytics.offline(false);
 
-                    if (!$rootScope.scriptTagCreated) {
-                        Analytics.createAnalyticsScriptTag();
-                        $rootScope.scriptTagCreated = true;
+                        if (!$rootScope.scriptTagCreated) {
+                            Analytics.createAnalyticsScriptTag();
+                            $rootScope.scriptTagCreated = true;
+                        }
                     }
                 });
             }, false);

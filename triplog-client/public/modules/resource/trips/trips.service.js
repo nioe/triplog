@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, localStorageService, TRIP_STORAGE_KEYS, ENV) {
+function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, localStorageService, TRIP_STORAGE_KEYS) {
 
     return {
         getTrips: getTrips,
@@ -11,7 +11,7 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
     };
 
     function getTrips() {
-        if ($rootScope.isOnline || ENV === 'local') {
+        if ($rootScope.isOnline) {
             return TripsResource.query().$promise.then(function (tripData) {
                 sortByPropertyDescending(tripData, 'tripDate');
 
@@ -61,7 +61,7 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
     }
 
     function updateTrip(trip) {
-        if ($rootScope.isOnline || ENV === 'local') {
+        if ($rootScope.isOnline) {
             return TripsResource.update({tripId: trip.tripId}, trip).$promise.then(
                 function (response) {
                     return response;
@@ -89,7 +89,7 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
     }
 
     function deleteTrip(tripId) {
-        if ($rootScope.isOnline || ENV === 'local') {
+        if ($rootScope.isOnline) {
             return TripsResource.delete({tripId: tripId}).$promise.then(deleteTripFromLocalStorage.bind(undefined, tripId), function (error) {
                 if (error && error.status === 404) {
                     return $q.reject({

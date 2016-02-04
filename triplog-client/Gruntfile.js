@@ -60,6 +60,13 @@ module.exports = function (grunt) {
                 ]
             },
 
+            tmp2dist: {
+                cwd: '.tmp/scripts',
+                src: '**/*',
+                dest: 'dist/js',
+                expand: true
+            },
+
             index: {
                 src: 'public/index.html',
                 dest: 'dist/index.html',
@@ -157,7 +164,7 @@ module.exports = function (grunt) {
             },
             pretty: {
                 files: {
-                    'dist/js/triplogApp.js': ['public/modules/triplogApp.js']
+                    '.tmp/scripts/triplogApp.js': ['public/modules/triplogApp.js']
                 },
                 options: {
                     browserifyOptions: {
@@ -184,29 +191,12 @@ module.exports = function (grunt) {
             }
         },
 
-        // TODO only one config
         bower_concat: {
             options: {
                 separator: grunt.util.linefeed + ';' + grunt.util.linefeed
             },
             dist: {
                 dest: '.tmp/scripts/vendor.js',
-                exclude: [
-                    'bootstrap-sass',
-                    'jquery',
-                    'bourbon',
-                    'angular-mocks'
-                ],
-                dependencies: {
-                    'leaflet.fullscreen': 'mapbox.js',
-                    'leaflet.markercluster': 'mapbox.js'
-                },
-                mainFiles: {
-                    'leaflet.markercluster': 'dist/leaflet.markercluster-src.js'
-                }
-            },
-            pretty: {
-                dest: 'dist/js/vendor.js',
                 exclude: [
                     'bootstrap-sass',
                     'jquery',
@@ -328,11 +318,11 @@ module.exports = function (grunt) {
     });
 
     var target = grunt.option('prod') ? 'prod' : 'dev';
-    grunt.registerTask('dist', ['ngconstant:' + target, 'jshint', 'clean:dist', 'copy:dist', 'copy:index', 'browserify:dist', 'bower_concat:dist', 'uglify', 'copy:css2sassHack', 'sass:dist', 'manifest', 'karma', 'clean:temp']);
+    grunt.registerTask('dist', ['clean', 'ngconstant:' + target, 'jshint', 'copy:dist', 'copy:index', 'browserify:dist', 'bower_concat', 'uglify', 'copy:css2sassHack', 'sass:dist', 'manifest', 'karma']);
     grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
-    grunt.registerTask('dist-pretty', ['ngconstant:local', 'jshint', 'clean:dist', 'copy', 'browserify:pretty', 'bower_concat:pretty', 'sass:pretty']);
-    grunt.registerTask('live', ['dist-pretty', 'concurrent:dev', 'karma']);
+    grunt.registerTask('dist-pretty', ['clean', 'ngconstant:local', 'jshint', 'browserify:pretty', 'bower_concat', 'copy', 'sass:pretty']);
+    grunt.registerTask('live', ['dist-pretty', 'karma', 'concurrent:dev']);
 
     grunt.registerTask('default', ['live']);
 };

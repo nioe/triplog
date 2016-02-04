@@ -9,6 +9,7 @@ describe('Trips Serivce', function () {
         localStorageService,
         localStorage,
         TRIP_STORAGE_KEYS,
+        REST_URL_PREFIX,
         tripsRaw = [
             {tripId: 'trip1', tripName: 'trip 1', tripDate: '2015-02-01', steps: []},
             {tripId: 'trip2', tripName: 'trip 2', tripDate: '2016-01-13', steps: []}
@@ -42,9 +43,10 @@ describe('Trips Serivce', function () {
         $provide.value('localStorageService', localStorageService);
     }));
 
-    beforeEach(inject(function (_TripsService_, _TRIP_STORAGE_KEYS_, _$httpBackend_, _$rootScope_, _$q_) {
+    beforeEach(inject(function (_TripsService_, _TRIP_STORAGE_KEYS_, _REST_URL_PREFIX_, _$httpBackend_, _$rootScope_, _$q_) {
         service = _TripsService_;
         TRIP_STORAGE_KEYS = _TRIP_STORAGE_KEYS_;
+        REST_URL_PREFIX = _REST_URL_PREFIX_;
         $httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         $q = _$q_;
@@ -77,7 +79,7 @@ describe('Trips Serivce', function () {
                 done();
             });
 
-            $httpBackend.expectGET('/services/trips').respond(tripsRaw);
+            $httpBackend.expectGET(REST_URL_PREFIX + '/trips').respond(tripsRaw);
             $httpBackend.flush();
         });
 
@@ -105,7 +107,7 @@ describe('Trips Serivce', function () {
                 done();
             });
 
-            $httpBackend.expectGET('/services/trips').respond(tripsRawAdmin);
+            $httpBackend.expectGET(REST_URL_PREFIX + '/trips').respond(tripsRawAdmin);
             $httpBackend.flush();
         });
 
@@ -125,7 +127,7 @@ describe('Trips Serivce', function () {
                 done();
             });
 
-            $httpBackend.expectGET('/services/trips').respond(500, 'backend error');
+            $httpBackend.expectGET(REST_URL_PREFIX + '/trips').respond(500, 'backend error');
             $httpBackend.flush();
         });
 
@@ -143,7 +145,7 @@ describe('Trips Serivce', function () {
                 done();
             });
 
-            $httpBackend.expectGET('/services/trips').respond(500, 'backend error');
+            $httpBackend.expectGET(REST_URL_PREFIX + '/trips').respond(500, 'backend error');
             $httpBackend.flush();
         });
 
