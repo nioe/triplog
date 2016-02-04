@@ -17,6 +17,7 @@ log/
 tmp/
 node_modules/
 dist/
+.tmp/
 bower_components/
 .sass-cache/
 triplog-client/_SpecRunner.html
