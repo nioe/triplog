@@ -64,6 +64,7 @@ function TripsService($rootScope, $q, $filter, $cacheFactory, TripsResource, loc
         if ($rootScope.isOnline) {
             return TripsResource.update({tripId: trip.tripId}, trip).$promise.then(
                 function (response) {
+                    clearCache();
                     return response;
                 },
                 function (error) {
