@@ -44,6 +44,7 @@
     "load-grunt-tasks": "3.4.0",
     "open": "0.0.5",
     "phantomjs": "1.9.19",
+    "phantomjs-polyfill": "0.0.1",
     "remapify": "2.1.0"
   },
   "private": true,

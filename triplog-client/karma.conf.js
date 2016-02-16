@@ -6,6 +6,7 @@ module.exports = function (config) {
         browsers: ['PhantomJS'],
         reporters: ['progress'],
         files: [
+            './node_modules/phantomjs-polyfill/bind-polyfill.js',
             '.tmp/scripts/vendor.js',
             'public/bower_components/angular-mocks/angular-mocks.js',
             '.tmp/scripts/triplogApp.js',

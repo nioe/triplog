@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Trips Serivce', function () {
-
     var service,
         $httpBackend,
         $rootScope,
@@ -52,10 +51,9 @@ describe('Trips Serivce', function () {
         $q = _$q_;
     }));
 
-    describe('Load Trips', function () {
-
+    describe('Load all trips', function () {
         beforeEach(function () {
-           localStorage = {};
+            localStorage = {};
         });
 
         it('should fetch trips from backend if online and store in normal local storage if not logged in', function (done) {
@@ -203,6 +201,73 @@ describe('Trips Serivce', function () {
             });
 
             $rootScope.$digest();
+        });
+    });
+
+    describe('Load single trip', function () {
+        beforeEach(function () {
+            localStorage = {};
+        });
+
+        it('should fetch all trips and return the one with the correct id', function (done) {
+            // given
+            $rootScope.isOnline = true;
+            $rootScope.loggedIn = false;
+            var tripId = 'trip2';
+
+            // when
+            service.getTrip(tripId).then(function (trip) {
+                expect(typeof trip).toEqual('object');
+                expect(trip.tripId).toEqual(tripId);
+
+                done();
+            });
+
+            $httpBackend.expectGET(REST_URL_PREFIX + '/trips').respond(tripsRaw);
+            $httpBackend.flush();
+        });
+
+        it('should refect promise if trip with given id could not be found', function (done) {
+            // given
+            $rootScope.isOnline = true;
+            $rootScope.loggedIn = false;
+            var tripId = 'trip3';
+
+            // when
+            service.getTrip(tripId).then(function () {
+                done.fail('Should not resolve promise if trip could not be found!');
+            }, function (error) {
+                expect(error.status).toEqual(404);
+                expect(error.data).toEqual('Trip with ID ' + tripId + ' could not be found.');
+                done();
+            });
+
+            $httpBackend.expectGET(REST_URL_PREFIX + '/trips').respond(tripsRaw);
+            $httpBackend.flush();
+        });
+    });
+
+    describe('Delete Trip', function () {
+        beforeEach(function () {
+            localStorage = {};
+            localStorage[TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN] = tripsProcessed;
+        });
+
+        it('should delete trip on server if online', function (done) {
+            // given
+            $rootScope.isOnline = true;
+            var tripId = 'trip2';
+
+            // when
+            service.deleteTrip(tripId).then(function () {
+                localStorage[TRIP_STORAGE_KEYS.ALL_TRIPS_ADMIN].forEach(function (trip) {
+                    expect(trip.tripId).not.toEqual(tripId);
+                });
+                done();
+            });
+
+            $httpBackend.expectDELETE(REST_URL_PREFIX + '/trips/' + tripId).respond(200);
+            $httpBackend.flush();
         });
     });
 });
