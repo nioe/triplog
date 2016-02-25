@@ -3,7 +3,8 @@
 module.exports = angular.module('tripsResource', [
     'ngResource',
     'LocalStorageModule',
-    require('modules/config').name
+    require('modules/config').name,
+    require('modules/processQueue').name
 ]);
 
 module.exports.config(['localStorageServiceProvider', function (localStorageServiceProvider) {

@@ -134,6 +134,7 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
                     if (ENV !== 'local') {
                         $rootScope.isOnline = false;
                         Analytics.offline(true);
+                        $rootScope.$broadcast('isOnline', false);
                     }
                 });
             }, false);
@@ -143,6 +144,7 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
                     if (ENV !== 'local') {
                         $rootScope.isOnline = true;
                         Analytics.offline(false);
+                        $rootScope.$broadcast('isOnline', true);
 
                         if (!$rootScope.scriptTagCreated) {
                             Analytics.createAnalyticsScriptTag();
