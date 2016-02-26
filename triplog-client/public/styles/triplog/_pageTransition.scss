@@ -1,32 +1,41 @@
 .welcome-animation {
   .page-container {
+    $welcome-animation-duration: .6s;
+
     &.ng-enter, &.ng-leave {
       position: absolute;
       width: 100%;
       top: 0;
       overflow: hidden;
+
+      nav {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+      }
     }
 
-    &.welcome-transition {
-      &.ng-enter {
-        @include animation(moveFromTop .6s ease both);
-      }
-
+    // Welcome -> Content
+    &.content-transition-add {
       &.ng-leave {
-        @include animation(moveToTop .6s ease both);
+        @include animation(moveToTop $welcome-animation-duration ease both);
+      }
+
+      &.ng-enter {
+        @include animation(none $welcome-animation-duration);
+        z-index: -10;
       }
     }
 
-    &.content-transition {
-      &.ng-enter, &.ng-leave {
-        @include animation(none .6s);
-
+    // Content -> Welcome
+    &.welcome-transition-add {
+      &.ng-leave {
+        @include animation(none $welcome-animation-duration);
         z-index: -10;
-        nav {
-          position: absolute;
-          top: 0;
-          z-index: 1;
-        }
+      }
+
+      &.ng-enter {
+        @include animation(moveFromTop $welcome-animation-duration ease both);
       }
     }
   }

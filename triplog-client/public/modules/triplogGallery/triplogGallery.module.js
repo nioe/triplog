@@ -4,8 +4,8 @@ module.exports = angular.module('triplogGallery', [
     'bootstrapLightbox',
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./triplogGallery.tpl.html').name,
-    require('./triplogGallery.lightbox.tpl.html').name
+    require('./triplogGallery.tpl.html'),
+    require('./triplogGallery.lightbox.tpl.html')
 ]);
 
 module.exports.config(['LightboxProvider', function (LightboxProvider) {

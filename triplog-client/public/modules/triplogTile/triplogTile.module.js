@@ -3,8 +3,8 @@
 module.exports = angular.module('triplogTile', [
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./triplogTileBox.tpl.html').name,
-    require('./triplogTile.tpl.html').name
+    require('./triplogTileBox.tpl.html'),
+    require('./triplogTile.tpl.html')
 ]);
 
 module.exports.directive('triplogTileBox', require('./triplogTileBox.directive'));

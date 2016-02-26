@@ -38,7 +38,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
     $stateProvider
         .state('welcome', {
             url: '/welcome',
-            templateUrl: require('./welcome/welcome.tpl.html').name,
+            templateUrl: require('./welcome/welcome.tpl.html'),
             data: {
                 pageTitle: 'Welcome',
                 transitionSelectorClass: 'welcome-transition'
@@ -46,7 +46,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
         })
         .state('content', {
             abstract: true,
-            templateUrl: require('./content/content.tpl.html').name,
+            templateUrl: require('./content/content.tpl.html'),
             controller: require('./content/content.controller'),
             controllerAs: 'content',
             data: {
@@ -63,14 +63,14 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
         })
         .state('content.allTrips', {
             url: '/trips',
-            templateUrl: require('./content/trip/tripOverview.tpl.html').name,
+            templateUrl: require('./content/trip/tripOverview.tpl.html'),
             data: {
                 pageTitle: 'Trip Overview'
             }
         })
         .state('content.stepOverview', {
             url: '/trips/:tripId?edit',
-            templateUrl: require('./content/stepOverview/stepOverview.tpl.html').name,
+            templateUrl: require('./content/stepOverview/stepOverview.tpl.html'),
             controller: require('./content/stepOverview/stepOverview.controller'),
             controllerAs: 'stepOverview',
             resolve: {
@@ -81,7 +81,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
         })
         .state('content.stepOfTrip', {
             url: '/trips/:tripId/:stepId',
-            templateUrl: require('./content/stepDetail/stepDetail.tpl.html').name,
+            templateUrl: require('./content/stepDetail/stepDetail.tpl.html'),
             data: {
                 pageTitle: 'Step'
             },
@@ -95,7 +95,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
         })
         .state('content.login', {
             url: '/login',
-            templateUrl: require('./content/login/login.tpl.html').name,
+            templateUrl: require('./content/login/login.tpl.html'),
             data: {
                 pageTitle: 'Login'
             },
@@ -103,7 +103,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controllerAs: 'login'
         })
         .state('content.notFound', {
-            templateUrl: require('./content/error/notFound.tpl.html').name,
+            templateUrl: require('./content/error/notFound.tpl.html'),
             data: {
                 pageTitle: 'Not found'
             }

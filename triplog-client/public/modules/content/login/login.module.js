@@ -7,7 +7,7 @@ module.exports = angular.module('login', [
     require('modules/config').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./login.tpl.html').name
+    require('./login.tpl.html')
 ]);
 
 module.exports.controller('LoginController', require('./login.controller'));

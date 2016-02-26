@@ -3,8 +3,8 @@
 module.exports = angular.module('triplogTimeline', [
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./triplogTimeline.tpl.html').name,
-    require('./triplogTimelineMoment.tpl.html').name
+    require('./triplogTimeline.tpl.html'),
+    require('./triplogTimelineMoment.tpl.html')
 ]);
 
 module.exports.directive('triplogTimeline', require('./triplogTimeline.directive.js'));

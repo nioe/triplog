@@ -14,7 +14,7 @@ module.exports = angular.module('content', [
     require('modules/modalMessage').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./content.tpl.html').name
+    require('./content.tpl.html')
 ]);
 
 module.exports.config(['markedProvider', 'REST_URL_PREFIX', function (markedProvider, REST_URL_PREFIX) {

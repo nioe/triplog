@@ -5,8 +5,8 @@ module.exports = angular.module('stepDetail', [
     require('modules/triplogMap').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./stepDetail.tpl.html').name,
-    require('./dateLine.tpl.html').name
+    require('./stepDetail.tpl.html'),
+    require('./dateLine.tpl.html')
 ]);
 
 module.exports.controller('StepDetailController', require('./stepDetail.controller'));
