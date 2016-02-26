@@ -7,6 +7,7 @@ function ProcessQueueService($rootScope, localStorageService, PROCESS_QUEUE_STOR
 
     return {
         enqueue: enqueue,
+        requeue: requeue,
         dequeue: dequeue,
         hasItems: hasItems,
         size: size
@@ -25,6 +26,12 @@ function ProcessQueueService($rootScope, localStorageService, PROCESS_QUEUE_STOR
         saveQueueInLocalStorage(processQueue);
 
         $rootScope.$broadcast(PROCESS_QUEUE_PUSH_EVENT);
+    }
+
+    function requeue(action) {
+        var processQueue = loadQueueFromLocalStorage();
+        processQueue.unshift(action);
+        saveQueueInLocalStorage(processQueue);
     }
 
     function dequeue() {

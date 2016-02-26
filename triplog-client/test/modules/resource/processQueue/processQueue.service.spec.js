@@ -1,10 +1,12 @@
 'use strict';
 
 describe('Process Queue', function () {
-    var queue,
+    var $rootScope,
+        queue,
         localStorageService,
         localStorage,
-        PROCESS_QUEUE_STORAGE_KEYS;
+        PROCESS_QUEUE_STORAGE_KEYS,
+        PROCESS_QUEUE_PUSH_EVENT;
 
     beforeEach(module('processQueue', function ($provide) {
         localStorageService = {
@@ -20,9 +22,11 @@ describe('Process Queue', function () {
         $provide.value('localStorageService', localStorageService);
     }));
 
-    beforeEach(inject(function (_ProcessQueue_, _PROCESS_QUEUE_STORAGE_KEYS_) {
+    beforeEach(inject(function (_$rootScope_, _ProcessQueue_, _PROCESS_QUEUE_STORAGE_KEYS_, _PROCESS_QUEUE_PUSH_EVENT_) {
+        $rootScope = _$rootScope_;
         queue = _ProcessQueue_;
         PROCESS_QUEUE_STORAGE_KEYS = _PROCESS_QUEUE_STORAGE_KEYS_;
+        PROCESS_QUEUE_PUSH_EVENT = _PROCESS_QUEUE_PUSH_EVENT_;
     }));
 
     it('should enqueue new action', function () {
@@ -33,6 +37,8 @@ describe('Process Queue', function () {
 
         localStorage = {};
 
+        spyOn($rootScope, '$broadcast');
+
         // when
         queue.enqueue(resourceName, method, config);
 
@@ -40,6 +46,7 @@ describe('Process Queue', function () {
         var actual = localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE];
         expect(actual.length).toBe(1);
         expect(actual[0]).toEqual({resourceName: resourceName, method: method, config: config, payload: undefined});
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(PROCESS_QUEUE_PUSH_EVENT);
     });
 
     it('should dequeue first item', function () {
@@ -54,9 +61,21 @@ describe('Process Queue', function () {
 
         // then
         expect(actual).toBe(1);
+        expect(dummyQueue).toEqual([2, 3, 4, 5]);
+    });
 
-        var storedQueue = localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE];
-        expect(storedQueue).toEqual([2, 3, 4, 5]);
+    it('should requeue item at the beginning of queue', function () {
+        // given
+        var dummyQueue = [1, 2, 3, 4, 5];
+
+        localStorage = {};
+        localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE] = dummyQueue;
+
+        // when
+        queue.requeue(0);
+
+        // then
+        expect(dummyQueue).toEqual([0, 1, 2, 3, 4, 5]);
     });
 
     it('should return correct queue size', function () {

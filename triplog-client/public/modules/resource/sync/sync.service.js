@@ -3,45 +3,50 @@
 module.exports = SyncService;
 
 // @ngInject
-function SyncService($rootScope, TripsResource, StepsResource, ProcessQueue, ITEMS_SYNCED_EVENT) {
+function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue, ITEMS_SYNCED_EVENT, $log) {
 
     var resources = {
-            'TripsResource': TripsResource,
-            'StepsResource': StepsResource
-        },
-        stopSync;
+        'TripsResource': TripsResource,
+        'StepsResource': StepsResource
+    };
 
     return {
         sync: sync
     };
 
     function sync() {
-        stopSync = false;
-        var originalQueueSize = ProcessQueue.size();
+        if ($rootScope.isOnline && $rootScope.loggedIn) {
+            var originalQueueSize = ProcessQueue.size();
 
-        while (ProcessQueue.hasItems() && !stopSync) {
-            var action = ProcessQueue.dequeue(),
-                func = resources[action.resourceName][action.method];
-
-            func(action.config, action.payload).$promise.then(noop, handleError.bind(undefined, action));
-        }
-
-        if (ProcessQueue.size() < originalQueueSize) {
-            $rootScope.$broadcast(ITEMS_SYNCED_EVENT);
+            dequeueNextElement().then(function () {
+                if (ProcessQueue.size() < originalQueueSize) {
+                    $rootScope.$broadcast(ITEMS_SYNCED_EVENT);
+                }
+            });
         }
     }
 
     /*********************************************** Private Functions ***********************************************/
 
-    function noop(data) {
-        return data;
+    function dequeueNextElement() {
+        if (!ProcessQueue.hasItems()) {
+            return $q.resolve;
+        }
+
+        var action = ProcessQueue.dequeue(),
+            func = resources[action.resourceName][action.method];
+
+        return func(action.config, action.payload).$promise.then(dequeueNextElement, handleError.bind(undefined, action));
     }
 
     function handleError(action, error) {
-        if (error.status !== 404) {
-            // If there is another error than 'not found' we enqueue the item again but we break the current sync
-            ProcessQueue.enqueue(action.resourceName, action.method, action.config, action.payload);
-            stopSync = true;
-        }
+        $log.warn(logMessage(action), error.status);
+        ProcessQueue.requeue(action);
+    }
+
+    function logMessage(action) {
+        return 'Error while syncing: ' + action.resourceName + '.' + action.method + '(' +
+            JSON.stringify(action.config) + ', ' +
+            JSON.stringify(action.payload) + ');';
     }
 }
