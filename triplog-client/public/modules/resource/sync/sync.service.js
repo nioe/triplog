@@ -6,22 +6,26 @@ module.exports = SyncService;
 function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue, ITEMS_SYNCED_EVENT, $log) {
 
     var resources = {
-        'TripsResource': TripsResource,
-        'StepsResource': StepsResource
-    };
+            'TripsResource': TripsResource,
+            'StepsResource': StepsResource
+        },
+        syncRunning = false;
 
     return {
         sync: sync
     };
 
     function sync() {
-        if ($rootScope.isOnline && $rootScope.loggedIn) {
+        if (!syncRunning && $rootScope.isOnline && $rootScope.loggedIn) {
+            syncRunning = true;
             var originalQueueSize = ProcessQueue.size();
 
             dequeueNextElement().then(function () {
                 if (ProcessQueue.size() < originalQueueSize) {
                     $rootScope.$broadcast(ITEMS_SYNCED_EVENT);
                 }
+
+                syncRunning = false;
             });
         }
     }

@@ -92,6 +92,22 @@ describe('Sync service', function () {
         expect($log.warn).toHaveBeenCalledWith('Error while syncing: StepsResource.update({"tripId":"testTrip2","stepId":"testStep"}, {"content":"blubb"});', 500);
     });
 
+    it('should not start sync process more than once at a time', function () {
+        // given
+        $httpBackend.expectDELETE(REST_URL_PREFIX + '/trips/testTrip').respond(200);
+        $httpBackend.expectPUT(REST_URL_PREFIX + '/trips/testTrip2/steps/testStep', {content: 'blubb'}).respond(500, 'error');
+
+        // when
+        service.sync();
+        service.sync();
+        $httpBackend.flush();
+
+        // then
+        expect(processQueue.length).toBe(2);
+        expect(processQueue[0].resourceName).toEqual('StepsResource');
+        expect(processQueue[1].resourceName).toEqual('TripsResource');
+    });
+
     function setUpProcessQueue() {
         processQueue = [
             {resourceName: 'TripsResource', method: 'delete', config: {tripId: 'testTrip'}},
