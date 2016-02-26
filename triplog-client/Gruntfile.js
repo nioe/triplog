@@ -15,13 +15,6 @@ module.exports = function (grunt) {
             }
         }];
 
-    var config;
-    if (grunt.cli.tasks.indexOf('live') !== -1 || grunt.cli.tasks.indexOf('dist-pretty') !== -1) {
-        config = require('./config/local.json');
-    } else {
-        config = grunt.option('prod') ? require('./config/prod.json') : require('./config/dev.json');
-    }
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 

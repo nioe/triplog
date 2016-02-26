@@ -4,7 +4,6 @@ describe('Trips Serivce', function () {
     var service,
         $httpBackend,
         $rootScope,
-        $q,
         localStorageService,
         localStorage,
         TRIP_STORAGE_KEYS,
@@ -42,13 +41,12 @@ describe('Trips Serivce', function () {
         $provide.value('localStorageService', localStorageService);
     }));
 
-    beforeEach(inject(function (_TripsService_, _TRIP_STORAGE_KEYS_, _REST_URL_PREFIX_, _$httpBackend_, _$rootScope_, _$q_) {
+    beforeEach(inject(function (_TripsService_, _TRIP_STORAGE_KEYS_, _REST_URL_PREFIX_, _$httpBackend_, _$rootScope_) {
         service = _TripsService_;
         TRIP_STORAGE_KEYS = _TRIP_STORAGE_KEYS_;
         REST_URL_PREFIX = _REST_URL_PREFIX_;
         $httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
-        $q = _$q_;
     }));
 
     describe('Load all trips', function () {
