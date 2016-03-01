@@ -2,8 +2,8 @@ package ch.exq.triplog.server.util.id;
 
 import java.text.Normalizer;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
@@ -17,27 +17,33 @@ public class IdGenerator {
 
     private static final String SEPARATOR = "-";
 
-    private static final List<Character> charsToReplace = new ArrayList<>();
+    private static final Map<Character, String> charsToReplace = new HashMap<>();
 
     static {
-        charsToReplace.add(' ');
-        charsToReplace.add('\'');
-        charsToReplace.add('\"');
-        charsToReplace.add('\n');
-        charsToReplace.add('>');
-        charsToReplace.add('<');
+        charsToReplace.put(' ', SEPARATOR);
+        charsToReplace.put('\'', SEPARATOR);
+        charsToReplace.put('\"', SEPARATOR);
+        charsToReplace.put('\n', SEPARATOR);
+        charsToReplace.put('>', SEPARATOR);
+        charsToReplace.put('<', SEPARATOR);
+        charsToReplace.put('&', SEPARATOR);
+        charsToReplace.put('=', SEPARATOR);
+        charsToReplace.put('?', SEPARATOR);
+        charsToReplace.put('#', SEPARATOR);
+        charsToReplace.put('/', SEPARATOR);
+        charsToReplace.put('ø', "o");
     }
 
-    public static String generateIdWithFullDate(String name, LocalDate date) {
+    public static String generateIdWithFullDate(final String name, final LocalDate date) {
         return generateIdBy(name, date, true);
     }
 
-    public static String generateIdWithYear(String name, LocalDate date) {
+    public static String generateIdWithYear(final String name, final LocalDate date) {
         return generateIdBy(name, date, false);
     }
 
-    private static String generateIdBy(String name, LocalDate date, boolean fullDate) {
-        StringBuilder newName = new StringBuilder(deAccent(replaceChars(name)).toLowerCase());
+    private static String generateIdBy(final String name, final LocalDate date, final boolean fullDate) {
+        StringBuilder newName = new StringBuilder(deAccent(replaceChars(name.toLowerCase())));
 
         if (fullDate) {
             newName.append(SEPARATOR).append(convertToString(date));
@@ -45,22 +51,27 @@ public class IdGenerator {
             newName.append(SEPARATOR).append(date.getYear());
         }
 
-        return newName.toString();
+        return replaceMultipleSeparator(newName.toString());
     }
 
-    private static String deAccent(String str) {
-        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+    private static String deAccent(final String name) {
+        String nfdNormalizedString = Normalizer.normalize(name, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 
         return pattern.matcher(nfdNormalizedString).replaceAll("");
     }
 
-    private static String replaceChars(String name) {
+    private static String replaceChars(final String name) {
         String sanitizedName = name;
-        for (Character character : charsToReplace) {
-            sanitizedName = sanitizedName.replace(character.toString(), SEPARATOR);
+
+        for (Map.Entry<Character, String> entry : charsToReplace.entrySet()) {
+            sanitizedName = sanitizedName.replace(entry.getKey().toString(), entry.getValue());
         }
 
         return sanitizedName;
+    }
+
+    private static String replaceMultipleSeparator(final String name) {
+        return name.replaceAll("(" + SEPARATOR + ")+", SEPARATOR);
     }
 }

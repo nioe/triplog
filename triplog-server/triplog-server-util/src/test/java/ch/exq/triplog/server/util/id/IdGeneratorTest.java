@@ -44,26 +44,26 @@ public class IdGeneratorTest {
     @Test
     public void should_replace_accented_chars_with_normal_letter() throws Exception {
         // given
-        String name = "Trip äöü î";
+        String name = "Trip äöü î Ø Å";
         LocalDate date = LocalDate.of(2015, 05, 30);
 
         // when
         String actual = generateIdWithFullDate(name, date);
 
         // then
-        assertThat(actual).isEqualTo("trip-aou-i-2015-05-30");
+        assertThat(actual).isEqualTo("trip-aou-i-o-a-2015-05-30");
     }
 
     @Test
     public void should_replace_special_chars_with_separator() throws Exception {
         // given
-        String name = "Transsib we're coming<>";
+        String name = "Transsib we're coming<>?#=&\n\"/";
         LocalDate date = LocalDate.of(2015, 05, 30);
 
         // when
         String actual = generateIdWithFullDate(name, date);
 
         // then
-        assertThat(actual).isEqualTo("transsib-we-re-coming---2015-05-30");
+        assertThat(actual).isEqualTo("transsib-we-re-coming-2015-05-30");
     }
 }
