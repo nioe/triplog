@@ -56,7 +56,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
                 checkLoginBefore: function (LoginService) {
                     return LoginService.checkPresentToken();
                 },
-                trips: function (checkLoginBefore, TripsService) {
+                loadTripsFromLocalStorage: function (checkLoginBefore, TripsService) {
                     return TripsService.ensureTripsFetched();
                 }
             }
@@ -74,7 +74,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controller: require('./content/stepOverview/stepOverview.controller'),
             controllerAs: 'stepOverview',
             resolve: {
-                trip: function (checkLoginBefore, LocalData, $stateParams) {
+                loadTripFromLocalStorage: function (checkLoginBefore, LocalData, $stateParams) {
                     return LocalData.getTrip.bind(null, $stateParams.tripId);
                 }
             }

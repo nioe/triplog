@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function StepDetailController($rootScope, $state, step, CONTENT_STORAGE_KEYS, localStorageService) {
+function StepDetailController($rootScope, $state, step, LOCAL_STORAGE_KEYS, localStorageService) {
     var vm = this;
     vm.step = step;
     vm.galleryPictures = step.pictures.filter(function (picture) {
@@ -17,10 +17,10 @@ function StepDetailController($rootScope, $state, step, CONTENT_STORAGE_KEYS, lo
     };
 
     function markStepAsRead() {
-        var readSteps = localStorageService.get(CONTENT_STORAGE_KEYS.READ_STEPS) || [];
+        var readSteps = localStorageService.get(LOCAL_STORAGE_KEYS.alreadyReadSteps) || [];
         if (readSteps.indexOf(step.fullQualifiedStepId) === -1) {
             readSteps.push(step.fullQualifiedStepId);
-            localStorageService.set(CONTENT_STORAGE_KEYS.READ_STEPS, readSteps);
+            localStorageService.set(LOCAL_STORAGE_KEYS.alreadyReadSteps, readSteps);
         }
     }
 }

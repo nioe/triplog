@@ -1,11 +1,11 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, trips, TripsService, LoginService, AlertService, showModal) {
+function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTripsFromLocalStorage, TripsService, LoginService, AlertService, showModal) {
 
     var vm = this;
     vm.environment = ENV;
-    vm.trips = trips;
+    vm.trips = loadTripsFromLocalStorage();
 
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
@@ -14,12 +14,15 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
         $rootScope.$emit('triplogOpenPicture', imageName);
     };
 
-    reCreateNavigation();
+    createNavigation();
 
     // React on state changes
     $rootScope.$on('$stateChangeStart', stateChangeStart);
     $rootScope.$on('$stateChangeSuccess', createStepOverviewNavBarEntry);
-    $rootScope.$on('loginStateChanged', reCreateNavigation);
+    $rootScope.$on(EVENT_NAMES.loginStateChanged, createNavigation);
+
+    // Reload trips into memory if local storage changed
+    $rootScope.$on(EVENT_NAMES.localStorageUpdated, loadTripsAndCreateNavigaton);
 
     vm.toggleNavigation = function () {
         if (vm.navigationIsShown) {
@@ -52,7 +55,12 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
     };
 
     /************************************** Private Functions **************************************/
-    function reCreateNavigation() {
+    function loadTripsAndCreateNavigaton() {
+        vm.trips = loadTripsFromLocalStorage();
+        createNavigation();
+    }
+
+    function createNavigation() {
         vm.navBarEntries = [];
         createTripOverviewNavBarEntry();
         createStepOverviewNavBarEntry();
@@ -77,7 +85,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
             }
         }];
 
-        vm.trips().forEach(function (trip) {
+        vm.trips.forEach(function (trip) {
             entries.push({
                 id: trip.tripId,
                 name: trip.displayName,
@@ -136,7 +144,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
                 tripIndex = indexOfTripWithId(tripId);
 
             if (tripIndex >= 0) {
-                vm.trips()[tripIndex].steps.forEach(function (step) {
+                vm.trips[tripIndex].steps.forEach(function (step) {
                     entries.push({
                         id: step.stepId,
                         name: step.stepName,
@@ -186,8 +194,8 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
     }
 
     function indexOfTripWithId(tripId) {
-        for (var i = 0; i < vm.trips().length; i++) {
-            if (vm.trips()[i].tripId === tripId) {
+        for (var i = 0; i < vm.trips.length; i++) {
+            if (vm.trips[i].tripId === tripId) {
                 return i;
             }
         }
@@ -219,7 +227,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
             name: 'Delete Trip',
             icon: 'delete',
             action: function () {
-                var trip = trips[indexOfTripWithId(tripId)],
+                var trip = vm.trips[indexOfTripWithId(tripId)],
                     deleteTripModalData = {
                         title: 'Delete ' + trip.tripName,
                         message: 'Caution: This cannot be undone. All trip data including all stpes and pictures will be deleted!',

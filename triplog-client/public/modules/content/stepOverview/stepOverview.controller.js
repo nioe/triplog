@@ -3,13 +3,16 @@
 module.exports = StepOverviewController;
 
 // @ngInject
-function StepOverviewController($rootScope, $state, trip, showModal, TripsService, AlertService, CONTENT_STORAGE_KEYS, localStorageService) {
+function StepOverviewController($rootScope, $state, loadTripFromLocalStorage, showModal, TripsService, AlertService, localStorageService, LOCAL_STORAGE_KEYS, EVENT_NAMES) {
     var vm = this;
-    vm.trip = trip;
+    vm.trip = loadTripFromLocalStorage();
     vm.editableTrip = createEditableTrip();
     vm.editMode = $state.params.edit && $rootScope.loggedIn;
 
-    $state.current.data.pageTitle = vm.trip().displayName;
+    $state.current.data.pageTitle = vm.trip.displayName;
+
+    // Reload trips into memory if local storage changed
+    $rootScope.$on(EVENT_NAMES.localStorageUpdated, reloadTrip);
 
     vm.templateToShow = function () {
         return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
@@ -40,14 +43,18 @@ function StepOverviewController($rootScope, $state, trip, showModal, TripsServic
     };
 
     vm.isUnread = function (step){
-        var readSteps = localStorageService.get(CONTENT_STORAGE_KEYS.READ_STEPS) || [];
-        return readSteps.indexOf(trip.tripId + '/' + step.stepId) === -1;
+        var readSteps = localStorageService.get(LOCAL_STORAGE_KEYS.alreadyReadSteps) || [];
+        return readSteps.indexOf(vm.trip.tripId + '/' + step.stepId) === -1;
     };
 
+    function reloadTrip() {
+        vm.trip = loadTripFromLocalStorage();
+    }
+
     function createEditableTrip() {
-        var editableTrip = angular.copy(vm.trip());
-        editableTrip.tripDate = new Date(vm.trip().tripDate);
-        editableTrip.published = trip.published ? new Date(vm.trip().published) : undefined;
+        var editableTrip = angular.copy(vm.trip);
+        editableTrip.tripDate = new Date(vm.trip.tripDate);
+        editableTrip.published = vm.trip.published ? new Date(vm.trip.published) : undefined;
 
         return editableTrip;
     }

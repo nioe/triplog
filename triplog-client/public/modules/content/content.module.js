@@ -44,7 +44,3 @@ module.exports.config(['markedProvider', 'REST_URL_PREFIX', function (markedProv
 }]);
 
 module.exports.controller('ContentController', require('./content.controller'));
-
-module.exports.constant('CONTENT_STORAGE_KEYS', {
-    READ_STEPS: 'read-steps'
-});

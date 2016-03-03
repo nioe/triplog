@@ -5,6 +5,7 @@
   "SYNC_INTERVAL": 10000,
   "EVENT_NAMES": {
     "onlineStatusChanged": "onlineStatusChanged",
+    "loginStateChanged": "loginStateChanged",
     "processQueueNewElementEnqueued": "processQueueNewElementEnqueued",
     "syncServiceItemsSynced": "syncServiceItemsSynced",
     "localStorageUpdated": "localStorageUpdated"
@@ -12,6 +13,9 @@
   "LOCAL_STORAGE_KEYS": {
     "processQueue": "processQueue",
     "trips": "trips",
-    "tripsAdmin": "tripsAdmin"
+    "tripsAdmin": "tripsAdmin",
+    "authToken": "xAuthToken",
+    "loggedInBefore": "loggedInBefore",
+    "alreadyReadSteps": "alreadyReadSteps"
   }
 }

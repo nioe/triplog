@@ -3,6 +3,7 @@
 module.exports = angular.module('stepDetail', [
     require('modules/triplogGallery').name,
     require('modules/triplogMap').name,
+    require('modules/config').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./stepDetail.tpl.html'),
