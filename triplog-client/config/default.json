@@ -6,7 +6,8 @@
   "EVENT_NAMES": {
     "onlineStatusChanged": "onlineStatusChanged",
     "processQueueNewElementEnqueued": "processQueueNewElementEnqueued",
-    "syncServiceItemsSynced": "syncServiceItemsSynced"
+    "syncServiceItemsSynced": "syncServiceItemsSynced",
+    "localStorageUpdated": "localStorageUpdated"
   },
   "LOCAL_STORAGE_KEYS": {
     "processQueue": "processQueue",

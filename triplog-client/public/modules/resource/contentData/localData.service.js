@@ -3,7 +3,7 @@
 module.exports = LocalDataService;
 
 // @ngInject
-function LocalDataService($rootScope, $log, $filter, localStorageService, CONTENT_DATA_STORAGE_KEYS) {
+function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_STORAGE_KEYS, EVENT_NAMES) {
 
     return {
         getTrips: getTrips,
@@ -44,6 +44,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, CONTEN
 
     function updateTrips(trips) {
         localStorageService.set(tripsKey(), reviseTrips(trips));
+        $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
     }
 
     function updateTrip(trip) {
@@ -86,7 +87,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, CONTEN
 
             if (!trip.tripId) {
                 // If a new trip is only stored locally there is no tripId yet. Therefore we need to create one.
-
+                // TODO
             }
 
             sortByPropertyDescending(trip.steps, 'fromDate');
@@ -96,7 +97,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, CONTEN
     }
 
     function tripsKey() {
-        return $rootScope.loggedIn ? CONTENT_DATA_STORAGE_KEYS.ALL_TRIPS_ADMIN : CONTENT_DATA_STORAGE_KEYS.ALL_TRIPS;
+        return $rootScope.loggedIn ? LOCAL_STORAGE_KEYS.tripsAdmin : LOCAL_STORAGE_KEYS.trips;
     }
 
     function sortByPropertyDescending(arr, property) {
