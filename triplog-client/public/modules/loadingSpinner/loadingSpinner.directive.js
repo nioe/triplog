@@ -7,10 +7,24 @@ function LoadingSpinnerDirective() {
         transclude: true,
         replace: true,
         templateUrl: 'loadingSpinner.tpl.html',
-        controller: require('./loadingSpinner.controller'),
-        controllerAs: 'loadingSpinner',
-        bindToController: true
+        link: link
     };
+
+    function link(scope, element) {
+        scope.$on('$stateChangeStart', showSpinner);
+        scope.$on('$stateNotFound', hideSpinner);
+        scope.$on('$stateChangeSuccess', hideSpinner);
+        scope.$on('$stateChangeError', hideSpinner);
+
+
+        function showSpinner() {
+            element.removeClass('ng-hide');
+        }
+
+        function hideSpinner() {
+            element.addClass('ng-hide');
+        }
+    }
 }
 
 module.exports = LoadingSpinnerDirective;
