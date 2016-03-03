@@ -7,8 +7,8 @@ describe('Sync service', function () {
         localStorageService,
         localStorage,
         processQueue,
-        PROCESS_QUEUE_STORAGE_KEYS,
-        ITEMS_SYNCED_EVENT,
+        LOCAL_STORAGE_KEYS,
+        EVENT_NAMES,
         REST_URL_PREFIX,
         $httpBackend;
 
@@ -26,12 +26,12 @@ describe('Sync service', function () {
         $provide.value('localStorageService', localStorageService);
     }));
 
-    beforeEach(inject(function (_$rootScope_, _$log_, _SyncService_, _PROCESS_QUEUE_STORAGE_KEYS_, _ITEMS_SYNCED_EVENT_, _REST_URL_PREFIX_, _$httpBackend_) {
+    beforeEach(inject(function (_$rootScope_, _$log_, _SyncService_, _LOCAL_STORAGE_KEYS_, _EVENT_NAMES_, _REST_URL_PREFIX_, _$httpBackend_) {
         $rootScope = _$rootScope_;
         $log = _$log_;
         service = _SyncService_;
-        PROCESS_QUEUE_STORAGE_KEYS = _PROCESS_QUEUE_STORAGE_KEYS_;
-        ITEMS_SYNCED_EVENT = _ITEMS_SYNCED_EVENT_;
+        LOCAL_STORAGE_KEYS = _LOCAL_STORAGE_KEYS_;
+        EVENT_NAMES = _EVENT_NAMES_;
         REST_URL_PREFIX = _REST_URL_PREFIX_;
         $httpBackend = _$httpBackend_;
     }));
@@ -52,7 +52,7 @@ describe('Sync service', function () {
 
         // then
         expect(processQueue.length).toBe(0);
-        expect($rootScope.$broadcast).toHaveBeenCalledWith(ITEMS_SYNCED_EVENT);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced);
     });
 
     it('should not try to sync more items after one fails', function () {
@@ -68,7 +68,7 @@ describe('Sync service', function () {
 
         // then
         expect(processQueue.length).toBe(3);
-        expect($rootScope.$broadcast).not.toHaveBeenCalledWith(ITEMS_SYNCED_EVENT);
+        expect($rootScope.$broadcast).not.toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced);
         expect($log.warn).toHaveBeenCalledWith('Error while syncing: TripsResource.delete({"tripId":"testTrip"}, undefined);', 500);
     });
 
@@ -88,7 +88,7 @@ describe('Sync service', function () {
         expect(processQueue.length).toBe(2);
         expect(processQueue[0].resourceName).toEqual('StepsResource');
         expect(processQueue[1].resourceName).toEqual('TripsResource');
-        expect($rootScope.$broadcast).toHaveBeenCalledWith(ITEMS_SYNCED_EVENT);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced);
         expect($log.warn).toHaveBeenCalledWith('Error while syncing: StepsResource.update({"tripId":"testTrip2","stepId":"testStep"}, {"content":"blubb"});', 500);
     });
 
@@ -115,7 +115,7 @@ describe('Sync service', function () {
             {resourceName: 'TripsResource', method: 'update', config: {tripId: 'testTrip3'}, payload: {content: 'bla'}}
         ];
         localStorage = {};
-        localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE] = processQueue;
+        localStorage[LOCAL_STORAGE_KEYS.processQueue] = processQueue;
 
         $rootScope.isOnline = true;
         $rootScope.loggedIn = true;

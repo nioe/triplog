@@ -2,5 +2,15 @@
   "REST_URL_PREFIX": "/services",
   "MAP_BOX_ACCESS_TOKEN": "pk.eyJ1IjoibmVvemVyb29uZSIsImEiOiI5YjRmODE4YzM2OGNhOTNhYmE5NjQwYTkwMzlhYzQ2NyJ9.RdoIup-zRJ-ve3e0cWwiKw",
   "MAP_BOX_STYLE": "mapbox.streets",
-  "SYNC_INTERVAL": 10000
+  "SYNC_INTERVAL": 10000,
+  "EVENT_NAMES": {
+    "onlineStatusChanged": "onlineStatusChanged",
+    "processQueueNewElementEnqueued": "processQueueNewElementEnqueued",
+    "syncServiceItemsSynced": "syncServiceItemsSynced"
+  },
+  "LOCAL_STORAGE_KEYS": {
+    "processQueue": "processQueue",
+    "trips": "trips",
+    "tripsAdmin": "tripsAdmin"
+  }
 }

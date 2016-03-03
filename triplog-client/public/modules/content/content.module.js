@@ -8,7 +8,7 @@ module.exports = angular.module('content', [
     require('modules/stepDetail').name,
     require('modules/login').name,
     require('modules/config').name,
-    require('modules/tripsResource').name,
+    require('modules/contentData').name,
     require('modules/loginResource').name,
     require('modules/alert').name,
     require('modules/modalMessage').name,

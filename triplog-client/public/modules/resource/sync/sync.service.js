@@ -3,7 +3,7 @@
 module.exports = SyncService;
 
 // @ngInject
-function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue, ITEMS_SYNCED_EVENT, $log) {
+function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue, EVENT_NAMES, $log) {
 
     var resources = {
             'TripsResource': TripsResource,
@@ -22,7 +22,8 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
 
             dequeueNextElement().then(function () {
                 if (ProcessQueue.size() < originalQueueSize) {
-                    $rootScope.$broadcast(ITEMS_SYNCED_EVENT);
+                    // TODO Add synced items to event
+                    $rootScope.$broadcast(EVENT_NAMES.syncServiceItemsSynced);
                 }
 
                 syncRunning = false;

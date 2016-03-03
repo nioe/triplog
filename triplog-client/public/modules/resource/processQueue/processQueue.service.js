@@ -3,7 +3,7 @@
 module.exports = ProcessQueueService;
 
 // @ngInject
-function ProcessQueueService($rootScope, localStorageService, PROCESS_QUEUE_STORAGE_KEYS, PROCESS_QUEUE_PUSH_EVENT) {
+function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS, EVENT_NAMES) {
 
     return {
         enqueue: enqueue,
@@ -25,7 +25,7 @@ function ProcessQueueService($rootScope, localStorageService, PROCESS_QUEUE_STOR
         processQueue.push(action);
         saveQueueInLocalStorage(processQueue);
 
-        $rootScope.$broadcast(PROCESS_QUEUE_PUSH_EVENT);
+        $rootScope.$broadcast(EVENT_NAMES.processQueueNewElementEnqueued);
     }
 
     function requeue(action) {
@@ -54,10 +54,10 @@ function ProcessQueueService($rootScope, localStorageService, PROCESS_QUEUE_STOR
     /*********************************************** Private Functions ***********************************************/
 
     function loadQueueFromLocalStorage() {
-        return localStorageService.get(PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE) || [];
+        return localStorageService.get(LOCAL_STORAGE_KEYS.processQueue) || [];
     }
 
     function saveQueueInLocalStorage(processQueue) {
-        localStorageService.set(PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE, processQueue);
+        localStorageService.set(LOCAL_STORAGE_KEYS.processQueue, processQueue);
     }
 }

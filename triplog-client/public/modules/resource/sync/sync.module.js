@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = angular.module('sync', [
-    require('modules/tripsResource').name,
+    require('modules/contentData').name,
     require('modules/stepsResource').name,
     require('modules/processQueue').name,
     require('modules/config').name
@@ -9,14 +9,12 @@ module.exports = angular.module('sync', [
 
 module.exports.factory('SyncService', require('./sync.service'));
 
-module.exports.constant('ITEMS_SYNCED_EVENT', 'items-synced');
-
-module.exports.run(['$rootScope', '$interval', 'SyncService', 'SYNC_INTERVAL', function ($rootScope, $interval, SyncService, SYNC_INTERVAL, PROCESS_QUEUE_PUSH_EVENT) {
+module.exports.run(['$rootScope', '$interval', 'SyncService', 'SYNC_INTERVAL', 'EVENT_NAMES', function ($rootScope, $interval, SyncService, SYNC_INTERVAL, EVENT_NAMES) {
     // Start sync service once client got online again
-    $rootScope.$on('isOnline', SyncService.sync);
+    $rootScope.$on(EVENT_NAMES.onlineStatusChanged, SyncService.sync);
 
     // Start sync service once a new item is added to the queue
-    $rootScope.$on(PROCESS_QUEUE_PUSH_EVENT, SyncService.sync);
+    $rootScope.$on(EVENT_NAMES.processQueueNewElementEnqueued, SyncService.sync);
 
     // Start sync service frequently
     $interval(SyncService.sync, SYNC_INTERVAL);

@@ -1,14 +1,15 @@
 'use strict';
 
+module.exports = StepOverviewController;
+
 // @ngInject
 function StepOverviewController($rootScope, $state, trip, showModal, TripsService, AlertService, CONTENT_STORAGE_KEYS, localStorageService) {
     var vm = this;
     vm.trip = trip;
     vm.editableTrip = createEditableTrip();
-
     vm.editMode = $state.params.edit && $rootScope.loggedIn;
 
-    $state.current.data.pageTitle = vm.trip.displayName;
+    $state.current.data.pageTitle = vm.trip().displayName;
 
     vm.templateToShow = function () {
         return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
@@ -44,12 +45,10 @@ function StepOverviewController($rootScope, $state, trip, showModal, TripsServic
     };
 
     function createEditableTrip() {
-        var editableTrip = angular.copy(trip);
-        editableTrip.tripDate = new Date(trip.tripDate);
-        editableTrip.published = trip.published ? new Date(trip.published) : undefined;
+        var editableTrip = angular.copy(vm.trip());
+        editableTrip.tripDate = new Date(vm.trip().tripDate);
+        editableTrip.published = trip.published ? new Date(vm.trip().published) : undefined;
 
         return editableTrip;
     }
 }
-
-module.exports = StepOverviewController;

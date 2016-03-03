@@ -1,17 +1,17 @@
 <article class="columns">
-    <div class="triplog-lead">{{ stepOverview.trip.tripLead }}</div>
-    <div class="triplog-text" marked="stepOverview.trip.tripText"></div>
+    <div class="triplog-lead">{{ stepOverview.trip().tripLead }}</div>
+    <div class="triplog-text" marked="stepOverview.trip().tripText"></div>
 </article>
 
-<triplog-timeline ng-if="stepOverview.trip.steps && stepOverview.trip.steps.length > 0">
+<triplog-timeline ng-if="stepOverview.trip().steps && stepOverview.trip().steps.length > 0">
     <triplog-timeline-moment
-            ng-repeat="step in stepOverview.trip.steps"
+            ng-repeat="step in stepOverview.trip().steps"
             moment-title="{{ step.stepName }}"
             picture="{{ step.coverPicture }}"
             from-date="{{ step.fromDate }}"
             to-date="{{ step.toDate }}"
             unread-flag="stepOverview.isUnread(step)"
-            moment-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip.tripId }}', stepId: '{{ step.stepId }}'})">
+            moment-sref="content.stepOfTrip({tripId: '{{ stepOverview.trip().tripId }}', stepId: '{{ step.stepId }}'})">
         {{ step.stepLead }}
     </triplog-timeline-moment>
 </triplog-timeline>

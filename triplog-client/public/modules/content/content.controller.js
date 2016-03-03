@@ -11,7 +11,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
     vm.openPicture = function (imageName) {
-      $rootScope.$emit('triplogOpenPicture', imageName);
+        $rootScope.$emit('triplogOpenPicture', imageName);
     };
 
     reCreateNavigation();
@@ -64,22 +64,20 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
     }
 
     function createTripOverviewNavBarEntry() {
-        var entries = [
-            {
-                id: 'overview',
-                name: 'Overview',
-                icon: 'trip-overview',
-                action: function () {
-                    $state.go('content.allTrips');
-                },
-                divider: true,
-                active: function () {
-                    return $state.current.name === 'content.allTrips';
-                }
+        var entries = [{
+            id: 'overview',
+            name: 'Overview',
+            icon: 'trip-overview',
+            action: function () {
+                $state.go('content.allTrips');
+            },
+            divider: true,
+            active: function () {
+                return $state.current.name === 'content.allTrips';
             }
-        ];
+        }];
 
-        vm.trips.forEach(function (trip) {
+        vm.trips().forEach(function (trip) {
             entries.push({
                 id: trip.tripId,
                 name: trip.displayName,
@@ -138,7 +136,7 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
                 tripIndex = indexOfTripWithId(tripId);
 
             if (tripIndex >= 0) {
-                vm.trips[tripIndex].steps.forEach(function (step) {
+                vm.trips()[tripIndex].steps.forEach(function (step) {
                     entries.push({
                         id: step.stepId,
                         name: step.stepName,
@@ -188,8 +186,8 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
     }
 
     function indexOfTripWithId(tripId) {
-        for (var i = 0; i < vm.trips.length; i++) {
-            if (vm.trips[i].tripId === tripId) {
+        for (var i = 0; i < vm.trips().length; i++) {
+            if (vm.trips()[i].tripId === tripId) {
                 return i;
             }
         }
@@ -232,10 +230,10 @@ function ContentController($rootScope, $state, $window, ENV, trips, TripsService
                     };
 
                 showModal(deleteTripModalData).then(function () {
-                    TripsService.deleteTrip(tripId).then(function() {
+                    TripsService.deleteTrip(tripId).then(function () {
                         $state.go('content.allTrips', {}, {reload: true});
                         AlertService.success('Trip ' + trip.tripName + ' has been successfully deleted.');
-                    }, function(error) {
+                    }, function (error) {
                         console.error('Error while deleting trip with id ', tripId, error);
                         AlertService.error(error.data);
                     });

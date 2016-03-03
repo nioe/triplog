@@ -5,8 +5,8 @@ describe('Process Queue', function () {
         queue,
         localStorageService,
         localStorage,
-        PROCESS_QUEUE_STORAGE_KEYS,
-        PROCESS_QUEUE_PUSH_EVENT;
+        LOCAL_STORAGE_KEYS,
+        EVENT_NAMES;
 
     beforeEach(module('processQueue', function ($provide) {
         localStorageService = {
@@ -22,11 +22,11 @@ describe('Process Queue', function () {
         $provide.value('localStorageService', localStorageService);
     }));
 
-    beforeEach(inject(function (_$rootScope_, _ProcessQueue_, _PROCESS_QUEUE_STORAGE_KEYS_, _PROCESS_QUEUE_PUSH_EVENT_) {
+    beforeEach(inject(function (_$rootScope_, _ProcessQueue_, _LOCAL_STORAGE_KEYS_, _EVENT_NAMES_) {
         $rootScope = _$rootScope_;
         queue = _ProcessQueue_;
-        PROCESS_QUEUE_STORAGE_KEYS = _PROCESS_QUEUE_STORAGE_KEYS_;
-        PROCESS_QUEUE_PUSH_EVENT = _PROCESS_QUEUE_PUSH_EVENT_;
+        LOCAL_STORAGE_KEYS = _LOCAL_STORAGE_KEYS_;
+        EVENT_NAMES = _EVENT_NAMES_;
     }));
 
     it('should enqueue new action', function () {
@@ -43,10 +43,10 @@ describe('Process Queue', function () {
         queue.enqueue(resourceName, method, config);
 
         // then
-        var actual = localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE];
+        var actual = localStorage[LOCAL_STORAGE_KEYS.processQueue];
         expect(actual.length).toBe(1);
         expect(actual[0]).toEqual({resourceName: resourceName, method: method, config: config, payload: undefined});
-        expect($rootScope.$broadcast).toHaveBeenCalledWith(PROCESS_QUEUE_PUSH_EVENT);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.processQueueNewElementEnqueued);
     });
 
     it('should dequeue first item', function () {
@@ -54,7 +54,7 @@ describe('Process Queue', function () {
         var dummyQueue = [1, 2, 3, 4, 5];
 
         localStorage = {};
-        localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE] = dummyQueue;
+        localStorage[LOCAL_STORAGE_KEYS.processQueue] = dummyQueue;
 
         // when
         var actual = queue.dequeue();
@@ -69,7 +69,7 @@ describe('Process Queue', function () {
         var dummyQueue = [1, 2, 3, 4, 5];
 
         localStorage = {};
-        localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE] = dummyQueue;
+        localStorage[LOCAL_STORAGE_KEYS.processQueue] = dummyQueue;
 
         // when
         queue.requeue(0);
@@ -83,7 +83,7 @@ describe('Process Queue', function () {
         var dummyQueue = [1, 2, 3, 4, 5];
 
         localStorage = {};
-        localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE] = dummyQueue;
+        localStorage[LOCAL_STORAGE_KEYS.processQueue] = dummyQueue;
 
         // when
         var actual = queue.size();
@@ -97,7 +97,7 @@ describe('Process Queue', function () {
         var dummyQueue = [1, 2, 3, 4, 5];
 
         localStorage = {};
-        localStorage[PROCESS_QUEUE_STORAGE_KEYS.PROCESS_QUEUE] = dummyQueue;
+        localStorage[LOCAL_STORAGE_KEYS.processQueue] = dummyQueue;
 
         // when
         var actual = queue.hasItems();

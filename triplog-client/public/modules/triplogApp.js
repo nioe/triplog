@@ -10,7 +10,7 @@ var triplogApp = angular.module('triplogApp', [
     require('modules/loadingSpinner').name,
     require('modules/welcome').name,
     require('modules/content').name,
-    require('modules/tripsResource').name,
+    require('modules/contentData').name,
     require('modules/stepsResource').name,
     require('modules/loginResource').name,
     require('modules/error').name,
@@ -57,7 +57,7 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
                     return LoginService.checkPresentToken();
                 },
                 trips: function (checkLoginBefore, TripsService) {
-                    return TripsService.getTrips();
+                    return TripsService.ensureTripsFetched();
                 }
             }
         })
@@ -74,8 +74,8 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controller: require('./content/stepOverview/stepOverview.controller'),
             controllerAs: 'stepOverview',
             resolve: {
-                trip: function (checkLoginBefore, TripsService, $stateParams) {
-                    return TripsService.getTrip($stateParams.tripId);
+                trip: function (checkLoginBefore, LocalData, $stateParams) {
+                    return LocalData.getTrip.bind(null, $stateParams.tripId);
                 }
             }
         })
