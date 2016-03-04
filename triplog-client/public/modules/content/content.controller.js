@@ -17,8 +17,8 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     createNavigation();
 
     // React on state changes
-    $rootScope.$on('$stateChangeStart', stateChangeStart);
-    $rootScope.$on('$stateChangeSuccess', createStepOverviewNavBarEntry);
+    $rootScope.$on('$stateChangeStart', vm.closeNavigation);
+    $rootScope.$on('$stateChangeSuccess', createNavigation);
     $rootScope.$on(EVENT_NAMES.loginStateChanged, createNavigation);
 
     // Reload trips into memory if local storage changed
@@ -64,11 +64,6 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
         vm.navBarEntries = [];
         createTripOverviewNavBarEntry();
         createStepOverviewNavBarEntry();
-    }
-
-    function stateChangeStart() {
-        vm.closeNavigation();
-        removeStepOverviewNavBarEntry();
     }
 
     function createTripOverviewNavBarEntry() {
@@ -144,7 +139,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 tripIndex = indexOfTripWithId(tripId);
 
             if (tripIndex >= 0) {
-                vm.trips[tripIndex].steps.forEach(function (step) {
+                var createStepEntry = function(step) {
                     entries.push({
                         id: step.stepId,
                         name: step.stepName,
@@ -156,7 +151,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                             return $state.params.tripId === tripId && $state.params.stepId === step.stepId;
                         }
                     });
-                });
+                };
+
+                for (var i = 0; i < 10; i++) {
+                    createStepEntry(vm.trips[tripIndex].steps[i]);
+                }
 
                 if ($rootScope.loggedIn) {
                     entries[entries.length - 1].divider = true;
@@ -171,26 +170,6 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 });
             }
         }
-    }
-
-    function removeStepOverviewNavBarEntry() {
-        var tripId = $state.params.tripId;
-        if (tripId) {
-            var index = indexOfNavBarEntryWithId(tripId);
-            if (index >= 0) {
-                vm.navBarEntries.splice(index, 1);
-            }
-        }
-    }
-
-    function indexOfNavBarEntryWithId(id) {
-        for (var i = 0; i < vm.navBarEntries.length; i++) {
-            if (vm.navBarEntries[i].id === id) {
-                return i;
-            }
-        }
-
-        return -1;
     }
 
     function indexOfTripWithId(tripId) {
