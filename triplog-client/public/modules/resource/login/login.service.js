@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LoginService($rootScope, $q, $http, $cacheFactory, localStorageService, REST_URL_PREFIX, LOCAL_STORAGE_KEYS, ENV, EVENT_NAMES) {
+function LoginService($rootScope, $q, $http, localStorageService, REST_URL_PREFIX, LOCAL_STORAGE_KEYS, ENV, EVENT_NAMES) {
 
     function login(username, password) {
         if ($rootScope.isOnline || ENV === 'local') {
@@ -94,9 +94,6 @@ function LoginService($rootScope, $q, $http, $cacheFactory, localStorageService,
 
     function reactOnLoggedInStatusChange(originalLoginStatus) {
         if (originalLoginStatus !== $rootScope.loggedIn) {
-
-            // TODO Remove this once step service is using the process queue too
-            $cacheFactory.get('$http').removeAll();
 
             $rootScope.$broadcast(EVENT_NAMES.loginStateChanged, {
                 loggedIn: $rootScope.loggedIn
