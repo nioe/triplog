@@ -20,7 +20,7 @@ function ShowModal($uibModal) {
 
         return $uibModal.open({
             backdrop: 'static',
-            templateUrl: require('./modal.tpl.html').name,
+            templateUrl: require('./modal.tpl.html'),
             controller: require('./modalInstance.controller'),
             controllerAs: 'modalInstance',
             resolve: {

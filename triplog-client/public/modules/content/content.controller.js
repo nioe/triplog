@@ -238,13 +238,8 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                 showModal(deleteTripModalData).then(function () {
-                    TripsService.deleteTrip(tripId).then(function () {
-                        $state.go('content.allTrips', {}, {reload: true});
-                        AlertService.success('Trip ' + trip.tripName + ' has been successfully deleted.');
-                    }, function (error) {
-                        console.error('Error while deleting trip with id ', tripId, error);
-                        AlertService.error(error.data);
-                    });
+                    TripsService.deleteTrip(tripId);
+                    $state.go('content.allTrips', {}, {reload: true});
                 });
             },
             active: function () {
