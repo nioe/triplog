@@ -7,8 +7,8 @@ function StepsResource($resource, REST_URL_PREFIX) {
         tripId: '@tripId',
         stepId: '@stepId'
     }, {
-        get: {method: 'GET', cache: true},
-        query: {method: 'GET', isArray: true, cache: true},
+        get: {method: 'GET', cache: false},
+        query: {method: 'GET', isArray: true, cache: false},
         update: {method: 'PUT'}
     });
 }

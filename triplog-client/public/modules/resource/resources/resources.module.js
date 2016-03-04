@@ -6,3 +6,4 @@ module.exports = angular.module('resources', [
 ]);
 
 module.exports.factory('TripsResource', require('./trips.resource'));
+module.exports.factory('StepsResource', require('./steps.resource'));

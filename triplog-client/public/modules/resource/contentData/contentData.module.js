@@ -17,9 +17,20 @@ module.exports.config(['localStorageServiceProvider', function (localStorageServ
 
 module.exports.factory('LocalData', require('./localData.service'));
 module.exports.factory('TripsService', require('./trips.service'));
+module.exports.factory('StepsService', require('./steps.service'));
 
-module.exports.run(['$rootScope', 'TripsService', 'EVENT_NAMES', function($rootScope, TripsService, EVENT_NAMES) {
-    // Reload trips if changes have been synced
-    $rootScope.$on(EVENT_NAMES.syncServiceItemsSynced, TripsService.fetchTrips);
+module.exports.run(['$rootScope', 'TripsService', 'StepsService', 'EVENT_NAMES', function($rootScope, TripsService, StepsService, EVENT_NAMES) {
+    // Reload trips and changed steps if changes have been synced
+    $rootScope.$on(EVENT_NAMES.syncServiceItemsSynced, function(event, syncedContent) {
+        if (syncedContent.trips) {
+            TripsService.fetchTrips();
+        }
+
+        if (syncedContent.steps) {
+            syncedContent.steps.forEach(function (step) {
+                StepsService.fetchStep(step.tripId, step.stepId);
+            });
+        }
+    });
 }]);
 

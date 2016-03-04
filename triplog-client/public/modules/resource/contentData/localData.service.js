@@ -7,19 +7,24 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
 
     return {
         getTrips: getTrips,
-        tripsLoaded: tripsLoaded,
+        tripsAreLoaded: tripsAreLoaded,
         getTrip: getTrip,
         addTrip: addTrip,
         updateTrips: updateTrips,
         updateTrip: updateTrip,
-        deleteTrip: deleteTrip
+        deleteTrip: deleteTrip,
+
+        getStep: getStep,
+        stepIsLoaded: stepIsLoaded,
+        addOrReplaceStep: addOrReplaceStep,
+        deleteStep: deleteStep
     };
 
     function getTrips() {
         return localStorageService.get(tripsKey()) || [];
     }
 
-    function tripsLoaded() {
+    function tripsAreLoaded() {
         return getTrips().length > 0;
     }
 
@@ -76,6 +81,37 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         }
     }
 
+    function getStep(tripId, stepId) {
+        var allSteps = loadAllSteps();
+        return allSteps[tripId] ? allSteps[tripId][stepId] : undefined;
+    }
+
+    function stepIsLoaded(tripId, stepId) {
+        return !!getStep(tripId, stepId);
+    }
+
+    function addOrReplaceStep(step) {
+        var allSteps = loadAllSteps();
+
+        if (!allSteps[step.tripId]) {
+            allSteps[step.tripId] = {};
+        }
+
+        allSteps[step.tripId][step.stepId] = reviseStep(step);
+        updateAllSteps(allSteps);
+    }
+
+    function deleteStep(tripId, stepId) {
+        if (!$rootScope.loggedIn) {
+            $log.warn('You need to be logged in to delete step ' + tripId + '/' + stepId);
+            return;
+        }
+
+        var allSteps = loadAllSteps();
+        delete allSteps[tripId][stepId];
+        updateAllSteps(allSteps);
+    }
+
     /*********************************************** Private Functions ***********************************************/
 
     function reviseTrips(trips) {
@@ -112,5 +148,20 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
 
             return 0;
         });
+    }
+
+    function reviseStep(step) {
+        step.fullQualifiedStepId = step.tripId + '/' + step.stepId;
+
+        return step;
+    }
+
+    function loadAllSteps() {
+        return localStorageService.get(LOCAL_STORAGE_KEYS.steps) || {};
+    }
+
+    function updateAllSteps(steps) {
+        localStorageService.set(LOCAL_STORAGE_KEYS.steps, steps);
+        $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
     }
 }

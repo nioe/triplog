@@ -3,17 +3,17 @@
 module.exports = TripsService;
 
 // @ngInject
-function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, TripsResource) {
+function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, TripsResource, ENV) {
 
     return {
-        ensureTripsFetched: ensureTripsFetched,
+        ensureTripsAreFetched: ensureTripsAreFetched,
         fetchTrips: fetchTrips,
         updateTrip: updateTrip,
         deleteTrip: deleteTrip
     };
 
-    function ensureTripsFetched() {
-        if (LocalData.tripsLoaded) {
+    function ensureTripsAreFetched() {
+        if (LocalData.tripsAreLoaded) {
             fetchTrips(); // Fetch trips in background
             return $q.resolve(LocalData.getTrips);
         }
@@ -22,7 +22,7 @@ function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, TripsResour
     }
 
     function fetchTrips() {
-        if ($rootScope.isOnline) {
+        if ($rootScope.isOnline || ENV === 'local') {
             $log.info('Fetching trips from server...');
 
             return TripsResource.query().$promise.then(

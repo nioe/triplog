@@ -2,7 +2,6 @@
 
 module.exports = angular.module('sync', [
     require('modules/resources').name,
-    require('modules/stepsResource').name, // TODO Delete this after stepResrouce has been moved as well
     require('modules/processQueue').name,
     require('modules/config').name
 ]);

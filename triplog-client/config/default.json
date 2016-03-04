@@ -14,6 +14,7 @@
     "processQueue": "processQueue",
     "trips": "trips",
     "tripsAdmin": "tripsAdmin",
+    "steps": "steps",
     "authToken": "xAuthToken",
     "loggedInBefore": "loggedInBefore",
     "alreadyReadSteps": "alreadyReadSteps"
