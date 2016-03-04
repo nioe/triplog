@@ -140,21 +140,22 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
             if (tripIndex >= 0) {
                 var createStepEntry = function(step) {
-                    entries.push({
-                        id: step.stepId,
-                        name: step.stepName,
-                        icon: 'step',
-                        action: function () {
-                            $state.go('content.stepOfTrip', {tripId: tripId, stepId: step.stepId});
-                        },
-                        active: function () {
-                            return $state.params.tripId === tripId && $state.params.stepId === step.stepId;
-                        }
-                    });
-                };
+                        entries.push({
+                            id: step.stepId,
+                            name: step.stepName,
+                            icon: 'step',
+                            action: function () {
+                                $state.go('content.stepOfTrip', {tripId: tripId, stepId: step.stepId});
+                            },
+                            active: function () {
+                                return $state.params.tripId === tripId && $state.params.stepId === step.stepId;
+                            }
+                        });
+                    },
+                    steps = vm.trips[tripIndex].steps;
 
-                for (var i = 0; i < 10; i++) {
-                    createStepEntry(vm.trips[tripIndex].steps[i]);
+                for (var i = 0; i < Math.min(steps.length, 10); i++) {
+                    createStepEntry(steps[i]);
                 }
 
                 if ($rootScope.loggedIn) {
