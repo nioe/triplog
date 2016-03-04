@@ -35,7 +35,7 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
 
     function dequeueNextElement() {
         if (!ProcessQueue.hasItems()) {
-            return $q.resolve;
+            return $q.resolve();
         }
 
         var action = ProcessQueue.dequeue(),
