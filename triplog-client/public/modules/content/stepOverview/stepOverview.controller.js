@@ -37,7 +37,7 @@ function StepOverviewController($rootScope, $state, loadTripFromLocalStorage, sh
 
     vm.saveTrip = function () {
         TripsService.updateTrip(vm.editableTrip);
-        $state.go('content.stepOverview', {edit: undefined}, {reload: true});
+        $state.go('content.stepOverview', {edit: undefined});
     };
 
     vm.isUnread = function (step){

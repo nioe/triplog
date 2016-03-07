@@ -55,7 +55,10 @@ describe('Sync service', function () {
 
             // then
             expect(processQueue.length).toBe(0);
-            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced);
+            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced, {
+                trips: [{tripId: 'testTrip'}, {tripId: 'testTrip3'}],
+                steps: [{tripId: 'testTrip2', stepId: 'testStep'}]
+            });
         });
 
         it('should not try to sync more items after one fails', function () {
@@ -91,24 +94,11 @@ describe('Sync service', function () {
             expect(processQueue.length).toBe(2);
             expect(processQueue[0].resourceName).toEqual('StepsResource');
             expect(processQueue[1].resourceName).toEqual('TripsResource');
-            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced);
+            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced, {
+                trips: [{tripId: 'testTrip'}],
+                steps: []
+            });
             expect($log.warn).toHaveBeenCalledWith('Error while syncing: StepsResource.update({"tripId":"testTrip2","stepId":"testStep"}, {"content":"blubb"});', 500);
-        });
-
-        it('should not start sync process more than once at a time', function () {
-            // given
-            $httpBackend.expectDELETE(REST_URL_PREFIX + '/trips/testTrip').respond(200);
-            $httpBackend.expectPUT(REST_URL_PREFIX + '/trips/testTrip2/steps/testStep', {content: 'blubb'}).respond(500, 'error');
-
-            // when
-            service.sync();
-            service.sync();
-            $httpBackend.flush();
-
-            // then
-            expect(processQueue.length).toBe(2);
-            expect(processQueue[0].resourceName).toEqual('StepsResource');
-            expect(processQueue[1].resourceName).toEqual('TripsResource');
         });
 
         it('should not start sync process more than once at a time', function () {
@@ -151,15 +141,55 @@ describe('Sync service', function () {
         }
     });
 
-    describe('Empty process queue', function() {
-        it('should do nothing if process queue is empty', function() {
-           // given
+    describe('Empty process queue', function () {
+        it('should do nothing if process queue is empty', function () {
+            // given
             localStorage = {};
             $rootScope.isOnline = true;
             $rootScope.loggedIn = true;
 
             // when
             service.sync();
+        });
+    });
+
+    describe('ElemtnsSynced Event', function () {
+        it('should get the tripId and stepId from the response object if content is saved', function () {
+            // given
+            processQueue = [
+                {
+                    resourceName: 'TripsResource',
+                    method: 'save',
+                    config: {},
+                    payload: {content: 'blubb'}
+                },
+                {
+                    resourceName: 'StepsResource',
+                    method: 'save',
+                    config: {tripId: 'testTrip'},
+                    payload: {content: 'blubb'}
+                }
+            ];
+            localStorage = {};
+            localStorage[LOCAL_STORAGE_KEYS.processQueue] = processQueue;
+
+            $rootScope.isOnline = true;
+            $rootScope.loggedIn = true;
+
+            $httpBackend.expectPOST(REST_URL_PREFIX + '/trips', {content: 'blubb'}).respond(200, {tripId: 'testTrip'});
+            $httpBackend.expectPOST(REST_URL_PREFIX + '/trips/testTrip/steps', {content: 'blubb'}).respond(200, {tripId: 'testTrip', stepId: 'testStep'});
+
+            spyOn($rootScope, '$broadcast');
+
+            // when
+            service.sync();
+            $httpBackend.flush();
+
+            // then
+            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced, {
+                trips: [{tripId: 'testTrip'}],
+                steps: [{tripId: 'testTrip', stepId: 'testStep'}]
+            });
         });
     });
 });

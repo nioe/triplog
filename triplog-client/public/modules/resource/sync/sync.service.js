@@ -9,7 +9,8 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
             'TripsResource': TripsResource,
             'StepsResource': StepsResource
         },
-        syncRunning = false;
+        syncRunning = false,
+        syncedContent;
 
     return {
         sync: sync
@@ -18,12 +19,12 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
     function sync() {
         if (!syncRunning && $rootScope.isOnline && $rootScope.loggedIn) {
             syncRunning = true;
+            syncedContent = {trips: [], steps: []};
             var originalQueueSize = ProcessQueue.size();
 
             dequeueNextElement().then(function () {
                 if (ProcessQueue.size() < originalQueueSize) {
-                    // TODO Add synced items to event
-                    $rootScope.$broadcast(EVENT_NAMES.syncServiceItemsSynced);
+                    $rootScope.$broadcast(EVENT_NAMES.syncServiceItemsSynced, syncedContent);
                 }
 
                 syncRunning = false;
@@ -41,7 +42,27 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
         var action = ProcessQueue.dequeue(),
             func = resources[action.resourceName][action.method];
 
-        return func(action.config, action.payload).$promise.then(dequeueNextElement, handleError.bind(undefined, action));
+        return func(action.config, action.payload).$promise
+            .then(addToSyncedContent.bind(null, action))
+            .then(dequeueNextElement, handleError.bind(null, action));
+    }
+
+    function addToSyncedContent(action, response) {
+        var tripId = action.config.tripId || action.payload.tripId || response.tripId;
+
+        switch (action.resourceName) {
+            case 'TripsResource':
+                syncedContent.trips.push({tripId: tripId});
+                break;
+            case 'StepsResource':
+                syncedContent.steps.push({
+                    tripId: tripId,
+                    stepId: action.config.stepId || action.payload.stepId || response.stepId
+                });
+                break;
+            default:
+                $log.warn('Unknown resource ' + action.resourceName);
+        }
     }
 
     function handleError(action, error) {

@@ -22,7 +22,7 @@ module.exports.factory('StepsService', require('./steps.service'));
 module.exports.run(['$rootScope', 'TripsService', 'StepsService', 'EVENT_NAMES', function($rootScope, TripsService, StepsService, EVENT_NAMES) {
     // Reload trips and changed steps if changes have been synced
     $rootScope.$on(EVENT_NAMES.syncServiceItemsSynced, function(event, syncedContent) {
-        if (syncedContent.trips) {
+        if (syncedContent.trips && syncedContent.trips.length > 0) {
             TripsService.fetchTrips();
         }
 
