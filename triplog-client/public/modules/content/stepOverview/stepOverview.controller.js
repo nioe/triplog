@@ -3,7 +3,7 @@
 module.exports = StepOverviewController;
 
 // @ngInject
-function StepOverviewController($rootScope, $state, loadTripFromLocalStorage, showModal, TripsService, localStorageService, LOCAL_STORAGE_KEYS, EVENT_NAMES) {
+function StepOverviewController($rootScope, $state, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
     var vm = this;
     vm.trip = loadTripFromLocalStorage();
     vm.editableTrip = createEditableTrip();
@@ -40,10 +40,7 @@ function StepOverviewController($rootScope, $state, loadTripFromLocalStorage, sh
         $state.go('content.stepOverview', {edit: undefined});
     };
 
-    vm.isUnread = function (step){
-        var readSteps = localStorageService.get(LOCAL_STORAGE_KEYS.alreadyReadSteps) || [];
-        return readSteps.indexOf(vm.trip.tripId + '/' + step.stepId) === -1;
-    };
+    vm.isUnread = LocalData.isStepUnread;
 
     function reloadTrip() {
         vm.trip = loadTripFromLocalStorage();

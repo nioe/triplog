@@ -17,7 +17,10 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         getStep: getStep,
         stepIsLoaded: stepIsLoaded,
         addOrReplaceStep: addOrReplaceStep,
-        deleteStep: deleteStep
+        deleteStep: deleteStep,
+
+        isStepUnread: isStepUnread,
+        markStepAsRead: markStepAsRead
     };
 
     function getTrips() {
@@ -97,7 +100,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
             allSteps[step.tripId] = {};
         }
 
-        allSteps[step.tripId][step.stepId] = reviseStep(step);
+        allSteps[step.tripId][step.stepId] = step;
         updateAllSteps(allSteps);
     }
 
@@ -110,6 +113,19 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         var allSteps = loadAllSteps();
         delete allSteps[tripId][stepId];
         updateAllSteps(allSteps);
+    }
+
+    function isStepUnread(step) {
+        return getAllAlreadyReadSteps().indexOf(fullQualifiedStepName(step)) === -1;
+    }
+
+    function markStepAsRead(step) {
+        if (isStepUnread(step)) {
+            var readSteps = getAllAlreadyReadSteps();
+
+            readSteps.push(fullQualifiedStepName(step));
+            localStorageService.set(LOCAL_STORAGE_KEYS.alreadyReadSteps, readSteps);
+        }
     }
 
     /*********************************************** Private Functions ***********************************************/
@@ -150,12 +166,6 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         });
     }
 
-    function reviseStep(step) {
-        step.fullQualifiedStepId = step.tripId + '/' + step.stepId;
-
-        return step;
-    }
-
     function loadAllSteps() {
         return localStorageService.get(LOCAL_STORAGE_KEYS.steps) || {};
     }
@@ -163,5 +173,13 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
     function updateAllSteps(steps) {
         localStorageService.set(LOCAL_STORAGE_KEYS.steps, steps);
         $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
+    }
+
+    function getAllAlreadyReadSteps() {
+        return localStorageService.get(LOCAL_STORAGE_KEYS.alreadyReadSteps) || [];
+    }
+
+    function fullQualifiedStepName(step) {
+        return step.tripId + '/' + step.stepId;
     }
 }
