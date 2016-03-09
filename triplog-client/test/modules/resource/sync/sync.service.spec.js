@@ -4,6 +4,7 @@ describe('Sync service', function () {
     var $rootScope,
         $log,
         service,
+        LocalData,
         localStorageService,
         localStorage,
         processQueue,
@@ -26,10 +27,11 @@ describe('Sync service', function () {
         $provide.value('localStorageService', localStorageService);
     }));
 
-    beforeEach(inject(function (_$rootScope_, _$log_, _SyncService_, _LOCAL_STORAGE_KEYS_, _EVENT_NAMES_, _REST_URL_PREFIX_, _$httpBackend_) {
+    beforeEach(inject(function (_$rootScope_, _$log_, _SyncService_, _LocalData_, _LOCAL_STORAGE_KEYS_, _EVENT_NAMES_, _REST_URL_PREFIX_, _$httpBackend_) {
         $rootScope = _$rootScope_;
         $log = _$log_;
         service = _SyncService_;
+        LocalData = _LocalData_;
         LOCAL_STORAGE_KEYS = _LOCAL_STORAGE_KEYS_;
         EVENT_NAMES = _EVENT_NAMES_;
         REST_URL_PREFIX = _REST_URL_PREFIX_;
@@ -47,7 +49,8 @@ describe('Sync service', function () {
             $httpBackend.expectPUT(REST_URL_PREFIX + '/trips/testTrip2/steps/testStep', {content: 'blubb'}).respond(200);
             $httpBackend.expectPUT(REST_URL_PREFIX + '/trips/testTrip3', {content: 'bla'}).respond(200);
 
-            spyOn($rootScope, '$broadcast');
+            spyOn(LocalData, 'addOrReplaceTrip');
+            spyOn(LocalData, 'addOrReplaceStep');
 
             // when
             service.sync();
@@ -55,17 +58,12 @@ describe('Sync service', function () {
 
             // then
             expect(processQueue.length).toBe(0);
-            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced, {
-                trips: [{tripId: 'testTrip'}, {tripId: 'testTrip3'}],
-                steps: [{tripId: 'testTrip2', stepId: 'testStep'}]
-            });
         });
 
         it('should not try to sync more items after one fails', function () {
             // given
             $httpBackend.expectDELETE(REST_URL_PREFIX + '/trips/testTrip').respond(500, 'error');
 
-            spyOn($rootScope, '$broadcast');
             spyOn($log, 'warn');
 
             // when
@@ -74,7 +72,6 @@ describe('Sync service', function () {
 
             // then
             expect(processQueue.length).toBe(3);
-            expect($rootScope.$broadcast).not.toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced);
             expect($log.warn).toHaveBeenCalledWith('Error while syncing: TripsResource.delete({"tripId":"testTrip"}, undefined);', 500);
         });
 
@@ -83,8 +80,9 @@ describe('Sync service', function () {
             $httpBackend.expectDELETE(REST_URL_PREFIX + '/trips/testTrip').respond(200);
             $httpBackend.expectPUT(REST_URL_PREFIX + '/trips/testTrip2/steps/testStep', {content: 'blubb'}).respond(500, 'error');
 
-            spyOn($rootScope, '$broadcast');
             spyOn($log, 'warn');
+            spyOn(LocalData, 'addOrReplaceTrip');
+            spyOn(LocalData, 'addOrReplaceStep');
 
             // when
             service.sync();
@@ -94,10 +92,6 @@ describe('Sync service', function () {
             expect(processQueue.length).toBe(2);
             expect(processQueue[0].resourceName).toEqual('StepsResource');
             expect(processQueue[1].resourceName).toEqual('TripsResource');
-            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced, {
-                trips: [{tripId: 'testTrip'}],
-                steps: []
-            });
             expect($log.warn).toHaveBeenCalledWith('Error while syncing: StepsResource.update({"tripId":"testTrip2","stepId":"testStep"}, {"content":"blubb"});', 500);
         });
 
@@ -105,6 +99,9 @@ describe('Sync service', function () {
             // given
             $httpBackend.expectDELETE(REST_URL_PREFIX + '/trips/testTrip').respond(200);
             $httpBackend.expectPUT(REST_URL_PREFIX + '/trips/testTrip2/steps/testStep', {content: 'blubb'}).respond(500, 'error');
+
+            spyOn(LocalData, 'addOrReplaceTrip');
+            spyOn(LocalData, 'addOrReplaceStep');
 
             // when
             service.sync();
@@ -153,21 +150,26 @@ describe('Sync service', function () {
         });
     });
 
-    describe('ElemtnsSynced Event', function () {
+    describe('Replace only locally stored trips and steps with real one', function () {
         it('should get the tripId and stepId from the response object if content is saved', function () {
             // given
+            var localTrip = {tripId: 'artificialTripId', tripText: 'blubb'},
+                localStep = {tripId: 'testTrip', stepId: 'artificialStepId', stepText: 'blubb'},
+                respondedTrip = {tripId: 'testTrip', tripText: 'blubb'},
+                respondedStep = {tripId: 'testTrip222222', stepId: 'testStep', stepText: 'blubb'};
+
             processQueue = [
                 {
                     resourceName: 'TripsResource',
-                    method: 'save',
+                    method: 'create',
                     config: {},
-                    payload: {content: 'blubb'}
+                    payload: localTrip
                 },
                 {
                     resourceName: 'StepsResource',
-                    method: 'save',
+                    method: 'create',
                     config: {tripId: 'testTrip'},
-                    payload: {content: 'blubb'}
+                    payload: localStep
                 }
             ];
             localStorage = {};
@@ -176,20 +178,19 @@ describe('Sync service', function () {
             $rootScope.isOnline = true;
             $rootScope.loggedIn = true;
 
-            $httpBackend.expectPOST(REST_URL_PREFIX + '/trips', {content: 'blubb'}).respond(200, {tripId: 'testTrip'});
-            $httpBackend.expectPOST(REST_URL_PREFIX + '/trips/testTrip/steps', {content: 'blubb'}).respond(200, {tripId: 'testTrip', stepId: 'testStep'});
+            $httpBackend.expectPOST(REST_URL_PREFIX + '/trips', {tripText: 'blubb'}).respond(200, respondedTrip);
+            $httpBackend.expectPOST(REST_URL_PREFIX + '/trips/testTrip/steps', {tripId: 'testTrip', stepText: 'blubb'}).respond(200, respondedStep);
 
-            spyOn($rootScope, '$broadcast');
+            spyOn(LocalData, 'addOrReplaceTrip');
+            spyOn(LocalData, 'addOrReplaceStep');
 
             // when
             service.sync();
             $httpBackend.flush();
 
             // then
-            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENT_NAMES.syncServiceItemsSynced, {
-                trips: [{tripId: 'testTrip'}],
-                steps: [{tripId: 'testTrip', stepId: 'testStep'}]
-            });
+            expect(LocalData.addOrReplaceTrip).toHaveBeenCalledWith(jasmine.any(Object), localTrip.tripId);
+            expect(LocalData.addOrReplaceStep).toHaveBeenCalledWith(jasmine.any(Object), localStep.stepId);
         });
     });
 });

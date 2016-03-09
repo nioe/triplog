@@ -9,7 +9,8 @@ function StepsResource($resource, REST_URL_PREFIX) {
     }, {
         get: {method: 'GET', cache: false},
         query: {method: 'GET', isArray: true, cache: false},
-        update: {method: 'PUT'}
+        update: {method: 'PUT'},
+        create: {method: 'POST'}
     });
 }
 

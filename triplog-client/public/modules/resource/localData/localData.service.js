@@ -5,11 +5,13 @@ module.exports = LocalDataService;
 // @ngInject
 function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_STORAGE_KEYS, EVENT_NAMES) {
 
+    var createGuid = require('./guid.fn.js');
+
     return {
         getTrips: getTrips,
         tripsAreLoaded: tripsAreLoaded,
         getTrip: getTrip,
-        addTrip: addTrip,
+        addOrReplaceTrip: addOrReplaceTrip,
         updateTrips: updateTrips,
         updateTrip: updateTrip,
         deleteTrip: deleteTrip,
@@ -39,13 +41,17 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         return tripsWithGivenId.length > 0 ? tripsWithGivenId[0] : undefined;
     }
 
-    function addTrip(trip) {
+    function addOrReplaceTrip(trip, artificialTripId) {
         if (!$rootScope.loggedIn) {
             $log.warn('You need to be logged in to add trip ' + trip.tripName);
             return;
         }
 
-        var trips = getTrips();
+        var tripId = artificialTripId || trip.tripId,
+            trips = getTrips().filter(function (trip) {
+                return trip.tripId !== tripId;
+            });
+
         trips.push(trip);
         updateTrips(trips);
     }
@@ -64,7 +70,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         }
 
         deleteTrip(tripId);
-        addTrip(trip);
+        addOrReplaceTrip(trip);
 
         return getTrip(tripId);
     }
@@ -93,14 +99,18 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         return !!getStep(tripId, stepId);
     }
 
-    function addOrReplaceStep(step) {
+    function addOrReplaceStep(step, artificialStepId) {
         var allSteps = loadAllSteps();
 
         if (!allSteps[step.tripId]) {
             allSteps[step.tripId] = {};
         }
 
-        allSteps[step.tripId][step.stepId] = step;
+        if (artificialStepId) {
+            deleteStep(step.tripId, artificialStepId);
+        }
+
+        allSteps[step.tripId][step.stepId] = reviseStep(step);
         updateAllSteps(allSteps);
     }
 
@@ -139,7 +149,8 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
 
             if (!trip.tripId) {
                 // If a new trip is only stored locally there is no tripId yet. Therefore we need to create one.
-                // TODO
+                trip.tripId = createGuid();
+                trip.onlyLocal = true;
             }
 
             sortByPropertyDescending(trip.steps, 'fromDate');
@@ -173,6 +184,16 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
     function updateAllSteps(steps) {
         localStorageService.set(LOCAL_STORAGE_KEYS.steps, steps);
         $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
+    }
+
+    function reviseStep(step) {
+        if (!step.stepId) {
+            // If a new step is only stored locally there is no stepId yet
+            step.stepId = createGuid();
+            step.onlyLocal = true;
+        }
+
+        return step;
     }
 
     function getAllAlreadyReadSteps() {

@@ -6,10 +6,11 @@ module.exports = TripsResource;
 function TripsResource($resource, REST_URL_PREFIX) {
 
     return $resource(REST_URL_PREFIX + '/trips/:tripId', {
-        tripId: '@id'
+        tripId: '@tripId'
     }, {
         get: {method: 'GET', cache: false},
         query: {method: 'GET', isArray: true, cache: false},
-        update: {method: 'PUT'}
+        update: {method: 'PUT'},
+        create: {method: 'POST'}
     });
 }

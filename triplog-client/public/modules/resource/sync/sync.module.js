@@ -3,7 +3,8 @@
 module.exports = angular.module('sync', [
     require('modules/resources').name,
     require('modules/processQueue').name,
-    require('modules/config').name
+    require('modules/config').name,
+    require('modules/localData').name
 ]);
 
 module.exports.factory('SyncService', require('./sync.service'));

@@ -3,14 +3,13 @@
 module.exports = SyncService;
 
 // @ngInject
-function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue, EVENT_NAMES, $log) {
+function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue, LocalData, $log) {
 
     var resources = {
             'TripsResource': TripsResource,
             'StepsResource': StepsResource
         },
-        syncRunning = false,
-        syncedContent;
+        syncRunning = false;
 
     return {
         sync: sync
@@ -19,14 +18,7 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
     function sync() {
         if (!syncRunning && $rootScope.isOnline && $rootScope.loggedIn) {
             syncRunning = true;
-            syncedContent = {trips: [], steps: []};
-            var originalQueueSize = ProcessQueue.size();
-
             dequeueNextElement().then(function () {
-                if (ProcessQueue.size() < originalQueueSize) {
-                    $rootScope.$broadcast(EVENT_NAMES.syncServiceItemsSynced, syncedContent);
-                }
-
                 syncRunning = false;
             });
         }
@@ -39,29 +31,25 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
             return $q.resolve();
         }
 
-        var action = ProcessQueue.dequeue(),
-            func = resources[action.resourceName][action.method];
+        var action = ProcessQueue.dequeue();
 
-        return func(action.config, action.payload).$promise
-            .then(addToSyncedContent.bind(null, action))
+        return resources[action.resourceName][action.method](action.config, createCorrectPayload(action)).$promise
+            .then(updateLocalStorage.bind(null, action))
             .then(dequeueNextElement, handleError.bind(null, action));
     }
 
-    function addToSyncedContent(action, response) {
-        var tripId = action.config.tripId || action.payload.tripId || response.tripId;
-
-        switch (action.resourceName) {
-            case 'TripsResource':
-                syncedContent.trips.push({tripId: tripId});
-                break;
-            case 'StepsResource':
-                syncedContent.steps.push({
-                    tripId: tripId,
-                    stepId: action.config.stepId || action.payload.stepId || response.stepId
-                });
-                break;
-            default:
-                $log.warn('Unknown resource ' + action.resourceName);
+    function updateLocalStorage(action, response) {
+        if (response) {
+            switch (action.resourceName) {
+                case 'TripsResource':
+                    LocalData.addOrReplaceTrip(response, action.method === 'create' ? action.payload.tripId : undefined);
+                    break;
+                case 'StepsResource':
+                    LocalData.addOrReplaceStep(response, action.method === 'create' ? action.payload.stepId : undefined);
+                    break;
+                default:
+                    $log.warn('Unknown resource ' + action.resourceName);
+            }
         }
     }
 
@@ -74,5 +62,26 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
         return 'Error while syncing: ' + action.resourceName + '.' + action.method + '(' +
             JSON.stringify(action.config) + ', ' +
             JSON.stringify(action.payload) + ');';
+    }
+
+    function createCorrectPayload(action) {
+        if (!action.payload) {
+            return;
+        }
+
+        var payload = angular.copy(action.payload);
+
+        if (action.method === 'create') {
+            // We need to delete the artificial ids because the service is going to be called with them otherwise
+            if (payload.tripId && action.resourceName === 'TripsResource') {
+                delete payload.tripId;
+            }
+
+            if (payload.stepId) {
+                delete payload.stepId;
+            }
+        }
+
+        return payload;
     }
 }
