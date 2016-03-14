@@ -75,13 +75,13 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
                 }, function (error) {
                     switch (error.status) {
                         case -1:
-                            AlertService.warn('Backend not available. Picture could not have been deleted...');
+                            AlertService.error('Backend not available. Picture could not have been deleted...');
                             break;
                         case 0:
-                            AlertService.warn('You seem to be offline. Picture could not have been deleted...');
+                            AlertService.error('You seem to be offline. Picture could not have been deleted...');
                             break;
                         default:
-                            AlertService.warn('Picture could not have been deleted due to an unknown error ' + error.status);
+                            AlertService.error('Picture could not have been deleted due to an unknown error ' + error.status);
                             break;
                     }
                 }
