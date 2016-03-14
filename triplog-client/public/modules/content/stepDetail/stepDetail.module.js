@@ -7,6 +7,8 @@ module.exports = angular.module('stepDetail', [
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./stepDetail.tpl.html'),
+    require('./stepDetail.view.tpl.html'),
+    require('./stepDetail.edit.tpl.html'),
     require('./dateLine.tpl.html')
 ]);
 

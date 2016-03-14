@@ -8,6 +8,12 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
         return picture.shownInGallery;
     });
 
+    vm.editMode = $state.params.edit && $rootScope.loggedIn;
+
+    vm.templateToShow = function () {
+        return vm.editMode ? 'stepDetail.edit.tpl.html' : 'stepDetail.view.tpl.html';
+    };
+
     LocalData.markStepAsRead(vm.step);
 
     // Reload step into memory if local storage changed
