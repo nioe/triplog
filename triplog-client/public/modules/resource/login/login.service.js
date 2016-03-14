@@ -7,14 +7,20 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
         if ($rootScope.isOnline || ENV === 'local') {
             return callLoginService(username, password).then(function (response) {
                 localStorageService.set(LOCAL_STORAGE_KEYS.loggedInBefore, username);
-                localStorageService.set(LOCAL_STORAGE_KEYS.authToken, response.data.id);
 
                 setLoggedInStatus(response.data.id);
 
                 return response;
+            }, function (error) {
+                if (error.status === -1) {
+                    // Backend not available
+                    return checkLocalStorageIfUserHasBeenLoggedInBefore(username);
+                }
+
+                $q.reject(error);
             });
         } else {
-            return checkLocalStorageIfUserHasBeenLoggedInBefore();
+            return checkLocalStorageIfUserHasBeenLoggedInBefore(username);
         }
     }
 
@@ -23,7 +29,7 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
             method: 'POST',
             url: REST_URL_PREFIX + '/logout'
         }).then(resetLoggedInStatus, function(error) {
-            if (error.status === 401) {
+            if ([-1, 0, 401].indexOf(error.status) !== -1) {
                 resetLoggedInStatus();
             } else {
                 $q.reject(error);
@@ -33,14 +39,23 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
 
     function checkPresentToken() {
         var xAuthToken = localStorageService.get(LOCAL_STORAGE_KEYS.authToken);
+
         if (xAuthToken) {
-            return $http({
-                method: 'POST',
-                url: REST_URL_PREFIX + '/tokenValidator',
-                headers: {
-                    'X-AUTH-TOKEN': xAuthToken
-                }
-            }).then(setLoggedInStatus.bind(undefined, xAuthToken), resetLoggedInStatusAndgoToTripOverviewPage);
+            var promise;
+
+            if (xAuthToken === 'localToken') {
+                promise = $q.resolve();
+            } else {
+                promise = $http({
+                    method: 'POST',
+                    url: REST_URL_PREFIX + '/tokenValidator',
+                    headers: {
+                        'X-AUTH-TOKEN': xAuthToken
+                    }
+                });
+            }
+
+            return promise.then(setLoggedInStatus.bind(undefined, xAuthToken), resetLoggedInStatusAndGoToTripOverviewPage);
         } else {
             return $q.resolve().then(resetLoggedInStatus);
         }
@@ -61,9 +76,8 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
     function checkLocalStorageIfUserHasBeenLoggedInBefore(username) {
         return $q(function (resolve, reject) {
             if (localStorageService.get(LOCAL_STORAGE_KEYS.loggedInBefore) === username) {
-                resolve({
-                    id: 'localToken'
-                });
+                setLoggedInStatus('localToken');
+                resolve();
             } else {
                 reject({
                     status: 'offline',
@@ -75,6 +89,8 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
 
     function setLoggedInStatus(xAuthToken) {
         var originalLoginStatus = $rootScope.loggedIn;
+
+        localStorageService.set(LOCAL_STORAGE_KEYS.authToken, xAuthToken);
 
         $http.defaults.headers.common['X-AUTH-TOKEN'] = xAuthToken;
         $rootScope.loggedIn = true;
@@ -92,7 +108,7 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
         reactOnLoggedInStatusChange(originalLoginStatus);
     }
 
-    function resetLoggedInStatusAndgoToTripOverviewPage() {
+    function resetLoggedInStatusAndGoToTripOverviewPage() {
         resetLoggedInStatus();
         $state.go('content.allTrips');
     }
