@@ -50,6 +50,15 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
+                <!-- Process Queue -->
+                <li ng-show="content.shouldShowProcessQueue()">
+                    <a>
+                        <span class="icon-process-queue"></span> Process Queue
+                        <span class="badge danger">{{ content.itemCountInProcessQueue() }}</span>
+                    </a>
+                </li>
+
+                <!-- Login / Logout -->
                 <li ng-if="!loggedIn">
                     <a ui-sref="content.login"><span class="icon-login"></span> Login</a>
                 </li>

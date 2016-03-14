@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTripsFromLocalStorage, TripsService, LoginService, AlertService, showModal) {
+function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTripsFromLocalStorage, TripsService, LoginService, AlertService, showModal, ProcessQueue) {
 
     var vm = this;
     vm.environment = ENV;
@@ -52,6 +52,14 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
         }, function () {
             AlertService.error('There was an error during the logout process... :( Please try again.');
         });
+    };
+
+    vm.shouldShowProcessQueue = function () {
+        return $rootScope.loggedIn && ProcessQueue.hasItems();
+    };
+
+    vm.itemCountInProcessQueue = function () {
+        return ProcessQueue.size();
     };
 
     /************************************** Private Functions **************************************/

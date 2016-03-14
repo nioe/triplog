@@ -12,6 +12,7 @@ module.exports = angular.module('content', [
     require('modules/loginResource').name,
     require('modules/alert').name,
     require('modules/modalMessage').name,
+    require('modules/processQueue').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./content.tpl.html')
