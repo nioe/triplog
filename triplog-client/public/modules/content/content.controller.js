@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTripsFromLocalStorage, TripsService, LoginService, AlertService, showModal, ProcessQueue) {
+function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTripsFromLocalStorage, TripsService, StepsService, LoginService, AlertService, showModal, ProcessQueue) {
 
     var vm = this;
     vm.environment = ENV;
@@ -72,6 +72,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
         vm.navBarEntries = [];
         createTripOverviewNavBarEntry();
         createStepOverviewNavBarEntry();
+        createStepDetailNavBarEntry();
     }
 
     function createTripOverviewNavBarEntry() {
@@ -147,7 +148,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 tripIndex = indexOfTripWithId(tripId);
 
             if (tripIndex >= 0) {
-                var createStepEntry = function(step) {
+                var createStepEntry = function (step) {
                         entries.push({
                             id: step.stepId,
                             name: step.stepName,
@@ -181,10 +182,77 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
         }
     }
 
+    function createStepDetailNavBarEntry() {
+        if ($rootScope.loggedIn && $state.current.name === 'content.stepOfTrip') {
+            var tripId = $state.params.tripId,
+                stepId = $state.params.stepId,
+                step = vm.trips[indexOfTripWithId(tripId)].steps[indexOfStepWithId(tripId, stepId)],
+                controls = [];
+
+            controls.push({
+                id: 'editStep',
+                name: 'Edit Step',
+                icon: 'edit',
+                action: function () {
+                    $state.go('content.stepOfTrip', {tripId: tripId, stepId: stepId, edit: true});
+                },
+                active: function () {
+                    return $state.current.name === 'content.stepOfTrip' && $state.params.edit;
+                }
+            });
+
+            controls.push({
+                id: 'deleteStep',
+                name: 'Delete Step',
+                icon: 'delete',
+                action: function () {
+                    var deleteStepModalData = {
+                        title: 'Delete step "' + step.stepName + '"',
+                        message: 'Caution: This cannot be undone. All step data including pictures will be deleted!',
+                        okText: 'Delete',
+                        okClass: 'btn-danger',
+                        cancelText: 'Cancel',
+                        cancelClass: 'btn-primary'
+                    };
+
+                    showModal(deleteStepModalData).then(function () {
+                        $state.go('content.stepOverview', {tripId: tripId}, {reload: true});
+                        StepsService.deleteStep(tripId, stepId);
+                    });
+                },
+                active: function () {
+                    return false;
+                }
+            });
+
+            vm.navBarEntries.push({
+                id: tripId,
+                name: step.stepName,
+                icon: 'step',
+                entries: controls
+            });
+        }
+    }
+
     function indexOfTripWithId(tripId) {
         for (var i = 0; i < vm.trips.length; i++) {
             if (vm.trips[i].tripId === tripId) {
                 return i;
+            }
+        }
+
+        return -1;
+    }
+
+    function indexOfStepWithId(tripId, stepId) {
+        var tripIndex = indexOfTripWithId(tripId);
+
+        if (tripIndex >= 0) {
+            var trip = vm.trips[tripIndex];
+            for (var i = 0; i < trip.steps.length; i++) {
+                if (trip.steps[i].stepId === stepId) {
+                    return i;
+                }
             }
         }
 
@@ -217,7 +285,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             action: function () {
                 var trip = vm.trips[indexOfTripWithId(tripId)],
                     deleteTripModalData = {
-                        title: 'Delete ' + trip.tripName,
+                        title: 'Delete trip "' + trip.displayName + '"',
                         message: 'Caution: This cannot be undone. All trip data including all stpes and pictures will be deleted!',
                         okText: 'Delete',
                         okClass: 'btn-danger',
@@ -226,8 +294,8 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                 showModal(deleteTripModalData).then(function () {
-                    TripsService.deleteTrip(tripId);
                     $state.go('content.allTrips', {}, {reload: true});
+                    TripsService.deleteTrip(tripId);
                 });
             },
             active: function () {
