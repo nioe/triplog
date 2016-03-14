@@ -2,7 +2,7 @@
     <h1 class="line">{{ stepDetail.step.stepName }}</h1>
 </header>
 
-<form class="form-horizontal">
+<form class="edit-step-form">
     <!-- Step Name -->
     <div class="form-group">
         <label for="step-name" class="col-xs-12 col-sm-2 control-label">Name</label>
@@ -51,6 +51,68 @@
         <label for="gps-points" class="col-xs-12 col-sm-2 control-label">GPS Points</label>
         <div class="col-xs-12 col-sm-10">
             <textarea class="form-control" id="gps-points" rows="10" ng-model="stepDetail.editableStep.gpsPoints"></textarea>
+        </div>
+    </div>
+
+    <!-- Pictures -->
+    <div class="form-group" ng-if="stepDetail.editableStep.pictures.length > 0">
+        <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Pictures</label>
+        <div class="col-xs-12 col-sm-10">
+            <div class="picture-row" ng-repeat="picture in stepDetail.editableStep.pictures track by $index">
+                <!-- Picture -->
+                <div class="col-xs-12 col-sm-4">
+                    <div class="picture" ng-class="{'portrait': picture.width < picture.height}" style="background-image: url('{{ picture.url }}');"></div>
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    <!-- Picture ID -->
+                    <div class="form-group">
+                        <label for="picture-name-{{ $index }}" class="col-xs-12 col-sm-2 control-label">ID</label>
+                        <div class="col-xs-12 col-sm-10">
+                            <input type="text" class="form-control" disabled id="picture-name-{{ $index }}" ng-model="picture.name">
+                        </div>
+                    </div>
+
+                    <!-- Picture URL -->
+                    <div class="form-group">
+                        <label for="picture-url-{{ $index }}" class="col-xs-12 col-sm-2 control-label">URL</label>
+                        <div class="col-xs-12 col-sm-10">
+                            <input type="text" class="form-control" disabled id="picture-url-{{ $index }}" ng-model="picture.url">
+                        </div>
+                    </div>
+
+                    <!-- Picture Location lat -->
+                    <div class="form-group">
+                        <label for="picture-latitude-{{ $index }}" class="col-xs-12 col-sm-2 control-label">Lat</label>
+                        <div class="col-xs-12 col-sm-10">
+                            <input type="text" class="form-control" id="picture-latitude-{{ $index }}" ng-model="picture.location.lat">
+                        </div>
+                    </div>
+
+                    <!-- Picture Location lng -->
+                    <div class="form-group">
+                        <label for="picture-longitude-{{ $index }}" class="col-xs-12 col-sm-2 control-label">Lng</label>
+                        <div class="col-xs-12 col-sm-10">
+                            <input type="text" class="form-control" id="picture-longitude-{{ $index }}" ng-model="picture.location.lng">
+                        </div>
+                    </div>
+
+                    <!-- Picture caption -->
+                    <div class="form-group">
+                        <label for="picture-caption-{{ $index }}" class="col-xs-12 col-sm-2 control-label">Caption</label>
+                        <div class="col-xs-12 col-sm-10">
+                            <input type="text" class="form-control" id="picture-caption-{{ $index }}" ng-model="picture.caption">
+                        </div>
+                    </div>
+
+                    <!-- Shown in gallery -->
+                    <div class="form-group">
+                        <label for="picture-show-in-gallery-{{ $index }}" class="col-xs-12 col-sm-2 control-label">Gallery</label>
+                        <div class="col-xs-12 col-sm-10">
+                            <input type="checkbox" id="picture-show-in-gallery-{{ $index }}" ng-model="picture.shownInGallery">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

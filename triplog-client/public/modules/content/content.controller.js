@@ -216,6 +216,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                     showModal(deleteStepModalData).then(function () {
+                        // TODO check undefined errors when deleting trip (wrong controller active)
                         $state.go('content.stepOverview', {tripId: tripId}, {reload: true});
                         StepsService.deleteStep(tripId, stepId);
                     });

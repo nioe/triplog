@@ -1,0 +1,24 @@
+.edit-step-form {
+  @extend .form-horizontal;
+
+  .picture-row {
+    @extend .row;
+
+    &:not(:first-child) {
+      padding-top: 20px;
+    }
+
+    .picture {
+      background: no-repeat center;
+      background-size: cover;
+      width: 100%;
+      padding-top: 66.66666666%; // 3:2
+      margin-bottom: 15px;
+
+      &.portrait {
+        width: 66.66666666%;
+        padding-top: 100%;
+      }
+    }
+  }
+}
