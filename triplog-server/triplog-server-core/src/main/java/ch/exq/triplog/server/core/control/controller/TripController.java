@@ -104,7 +104,7 @@ public class TripController {
 
         tripDAO.updateTrip(tripId, currentTrip);
 
-        return mapper.map(tripDAO.getTripById(tripId), Trip.class);
+        return getTripById(tripId, true);
     }
 
     public boolean deleteTripWithId(String tripId) {
