@@ -4,7 +4,9 @@ module.exports = StepDetailController;
 
 // @ngInject
 function StepDetailController($rootScope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, EVENT_NAMES) {
-    var vm = this;
+    var vm = this,
+        countries = require('./countries.json');
+
     vm.step = loadStepFromLocalStorage();
     vm.galleryPictures = vm.step.pictures.filter(function (picture) {
         return picture.shownInGallery;
@@ -17,14 +19,42 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
         return $rootScope.isOnline && vm.step.gpsPoints && vm.step.gpsPoints.length > 0;
     };
 
+    vm.templateToShow = function () {
+        return vm.editMode ? 'stepDetail.edit.tpl.html' : 'stepDetail.view.tpl.html';
+    };
+
     // Reload step into memory if local storage changed
     $rootScope.$on(EVENT_NAMES.localStorageUpdated, reloadStep);
 
     // Edit Step
     vm.editableStep = createEditableStep();
     vm.editMode = $state.params.edit && $rootScope.loggedIn;
-    vm.templateToShow = function () {
-        return vm.editMode ? 'stepDetail.edit.tpl.html' : 'stepDetail.view.tpl.html';
+    vm.selectedCountry = undefined;
+
+    function createSelectableCountries() {
+        vm.selectableCountries = angular.copy(countries);
+        vm.editableStep.traveledCountries.forEach(function (isoCode) {
+           delete vm.selectableCountries[isoCode];
+        });
+    }
+
+    createSelectableCountries();
+
+    vm.addTraveledCountry = function () {
+        vm.editableStep.traveledCountries.push(vm.selectedCountry);
+        vm.selectedCountry = undefined;
+        createSelectableCountries();
+    };
+
+    vm.deleteTraveledCountry = function (isoCode) {
+        vm.editableStep.traveledCountries = vm.editableStep.traveledCountries.filter(function (country) {
+            return country !== isoCode;
+        });
+        createSelectableCountries();
+    };
+
+    vm.getCountryNameFor = function (isoCode) {
+        return countries[isoCode];
     };
 
     vm.reset = function () {

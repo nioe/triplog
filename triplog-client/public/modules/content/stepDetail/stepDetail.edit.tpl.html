@@ -54,6 +54,26 @@
         </div>
     </div>
 
+    <!-- Traveled countries -->
+    <div class="form-group">
+        <label for="traveled-countries" class="col-xs-12 col-sm-2 control-label">Traveled countries</label>
+        <div class="col-xs-12 col-sm-10">
+            <ul ng-if="stepDetail.editableStep.traveledCountries.length > 0">
+                <li ng-repeat="isoCode in stepDetail.editableStep.traveledCountries">
+                    {{ stepDetail.getCountryNameFor(isoCode); }} <span class="icon-delete" ng-click="stepDetail.deleteTraveledCountry(isoCode)"></span>
+                </li>
+            </ul>
+
+            <select class="form-control"
+                    id="traveled-countries"
+                    ng-model="stepDetail.selectedCountry"
+                    ng-options="isoCode as countryName for (isoCode, countryName) in stepDetail.selectableCountries"
+                    ng-change="stepDetail.addTraveledCountry();">
+                <option disabled value="">Select country...</option>
+            </select>
+        </div>
+    </div>
+
     <!-- Pictures -->
     <div class="form-group" ng-if="stepDetail.editableStep.pictures.length > 0">
         <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Pictures</label>
