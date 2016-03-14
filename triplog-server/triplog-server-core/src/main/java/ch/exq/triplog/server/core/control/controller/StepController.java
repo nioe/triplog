@@ -126,7 +126,7 @@ public class StepController {
         checkFromDateIsBeforeOrEqualsToDate(currentStep);
         stepDAO.updateStep(tripId, stepId, currentStep);
 
-        return mapper.map(stepDAO.getStep(tripId, stepId), StepDetail.class);
+        return getStep(tripId, stepId, true);
     }
 
     public StepDetail addPicture(String tripId, String stepId, Picture picture) throws DisplayableException {
