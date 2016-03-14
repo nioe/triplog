@@ -21,7 +21,7 @@
 
     .previousNextStep {
       @extend .row;
-      margin-bottom: 30px;
+      margin: 30px 0;
 
       .prev, .prev-placeholder, .next {
         @extend .col-xs-6;

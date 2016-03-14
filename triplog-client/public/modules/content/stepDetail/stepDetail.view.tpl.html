@@ -1,6 +1,5 @@
 <header>
     <h1 class="line">{{ stepDetail.step.stepName }}</h1>
-
     <date-line from-date="{{ stepDetail.step.fromDate }}" to-date="{{ stepDetail.step.toDate }}"></date-line>
 </header>
 
@@ -15,6 +14,8 @@
 <triplog-map gps-points="stepDetail.step.gpsPoints" pictures="stepDetail.galleryPictures" ng-if="stepDetail.showMap()"></triplog-map>
 
 <triplog-gallery ng-if="stepDetail.galleryPictures && stepDetail.galleryPictures.length > 0" pictures="stepDetail.galleryPictures"></triplog-gallery>
+
+<timestamps model="stepDetail.step"></timestamps>
 
 <aside class="previousNextStep">
     <div class="prev" ng-if="stepDetail.step.previousStep">
