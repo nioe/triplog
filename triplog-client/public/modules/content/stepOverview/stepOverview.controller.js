@@ -14,6 +14,9 @@ function StepOverviewController($rootScope, $state, loadTripFromLocalStorage, sh
     // Reload trips into memory if local storage changed
     $rootScope.$on(EVENT_NAMES.localStorageUpdated, reloadTrip);
 
+    vm.isUnread = LocalData.isStepUnread;
+
+    // Edit trip
     vm.templateToShow = function () {
         return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
     };
@@ -40,8 +43,7 @@ function StepOverviewController($rootScope, $state, loadTripFromLocalStorage, sh
         $state.go('content.stepOverview', {edit: undefined});
     };
 
-    vm.isUnread = LocalData.isStepUnread;
-
+    /************************************** Private Functions **************************************/
     function reloadTrip() {
         vm.trip = loadTripFromLocalStorage();
     }
