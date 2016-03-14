@@ -3,13 +3,14 @@
 module.exports = TripsService;
 
 // @ngInject
-function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, StepsResource, ENV) {
+function TripsService($rootScope, $q, $log, $http, ProcessQueue, LocalData, StepsResource, ENV, REST_URL_PREFIX) {
 
     return {
         ensureStepIsFetched: ensureStepIsFetched,
         fetchStep: fetchStep,
         updateStep: updateStep,
-        deleteStep: deleteStep
+        deleteStep: deleteStep,
+        deletePicture: deletePicture
     };
 
     function ensureStepIsFetched(tripId, stepId) {
@@ -43,6 +44,10 @@ function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, StepsResour
     function deleteStep(tripId, stepId) {
         LocalData.deleteStep(tripId, stepId);
         ProcessQueue.enqueue('StepsResource', 'delete', {tripId: tripId, stepId: stepId});
+    }
+
+    function deletePicture(tripId, stepId, pictureId) {
+        return $http.delete(REST_URL_PREFIX + '/trips/' + tripId + '/steps/' + stepId + '/pictures/' + pictureId);
     }
 
     /*********************************************** Private Functions ***********************************************/

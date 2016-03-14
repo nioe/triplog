@@ -3,7 +3,7 @@
 module.exports = StepDetailController;
 
 // @ngInject
-function StepDetailController($rootScope, $state, loadStepFromLocalStorage, LocalData, showModal, StepsService, EVENT_NAMES) {
+function StepDetailController($rootScope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, EVENT_NAMES) {
     var vm = this;
     vm.step = loadStepFromLocalStorage();
     vm.galleryPictures = vm.step.pictures.filter(function (picture) {
@@ -49,6 +49,44 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
 
         StepsService.updateStep(vm.editableStep);
         $state.go('content.stepOfTrip', {edit: undefined});
+    };
+
+    vm.showPictureDeleteButton = function () {
+        return $rootScope.isOnline;
+    };
+
+    vm.deletePicture = function (pictureId) {
+        showModal({
+            title: 'Delete picture',
+            message: 'Do you really want to delete this picture?',
+            okText: 'Delete',
+            okClass: 'btn-danger',
+            cancelText: 'Cancel',
+            cancelClass: 'btn-primary'
+        }).then(function () {
+            StepsService.deletePicture(vm.step.tripId, vm.step.stepId, pictureId).then(
+                function () {
+                    vm.editableStep.pictures = vm.editableStep.pictures.filter(function (picture) {
+                        return picture.name !== pictureId;
+                    });
+
+                    AlertService.info('Picture has been deleted.');
+                    StepsService.fetchStep(vm.step.tripId, vm.step.stepId);
+                }, function (error) {
+                    switch (error.status) {
+                        case -1:
+                            AlertService.warn('Backend not available. Picture could not have been deleted...');
+                            break;
+                        case 0:
+                            AlertService.warn('You seem to be offline. Picture could not have been deleted...');
+                            break;
+                        default:
+                            AlertService.warn('Picture could not have been deleted due to an unknown error ' + error.status);
+                            break;
+                    }
+                }
+            );
+        });
     };
 
     /************************************** Private Functions **************************************/
