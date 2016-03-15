@@ -13,6 +13,7 @@ module.exports = angular.module('content', [
     require('modules/alert').name,
     require('modules/modalMessage').name,
     require('modules/processQueue').name,
+    require('modules/triplogPictureUpload').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./content.tpl.html')

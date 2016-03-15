@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTripsFromLocalStorage, TripsService, StepsService, LoginService, AlertService, showModal, ProcessQueue) {
+function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTripsFromLocalStorage, TripsService, StepsService, LoginService, AlertService, showModal, showPictureUploadModal, ProcessQueue) {
 
     var vm = this;
     vm.environment = ENV;
@@ -219,6 +219,20 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                         // TODO check undefined errors when deleting trip (wrong controller active)
                         $state.go('content.stepOverview', {tripId: tripId}, {reload: true});
                         StepsService.deleteStep(tripId, stepId);
+                    });
+                },
+                active: function () {
+                    return false;
+                }
+            });
+
+            controls.push({
+                id: 'uploadPictures',
+                name: 'Upload Pictures',
+                icon: 'camera',
+                action: function () {
+                    showPictureUploadModal(step).then(function () {
+                       StepsService.fetchStep(tripId, stepId);
                     });
                 },
                 active: function () {

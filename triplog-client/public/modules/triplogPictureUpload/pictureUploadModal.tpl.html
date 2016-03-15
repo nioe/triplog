@@ -1,0 +1,9 @@
+<div class="triplog-modal-header">
+    <h3>Picture upload for {{ pictureUploadModal.step.stepName }}</h3>
+</div>
+<div class="triplog-modal-body">
+    <picture-upload trip-id="{{ pictureUploadModal.step.tripId }}" step-id="{{ pictureUploadModal.step.stepId }}"></picture-upload>
+</div>
+<div class="triplog-modal-footer">
+    <button class="btn btn-default" data-ng-click="pictureUploadModal.close()">Close</button>
+</div>
