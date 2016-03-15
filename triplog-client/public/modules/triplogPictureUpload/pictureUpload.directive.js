@@ -23,7 +23,8 @@ function PictureUpload($rootScope, REST_URL_PREFIX) {
             headers: {
                 'X-AUTH-TOKEN': $rootScope.xAuthToken
             },
-            acceptedFiles: 'image/*'
+            acceptedFiles: 'image/*',
+            parallelUploads: 1
         };
 
         var pictureDropzone = new Dropzone(element[0], config);
