@@ -44,8 +44,7 @@ public class PictureController {
     }
 
     public String savePicture(String tripId, String stepId, String pictureName, byte[] content) throws IOException, DisplayableException {
-        StepDetail step = stepController.getStep(tripId, stepId, true);
-        if (step == null) {
+        if (stepController.getStep(tripId, stepId, true) == null) {
             throw new IllegalArgumentException("Given step could not be found!");
         }
 
