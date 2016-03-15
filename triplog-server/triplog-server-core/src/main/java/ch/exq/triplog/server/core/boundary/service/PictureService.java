@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
+import static javax.ws.rs.core.Response.Status.*;
+
 @Path("/trips/{tripId : [0-9a-z-]*}/steps/{stepId : [0-9a-z-]*}/pictures")
 public class PictureService {
 
@@ -52,7 +54,11 @@ public class PictureService {
     @AuthenticationRequired
     public Response uploadPicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @MultipartForm FileAttachment attachment) {
         if (attachment.getContent() == null) {
-            throw new WebApplicationException("File must not be empty.", 400);
+            return Response.status(BAD_REQUEST).entity("File must not be empty.").build();
+        }
+
+        if (attachment.getName() == null) {
+            return Response.status(BAD_REQUEST).entity("Filename must not be null.").build();
         }
 
         try {

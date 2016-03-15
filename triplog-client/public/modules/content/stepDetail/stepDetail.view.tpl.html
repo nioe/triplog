@@ -11,6 +11,10 @@
     <div class="triplog-text" marked="stepDetail.step.stepText"></div>
 </article>
 
+
+<picture-upload trip-id="{{ stepDetail.step.tripId }}" step-id="{{ stepDetail.step.stepId }}"></picture-upload>
+
+
 <triplog-map gps-points="stepDetail.step.gpsPoints" pictures="stepDetail.galleryPictures" ng-if="stepDetail.showMap()"></triplog-map>
 
 <triplog-gallery ng-if="stepDetail.galleryPictures && stepDetail.galleryPictures.length > 0" pictures="stepDetail.galleryPictures"></triplog-gallery>

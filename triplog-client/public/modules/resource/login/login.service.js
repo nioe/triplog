@@ -94,6 +94,7 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
 
         $http.defaults.headers.common['X-AUTH-TOKEN'] = xAuthToken;
         $rootScope.loggedIn = true;
+        $rootScope.xAuthToken = xAuthToken;
 
         reactOnLoggedInStatusChange(originalLoginStatus);
     }
@@ -104,6 +105,7 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
         localStorageService.remove(LOCAL_STORAGE_KEYS.authToken);
         $http.defaults.headers.common['X-AUTH-TOKEN'] = undefined;
         $rootScope.loggedIn = false;
+        $rootScope.xAuthToken = undefined;
 
         reactOnLoggedInStatusChange(originalLoginStatus);
     }

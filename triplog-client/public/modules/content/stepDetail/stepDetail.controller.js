@@ -34,7 +34,7 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
     function createSelectableCountries() {
         vm.selectableCountries = angular.copy(countries);
         vm.editableStep.traveledCountries.forEach(function (isoCode) {
-           delete vm.selectableCountries[isoCode];
+            delete vm.selectableCountries[isoCode];
         });
     }
 

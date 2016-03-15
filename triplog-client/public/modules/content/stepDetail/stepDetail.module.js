@@ -7,6 +7,7 @@ module.exports = angular.module('stepDetail', [
     require('modules/modalMessage').name,
     require('modules/markdownPreview').name,
     require('modules/triplogDateOutput').name,
+    require('modules/triplogPictureUpload').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./stepDetail.tpl.html'),

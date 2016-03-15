@@ -6,7 +6,7 @@ public class FileAttachment {
     @FormParam("file")
     private final byte[] content;
 
-    @FormParam("fileName")
+    @FormParam("filename")
     private final String name;
 
     public FileAttachment() {
