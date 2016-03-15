@@ -13,9 +13,9 @@ function LoadingSpinnerDirective() {
     function link(scope, element) {
         scope.$on('$stateChangeStart', showSpinner);
         scope.$on('$stateNotFound', hideSpinner);
-        scope.$on('$stateChangeSuccess', hideSpinner);
+        //scope.$on('$stateChangeSuccess', hideSpinner);
         scope.$on('$stateChangeError', hideSpinner);
-
+        scope.$on('$viewContentLoaded', hideSpinner);
 
         function showSpinner() {
             element.removeClass('ng-hide');
