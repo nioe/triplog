@@ -95,6 +95,10 @@ module.exports = function (grunt) {
                     {
                         src: 'public/bower_components/leaflet.markercluster/dist/MarkerCluster.css',
                         dest: 'public/styles/vendor/_mapbox-marker-cluster-animation.scss'
+                    },
+                    {
+                        src: 'public/bower_components/dropzone/dist/dropzone.css',
+                        dest: 'public/styles/vendor/_dropzone.scss'
                     }
                 ],
                 options: {
