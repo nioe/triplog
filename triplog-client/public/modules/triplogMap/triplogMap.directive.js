@@ -68,7 +68,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
                 title: picture.caption,
                 pictureName: picture.name,
                 icon: {
-                    iconUrl: picture.url,
+                    iconUrl: picture.url + '/thumbnail',
                     iconSize: iconSize,
                     iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
                     popupAnchor: [0, iconSize[1] / 2 * -1],

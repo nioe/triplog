@@ -81,7 +81,7 @@
             <div class="picture-row" ng-repeat="picture in stepDetail.editableStep.pictures track by $index">
                 <!-- Picture -->
                 <div class="col-xs-12 col-sm-4">
-                    <div class="picture" ng-class="{'portrait': picture.width < picture.height}" style="background-image: url('{{ picture.url }}');"></div>
+                    <div class="picture" ng-class="{'portrait': picture.width < picture.height}" style="background-image: url('{{ picture.url }}/thumbnail');"></div>
                     <button ng-click="stepDetail.deletePicture(picture.name)" class="btn-delete">Delete</button>
                 </div>
                 <div class="col-xs-12 col-sm-8">

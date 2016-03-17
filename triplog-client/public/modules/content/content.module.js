@@ -19,28 +19,11 @@ module.exports = angular.module('content', [
     require('./content.tpl.html')
 ]);
 
-module.exports.config(['markedProvider', 'REST_URL_PREFIX', function (markedProvider, REST_URL_PREFIX) {
+module.exports.config(['markedProvider', function (markedProvider) {
     markedProvider.setRenderer({
         heading: function (text, level) {
             var subLevel = level + 1;
             return '<h' + subLevel + '>' + text + '</h' + subLevel + '>';
-        },
-
-        image: function (href, title, text) {
-            href = href || '';
-            var imageName;
-
-            if (href.indexOf('http') !== 0) {
-                href = REST_URL_PREFIX + '/' + href;
-                imageName = href.substr(href.lastIndexOf('/') + 1);
-            }
-
-            var img = '<img src="' + href + '"';
-            img += text ? ' alt="' + text + '"' : '';
-            img += imageName ? ' onclick="angular.element(this).scope().content.openPicture(\'' + imageName + '\')"' : '';
-            img += '>';
-
-            return img;
         }
     });
 }]);
