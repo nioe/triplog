@@ -231,9 +231,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 name: 'Upload Pictures',
                 icon: 'camera',
                 action: function () {
-                    showPictureUploadModal(step).then(function () {
-                       StepsService.fetchStep(tripId, stepId);
-                    });
+                    if ($rootScope.isOnline) {
+                        showPictureUploadModal(step).then(function () {
+                            StepsService.fetchStep(tripId, stepId);
+                        });
+                    }
                 },
                 active: function () {
                     return false;
