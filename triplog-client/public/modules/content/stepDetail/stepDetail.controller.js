@@ -85,6 +85,10 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
             return $rootScope.isOnline;
         };
 
+        vm.setAsCoverPicture = function (pictureId) {
+            vm.editableStep.coverPicture = pictureId;
+        };
+
         vm.deletePicture = function (pictureId) {
             showModal({
                 title: 'Delete picture',

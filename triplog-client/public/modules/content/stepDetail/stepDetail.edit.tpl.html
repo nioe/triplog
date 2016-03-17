@@ -83,6 +83,7 @@
                 <div class="col-xs-12 col-sm-4">
                     <div class="picture" ng-class="{'portrait': picture.width < picture.height}" style="background-image: url('{{ picture.url }}/thumbnail');"></div>
                     <button ng-click="stepDetail.deletePicture(picture.name)" class="btn-delete">Delete</button>
+                    <button ng-click="stepDetail.setAsCoverPicture(picture.name)" class="btn-set-as-cover-picture">Set as cover picture</button>
                 </div>
                 <div class="col-xs-12 col-sm-8">
                     <!-- Picture ID -->

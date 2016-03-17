@@ -22,6 +22,19 @@
   }
 }
 
+.btn-set-as-cover-picture {
+  &:before {
+    @extend .icon;
+    @extend .icon-camera;
+    position: relative;
+    top: 1px;
+    margin-right: 5px;
+  }
+
+  @extend .btn;
+  @extend .btn-default;
+}
+
 .btn-col {
   &.right {
     text-align: right;
