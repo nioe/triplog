@@ -17,7 +17,7 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
     };
 
     vm.showGallery = function () {
-        return $rootScope.isOnline && vm.galleryPictures && vm.galleryPictures.length > 0
+        return $rootScope.isOnline && vm.galleryPictures && vm.galleryPictures.length > 0;
     };
 
     vm.templateToShow = function () {
