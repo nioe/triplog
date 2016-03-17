@@ -237,6 +237,9 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 },
                 active: function () {
                     return false;
+                },
+                disabled: function () {
+                    return !$rootScope.isOnline;
                 }
             });
 
