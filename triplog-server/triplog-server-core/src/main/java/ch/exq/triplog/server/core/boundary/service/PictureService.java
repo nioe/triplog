@@ -45,9 +45,22 @@ public class PictureService {
             return Response.status(NOT_FOUND).build();
         }
 
-        String mimeType = new MimetypesFileTypeMap().getContentType(picture);
-        return Response.ok(picture, mimeType).build();
+        return createPictureResponse(picture);
     }
+
+    @GET
+    @Path("{pictureName}/thumbnail")
+    @Produces("image/*")
+    public Response getPictureThumbnail(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) throws IOException {
+        File picture = pictureController.getPictureThumbnail(tripId, stepId, pictureName);
+
+        if (picture == null) {
+            return Response.status(NOT_FOUND).build();
+        }
+
+        return createPictureResponse(picture);
+    }
+
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -87,5 +100,10 @@ public class PictureService {
         } catch (DisplayableException e) {
             return responseController.badRequest(e);
         }
+    }
+
+    private Response createPictureResponse(File picture) {
+        String mimeType = new MimetypesFileTypeMap().getContentType(picture);
+        return Response.ok(picture, mimeType).build();
     }
 }

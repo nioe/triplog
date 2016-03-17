@@ -5,6 +5,8 @@ import ch.exq.triplog.server.common.dto.Picture;
 import ch.exq.triplog.server.common.dto.StepDetail;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.PictureDAO;
+import ch.exq.triplog.server.util.config.Config;
+import ch.exq.triplog.server.util.config.SystemProperty;
 import ch.exq.triplog.server.util.picture.PictureSize;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
@@ -12,6 +14,7 @@ import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -30,17 +33,37 @@ public class PictureController {
     private Logger logger;
     private StepController stepController;
     private PictureDAO pictureDAO;
+    private SystemProperty thumbnailSize;
 
     @Inject
-    public PictureController(final Logger logger, final StepController stepController, final PictureDAO pictureDAO) {
+    public PictureController(
+            final Logger logger,
+            final StepController stepController,
+            final PictureDAO pictureDAO,
+            @Config(key = "triplog.media.thumbnail.size", description = "The size of the thumbnail picture in Pixel", fallback = "300") final SystemProperty thumbnailSize
+    ) {
         this.logger = logger;
         this.stepController = stepController;
         this.pictureDAO = pictureDAO;
+        this.thumbnailSize = thumbnailSize;
     }
 
     public File getPicture(String tripId, String stepId, String pictureName) {
         File picture = pictureDAO.getPicturePath(tripId, stepId, pictureName).toFile();
         return picture.exists() ? picture : null;
+    }
+
+    public File getPictureThumbnail(String tripId, String stepId, String pictureName) throws IOException {
+        File picture = getPicture(tripId, stepId, pictureName);
+
+        if (picture == null) {
+            return null;
+        }
+
+        final File thumbnail = new File(pictureName);
+        Thumbnails.of(picture).size(thumbnailSize.getInteger(), thumbnailSize.getInteger()).toFile(thumbnail);
+
+        return thumbnail;
     }
 
     public String savePicture(String tripId, String stepId, String pictureName, byte[] content) throws IOException, DisplayableException {
