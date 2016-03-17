@@ -9,7 +9,6 @@ describe('Sync service', function () {
         localStorage,
         processQueue,
         LOCAL_STORAGE_KEYS,
-        EVENT_NAMES,
         REST_URL_PREFIX,
         $httpBackend;
 
@@ -27,13 +26,12 @@ describe('Sync service', function () {
         $provide.value('localStorageService', localStorageService);
     }));
 
-    beforeEach(inject(function (_$rootScope_, _$log_, _SyncService_, _LocalData_, _LOCAL_STORAGE_KEYS_, _EVENT_NAMES_, _REST_URL_PREFIX_, _$httpBackend_) {
+    beforeEach(inject(function (_$rootScope_, _$log_, _SyncService_, _LocalData_, _LOCAL_STORAGE_KEYS_, _REST_URL_PREFIX_, _$httpBackend_) {
         $rootScope = _$rootScope_;
         $log = _$log_;
         service = _SyncService_;
         LocalData = _LocalData_;
         LOCAL_STORAGE_KEYS = _LOCAL_STORAGE_KEYS_;
-        EVENT_NAMES = _EVENT_NAMES_;
         REST_URL_PREFIX = _REST_URL_PREFIX_;
         $httpBackend = _$httpBackend_;
     }));
