@@ -11,9 +11,9 @@
     <div class="triplog-text" marked="stepDetail.step.stepText"></div>
 </article>
 
-<triplog-map gps-points="stepDetail.step.gpsPoints" pictures="stepDetail.galleryPictures" ng-if="stepDetail.showMap()"></triplog-map>
+<triplog-map ng-if="stepDetail.showMap()" gps-points="stepDetail.step.gpsPoints" pictures="stepDetail.galleryPictures"></triplog-map>
 
-<triplog-gallery ng-if="stepDetail.galleryPictures && stepDetail.galleryPictures.length > 0" pictures="stepDetail.galleryPictures"></triplog-gallery>
+<triplog-gallery ng-if="stepDetail.showGallery()" pictures="stepDetail.galleryPictures"></triplog-gallery>
 
 <timestamps model="stepDetail.step"></timestamps>
 

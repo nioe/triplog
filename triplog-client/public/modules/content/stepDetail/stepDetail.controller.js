@@ -16,6 +16,10 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
         return $rootScope.isOnline && vm.step.gpsPoints && vm.step.gpsPoints.length > 0;
     };
 
+    vm.showGallery = function () {
+        return $rootScope.isOnline && vm.galleryPictures && vm.galleryPictures.length > 0
+    };
+
     vm.templateToShow = function () {
         return vm.editMode ? 'stepDetail.edit.tpl.html' : 'stepDetail.view.tpl.html';
     };
