@@ -42,7 +42,7 @@ public class PictureService {
         File picture = pictureController.getPicture(tripId, stepId, pictureName);
 
         if (picture == null) {
-            throw new WebApplicationException("Picture could not be found.", 404);
+            return Response.status(NOT_FOUND).build();
         }
 
         String mimeType = new MimetypesFileTypeMap().getContentType(picture);
@@ -65,7 +65,7 @@ public class PictureService {
             String pictureName = pictureController.savePicture(tripId, stepId, attachment.getName(), attachment.getContent());
             return Response.created(URI.create(resourceController.getPictureUrl(tripId, stepId, pictureName))).build();
         } catch (IllegalArgumentException ex) {
-            throw new WebApplicationException(ex.getMessage(), ex, 404);
+            return Response.status(NOT_FOUND).entity(ex.getMessage()).build();
         } catch (IOException ex) {
             throw new WebApplicationException("Picture could not be saved.", ex, 500);
         } catch (DisplayableException e) {
@@ -81,7 +81,7 @@ public class PictureService {
             pictureController.delete(tripId, stepId, pictureName);
             return Response.ok().build();
         } catch (IllegalArgumentException ex) {
-            throw new WebApplicationException(ex.getMessage(), ex, 404);
+            return Response.status(NOT_FOUND).entity(ex.getMessage()).build();
         } catch (IOException ex) {
             throw new WebApplicationException("Picture could not be deleted.", ex, 500);
         } catch (DisplayableException e) {
