@@ -48,7 +48,7 @@ The server application is reading the configuration from system properties set i
 |triplog.admin.password|The admin password which is used to add, delete or update content|password|
 |triplog.admin.user|The admin username which is used to add, delete or update content|admin|
 |triplog.media.path|Path on server where pictures are stored|-|
-|triplog.media.thumbnail.size|The size of the thumbnail picture in Pixel|300|
+|triplog.media.thumbnail.size|The size of the thumbnail picture in Pixel|500|
 |triplog.mongodb.dbname|The database name where TripLog stores its data|triplog|
 |triplog.mongodb.host|The MongoDB server hostname|localhost|
 |triplog.mongodb.password|The MongoDB password|-|

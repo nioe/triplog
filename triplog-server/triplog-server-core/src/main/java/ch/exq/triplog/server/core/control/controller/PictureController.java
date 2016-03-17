@@ -40,7 +40,7 @@ public class PictureController {
             final Logger logger,
             final StepController stepController,
             final PictureDAO pictureDAO,
-            @Config(key = "triplog.media.thumbnail.size", description = "The size of the thumbnail picture in Pixel", fallback = "300") final SystemProperty thumbnailSize
+            @Config(key = "triplog.media.thumbnail.size", description = "The size of the thumbnail picture in Pixel", fallback = "500") final SystemProperty thumbnailSize
     ) {
         this.logger = logger;
         this.stepController = stepController;

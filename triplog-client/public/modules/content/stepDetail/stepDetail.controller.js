@@ -123,11 +123,22 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
             var editableStep = angular.copy(vm.step);
             editableStep.fromDate = new Date(vm.step.fromDate);
             editableStep.toDate = new Date(vm.step.toDate);
-            editableStep.coverPicture = vm.step.coverPicture ? vm.step.coverPicture.substr(vm.step.coverPicture.lastIndexOf('/') + 1) : undefined;
+            editableStep.coverPicture = getCoverPictureIdFromFullUrl(vm.step.coverPicture);
             editableStep.gpsPoints = JSON.stringify(vm.step.gpsPoints);
             editableStep.published = vm.step.published ? new Date(vm.step.published) : undefined;
 
             return editableStep;
+        }
+
+        function getCoverPictureIdFromFullUrl(coverPictureUrl) {
+            if (coverPictureUrl) {
+                var pathParts = coverPictureUrl.split('/');
+                if (pathParts.length > 1) {
+                    return pathParts[pathParts.length - 2];
+                }
+            }
+
+            return undefined;
         }
 
         function createSelectableCountries() {

@@ -50,7 +50,7 @@ public class PictureLinkFilter implements ContainerResponseFilter {
         String baseUri = uriInfo.getBaseUri().toString();
 
         if (step.getCoverPicture() != null) {
-            step.setCoverPicture(baseUri + resourceController.getPictureUrl(step.getTripId(), step.getStepId(), step.getCoverPicture()));
+            step.setCoverPicture(baseUri + resourceController.getPictureThumbnailUrl(step.getTripId(), step.getStepId(), step.getCoverPicture()));
         }
 
         if (step instanceof StepDetail) {
