@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
+function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE, EVENT_NAMES) {
 
     var polyline;
 
@@ -20,7 +20,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
 
             addFullScreenControl(map);
             addGpsPoints(map, scope.gpsPoints);
-            addPictures(map, scope.pictures, scope);
+            addPictures(map, scope.pictures);
 
             var coveredDistance = calcDistance();
             console.log('coveredDistance', coveredDistance.distance + ' ' + coveredDistance.unit);
@@ -93,7 +93,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
         map.fitBounds(polyline.getBounds());
     }
 
-    function addPictures(map, pictures, scope) {
+    function addPictures(map, pictures) {
         if (pictures && pictures.length > 0) {
             var pictureLayer = L.mapbox.featureLayer();
 
@@ -113,7 +113,7 @@ function TriplogMapDirective(MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE) {
             map.addLayer(clusterGroup);
 
             pictureLayer.on('click', function(e) {
-                scope.$emit('triplogOpenPicture', e.layer.feature.properties.pictureName);
+                $rootScope.$broadcast(EVENT_NAMES.triplogOpenPicture, e.layer.feature.properties.pictureName);
             });
         }
     }

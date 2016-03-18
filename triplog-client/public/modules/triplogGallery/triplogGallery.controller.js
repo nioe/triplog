@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function TriplogGalleryController($rootScope, Lightbox) {
+function TriplogGalleryController($scope, Lightbox, EVENT_NAMES) {
 
     var vm = this;
 
@@ -11,7 +11,7 @@ function TriplogGalleryController($rootScope, Lightbox) {
         Lightbox.openModal(vm.pictures, index);
     };
 
-    $rootScope.$on('triplogOpenPicture', function (e, pictureName) {
+    $scope.$on(EVENT_NAMES.triplogOpenPicture, function (e, pictureName) {
         var pictureIndex = getIndexByPictureName(pictureName);
 
         if (pictureIndex >= 0) {

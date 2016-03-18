@@ -10,10 +10,6 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
-    vm.openPicture = function (imageName) {
-        $rootScope.$emit('triplogOpenPicture', imageName);
-    };
-
     createNavigation();
 
     // React on state changes
@@ -60,6 +56,10 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
     vm.itemCountInProcessQueue = function () {
         return ProcessQueue.size();
+    };
+
+    vm.openPicture = function (imageName) {
+        $rootScope.$broadcast(EVENT_NAMES.triplogOpenPicture, imageName);
     };
 
     /************************************** Private Functions **************************************/

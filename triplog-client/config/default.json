@@ -8,7 +8,8 @@
     "loginStateChanged": "loginStateChanged",
     "processQueueNewElementEnqueued": "processQueueNewElementEnqueued",
     "syncServiceItemsSynced": "syncServiceItemsSynced",
-    "localStorageUpdated": "localStorageUpdated"
+    "localStorageUpdated": "localStorageUpdated",
+    "triplogOpenPicture": "triplogOpenPicture"
   },
   "LOCAL_STORAGE_KEYS": {
     "processQueue": "processQueue",
