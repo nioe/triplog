@@ -3,7 +3,7 @@
 module.exports = StepDetailController;
 
 // @ngInject
-function StepDetailController($rootScope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, EVENT_NAMES) {
+function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, EVENT_NAMES) {
     var vm = this,
         countries = require('./countries.json');
 
@@ -25,7 +25,7 @@ function StepDetailController($rootScope, $state, loadStepFromLocalStorage, Loca
     };
 
     // Reload step into memory if local storage changed
-    $rootScope.$on(EVENT_NAMES.localStorageUpdated, reloadStep);
+    $scope.$on(EVENT_NAMES.localStorageUpdated, reloadStep);
 
 
     /************************************** Private Functions **************************************/
