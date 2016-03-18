@@ -24,6 +24,21 @@ module.exports.config(['markedProvider', function (markedProvider) {
         heading: function (text, level) {
             var subLevel = level + 1;
             return '<h' + subLevel + '>' + text + '</h' + subLevel + '>';
+        },
+        image: function (href, title, text) {
+            href = href || '';
+            var thumbnailServiceRegEx = /.*\/services\/trips\/.*\/pictures\/([a-f0-9\-]{36}\.jpg)(\/thumbnail)?/i,
+                matches = thumbnailServiceRegEx.exec(href),
+                triplogPictureName = matches && matches.length > 1 ? matches[1] : undefined;
+
+            var img = '<img src="' + href + '"';
+            img += text ? ' alt="' + text + '"' : '';
+
+            if (triplogPictureName) {
+                img += ' onclick="angular.element(this).scope().content.openPicture(\'' + triplogPictureName + '\')"';
+            }
+
+            return img;
         }
     });
 }]);
