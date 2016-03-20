@@ -9,7 +9,8 @@
     "processQueueNewElementEnqueued": "processQueueNewElementEnqueued",
     "syncServiceItemsSynced": "syncServiceItemsSynced",
     "localStorageUpdated": "localStorageUpdated",
-    "triplogOpenPicture": "triplogOpenPicture"
+    "triplogOpenPicture": "triplogOpenPicture",
+    "showLoginModal": "showLoginModal"
   },
   "LOCAL_STORAGE_KEYS": {
     "processQueue": "processQueue",

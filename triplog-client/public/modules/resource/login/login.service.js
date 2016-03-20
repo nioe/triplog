@@ -17,7 +17,7 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
                     return checkLocalStorageIfUserHasBeenLoggedInBefore(username);
                 }
 
-                $q.reject(error);
+                return $q.reject(error);
             });
         } else {
             return checkLocalStorageIfUserHasBeenLoggedInBefore(username);

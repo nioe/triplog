@@ -1,0 +1,40 @@
+<div class="triplog-modal-header">
+    <h3>Login</h3>
+</div>
+
+<div class="triplog-modal-body">
+    <p>Your session has expired. Please login again.</p>
+    <p ng-show="login.errorMessage" class="bg-danger">{{login.errorMessage}}</p>
+    <form class="form-horizontal">
+        <div class="form-group" ng-class="{'has-error': login.loginError}">
+            <div class="col-xs-12">
+                <div class="input-group">
+                    <div class="input-group-addon icon-user"></div>
+                    <input type="text" class="form-control input-lg" placeholder="Username" ng-model="login.username">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': login.loginError}">
+            <div class="col-xs-12">
+                <div class="input-group">
+                    <div class="input-group-addon icon-password"></div>
+                    <input type="password" class="form-control input-lg" placeholder="Password" ng-model="login.password">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="triplog-modal-footer">
+    <div class="form-group text-center">
+        <button class="btn btn-default btn-lg"
+                ng-click="login.login()"
+                ng-disabled="!(login.username && login.password)">
+            <span class="icon-login"></span> Login
+        </button>
+        <button class="btn btn-danger btn-lg" ng-click="login.cancel()">
+            Cancel
+        </button>
+    </div>
+</div>
