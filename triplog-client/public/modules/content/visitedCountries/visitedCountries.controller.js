@@ -3,34 +3,38 @@
 module.exports = VisitedCountriesController;
 
 // @ngInject
-function VisitedCountriesController() {
+function VisitedCountriesController($http, CountryService, REST_URL_PREFIX) {
     var vm = this;
 
     vm.geoChart = {};
 
-    vm.geoChart.type = 'GeoChart';
-    vm.geoChart.data = [
-        ['Locale', 'Count', 'Percent'],
-        ['Germany', 22, 23],
-        ['United States', 34, 11],
-        ['Brazil', 42, 11],
-        ['Canada', 57, 32],
-        ['France', 6, 9],
-        ['RU', 72, 3]
-    ];
+    loadVisitedCoutries().then(reviseVisitedCountries).then(drawChart);
 
+    /************************************** Private Functions **************************************/
+    function loadVisitedCoutries() {
+        return $http.get(REST_URL_PREFIX + '/visited-countries');
+    }
 
-    vm.geoChart.options = {
-        chartArea: {left: 10, top: 10, bottom: 0, height: '100%'},
-        colorAxis: {colors: ['#aec7e8', '#1f77b4']},
-        displayMode: 'regions',
-        backgroundColor: { fill:'transparent' }
-    };
+    function reviseVisitedCountries(response) {
+        var visitedCountries = response.data.map(function (entry) {
+            entry[0] = CountryService.getCountryNameFor(entry[0]);
+            return entry;
+        });
 
-    vm.geoChart.formatters = {
-        number: [{
-            columnNum: 1,
-            pattern: '$ #,##0.00'
-        }]
-    };
+        visitedCountries.unshift(['Locale', 'Steps which lead through this country']);
+
+        return visitedCountries;
+    }
+
+    function drawChart(visitedCountries) {
+        vm.geoChart.type = 'GeoChart';
+        vm.geoChart.data = visitedCountries;
+
+        vm.geoChart.options = {
+            chartArea: {left: 10, top: 10, bottom: 0, height: '100%'},
+            colorAxis: {colors: ['#aec7e8', '#1f77b4']},
+            displayMode: 'regions',
+            backgroundColor: { fill:'transparent' }
+        };
+    }
 }

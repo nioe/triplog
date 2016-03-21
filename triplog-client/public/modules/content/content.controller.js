@@ -77,6 +77,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
         createTripOverviewNavBarEntry();
         createStepOverviewNavBarEntry();
         createStepDetailNavBarEntry();
+        createVisitedCountriesNavBarEntry();
     }
 
     function createTripOverviewNavBarEntry() {
@@ -249,12 +250,31 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             });
 
             vm.navBarEntries.push({
-                id: tripId,
+                id: stepId,
                 name: step.stepName,
                 icon: 'step',
                 entries: controls
             });
         }
+    }
+
+    function createVisitedCountriesNavBarEntry() {
+        vm.navBarEntries.push({
+            id: 'visitedCountries',
+            name: 'Visited Countries',
+            icon: 'visited-countries',
+            action: function () {
+                if ($rootScope.isOnline) {
+                    $state.go('content.visitedCountries');
+                }
+            },
+            active: function () {
+                return $state.current.name === 'content.visitedCountries';
+            },
+            disabled: function () {
+                return !$rootScope.isOnline;
+            }
+        });
     }
 
     function indexOfTripWithId(tripId) {

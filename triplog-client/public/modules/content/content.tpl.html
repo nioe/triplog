@@ -19,10 +19,12 @@
             <ul class="nav navbar-nav">
                 <!-- Normal Link -->
                 <li ng-repeat-start="entry in content.navBarEntries"
-                    ng-class="{ active: entry.active() }"
+                    ng-class="{ active: entry.active(), disabled: entry.disabled && entry.disabled() }"
                     ng-if="!entry.entries">
 
-                    <a href ng-click="entry.action()"><span class="icon-{{ entry.icon }}"></span> {{ entry.name }}</a>
+                    <a href ng-click="content.closeNavigation(); entry.action()">
+                        <span class="icon-{{ entry.icon }}"></span> {{ entry.name }}
+                    </a>
                 </li>
 
                 <!-- Dropdown -->
