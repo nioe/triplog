@@ -58,7 +58,17 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
 
         vm.getCountryNameFor = CountryService.getCountryNameFor;
 
+        vm.prettifyGpsPoints = function () {
+            try {
+                vm.editableStep.gpsPoints = JSON.stringify(JSON.parse(vm.editableStep.gpsPoints), undefined, 4);
+                vm.gpsPointJsonInvalid = false;
+            } catch (error) {
+                vm.gpsPointJsonInvalid = true;
+            }
+        };
+
         vm.reset = function () {
+            vm.gpsPointJsonInvalid = false;
             vm.editableStep = createEditableStep();
         };
 
@@ -73,6 +83,10 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
             }).then(function () {
                 $state.go('content.stepOfTrip', {edit: undefined});
             });
+        };
+
+        vm.saveButtonDisabled = function () {
+            return vm.gpsPointJsonInvalid;
         };
 
         vm.saveStep = function () {
@@ -129,7 +143,7 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
             editableStep.fromDate = new Date(vm.step.fromDate);
             editableStep.toDate = new Date(vm.step.toDate);
             editableStep.coverPicture = getCoverPictureIdFromFullUrl(vm.step.coverPicture);
-            editableStep.gpsPoints = JSON.stringify(vm.step.gpsPoints);
+            editableStep.gpsPoints = JSON.stringify(vm.step.gpsPoints, undefined, 4);
             editableStep.published = vm.step.published ? new Date(vm.step.published) : undefined;
 
             return editableStep;

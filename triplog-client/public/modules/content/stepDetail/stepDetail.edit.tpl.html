@@ -47,10 +47,16 @@
     </div>
 
     <!-- GPS Points -->
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': stepDetail.gpsPointJsonInvalid}">
         <label for="gps-points" class="col-xs-12 col-sm-2 control-label">GPS Points</label>
         <div class="col-xs-12 col-sm-10">
-            <textarea class="form-control" id="gps-points" rows="10" ng-model="stepDetail.editableStep.gpsPoints"></textarea>
+            <textarea class="form-control fixed-width-font"
+                      id="gps-points"
+                      rows="10"
+                      ng-model="stepDetail.editableStep.gpsPoints"
+                      ng-blur="stepDetail.prettifyGpsPoints()">
+            </textarea>
+            <p class="small text-danger" ng-show="stepDetail.gpsPointJsonInvalid">No valid JSON!</p>
         </div>
     </div>
 
@@ -153,7 +159,7 @@
         </div>
         <div class="col-xs-8 col-sm-7 btn-col right">
             <button ng-click="stepDetail.cancelEdit()" class="btn-cancel">Cancel</button>
-            <button ng-click="stepDetail.saveStep()" class="btn-ok">Save</button>
+            <button ng-disabled="stepDetail.saveButtonDisabled()" ng-click="stepDetail.saveStep()" class="btn-ok">Save</button>
         </div>
     </div>
 </form>
