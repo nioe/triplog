@@ -12,9 +12,9 @@ module.exports = angular.module('login', [
     require('./loginModal.tpl.html')
 ]);
 
-module.exports.config(function ($httpProvider) {
+module.exports.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push('unauthorizedHttpInterceptor');
-});
+}]);
 
 module.exports.run(['$rootScope', 'showLoginModal', 'EVENT_NAMES', function ($rootScope, showLoginModal, EVENT_NAMES) {
     $rootScope.$on(EVENT_NAMES.showLoginModal, showLoginModal);
