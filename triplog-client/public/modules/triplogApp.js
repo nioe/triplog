@@ -73,8 +73,18 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controller: require('./content/stepOverview/stepOverview.controller'),
             controllerAs: 'stepOverview',
             resolve: {
-                loadTripFromLocalStorage: function (checkLoginBefore, LocalData, $stateParams) {
-                    return LocalData.getTrip.bind(null, $stateParams.tripId);
+                loadTripFromLocalStorage: function (checkLoginBefore, LocalData, $stateParams, $q) {
+                    return function () {
+                        return $q(function (resolve, reject) {
+                            var trip = LocalData.getTrip($stateParams.tripId);
+
+                            if (trip) {
+                                resolve(trip);
+                            } else {
+                                reject('Trip not found!');
+                            }
+                        });
+                    };
                 }
             }
         })
@@ -187,13 +197,12 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
         });
 
         $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-            console.error('State Change Error:', error);
-
             switch (error.status) {
                 case 0:
                     AlertService.info('Oops, there was a problem loading the data. Please try again later.');
                     break;
                 case 404:
+                    event.preventDefault();
                     $state.go('content.notFound', {}, {reset: true});
                     break;
                 default:

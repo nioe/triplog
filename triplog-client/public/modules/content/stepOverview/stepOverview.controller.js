@@ -5,23 +5,32 @@ module.exports = StepOverviewController;
 // @ngInject
 function StepOverviewController($rootScope, $scope, $state, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
     var vm = this;
-
-    reloadTrip();
-    initEditableTrip();
-
-    // Reload trips into memory if local storage changed
-    $scope.$on(EVENT_NAMES.localStorageUpdated, reloadTrip);
-
-    vm.isUnread = LocalData.isStepUnread;
-
-    vm.templateToShow = function () {
-        return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
-    };
+    
+    reloadTrip().then(initController, goToContentNotFoundPage);
 
     /************************************** Private Functions **************************************/
     function reloadTrip() {
-        vm.trip = loadTripFromLocalStorage();
-        $state.current.data.pageTitle = vm.trip.displayName;
+        return loadTripFromLocalStorage().then(function (trip) {
+            vm.trip = trip;
+            $state.current.data.pageTitle = vm.trip.displayName;
+        });
+    }
+
+    function initController() {
+        initEditableTrip();
+
+        // Reload trips into memory if local storage changed
+        $scope.$on(EVENT_NAMES.localStorageUpdated, reloadTrip);
+
+        vm.isUnread = LocalData.isStepUnread;
+
+        vm.templateToShow = function () {
+            return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
+        };
+    }
+
+    function goToContentNotFoundPage() {
+        $state.go('content.notFound');
     }
 
     function initEditableTrip() {

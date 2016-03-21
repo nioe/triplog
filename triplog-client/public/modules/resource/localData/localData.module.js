@@ -3,7 +3,7 @@
 module.exports = angular.module('localData', [
     'ngResource',
     'LocalStorageModule',
-    require('modules/config').name,
+    require('modules/config').name
 ]);
 
 module.exports.config(['localStorageServiceProvider', function (localStorageServiceProvider) {
