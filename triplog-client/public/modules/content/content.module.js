@@ -6,6 +6,7 @@ module.exports = angular.module('content', [
     require('modules/trip').name,
     require('modules/stepOverview').name,
     require('modules/stepDetail').name,
+    require('modules/visitedCountries').name,
     require('modules/login').name,
     require('modules/config').name,
     require('modules/contentData').name,

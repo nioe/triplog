@@ -111,6 +111,15 @@ triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvide
             controller: require('./content/login/login.controller'),
             controllerAs: 'login'
         })
+        .state('content.visitedCountries', {
+            url: '/visited-countries',
+            templateUrl: require('./content/visitedCountries/visitedCountries.tpl.html'),
+            data: {
+                pageTitle: 'Visited Countries'
+            },
+            controller: require('./content/visitedCountries/visitedCountries.controller'),
+            controllerAs: 'visitedCountries'
+        })
         .state('content.notFound', {
             templateUrl: require('./content/error/notFound.tpl.html'),
             data: {
