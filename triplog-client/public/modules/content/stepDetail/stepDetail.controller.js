@@ -3,9 +3,8 @@
 module.exports = StepDetailController;
 
 // @ngInject
-function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, EVENT_NAMES) {
-    var vm = this,
-        countries = require('./countries.json');
+function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, CountryService, EVENT_NAMES) {
+    var vm = this;
 
     reloadStep();
     initEditableStep();
@@ -57,9 +56,7 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
             createSelectableCountries();
         };
 
-        vm.getCountryNameFor = function (isoCode) {
-            return countries[isoCode];
-        };
+        vm.getCountryNameFor = CountryService.getCountryNameFor;
 
         vm.reset = function () {
             vm.editableStep = createEditableStep();
@@ -150,7 +147,7 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
         }
 
         function createSelectableCountries() {
-            vm.selectableCountries = angular.copy(countries);
+            vm.selectableCountries = CountryService.getAllCountries();
             vm.editableStep.traveledCountries.forEach(function (isoCode) {
                 delete vm.selectableCountries[isoCode];
             });
