@@ -10,9 +10,10 @@ import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/trips")
 public class TripService {
@@ -34,7 +35,7 @@ public class TripService {
 
     @GET
     @Path("{tripId : [0-9a-z-]*}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     public Response getTrip(@PathParam("tripId") String tripId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
         Trip trip = tripController.getTripById(tripId, authTokenHandler.isValidToken(xAuthToken, true));
         if (trip == null) {
@@ -46,7 +47,7 @@ public class TripService {
 
     @GET
     @Path("{tripId : [0-9a-z-]*}/gpsPoints")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     public Response getAllGpsPointsOfTrip(@PathParam("tripId") String tripId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
         List<GpsPoint> gpsPoints = tripController.getAllGpsPointsOfTrip(tripId, authTokenHandler.isValidToken(xAuthToken, true));
         if (gpsPoints == null) {
@@ -57,14 +58,14 @@ public class TripService {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     public Response getAllTrips(@HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
         return Response.ok(tripController.getAllTrips(authTokenHandler.isValidToken(xAuthToken, true))).build();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     @AuthenticationRequired
     public Response createTrip(Trip trip) {
         try {
@@ -76,8 +77,8 @@ public class TripService {
 
     @PUT
     @Path("{tripId : [0-9a-z-]*}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     @AuthenticationRequired
     public Response updateTrip(@PathParam("tripId") String tripId, Trip trip) {
         try {

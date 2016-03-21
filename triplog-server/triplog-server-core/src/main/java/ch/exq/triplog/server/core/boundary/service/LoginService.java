@@ -13,8 +13,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -41,7 +42,7 @@ public class LoginService {
 
     @POST
     @Path("/login")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     public Response login(@Context final HttpServletRequest request) {
         if (adminAuthentication.isValid(request)) {
             logger.info("Successful admin login");
@@ -54,7 +55,7 @@ public class LoginService {
 
     @POST
     @Path("/logout")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     @AuthenticationRequired
     public Response logout(@Context final HttpServletRequest request) {
         authTokenHandler.removeToken(request.getHeader(HttpHeader.X_AUTH_TOKEN.key()));
@@ -64,7 +65,7 @@ public class LoginService {
 
     @POST
     @Path("/tokenValidator")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     @AuthenticationRequired
     public Response validateToken() {
         return Response.ok().build();

@@ -28,6 +28,16 @@ public class StepDAO {
         this.db = db;
     }
 
+    public List<StepDBObject> getAllSteps() {
+        ArrayList<StepDBObject> steps = new ArrayList<>();
+        DBCursor cursor = db.getStepCollection().find();
+        while (cursor.hasNext()) {
+            steps.add(StepDBObject.from(cursor.next()));
+        }
+
+        return steps;
+    }
+
     public List<StepDBObject> getAllStepsOfTrip(String tripId) {
         ArrayList<StepDBObject> steps = new ArrayList<>();
         DBCursor cursor = db.getStepCollection().find(new BasicDBObject(StepDBObject.TRIP_ID, tripId));

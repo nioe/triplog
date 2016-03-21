@@ -9,8 +9,9 @@ import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/trips/{tripId : [0-9a-z-]*}/steps")
 public class StepService {
@@ -32,7 +33,7 @@ public class StepService {
 
     @GET
     @Path("{stepId : [0-9a-z-]*}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     public Response getStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
         StepDetail stepDetail = stepController.getStep(tripId, stepId, authTokenHandler.isValidToken(xAuthToken, true));
 
@@ -44,14 +45,14 @@ public class StepService {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     public Response getAllStepsOfTrip(@PathParam("tripId") String tripId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
         return Response.ok(stepController.getAllStepsOfTrip(tripId, authTokenHandler.isValidToken(xAuthToken, true))).build();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     @AuthenticationRequired
     public Response createStep(@PathParam("tripId") String tripId, StepDetail stepDetail) {
         stepDetail.setTripId(tripId);
@@ -65,8 +66,8 @@ public class StepService {
 
     @PUT
     @Path("{stepId : [0-9a-z-]*}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
     @AuthenticationRequired
     public Response updateStep(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, StepDetail stepDetail) {
         try {
