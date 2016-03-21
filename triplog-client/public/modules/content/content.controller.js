@@ -13,7 +13,6 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     createNavigation();
 
     // React on state changes
-    $rootScope.$on('$stateChangeStart', vm.closeNavigation);
     $rootScope.$on('$stateChangeSuccess', createNavigation);
     $rootScope.$on(EVENT_NAMES.loginStateChanged, createNavigation);
 
@@ -38,6 +37,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
         if (isDeviceWithSideNavigation() && !vm.navigationIsShown) {
             vm.navigationIsShown = true;
         }
+    };
+
+    vm.login = function () {
+        vm.closeNavigation();
+        $state.go('content.login');
     };
 
     vm.logout = function () {
@@ -216,7 +220,6 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                     showModal(deleteStepModalData).then(function () {
-                        // TODO check undefined errors when deleting trip (wrong controller active)
                         $state.go('content.stepOverview', {tripId: tripId}, {reload: true});
                         StepsService.deleteStep(tripId, stepId);
                     });
