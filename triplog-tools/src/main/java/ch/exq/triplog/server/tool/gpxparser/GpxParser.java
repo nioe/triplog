@@ -4,6 +4,8 @@ import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.tool.gpxparser.gpx.GpxType;
 import ch.exq.triplog.server.tool.gpxparser.gpx.TrkType;
 import ch.exq.triplog.server.tool.gpxparser.gpx.TrksegType;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
@@ -16,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.*;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
@@ -60,6 +64,7 @@ public class GpxParser {
 
         return root;
     }
+
     private static List<GpsPoint> getGpsPoints(GpxType root) {
         List<GpsPoint> gpsPoints = new ArrayList<>();
         for (TrkType trk : root.getTrk()) {
@@ -75,9 +80,19 @@ public class GpxParser {
 
     private static void createJsonFile(File gpxFile, List<GpsPoint> gpsPoints) {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(
+                mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                        .withFieldVisibility(ANY)
+                        .withGetterVisibility(NONE)
+                        .withSetterVisibility(NONE)
+                        .withCreatorVisibility(NONE)
+        );
+
+
         mapper.registerModule(new JaxbAnnotationModule());
 
-        String jsonFileName = gpxFile.getParent() + File.separator + gpxFile.getName().substring(0, gpxFile.getName().lastIndexOf(".")) + ".json";
+        String parent = gpxFile.getParent();
+        String jsonFileName = (parent != null ? parent + File.separator : "") + gpxFile.getName().substring(0, gpxFile.getName().lastIndexOf(".")) + ".json";
 
         try {
             mapper.writeValue(new File(jsonFileName), gpsPoints);
