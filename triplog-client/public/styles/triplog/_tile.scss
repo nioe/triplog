@@ -16,6 +16,10 @@
     margin: 5px;
     padding: 20px;
 
+    @media (max-width: $screen-xs-max) {
+      padding: 12px;
+    }
+
     .cover-picture {
       background: no-repeat center;
       background-size: cover;

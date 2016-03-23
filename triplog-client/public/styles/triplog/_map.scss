@@ -11,4 +11,10 @@
     border: 3px solid rgba(255, 255, 255, .8);
     border-radius: 5px;
   }
+
+  .leaflet {
+    &-top, &-bottom, &-left, &-right {
+      z-index: 1;
+    }
+  }
 }

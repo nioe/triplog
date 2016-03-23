@@ -1,7 +1,8 @@
 .navbar-default {
   background-color: $bgDefault;
   border-color: $bgHighlight;
-  opacity: 0.95;
+  opacity: 0.9;
+  z-index: 10;
 
   &.ios-status-bar {
     padding-top: $ios-status-bar-height;
@@ -88,16 +89,34 @@
   }
   .navbar-toggle {
     border-color: $colDefault;
+
     &:hover, &:focus {
       background-color: $bgDefault;
     }
 
     &.active {
-      background-color: $bgHighlight;
+      .icon-bar {
+        &:nth-child(2) {
+          @include transform(translateY(6px) rotate(405deg));
+        }
+
+        &:nth-child(3) {
+          visibility: hidden;
+        }
+
+        &:nth-child(4) {
+          @include transform(translateY(-6px) rotate(-405deg));
+        }
+      }
     }
 
     .icon-bar {
       background-color: $colDefault;
+      transition: .6s ease;
+
+      &:nth-child(3) {
+        transition: none;
+      }
     }
   }
 
