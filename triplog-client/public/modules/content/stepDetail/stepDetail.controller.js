@@ -33,13 +33,7 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
         vm.galleryPictures = vm.step.pictures.filter(function (picture) {
             return picture.shownInGallery;
         });
-
         $state.current.data.pageTitle = vm.step.stepName;
-        $state.current.data.link = {
-            title: vm.step.stepName,
-            description: vm.step.stepLead,
-            image: vm.step.coverPicture
-        };
     }
 
     function initEditableStep() {
