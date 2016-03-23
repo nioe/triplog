@@ -262,7 +262,7 @@ public class StepController {
                     PictureDBObject changedPicture = matchingChangedPictures.get(0);
                     pictures.add(new PictureDBObject(
                             currentPicture.getName(),
-                            currentPicture.getLocation(),
+                            changedPicture.getLocation(),
                             changedPicture.getCaption(),
                             changedPicture.getCaptureDate(),
                             currentPicture.getWidth(),
