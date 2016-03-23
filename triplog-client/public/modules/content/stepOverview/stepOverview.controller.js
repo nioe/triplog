@@ -12,7 +12,13 @@ function StepOverviewController($rootScope, $scope, $state, loadTripFromLocalSto
     function reloadTrip() {
         return loadTripFromLocalStorage().then(function (trip) {
             vm.trip = trip;
+
             $state.current.data.pageTitle = vm.trip.displayName;
+            $state.current.data.link = {
+                title: vm.trip.tripName,
+                description: vm.trip.tripLead,
+                image: vm.trip.coverPicture
+            };
         });
     }
 

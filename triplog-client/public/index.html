@@ -4,14 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="bros.pics">
 
     <meta name="description" content="Two guys who travel the world. Be part of our adventures.">
     <meta name="robots" content="%robots_placeholder%">
     <meta name="google" content="notranslate">
-    <meta name="keywords" content="travel, bros, pictures, around the world, world journey, trip, gps, maps, blog" />
+    <meta name="keywords" content="travel, bros, pictures, around the world, world journey, trip, gps, maps, blog"/>
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{ $state.current.data.link.title || 'Bros.pics' }}"/>
+    <meta property="og:description" content="{{ $state.current.data.link.description || 'Two guys who travel the world. Be part of our adventures.' }}"/>
+    <meta property="og:image" content="{{ $state.current.data.link.image || '/img/wallpapers/mountains.jpg' }}"/>
 
     <link rel="stylesheet" href="css/all.css">
 
@@ -54,7 +59,9 @@
 
 
 <aside ng-cloak class="alert-container">
-    <uib-alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="alerts.splice($index, 1)" dismiss-on-timeout="5000">{{ alert.msg }}</uib-alert>
+    <uib-alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="alerts.splice($index, 1)"
+               dismiss-on-timeout="5000">{{ alert.msg }}
+    </uib-alert>
 </aside>
 
 <div ng-cloak class="page-container" ng-class="$state.current.data.transitionSelectorClass" ui-view>
