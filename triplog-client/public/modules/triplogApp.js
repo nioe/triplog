@@ -18,7 +18,9 @@ var triplogApp = angular.module('triplogApp', [
     require('modules/sync').name
 ]);
 
-triplogApp.config(function ($stateProvider, $urlRouterProvider, AnalyticsProvider, GOOGLE_ANALYTICS_TRACKING_CODE) {
+triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvider, AnalyticsProvider, GOOGLE_ANALYTICS_TRACKING_CODE) {
+
+    $locationProvider.html5Mode(true);
 
     $urlRouterProvider.when('', function ($injector) {
         var localStorageService = $injector.get('localStorageService'),

@@ -13,6 +13,14 @@
     <name>Triplog Client</name>
     <packaging>war</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>ch.exq.triplog</groupId>
+            <artifactId>triplog-client-dispatcher</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>triplog-client</finalName>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="manifest.appcache" ng-app="triplogApp">
+<html lang="en" manifest="/manifest.appcache" ng-app="triplogApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +13,7 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="travel, bros, pictures, around the world, world journey, trip, gps, maps, blog" />
 
-    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="/css/all.css">
 
     <title ng-bind="$state.current.data.pageTitle + ' | bros.pics'">bros.pics</title>
 
@@ -40,6 +40,8 @@
     <link href="img/splash-screens/ipadNonRetinaPortrait.png" media="(device-width: 768px) and (device-height: 1024px)and (-webkit-device-pixel-ratio: 1) and (orientation: portrait)" rel="apple-touch-startup-image">
     <!-- iPad non-retina landscape startup image -->
     <link href="img/splash-screens/ipadNonRetinaLandscape.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: landscape)" rel="apple-touch-startup-image">
+
+    <base href="/">
 </head>
 
 <body ng-class="animationClass">

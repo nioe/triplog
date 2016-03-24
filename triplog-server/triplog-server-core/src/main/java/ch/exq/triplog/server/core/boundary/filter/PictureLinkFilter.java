@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.core.boundary.security;
+package ch.exq.triplog.server.core.boundary.filter;
 
 import ch.exq.triplog.server.common.dto.Step;
 import ch.exq.triplog.server.common.dto.StepDetail;

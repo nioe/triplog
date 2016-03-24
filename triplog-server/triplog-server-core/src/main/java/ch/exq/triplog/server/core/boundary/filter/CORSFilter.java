@@ -1,4 +1,4 @@
-package ch.exq.triplog.server.core.boundary.security;
+package ch.exq.triplog.server.core.boundary.filter;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

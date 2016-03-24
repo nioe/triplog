@@ -1,5 +1,8 @@
-package ch.exq.triplog.server.core.boundary.security;
+package ch.exq.triplog.server.core.boundary.filter;
 
+import ch.exq.triplog.server.core.boundary.security.AuthTokenHandler;
+import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
+import ch.exq.triplog.server.core.boundary.security.NotValidTokenException;
 import ch.exq.triplog.server.core.control.controller.ResponseController;
 import ch.exq.triplog.server.util.http.RemoteIpHelper;
 import org.slf4j.Logger;
