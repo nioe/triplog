@@ -1,6 +1,7 @@
 package ch.exq.triplog.server.util.http;
 
 import javax.servlet.http.HttpServletRequest;
+
 import static ch.exq.triplog.server.util.http.HttpHeader.*;
 
 /**

@@ -5,9 +5,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static ch.exq.triplog.server.util.date.DateConverter.convertToDate;
-import static ch.exq.triplog.server.util.date.DateConverter.convertToDateTime;
-import static ch.exq.triplog.server.util.date.DateConverter.convertToString;
+import static ch.exq.triplog.server.util.date.DateConverter.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DateConverterTest {

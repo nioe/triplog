@@ -4,8 +4,6 @@ import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.tool.gpxparser.gpx.GpxType;
 import ch.exq.triplog.server.tool.gpxparser.gpx.TrkType;
 import ch.exq.triplog.server.tool.gpxparser.gpx.TrksegType;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
@@ -19,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.*;
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>

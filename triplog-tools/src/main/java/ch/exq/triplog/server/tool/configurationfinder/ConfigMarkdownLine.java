@@ -2,7 +2,8 @@ package ch.exq.triplog.server.tool.configurationfinder;
 
 import ch.exq.triplog.server.util.config.Config;
 
-import static ch.exq.triplog.server.tool.configurationfinder.ConfigMarkdown.*;
+import static ch.exq.triplog.server.tool.configurationfinder.ConfigMarkdown.COLUMN_SEPARATOR;
+import static ch.exq.triplog.server.tool.configurationfinder.ConfigMarkdown.ROW_SEPARATOR;
 
 /**
  * User: Nicolas Oeschger <noe@exq.ch>
