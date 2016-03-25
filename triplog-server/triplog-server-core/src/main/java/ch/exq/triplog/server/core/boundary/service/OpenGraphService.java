@@ -76,7 +76,7 @@ public class OpenGraphService {
 
             String image = "";
             if (trip.getCoverPicture() != null) {
-                image = trip.getCoverPicture().startsWith("http") ? trip.getCoverPicture() : uriInfo.getAbsolutePathBuilder().replacePath(trip.getCoverPicture()).build().toString();
+                image = trip.getCoverPicture().startsWith("http") ? trip.getCoverPicture() : uriInfo.getAbsolutePathBuilder().replacePath(trip.getCoverPicture().replace("thumbnail", "")).build().toString();
             }
 
             return new OgpIndex(getUrl(path, uriInfo), trip.getTripName(), trip.getTripLead(), image).toString();
