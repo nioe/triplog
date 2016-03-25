@@ -6,6 +6,7 @@ import ch.exq.triplog.server.core.boundary.service.ogp.OgpIndex;
 import ch.exq.triplog.server.core.control.controller.ResourceController;
 import ch.exq.triplog.server.core.control.controller.StepController;
 import ch.exq.triplog.server.core.control.controller.TripController;
+import com.google.common.base.Strings;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -47,6 +48,12 @@ public class OpenGraphService {
     }
 
     private String createOgpIndexFor(final String path, final UriInfo uriInfo) {
+        System.out.println("Hit service, path=" + path + ", uriInfo=" + uriInfo.getAbsolutePath());
+
+        if (Strings.isNullOrEmpty(path)) {
+            return defaultOgpIndex(path, uriInfo);
+        }
+
         final List<String> pathParts = Arrays.asList(path.replaceFirst("^/", "").split("/"));
         final String entryPoint = pathParts.get(0);
 
@@ -78,12 +85,16 @@ public class OpenGraphService {
         }
 
         // Default
+        return defaultOgpIndex(path, uriInfo);
+    }
+
+    private String defaultOgpIndex(String path, UriInfo uriInfo) {
         final String image = uriInfo.getAbsolutePathBuilder().replacePath(DEFAULT_IMAGE).build().toString();
         return new OgpIndex(getUrl(path, uriInfo), DEFAULT_TITLE, DEFAULT_DESCRIPTION, image).toString();
     }
 
     private String getUrl(final String path, final UriInfo uriInfo) {
-        final String pathToUse = "/index.html".equals(path) ? "" : path;
+        final String pathToUse = path == null || "/index.html".equals(path) ? "" : path;
         return uriInfo.getAbsolutePathBuilder().replacePath(pathToUse).build().toString();
     }
 }
