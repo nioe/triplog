@@ -1,10 +1,16 @@
 package ch.exq.triplog.filter;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,7 +19,7 @@ import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
 @WebFilter(filterName = "Html5RouterFilter", urlPatterns = {"/index.html", "/welcome", "/trips/*", "/visited-countries"})
 public class Html5RouterFilter implements Filter {
 
-    private static final Pattern CRAWLER_AGENT_PATTERN = Pattern.compile("facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet");
+    private static final Pattern CRAWLER_AGENT_PATTERN = Pattern.compile("facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet|Mozilla");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -28,7 +34,14 @@ public class Html5RouterFilter implements Filter {
 
         if (isCrawler(userAgent)) {
             // Redirect crawlers to special page with dynamic OGP (http://ogp.me) meta tags
-            ((HttpServletResponse) servletResponse).sendRedirect("/services/ogp?path=" + servletPath);
+            try {
+                final URI requestUri = new URI(request.getRequestURL().toString());
+                final URL ogpServiceUrl = new URL(UriBuilder.fromUri(requestUri).replacePath("services/ogp").queryParam("path", servletPath).build().toString());
+
+                servletResponse.getWriter().write(Resources.toString(ogpServiceUrl, Charsets.UTF_8));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         } else if (!"/index.html".equals(servletPath)) {
             servletRequest.getRequestDispatcher("/index.html").forward(servletRequest, servletResponse);
         } else {

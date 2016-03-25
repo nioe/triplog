@@ -63,7 +63,8 @@ public class OpenGraphService {
 
             // Trip
             final Trip trip = tripController.getTripById(tripId, false);
-            return new OgpIndex(getUrl(path, uriInfo), trip.getTripName(), trip.getTripLead(), trip.getCoverPicture()).toString();
+            final String image = trip.getCoverPicture().startsWith("http") ? trip.getCoverPicture() : uriInfo.getAbsolutePathBuilder().replacePath(trip.getCoverPicture()).build().toString();
+            return new OgpIndex(getUrl(path, uriInfo), trip.getTripName(), trip.getTripLead(), image).toString();
         }
 
         // Default
