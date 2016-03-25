@@ -35,8 +35,8 @@ public class Html5RouterFilter implements Filter {
         if (isCrawler(userAgent)) {
             // Redirect crawlers to special page with dynamic OGP (http://ogp.me) meta tags
             try {
-                final URI requestUri = new URI(request.getRequestURL().toString());
-                final URL ogpServiceUrl = new URL(UriBuilder.fromUri(requestUri).replacePath("services/ogp").queryParam("path", servletPath).build().toString());
+                final URI requestUri = new URI(request.getRequestURL().toString().replace("https", "http"));
+                final URL ogpServiceUrl = new URL(UriBuilder.fromUri(requestUri).port(8080).replacePath("services/ogp").queryParam("path", servletPath).build().toString());
 
                 System.out.println("Service URL: " + ogpServiceUrl);
 
