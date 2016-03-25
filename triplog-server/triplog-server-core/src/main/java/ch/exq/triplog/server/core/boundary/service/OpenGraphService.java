@@ -58,12 +58,22 @@ public class OpenGraphService {
                 final String stepId = pathParts.get(2);
                 final StepDetail step = stepController.getStep(tripId, stepId, false);
 
-                return new OgpIndex(getUrl(path, uriInfo), step.getStepName(), step.getStepLead(), resourceController.getPictureUrl(tripId, stepId, step.getCoverPicture())).toString();
+                String image = "";
+                if (step.getCoverPicture() != null) {
+                    image = uriInfo.getAbsolutePathBuilder().replacePath("services/" + resourceController.getPictureUrl(tripId, stepId, step.getCoverPicture())).build().toString();
+                }
+
+                return new OgpIndex(getUrl(path, uriInfo), step.getStepName(), step.getStepLead(), image).toString();
             }
 
             // Trip
             final Trip trip = tripController.getTripById(tripId, false);
-            final String image = trip.getCoverPicture().startsWith("http") ? trip.getCoverPicture() : uriInfo.getAbsolutePathBuilder().replacePath(trip.getCoverPicture()).build().toString();
+
+            String image = "";
+            if (trip.getCoverPicture() != null) {
+                image = trip.getCoverPicture().startsWith("http") ? trip.getCoverPicture() : uriInfo.getAbsolutePathBuilder().replacePath(trip.getCoverPicture()).build().toString();
+            }
+
             return new OgpIndex(getUrl(path, uriInfo), trip.getTripName(), trip.getTripLead(), image).toString();
         }
 
