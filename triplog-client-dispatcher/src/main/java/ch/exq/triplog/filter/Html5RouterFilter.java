@@ -19,7 +19,7 @@ import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
 @WebFilter(filterName = "Html5RouterFilter", urlPatterns = {"/index.html", "/welcome", "/trips/*", "/visited-countries"})
 public class Html5RouterFilter implements Filter {
 
-    private static final Pattern CRAWLER_AGENT_PATTERN = Pattern.compile("facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet");
+    private static final Pattern CRAWLER_AGENT_PATTERN = Pattern.compile("facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet|TelegramBot");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -31,6 +31,8 @@ public class Html5RouterFilter implements Filter {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final String userAgent = request.getHeader(USER_AGENT);
         final String servletPath = request.getServletPath();
+
+        System.out.println("UserAgent: " + userAgent);
 
         if (isCrawler(userAgent)) {
             // Redirect crawlers to special page with dynamic OGP (http://ogp.me) meta tags
