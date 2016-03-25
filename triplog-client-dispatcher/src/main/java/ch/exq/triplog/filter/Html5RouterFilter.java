@@ -35,14 +35,13 @@ public class Html5RouterFilter implements Filter {
         if (isCrawler(userAgent)) {
             // Redirect crawlers to special page with dynamic OGP (http://ogp.me) meta tags
             try {
-                final URI requestUri = new URI(request.getRequestURL().toString().replace("https", "http"));
-                final URL ogpServiceUrl = new URL(UriBuilder.fromUri(requestUri).port(8080).replacePath("services/ogp").queryParam("path", servletPath).build().toString());
-
-                System.out.println("Service URL: " + ogpServiceUrl);
+                final URI requestUri = new URI(request.getRequestURL().toString());
+                final URL ogpServiceUrl = new URL(UriBuilder.fromUri(requestUri).replacePath("services/ogp").queryParam("path", servletPath).build().toString());
 
                 servletResponse.getWriter().write(Resources.toString(ogpServiceUrl, Charsets.UTF_8));
             } catch (Exception e) {
                 e.printStackTrace();
+                servletResponse.getWriter().write("Error while creating special OGP meta tags: " + e.getMessage());
             }
         } else if (!"/index.html".equals(servletPath)) {
             servletRequest.getRequestDispatcher("/index.html").forward(servletRequest, servletResponse);

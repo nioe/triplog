@@ -48,8 +48,6 @@ public class OpenGraphService {
     }
 
     private String createOgpIndexFor(final String path, final UriInfo uriInfo) {
-        System.out.println("Hit service, path=" + path + ", uriInfo=" + uriInfo.getAbsolutePath());
-
         if (Strings.isNullOrEmpty(path)) {
             return defaultOgpIndex(path, uriInfo);
         }
