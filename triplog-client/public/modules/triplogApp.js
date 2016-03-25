@@ -22,7 +22,7 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
 
     $locationProvider.html5Mode(true);
 
-    $urlRouterProvider.when('', function ($injector) {
+    $urlRouterProvider.when('/', function ($injector) {
         var localStorageService = $injector.get('localStorageService'),
             $state = $injector.get('$state'),
             lastState = localStorageService.get('lastState');
@@ -34,11 +34,11 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
         }
     });
 
-    $urlRouterProvider.otherwise('/welcome');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
         .state('welcome', {
-            url: '/welcome',
+            url: '/',
             templateUrl: require('./welcome/welcome.tpl.html'),
             data: {
                 pageTitle: 'Welcome',
