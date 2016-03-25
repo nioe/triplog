@@ -18,11 +18,11 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("/trips")
 public class TripService {
 
+    private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
+
     private TripController tripController;
     private ResponseController responseController;
     private AuthTokenHandler authTokenHandler;
-
-    private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
 
     public TripService() {}
 
