@@ -13,7 +13,8 @@ module.exports = function (grunt) {
                 }
                 return '../modules/' + basename.replace(/\.js$/, '');
             }
-        }];
+        }],
+        rewriteRulesSnippet = require('grunt-connect-rewrite/lib/utils').rewriteRequest;
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -268,25 +269,43 @@ module.exports = function (grunt) {
             }
         },
 
-        nodemon: {
-            dev: {
-                script: 'server.js',
+        connect: {
+            options: {
+                port: 5400,
+                hostname: '*',
+                base: 'dist',
+                open: true,
+                livereload: 35729
+            },
+            rules: [
+                {from: '^/trips(/.*)?$', to: '/index.html'},
+                {from: '^/visited-countries$', to: '/index.html'}
+            ],
+            live: {
                 options: {
-                    callback: function (nodemon) {
-                        nodemon.on('config:update', function () {
-                            setTimeout(function () {
-                                require('open')('http://localhost:5400');
-                            }, 1000);
+                    middleware: function (connect, options, middlewares) {
+                        // RewriteRules support
+                        middlewares.push(rewriteRulesSnippet);
+
+                        if (!Array.isArray(options.base)) {
+                            options.base = [options.base];
+                        }
+
+                        var directory = options.directory || options.base[options.base.length - 1],
+                            serveStatic = require('serve-static');
+
+                        options.base.forEach(function (base) {
+                            // Serve static files.
+                            middlewares.push(serveStatic(base));
                         });
+
+                        // Make directory browse-able.
+                        middlewares.push(serveStatic(directory));
+
+
+                        return middlewares;
                     }
                 }
-            }
-        },
-
-        concurrent: {
-            dev: ['nodemon', 'watch'],
-            options: {
-                logConcurrentOutput: true
             }
         },
 
@@ -322,7 +341,7 @@ module.exports = function (grunt) {
     grunt.registerTask('deploy', ['dist', 'ftp_push:' + target]);
 
     grunt.registerTask('dist-pretty', ['clean', 'ngconstant:local', 'jshint', 'browserify:pretty', 'bower_concat', 'copy', 'sass:pretty']);
-    grunt.registerTask('live', ['dist-pretty', 'karma', 'concurrent:dev']);
+    grunt.registerTask('live', ['dist-pretty', 'karma', 'configureRewriteRules', 'connect:live', 'watch']);
 
     grunt.registerTask('default', ['live']);
 };
