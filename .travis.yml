@@ -9,7 +9,7 @@ before_install:
   - gem install sass
   - pip install --user codecov
   - phantomjs --version
-  - if [ ! -e travis-phantomjs/phantomjs-2.1.1-linux-x86_64/bin ]; then rm -rf travis-phantomjs; PHANTOM_EXISTS=false; fi
+  - if [ ! -e travis-phantomjs/phantomjs-2.1.1-linux-x86_64/bin ]; then rm -rf travis-phantomjs; mkdir travis-phantomjs; PHANTOM_EXISTS=false; fi
   - if [ $PHANTOM_EXISTS = 'false' ]; then wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2; fi
   - if [ $PHANTOM_EXISTS = 'false' ]; then tar -xvf $PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis-phantomjs; fi
   - export PATH=$PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
