@@ -43,11 +43,7 @@
     "load-grunt-tasks": "3.4.1",
     "open": "0.0.5",
     "phantomjs-prebuilt": "2.1.7",
-    "remapify": "2.1.0",
-
-    "grunt-concurrent": "2.2.1",
-    "grunt-express-server": "0.5.2",
-    "grunt-nodemon": "0.4.1"
+    "remapify": "2.1.0"
   },
   "private": true,
   "scripts": {
