@@ -4,6 +4,8 @@ jdk: oraclejdk8
 cache:
   directories:
     - travis-phantomjs
+    - triplog-client/node_modules
+    - triplog-client/public/bower_components
 
 before_install:
   - npm install -g npm
