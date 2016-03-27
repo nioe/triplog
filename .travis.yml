@@ -6,6 +6,8 @@ cache:
     - travis-phantomjs
     - triplog-client/node_modules
     - triplog-client/public/bower_components
+    - .autoconf
+    - $HOME/.m2
 
 before_install:
   - npm install -g npm
