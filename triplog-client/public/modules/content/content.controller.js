@@ -116,10 +116,10 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 name: 'Add trip',
                 icon: 'add',
                 action: function () {
-                    console.log('Not yet implemented... :(');
+                    $state.go('content.tripAdd');
                 },
                 active: function () {
-                    return false; //TODO Implement function
+                    return $state.current.name === 'content.tripAdd';
                 }
             });
         }

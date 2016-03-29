@@ -90,6 +90,12 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
                 }
             }
         })
+        .state('content.tripAdd', {
+            url: '/tripAdd',
+            templateUrl: require('./content/trip/trip.add.tpl.html'),
+            controller: require('./content/trip/tripAdd.controller'),
+            controllerAs: 'tripAdd'
+        })
         .state('content.step', {
             url: '/trips/:tripId/:stepId?edit',
             templateUrl: require('./content/step/step.tpl.html'),
