@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = angular.module('trip', [
+module.exports = angular.module('tripOverview', [
     'ui.router',
     require('modules/triplogTile').name,
 

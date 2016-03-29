@@ -64,7 +64,7 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
         })
         .state('content.allTrips', {
             url: '/trips',
-            templateUrl: require('./content/trip/tripOverview.tpl.html'),
+            templateUrl: require('./content/tripOverview/tripOverview.tpl.html'),
             data: {
                 pageTitle: 'Trip Overview'
             }
