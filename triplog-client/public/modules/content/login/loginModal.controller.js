@@ -15,7 +15,7 @@ function LoginModalController($rootScope, LoginService, $state, $uibModalInstanc
     vm.cancel = function () {
         LoginService.logout().then(function () {
             $uibModalInstance.close();
-            $state.go('content.allTrips', {}, {reload: true});
+            $state.go('content.tripOverview', {}, {reload: true});
         });
     };
 

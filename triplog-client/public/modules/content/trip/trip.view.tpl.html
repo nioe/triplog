@@ -1,0 +1,19 @@
+<article class="columns">
+    <div class="triplog-lead">{{ trip.trip.tripLead }}</div>
+    <div class="triplog-text" marked="trip.trip.tripText"></div>
+</article>
+
+<triplog-timeline ng-if="trip.trip.steps && trip.trip.steps.length > 0">
+    <triplog-timeline-moment
+            ng-repeat="step in trip.trip.steps"
+            moment-title="{{ step.stepName }}"
+            picture="{{ step.coverPicture }}"
+            from-date="{{ step.fromDate }}"
+            to-date="{{ step.toDate }}"
+            unread-flag="trip.isUnread(step)"
+            moment-sref="content.stepOfTrip({tripId: '{{ trip.trip.tripId }}', stepId: '{{ step.stepId }}'})">
+        {{ step.stepLead }}
+    </triplog-timeline-moment>
+</triplog-timeline>
+
+<timestamps model="trip.trip"></timestamps>

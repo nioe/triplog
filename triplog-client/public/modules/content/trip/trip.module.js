@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = angular.module('stepOverview', [
+module.exports = angular.module('trip', [
     require('modules/triplogTimeline').name,
     require('modules/modalMessage').name,
     require('modules/markdownPreview').name,
@@ -9,9 +9,9 @@ module.exports = angular.module('stepOverview', [
     require('modules/config').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./stepOverview.tpl.html'),
-    require('./stepOverview.view.tpl.html'),
-    require('./stepOverview.edit.tpl.html')
+    require('./trip.tpl.html'),
+    require('./trip.view.tpl.html'),
+    require('./trip.edit.tpl.html')
 ]);
 
-module.exports.controller('StepOverviewController', require('./stepOverview.controller'));
+module.exports.controller('TripController', require('./trip.controller'));

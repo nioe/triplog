@@ -47,7 +47,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     vm.logout = function () {
         vm.closeNavigation();
         LoginService.logout().then(function () {
-            $state.go('content.allTrips', {}, {reload: true});
+            $state.go('content.tripOverview', {}, {reload: true});
             AlertService.success('You have been successfully logged out.');
         }, function () {
             AlertService.error('There was an error during the logout process... :( Please try again.');
@@ -86,11 +86,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             name: 'Overview',
             icon: 'trip-overview',
             action: function () {
-                $state.go('content.allTrips');
+                $state.go('content.tripOverview');
             },
             divider: true,
             active: function () {
-                return $state.current.name === 'content.allTrips';
+                return $state.current.name === 'content.tripOverview';
             }
         }];
 
@@ -100,10 +100,10 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 name: trip.displayName,
                 icon: 'trip',
                 action: function () {
-                    $state.go('content.stepOverview', {tripId: trip.tripId});
+                    $state.go('content.trip', {tripId: trip.tripId});
                 },
                 active: function () {
-                    return ['content.stepOverview', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
+                    return ['content.trip', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
                         $state.params.tripId === trip.tripId;
                 }
             });
@@ -134,7 +134,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
 
     function createStepOverviewNavBarEntry() {
-        if (['content.stepOverview', 'content.stepOfTrip'].indexOf($state.current.name) !== -1) {
+        if (['content.trip', 'content.stepOfTrip'].indexOf($state.current.name) !== -1) {
             var tripId = $state.params.tripId,
                 entries = [
                     {
@@ -142,11 +142,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                         name: 'Overview',
                         icon: 'step-overview',
                         action: function () {
-                            $state.go('content.stepOverview', {tripId: tripId, edit: undefined});
+                            $state.go('content.trip', {tripId: tripId, edit: undefined});
                         },
                         divider: true,
                         active: function () {
-                            return $state.current.name === 'content.stepOverview' && !$state.params.edit;
+                            return $state.current.name === 'content.trip' && !$state.params.edit;
                         }
                     }
                 ],
@@ -221,7 +221,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                     showModal(deleteStepModalData).then(function () {
-                        $state.go('content.stepOverview', {tripId: tripId}, {reload: true});
+                        $state.go('content.trip', {tripId: tripId}, {reload: true});
                         StepsService.deleteStep(tripId, stepId);
                     });
                 },
@@ -314,10 +314,10 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             name: 'Edit Trip',
             icon: 'edit',
             action: function () {
-                $state.go('content.stepOverview', {tripId: tripId, edit: true});
+                $state.go('content.trip', {tripId: tripId, edit: true});
             },
             active: function () {
-                return $state.current.name === 'content.stepOverview' && $state.params.edit;
+                return $state.current.name === 'content.trip' && $state.params.edit;
             }
         });
 
@@ -337,7 +337,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                 showModal(deleteTripModalData).then(function () {
-                    $state.go('content.allTrips', {}, {reload: true});
+                    $state.go('content.tripOverview', {}, {reload: true});
                     TripsService.deleteTrip(tripId);
                 });
             },

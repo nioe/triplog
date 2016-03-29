@@ -12,7 +12,7 @@ function LoginController(LoginService, AlertService, $state) {
             if (referrer.state.name) {
                 $state.go(referrer.state.name, referrer.params, {reload: true});
             } else {
-                $state.go('content.allTrips', undefined, {reload: true});
+                $state.go('content.tripOverview', undefined, {reload: true});
             }
 
             AlertService.success('Successfully logged in as user ' + vm.username + '.');

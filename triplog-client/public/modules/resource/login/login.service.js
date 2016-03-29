@@ -112,7 +112,7 @@ function LoginService($rootScope, $q, $http, $state, localStorageService, REST_U
 
     function resetLoggedInStatusAndGoToTripOverviewPage() {
         resetLoggedInStatus();
-        $state.go('content.allTrips');
+        $state.go('content.tripOverview');
     }
 
     function reactOnLoggedInStatusChange(originalLoginStatus) {

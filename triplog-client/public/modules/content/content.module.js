@@ -4,7 +4,7 @@ module.exports = angular.module('content', [
     'hc.marked',
     'LocalStorageModule',
     require('modules/tripOverview').name,
-    require('modules/stepOverview').name,
+    require('modules/trip').name,
     require('modules/stepDetail').name,
     require('modules/visitedCountries').name,
     require('modules/login').name,

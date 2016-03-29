@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = StepOverviewController;
+module.exports = TripController;
 
 // @ngInject
-function StepOverviewController($rootScope, $scope, $state, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
+function TripController($rootScope, $scope, $state, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
     var vm = this;
     
     reloadTrip().then(initController, goToContentNotFoundPage);
@@ -25,7 +25,7 @@ function StepOverviewController($rootScope, $scope, $state, loadTripFromLocalSto
         vm.isUnread = LocalData.isStepUnread;
 
         vm.templateToShow = function () {
-            return vm.editMode ? 'stepOverview.edit.tpl.html' : 'stepOverview.view.tpl.html';
+            return vm.editMode ? 'trip.edit.tpl.html' : 'trip.view.tpl.html';
         };
     }
 
@@ -58,13 +58,13 @@ function StepOverviewController($rootScope, $scope, $state, loadTripFromLocalSto
                 cancelText: 'Continue editing',
                 cancelClass: 'btn-primary'
             }).then(function () {
-                $state.go('content.stepOverview', {edit: undefined});
+                $state.go('content.trip', {edit: undefined});
             });
         };
 
         vm.saveTrip = function () {
             TripsService.updateTrip(vm.editableTrip);
-            $state.go('content.stepOverview', {edit: undefined});
+            $state.go('content.trip', {edit: undefined});
         };
     }
 }

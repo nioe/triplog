@@ -62,18 +62,18 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
                 }
             }
         })
-        .state('content.allTrips', {
+        .state('content.tripOverview', {
             url: '/trips',
             templateUrl: require('./content/tripOverview/tripOverview.tpl.html'),
             data: {
                 pageTitle: 'Trip Overview'
             }
         })
-        .state('content.stepOverview', {
+        .state('content.trip', {
             url: '/trips/:tripId?edit',
-            templateUrl: require('./content/stepOverview/stepOverview.tpl.html'),
-            controller: require('./content/stepOverview/stepOverview.controller'),
-            controllerAs: 'stepOverview',
+            templateUrl: require('./content/trip/trip.tpl.html'),
+            controller: require('./content/trip/trip.controller'),
+            controllerAs: 'trip',
             resolve: {
                 loadTripFromLocalStorage: function (checkLoginBefore, LocalData, $stateParams, $q) {
                     return function () {
