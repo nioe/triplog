@@ -1,0 +1,41 @@
+<header>
+    <h1 class="line">{{ step.step.stepName }}</h1>
+    <date-line from-date="{{ step.step.fromDate }}" to-date="{{ step.step.toDate }}"></date-line>
+</header>
+
+<article class="columns">
+    <div class="triplog-lead">
+        {{ step.step.stepLead }}
+    </div>
+
+    <div class="triplog-text" marked="step.step.stepText"></div>
+</article>
+
+<triplog-map ng-if="step.showMap()" gps-points="step.step.gpsPoints" pictures="step.galleryPictures"></triplog-map>
+
+<triplog-gallery ng-if="step.showGallery()" pictures="step.galleryPictures"></triplog-gallery>
+
+<timestamps model="step.step"></timestamps>
+
+<aside class="previousNextStep">
+    <div class="prev" ng-if="step.step.previousStep">
+        <div class="link-holder"
+             ui-sref="content.step({tripId: '{{ step.step.tripId }}', stepId: '{{ step.step.previousStep.stepId }}'})">
+            <div>
+                <i class="icon-prev"></i>
+            </div>
+            <div class="text"> {{ step.step.previousStep.stepName }}</div>
+        </div>
+    </div>
+
+    <div class="prev-placeholder" ng-if="!step.step.previousStep"></div>
+    <div class="next" ng-if="step.step.nextStep">
+        <div class="link-holder"
+             ui-sref="content.step({tripId: '{{ step.step.tripId }}', stepId: '{{ step.step.nextStep.stepId }}'})">
+            <div class="text">{{ step.step.nextStep.stepName }}</div>
+            <div>
+                <i class="icon-next"></i>
+            </div>
+        </div>
+    </div>
+</aside>

@@ -103,7 +103,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     $state.go('content.trip', {tripId: trip.tripId});
                 },
                 active: function () {
-                    return ['content.trip', 'content.stepOfTrip'].indexOf($state.current.name) !== -1 &&
+                    return ['content.trip', 'content.step'].indexOf($state.current.name) !== -1 &&
                         $state.params.tripId === trip.tripId;
                 }
             });
@@ -134,7 +134,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
 
     function createStepOverviewNavBarEntry() {
-        if (['content.trip', 'content.stepOfTrip'].indexOf($state.current.name) !== -1) {
+        if (['content.trip', 'content.step'].indexOf($state.current.name) !== -1) {
             var tripId = $state.params.tripId,
                 entries = [
                     {
@@ -159,7 +159,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                             name: step.stepName,
                             icon: 'step',
                             action: function () {
-                                $state.go('content.stepOfTrip', {tripId: tripId, stepId: step.stepId});
+                                $state.go('content.step', {tripId: tripId, stepId: step.stepId});
                             },
                             active: function () {
                                 return $state.params.tripId === tripId && $state.params.stepId === step.stepId;
@@ -188,7 +188,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     }
 
     function createStepDetailNavBarEntry() {
-        if ($rootScope.loggedIn && $state.current.name === 'content.stepOfTrip') {
+        if ($rootScope.loggedIn && $state.current.name === 'content.step') {
             var tripId = $state.params.tripId,
                 stepId = $state.params.stepId,
                 step = vm.trips[indexOfTripWithId(tripId)].steps[indexOfStepWithId(tripId, stepId)],
@@ -199,10 +199,10 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                 name: 'Edit Step',
                 icon: 'edit',
                 action: function () {
-                    $state.go('content.stepOfTrip', {tripId: tripId, stepId: stepId, edit: true});
+                    $state.go('content.step', {tripId: tripId, stepId: stepId, edit: true});
                 },
                 active: function () {
-                    return $state.current.name === 'content.stepOfTrip' && $state.params.edit;
+                    return $state.current.name === 'content.step' && $state.params.edit;
                 }
             });
 

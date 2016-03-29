@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = StepDetailController;
+module.exports = StepController;
 
 // @ngInject
-function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, CountryService, EVENT_NAMES) {
+function StepController($rootScope, $scope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, CountryService, EVENT_NAMES) {
     var vm = this;
 
     reloadStep();
@@ -20,7 +20,7 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
     };
 
     vm.templateToShow = function () {
-        return vm.editMode ? 'stepDetail.edit.tpl.html' : 'stepDetail.view.tpl.html';
+        return vm.editMode ? 'step.edit.tpl.html' : 'step.view.tpl.html';
     };
 
     // Reload step into memory if local storage changed
@@ -81,7 +81,7 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
                 cancelText: 'Continue editing',
                 cancelClass: 'btn-primary'
             }).then(function () {
-                $state.go('content.stepOfTrip', {edit: undefined});
+                $state.go('content.step', {edit: undefined});
             });
         };
 
@@ -93,7 +93,7 @@ function StepDetailController($rootScope, $scope, $state, loadStepFromLocalStora
             vm.editableStep.gpsPoints = JSON.parse(vm.editableStep.gpsPoints);
 
             StepsService.updateStep(vm.editableStep);
-            $state.go('content.stepOfTrip', {edit: undefined});
+            $state.go('content.step', {edit: undefined});
         };
 
         vm.showPictureDeleteButton = function () {

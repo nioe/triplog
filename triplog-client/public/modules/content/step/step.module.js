@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = angular.module('stepDetail', [
+module.exports = angular.module('step', [
     require('modules/triplogGallery').name,
     require('modules/triplogMap').name,
     require('modules/config').name,
@@ -10,9 +10,9 @@ module.exports = angular.module('stepDetail', [
     require('modules/country').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
-    require('./stepDetail.tpl.html'),
-    require('./stepDetail.view.tpl.html'),
-    require('./stepDetail.edit.tpl.html')
+    require('./step.tpl.html'),
+    require('./step.view.tpl.html'),
+    require('./step.edit.tpl.html')
 ]);
 
-module.exports.controller('StepDetailController', require('./stepDetail.controller'));
+module.exports.controller('StepController', require('./step.controller'));

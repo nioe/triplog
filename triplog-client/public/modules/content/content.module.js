@@ -5,7 +5,7 @@ module.exports = angular.module('content', [
     'LocalStorageModule',
     require('modules/tripOverview').name,
     require('modules/trip').name,
-    require('modules/stepDetail').name,
+    require('modules/step').name,
     require('modules/visitedCountries').name,
     require('modules/login').name,
     require('modules/config').name,

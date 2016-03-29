@@ -1,5 +1,5 @@
 <header>
-    <h1 class="line">{{ stepDetail.step.stepName }}</h1>
+    <h1 class="line">{{ step.step.stepName }}</h1>
 </header>
 
 <form class="edit-step-form">
@@ -7,7 +7,7 @@
     <div class="form-group">
         <label for="step-name" class="col-xs-12 col-sm-2 control-label">Name</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="text" class="form-control" id="step-name" placeholder="Step Name" ng-model="stepDetail.editableStep.stepName">
+            <input type="text" class="form-control" id="step-name" placeholder="Step Name" ng-model="step.editableStep.stepName">
         </div>
     </div>
 
@@ -15,7 +15,7 @@
     <div class="form-group">
         <label for="from-date" class="col-xs-12 col-sm-2 control-label">From Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="date" class="form-control" id="from-date" ng-model="stepDetail.editableStep.fromDate">
+            <input type="date" class="form-control" id="from-date" ng-model="step.editableStep.fromDate">
         </div>
     </div>
 
@@ -23,7 +23,7 @@
     <div class="form-group">
         <label for="to-date" class="col-xs-12 col-sm-2 control-label">To Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="date" class="form-control" id="to-date" ng-model="stepDetail.editableStep.toDate">
+            <input type="date" class="form-control" id="to-date" ng-model="step.editableStep.toDate">
         </div>
     </div>
 
@@ -31,32 +31,32 @@
     <div class="form-group">
         <label for="step-lead" class="col-xs-12 col-sm-2 control-label">Lead</label>
         <div class="col-xs-12 col-sm-10">
-            <textarea class="form-control" id="step-lead" rows="5" ng-model="stepDetail.editableStep.stepLead"></textarea>
+            <textarea class="form-control" id="step-lead" rows="5" ng-model="step.editableStep.stepLead"></textarea>
         </div>
     </div>
 
     <!-- Step Text -->
-    <markdown-preview model="stepDetail.editableStep.stepText"></markdown-preview>
+    <markdown-preview model="step.editableStep.stepText"></markdown-preview>
 
     <!-- Cover Picture -->
     <div class="form-group">
         <label for="cover-picture" class="col-xs-12 col-sm-2 control-label">Cover Picture</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="text" class="form-control" id="cover-picture" placeholder="pictureid.jpg" ng-model="stepDetail.editableStep.coverPicture">
+            <input type="text" class="form-control" id="cover-picture" placeholder="pictureid.jpg" ng-model="step.editableStep.coverPicture">
         </div>
     </div>
 
     <!-- GPS Points -->
-    <div class="form-group" ng-class="{'has-error': stepDetail.gpsPointJsonInvalid}">
+    <div class="form-group" ng-class="{'has-error': step.gpsPointJsonInvalid}">
         <label for="gps-points" class="col-xs-12 col-sm-2 control-label">GPS Points</label>
         <div class="col-xs-12 col-sm-10">
             <textarea class="form-control fixed-width-font"
                       id="gps-points"
                       rows="10"
-                      ng-model="stepDetail.editableStep.gpsPoints"
-                      ng-blur="stepDetail.prettifyGpsPoints()">
+                      ng-model="step.editableStep.gpsPoints"
+                      ng-blur="step.prettifyGpsPoints()">
             </textarea>
-            <p class="small text-danger" ng-show="stepDetail.gpsPointJsonInvalid">No valid JSON!</p>
+            <p class="small text-danger" ng-show="step.gpsPointJsonInvalid">No valid JSON!</p>
         </div>
     </div>
 
@@ -64,32 +64,32 @@
     <div class="form-group">
         <label for="traveled-countries" class="col-xs-12 col-sm-2 control-label">Traveled countries</label>
         <div class="col-xs-12 col-sm-10">
-            <ul ng-if="stepDetail.editableStep.traveledCountries.length > 0">
-                <li ng-repeat="isoCode in stepDetail.editableStep.traveledCountries">
-                    {{ stepDetail.getCountryNameFor(isoCode); }} <span class="icon-delete" ng-click="stepDetail.deleteTraveledCountry(isoCode)"></span>
+            <ul ng-if="step.editableStep.traveledCountries.length > 0">
+                <li ng-repeat="isoCode in step.editableStep.traveledCountries">
+                    {{ step.getCountryNameFor(isoCode); }} <span class="icon-delete" ng-click="step.deleteTraveledCountry(isoCode)"></span>
                 </li>
             </ul>
 
             <select class="form-control"
                     id="traveled-countries"
-                    ng-model="stepDetail.selectedCountry"
-                    ng-options="isoCode as countryName for (isoCode, countryName) in stepDetail.selectableCountries"
-                    ng-change="stepDetail.addTraveledCountry();">
+                    ng-model="step.selectedCountry"
+                    ng-options="isoCode as countryName for (isoCode, countryName) in step.selectableCountries"
+                    ng-change="step.addTraveledCountry();">
                 <option disabled value="">Select country...</option>
             </select>
         </div>
     </div>
 
     <!-- Pictures -->
-    <div class="form-group" ng-if="stepDetail.editableStep.pictures.length > 0">
+    <div class="form-group" ng-if="step.editableStep.pictures.length > 0">
         <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Pictures</label>
         <div class="col-xs-12 col-sm-10">
-            <div class="picture-row" ng-repeat="picture in stepDetail.editableStep.pictures track by $index">
+            <div class="picture-row" ng-repeat="picture in step.editableStep.pictures track by $index">
                 <!-- Picture -->
                 <div class="col-xs-12 col-sm-4">
                     <div class="picture" ng-class="{'portrait': picture.width < picture.height}" style="background-image: url('{{ picture.url }}/thumbnail');"></div>
-                    <button ng-click="stepDetail.deletePicture(picture.name)" class="btn-delete">Delete</button>
-                    <button ng-click="stepDetail.setAsCoverPicture(picture.name)" class="btn-set-as-cover-picture">Set as cover picture</button>
+                    <button ng-click="step.deletePicture(picture.name)" class="btn-delete">Delete</button>
+                    <button ng-click="step.setAsCoverPicture(picture.name)" class="btn-set-as-cover-picture">Set as cover picture</button>
                 </div>
                 <div class="col-xs-12 col-sm-8">
                     <!-- Picture ID -->
@@ -148,18 +148,18 @@
     <div class="form-group">
         <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Publish Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="datetime-local" class="form-control" id="publish-date" ng-model="stepDetail.editableStep.published">
+            <input type="datetime-local" class="form-control" id="publish-date" ng-model="step.editableStep.published">
         </div>
     </div>
 
     <!-- Buttons -->
     <div class="form-group">
         <div class="col-xs-4 col-sm-offset-2 col-sm-3 btn-col">
-            <button ng-click="stepDetail.reset()" class="btn-reset">Reset</button>
+            <button ng-click="step.reset()" class="btn-reset">Reset</button>
         </div>
         <div class="col-xs-8 col-sm-7 btn-col right">
-            <button ng-click="stepDetail.cancelEdit()" class="btn-cancel">Cancel</button>
-            <button ng-disabled="stepDetail.saveButtonDisabled()" ng-click="stepDetail.saveStep()" class="btn-ok">Save</button>
+            <button ng-click="step.cancelEdit()" class="btn-cancel">Cancel</button>
+            <button ng-disabled="step.saveButtonDisabled()" ng-click="step.saveStep()" class="btn-ok">Save</button>
         </div>
     </div>
 </form>

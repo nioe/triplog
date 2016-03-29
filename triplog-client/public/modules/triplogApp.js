@@ -90,14 +90,14 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
                 }
             }
         })
-        .state('content.stepOfTrip', {
+        .state('content.step', {
             url: '/trips/:tripId/:stepId?edit',
-            templateUrl: require('./content/stepDetail/stepDetail.tpl.html'),
+            templateUrl: require('./content/step/step.tpl.html'),
             data: {
                 pageTitle: 'Step'
             },
-            controller: require('./content/stepDetail/stepDetail.controller'),
-            controllerAs: 'stepDetail',
+            controller: require('./content/step/step.controller'),
+            controllerAs: 'step',
             resolve: {
                 loadStepFromLocalStorage: function (checkLoginBefore, StepsService, $stateParams) {
                     return StepsService.ensureStepIsFetched($stateParams.tripId, $stateParams.stepId);
