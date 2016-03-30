@@ -153,7 +153,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
                 trip.onlyLocal = true;
             }
 
-            sortByPropertyDescending(trip.steps, 'fromDate');
+            sortByPropertyDescending(trip.steps || [], 'fromDate');
         });
 
         return trips;

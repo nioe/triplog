@@ -8,6 +8,7 @@ function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, TripsResour
     return {
         ensureTripsAreFetched: ensureTripsAreFetched,
         fetchTrips: fetchTrips,
+        createTrip: createTrip,
         updateTrip: updateTrip,
         deleteTrip: deleteTrip
     };
@@ -33,6 +34,11 @@ function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, TripsResour
             $log.warn('Offline -> Cannot fetch trips!');
             return rejectWithMessage('You seem to be offline. Trips could not be loaded...', {status: 'offline'});
         }
+    }
+    
+    function createTrip(trip) {
+        LocalData.addOrReplaceTrip(trip);
+        ProcessQueue.enqueue('TripsResource', 'create', undefined, trip);
     }
 
     function updateTrip(trip) {

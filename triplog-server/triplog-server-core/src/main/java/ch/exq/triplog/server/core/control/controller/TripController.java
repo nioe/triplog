@@ -13,6 +13,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,8 +61,8 @@ public class TripController {
     }
 
     public Trip createTrip(Trip trip) throws DisplayableException {
-        if (trip == null || trip.getTripName() == null || trip.getTripName().isEmpty()) {
-            throw new DisplayableException("Trip incomplete: At least tripName must be set");
+        if (trip == null || trip.getTripName() == null || trip.getTripName().isEmpty() || trip.getTripDate() == null) {
+            throw new DisplayableException("Trip incomplete: At least tripName and tripDate must be set");
         }
 
         String tripId = generateIdWithYear(trip.getTripName(), trip.getTripDate());
@@ -70,6 +71,10 @@ public class TripController {
         // We never update created and updated timestamps here
         trip.setCreated(null);
         trip.setLastUpdated(null);
+
+        if (trip.getSteps() == null) {
+            trip.setSteps(new ArrayList<>());
+        }
 
         TripDBObject tripDBObject = mapper.map(trip, TripDBObject.class);
         tripDAO.createTrip(tripDBObject);

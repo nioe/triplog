@@ -37,6 +37,10 @@ public class PictureLinkFilter implements ContainerResponseFilter {
     }
 
     private void changePictureLinkFor(Iterable iterable) {
+        if (iterable == null) {
+            return;
+        }
+
         for (Object entity : iterable) {
             if (entity instanceof Trip) {
                 changePictureLinkFor(((Trip) entity).getSteps());
