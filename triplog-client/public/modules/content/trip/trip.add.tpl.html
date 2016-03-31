@@ -1,19 +1,21 @@
 <h1 class="line">Add Trip</h1>
 
-<form class="form-horizontal" name="tripAdd.form">
+<form class="form-horizontal" name="tripAdd.form" novalidate>
     <!-- Trip Name -->
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': tripAdd.form.$submitted && !tripAdd.form.tripName.$valid}">
         <label for="trip-name" class="col-xs-12 col-sm-2 control-label">Name</label>
         <div class="col-xs-12 col-sm-10">
             <input type="text" class="form-control" id="trip-name" name="tripName" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripName" required>
+            <p ng-show="tripAdd.form.$submitted && !tripAdd.form.tripName.$valid" class="text-danger">Name is required</p>
         </div>
     </div>
 
     <!-- Trip Date -->
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': tripAdd.form.$submitted && !tripAdd.form.tripDate.$valid}">
         <label for="trip-date" class="col-xs-12 col-sm-2 control-label">Date</label>
         <div class="col-xs-12 col-sm-10">
             <input type="date" class="form-control" id="trip-date" name="tripDate" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripDate" required>
+            <p ng-show="tripAdd.form.$submitted && !tripAdd.form.tripDate.$valid" class="text-danger">Date is required</p>
         </div>
     </div>
 
@@ -46,12 +48,9 @@
 
     <!-- Buttons -->
     <div class="form-group">
-        <div class="col-xs-4 col-sm-offset-2 col-sm-3 btn-col">
-            <button ng-click="tripAdd.reset()" class="btn-reset">Reset</button>
-        </div>
-        <div class="col-xs-8 col-sm-7 btn-col right">
+        <div class="col-xs-12 btn-col right">
             <button ng-click="tripAdd.cancel()" class="btn-cancel">Cancel</button>
-            <button ng-submit ng-click="tripAdd.createTrip()" class="btn-ok">Create</button>
+            <button type="submit" ng-click="tripAdd.createTrip()" class="btn-ok">Create</button>
         </div>
     </div>
 </form>
