@@ -1,11 +1,11 @@
 <h1 class="line">Add Trip</h1>
 
-<form class="form-horizontal">
+<form class="form-horizontal" name="tripAdd.form">
     <!-- Trip Name -->
     <div class="form-group">
         <label for="trip-name" class="col-xs-12 col-sm-2 control-label">Name</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="text" class="form-control" id="trip-name" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripName">
+            <input type="text" class="form-control" id="trip-name" name="tripName" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripName" required>
         </div>
     </div>
 
@@ -13,7 +13,7 @@
     <div class="form-group">
         <label for="trip-date" class="col-xs-12 col-sm-2 control-label">Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="date" class="form-control" id="trip-date" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripDate">
+            <input type="date" class="form-control" id="trip-date" name="tripDate" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripDate" required>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
     <div class="form-group">
         <label for="trip-lead" class="col-xs-12 col-sm-2 control-label">Lead</label>
         <div class="col-xs-12 col-sm-10">
-            <textarea class="form-control" id="trip-lead" rows="5" ng-model="tripAdd.newTrip.tripLead"></textarea>
+            <textarea class="form-control" id="trip-lead" name="tripLead" rows="5" ng-model="tripAdd.newTrip.tripLead"></textarea>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="form-group">
         <label for="cover-picture" class="col-xs-12 col-sm-2 control-label">Cover Picture</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="text" class="form-control" id="cover-picture" placeholder="http://url.to/cover/picture.jpg" ng-model="tripAdd.newTrip.coverPicture">
+            <input type="text" class="form-control" id="cover-picture" name="coverPicture" placeholder="http://url.to/cover/picture.jpg" ng-model="tripAdd.newTrip.coverPicture">
         </div>
     </div>
 
@@ -40,7 +40,7 @@
     <div class="form-group">
         <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Publish Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="datetime-local" class="form-control" id="publish-date" ng-model="tripAdd.newTrip.published">
+            <input type="datetime-local" class="form-control" id="publish-date" name="publishDate" ng-model="tripAdd.newTrip.published">
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         </div>
         <div class="col-xs-8 col-sm-7 btn-col right">
             <button ng-click="tripAdd.cancel()" class="btn-cancel">Cancel</button>
-            <button ng-click="tripAdd.createTrip()" class="btn-ok">Create</button>
+            <button ng-submit ng-click="tripAdd.createTrip()" class="btn-ok">Create</button>
         </div>
     </div>
 </form>

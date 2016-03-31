@@ -22,7 +22,9 @@ function TripAddController($state, showModal, TripsService) {
     };
 
     vm.createTrip = function () {
-        TripsService.createTrip(vm.newTrip);
-        $state.go('content.tripOverview');
+        if (vm.form.$valid) {
+            TripsService.createTrip(vm.newTrip);
+            $state.go('content.tripOverview');
+        }
     };
 }
