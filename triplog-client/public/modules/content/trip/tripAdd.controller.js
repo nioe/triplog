@@ -6,7 +6,9 @@ module.exports = TripAddController;
 function TripAddController($state, showModal, TripsService) {
     var vm = this;
 
-    vm.newTrip = {};
+    vm.newTrip = {
+        steps: []
+    };
 
     vm.cancel = function () {
         showModal({

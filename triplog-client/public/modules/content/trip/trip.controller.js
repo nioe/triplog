@@ -63,7 +63,11 @@ function TripController($rootScope, $scope, $state, loadTripFromLocalStorage, sh
         };
 
         vm.saveTrip = function () {
-            TripsService.updateTrip(vm.editableTrip);
+            if (vm.editableTrip.onlyLocal) {
+                TripsService.createTrip(vm.editableTrip);                
+            } else {
+                TripsService.updateTrip(vm.editableTrip);
+            }
             $state.go('content.trip', {edit: undefined});
         };
     }

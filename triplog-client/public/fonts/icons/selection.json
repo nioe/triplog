@@ -19,7 +19,7 @@
 				{}
 			],
 			"properties": {
-				"order": 25,
+				"order": 51,
 				"id": 221,
 				"prevSize": 32,
 				"code": 58890,
@@ -44,7 +44,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 175,
-				"order": 26,
+				"order": 52,
 				"prevSize": 32,
 				"code": 58884,
 				"name": "trip-overview"
@@ -68,7 +68,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 88,
-				"order": 27,
+				"order": 53,
 				"prevSize": 32,
 				"code": 58888,
 				"name": "trip"
@@ -92,7 +92,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 210,
-				"order": 28,
+				"order": 54,
 				"prevSize": 32,
 				"code": 58886,
 				"name": "step"
@@ -116,7 +116,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 220,
-				"order": 29,
+				"order": 55,
 				"prevSize": 32,
 				"code": 58887,
 				"name": "step-overview"
@@ -140,7 +140,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 41,
-				"order": 30,
+				"order": 56,
 				"prevSize": 32,
 				"code": 58881,
 				"name": "prev"
@@ -164,7 +164,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 42,
-				"order": 31,
+				"order": 57,
 				"prevSize": 32,
 				"code": 58882,
 				"name": "next"
@@ -188,7 +188,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 36,
-				"order": 32,
+				"order": 58,
 				"prevSize": 32,
 				"code": 58880,
 				"name": "dropdown"
@@ -212,7 +212,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 39,
-				"order": 33,
+				"order": 59,
 				"prevSize": 32,
 				"code": 58885,
 				"name": "dropup"
@@ -236,7 +236,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 126,
-				"order": 34,
+				"order": 60,
 				"prevSize": 32,
 				"code": 58889,
 				"name": "delete"
@@ -260,7 +260,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 128,
-				"order": 35,
+				"order": 61,
 				"prevSize": 32,
 				"code": 58891,
 				"name": "add"
@@ -284,7 +284,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 290,
-				"order": 36,
+				"order": 62,
 				"prevSize": 32,
 				"code": 59648,
 				"name": "edit"
@@ -308,7 +308,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 191,
-				"order": 37,
+				"order": 63,
 				"prevSize": 32,
 				"code": 58894,
 				"name": "info"
@@ -332,7 +332,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 140,
-				"order": 38,
+				"order": 64,
 				"prevSize": 32,
 				"code": 58892,
 				"name": "expensive"
@@ -356,7 +356,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 161,
-				"order": 39,
+				"order": 65,
 				"prevSize": 32,
 				"code": 58893,
 				"name": "worth-seeing"
@@ -380,7 +380,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 284,
-				"order": 40,
+				"order": 66,
 				"prevSize": 32,
 				"code": 58895,
 				"name": "star-empty"
@@ -404,7 +404,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 285,
-				"order": 41,
+				"order": 67,
 				"prevSize": 32,
 				"code": 58896,
 				"name": "star"
@@ -428,7 +428,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 122,
-				"order": 42,
+				"order": 68,
 				"prevSize": 32,
 				"code": 58883,
 				"name": "camera"
@@ -452,7 +452,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 288,
-				"order": 43,
+				"order": 69,
 				"prevSize": 32,
 				"code": 58897,
 				"name": "user"
@@ -476,7 +476,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 286,
-				"order": 44,
+				"order": 70,
 				"prevSize": 32,
 				"code": 58898,
 				"name": "password"
@@ -500,7 +500,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 287,
-				"order": 45,
+				"order": 71,
 				"prevSize": 32,
 				"code": 58899,
 				"name": "login"
@@ -524,7 +524,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 289,
-				"order": 46,
+				"order": 72,
 				"prevSize": 32,
 				"code": 59649,
 				"name": "date"
@@ -548,7 +548,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 291,
-				"order": 47,
+				"order": 73,
 				"prevSize": 32,
 				"code": 59650,
 				"name": "process-queue"
@@ -572,7 +572,7 @@
 			"attrs": [],
 			"properties": {
 				"id": 292,
-				"order": 48,
+				"order": 74,
 				"prevSize": 32,
 				"code": 59651,
 				"name": "visited-countries"
@@ -580,6 +580,54 @@
 			"setIdx": 1,
 			"setId": 1,
 			"iconIdx": 23
+		},
+		{
+			"icon": {
+				"paths": [
+					"M778.906 340.019c-14.131 0-27.955 1.178-41.421 3.379-33.587-109.824-137.677-189.798-260.864-189.798-150.477 0-272.384 119.194-272.384 266.189 0 13.21 1.024 26.112 2.918 38.707-7.27-0.819-14.541-1.382-21.965-1.382-102.298 0-185.19 81.101-185.19 180.992 0 99.994 82.893 181.094 185.19 181.094h593.715c135.322 0 245.094-107.315 245.094-239.616 0-132.403-109.773-239.565-245.094-239.565zM582.195 560.691c-25.293 35.994-133.837 147.917-138.445 152.576-5.325 6.605-20.019 17.613-33.946 8.499-4.045-2.611-8.806-7.782-8.806-18.125 0-9.882 4.506-20.019 5.018-21.094l52.89-117.094c-9.882-3.994-26.982-10.803-40.192-16.589l-3.482-1.485c-13.414-5.683-30.106-12.8-30.106-31.078 0-8.806 4.147-19.098 12.749-31.181 25.344-36.096 133.837-147.917 138.496-152.678 5.274-6.502 19.968-17.51 33.946-8.499 3.994 2.611 8.755 7.885 8.755 18.125 0 9.882-4.506 20.019-5.018 21.197l-52.941 116.992c9.984 3.994 27.034 10.906 40.294 16.589l3.482 1.485c13.414 5.683 30.106 12.8 30.106 31.181 0 8.806-4.198 18.995-12.8 31.181z"
+				],
+				"attrs": [],
+				"isMulticolor": false,
+				"tags": [
+					"thunder-cloud"
+				],
+				"grid": 20
+			},
+			"attrs": [],
+			"properties": {
+				"id": 294,
+				"order": 75,
+				"prevSize": 32,
+				"code": 59652,
+				"name": "process-queue-problem"
+			},
+			"setIdx": 1,
+			"setId": 1,
+			"iconIdx": 24
+		},
+		{
+			"icon": {
+				"paths": [
+					"M998.963 920.576l-456.038-851.558c-6.349-11.008-18.125-17.818-30.925-17.818-12.851 0-24.627 6.81-30.925 17.818l-455.987 851.558c-6.195 10.803-6.093 24.115 0.256 34.816 6.4 10.803 18.022 17.408 30.618 17.408h912.077c12.544 0 24.269-6.605 30.618-17.408 6.349-10.701 6.451-24.013 0.307-34.816zM563.2 870.4h-102.4v-102.4h102.4v102.4zM563.2 691.2h-102.4v-332.8h102.4v332.8z"
+				],
+				"attrs": [],
+				"isMulticolor": false,
+				"tags": [
+					"warning"
+				],
+				"grid": 20
+			},
+			"attrs": [],
+			"properties": {
+				"id": 293,
+				"order": 76,
+				"prevSize": 32,
+				"code": 59653,
+				"name": "warning"
+			},
+			"setIdx": 1,
+			"setId": 1,
+			"iconIdx": 25
 		}
 	],
 	"height": 1024,

@@ -1,3 +1,4 @@
 <h1 class="line">{{ trip.trip.displayName }}</h1>
+<div class="warning-box" ng-if="trip.trip.onlyLocal"><i class="icon-warning"></i> Trip is not yet synced with the server!</div>
 
 <ng-include src="trip.templateToShow()"></ng-include>

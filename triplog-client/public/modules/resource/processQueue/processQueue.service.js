@@ -20,7 +20,7 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
                 config: config,
                 payload: payload
             },
-            processQueue = loadQueueFromLocalStorage();
+            processQueue = deleteSimilarEntries(loadQueueFromLocalStorage(), action);
 
         processQueue.push(action);
         saveQueueInLocalStorage(processQueue);
@@ -59,5 +59,18 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
 
     function saveQueueInLocalStorage(processQueue) {
         localStorageService.set(LOCAL_STORAGE_KEYS.processQueue, processQueue);
+    }
+    
+    function deleteSimilarEntries(processQueue, action) {
+        return processQueue.filter(function (entry) {
+           return !(entry.resourceName === action.resourceName &&
+               entry.method === action.method && 
+               entry.config === action.config && (
+                    entry.payload === undefined || (
+                        entry.payload.tripId === action.payload.tripId &&
+                        entry.payload.stepId === action.payload.stepId
+                    )
+               ));
+        });
     }
 }
