@@ -307,7 +307,8 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     }
 
     function tripControls(tripId) {
-        var controls = [];
+        var controls = [],
+            trip = vm.trips[indexOfTripWithId(tripId)];
 
         controls.push({
             id: 'editTrip',
@@ -326,15 +327,14 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             name: 'Delete Trip',
             icon: 'delete',
             action: function () {
-                var trip = vm.trips[indexOfTripWithId(tripId)],
-                    deleteTripModalData = {
-                        title: 'Delete trip "' + trip.displayName + '"',
-                        message: 'Caution: This cannot be undone. All trip data including all stpes and pictures will be deleted!',
-                        okText: 'Delete',
-                        okClass: 'btn-danger',
-                        cancelText: 'Cancel',
-                        cancelClass: 'btn-primary'
-                    };
+                var deleteTripModalData = {
+                    title: 'Delete trip "' + trip.displayName + '"',
+                    message: 'Caution: This cannot be undone. All trip data including all stpes and pictures will be deleted!',
+                    okText: 'Delete',
+                    okClass: 'btn-danger',
+                    cancelText: 'Cancel',
+                    cancelClass: 'btn-primary'
+                };
 
                 showModal(deleteTripModalData).then(function () {
                     $state.go('content.tripOverview');
@@ -343,6 +343,9 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             },
             active: function () {
                 return false;
+            },
+            disabled: function () {
+                return trip.onlyLocal;
             }
         });
 
@@ -355,6 +358,9 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             },
             active: function () {
                 return false; //TODO Implement function
+            },
+            disabled: function () {
+                return trip.onlyLocal;
             }
         });
 
