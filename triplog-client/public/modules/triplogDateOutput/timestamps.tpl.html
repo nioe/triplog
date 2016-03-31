@@ -1,7 +1,7 @@
 <div class="timestamps">
     <div class="last-updated">
-        Last updated on <strong>{{ model.lastUpdated | date:'fullDate' }}</strong>
-        at <strong>{{ model.lastUpdated | date:'HH:mm' }}</strong>
+        Last updated on <strong>{{ model.lastUpdated || model.created | date:'fullDate' }}</strong>
+        at <strong>{{ model.lastUpdated || model.created | date:'HH:mm' }}</strong>
     </div>
     <div class="published" ng-if="model.published">
         Published on <strong>{{ model.published | date:'fullDate' }}</strong>
