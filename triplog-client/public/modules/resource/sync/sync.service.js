@@ -42,10 +42,18 @@ function SyncService($rootScope, $q, TripsResource, StepsResource, ProcessQueue,
         if (response) {
             switch (action.resourceName) {
                 case 'TripsResource':
-                    LocalData.addOrReplaceTrip(response, action.method === 'create' ? action.payload.tripId : undefined);
+                    if (action.method === 'delete') {
+                        LocalData.deleteTrip(action.config.tripId);
+                    } else {
+                        LocalData.addOrReplaceTrip(response, action.method === 'create' ? action.payload.tripId : undefined);
+                    }
                     break;
                 case 'StepsResource':
-                    LocalData.addOrReplaceStep(response, action.method === 'create' ? action.payload.stepId : undefined);
+                    if (action.method === 'delete') {
+                        LocalData.deleteStep(action.config.tripId, action.config.stepId);
+                    } else {
+                        LocalData.addOrReplaceStep(response, action.method === 'create' ? action.payload.stepId : undefined);
+                    }
                     break;
                 default:
                     $log.warn('Unknown resource ' + action.resourceName);

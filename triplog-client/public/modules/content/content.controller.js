@@ -337,7 +337,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                 showModal(deleteTripModalData).then(function () {
-                    $state.go('content.tripOverview', {}, {reload: true});
+                    $state.go('content.tripOverview');
                     TripsService.deleteTrip(tripId);
                 });
             },
