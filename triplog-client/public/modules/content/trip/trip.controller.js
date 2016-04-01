@@ -3,7 +3,7 @@
 module.exports = TripController;
 
 // @ngInject
-function TripController($rootScope, $scope, $state, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
+function TripController($rootScope, $scope, $state, $q, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
     var vm = this;
     
     reloadTrip().then(initController, goToContentNotFoundPage);
@@ -13,6 +13,13 @@ function TripController($rootScope, $scope, $state, loadTripFromLocalStorage, sh
         return loadTripFromLocalStorage().then(function (trip) {
             vm.trip = trip;
             $state.current.data.pageTitle = vm.trip.displayName;
+        }, function (error) {
+            // If there is already a defined vm.trip the user is most likely on a viewing a trip  which got created right now (id changed)
+            if (vm.trip && vm.trip.onlyLocal) {
+                $state.go('content.tripOverview');
+            } else {
+                return $q.reject(error);
+            }
         });
     }
 
