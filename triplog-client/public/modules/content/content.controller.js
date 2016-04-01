@@ -338,14 +338,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
                 showModal(deleteTripModalData).then(function () {
                     $state.go('content.tripOverview');
-                    TripsService.deleteTrip(tripId);
+                    TripsService.deleteTrip(tripId, trip.onlyLocal);
                 });
             },
             active: function () {
                 return false;
-            },
-            disabled: function () {
-                return trip.onlyLocal;
             }
         });
 

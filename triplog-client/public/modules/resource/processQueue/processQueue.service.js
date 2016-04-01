@@ -9,17 +9,13 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
         enqueue: enqueue,
         requeue: requeue,
         dequeue: dequeue,
+        remove: remove,
         hasItems: hasItems,
         size: size
     };
 
     function enqueue(resourceName, method, config, payload) {
-        var action = {
-                resourceName: resourceName,
-                method: method,
-                config: config,
-                payload: payload
-            },
+        var action = createAction(resourceName, method, config, payload),
             processQueue = deleteSimilarEntries(loadQueueFromLocalStorage(), action);
 
         processQueue.push(action);
@@ -43,6 +39,10 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
         return next;
     }
 
+    function remove(resourceName, method, config, payload) {
+        saveQueueInLocalStorage(deleteSimilarEntries(loadQueueFromLocalStorage(), createAction(resourceName, method, config, payload)));
+    }
+
     function hasItems() {
         return loadQueueFromLocalStorage().length > 0;
     }
@@ -53,6 +53,15 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
 
     /*********************************************** Private Functions ***********************************************/
 
+    function createAction(resourceName, method, config, payload) {
+        return {
+            resourceName: resourceName,
+            method: method,
+            config: config,
+            payload: payload
+        };
+    }
+
     function loadQueueFromLocalStorage() {
         return localStorageService.get(LOCAL_STORAGE_KEYS.processQueue) || [];
     }
@@ -60,17 +69,24 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
     function saveQueueInLocalStorage(processQueue) {
         localStorageService.set(LOCAL_STORAGE_KEYS.processQueue, processQueue);
     }
-    
+
     function deleteSimilarEntries(processQueue, action) {
         return processQueue.filter(function (entry) {
-           return !(entry.resourceName === action.resourceName &&
-               entry.method === action.method && 
-               entry.config === action.config && (
-                    entry.payload === undefined || (
-                        entry.payload.tripId === action.payload.tripId &&
-                        entry.payload.stepId === action.payload.stepId
-                    )
-               ));
+            return !isSimilarTo(entry, action);
         });
+    }
+
+    function isSimilarTo(entry1, entry2) {
+        return entry1.resourceName === entry2.resourceName &&
+            entry1.method === entry2.method &&
+            entry1.config === entry2.config && (
+                (
+                    entry1.payload === entry2.payload
+                ) || (
+                    entry1.payload && entry2.payload &&
+                    entry1.payload.tripId === entry2.payload.tripId &&
+                    entry1.payload.stepId === entry2.payload.stepId
+                )
+            );
     }
 }

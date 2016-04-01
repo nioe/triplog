@@ -46,9 +46,14 @@ function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, TripsResour
         ProcessQueue.enqueue('TripsResource', 'update', {tripId: trip.tripId}, trip);
     }
 
-    function deleteTrip(tripId) {
+    function deleteTrip(tripId, onlyLocal) {
         LocalData.deleteTrip(tripId);
-        ProcessQueue.enqueue('TripsResource', 'delete', {tripId: tripId});
+        
+        if (onlyLocal) {
+            ProcessQueue.remove('TripsResource', 'create', undefined, {tripId: tripId});
+        } else {
+            ProcessQueue.enqueue('TripsResource', 'delete', {tripId: tripId});
+        }
     }
 
     /*********************************************** Private Functions ***********************************************/
