@@ -11,6 +11,7 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import javax.activation.MimetypesFileTypeMap;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -105,6 +106,10 @@ public class PictureService {
 
     private Response createPictureResponse(File picture) {
         String mimeType = new MimetypesFileTypeMap().getContentType(picture);
-        return Response.ok(picture, mimeType).build();
+
+        final CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(31536000); // 1 year
+
+        return Response.ok(picture, mimeType).cacheControl(cacheControl).build();
     }
 }
