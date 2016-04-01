@@ -1,8 +1,8 @@
 <div class="triplog-markdown-preview">
     <div class="form-group">
-        <label for="trip-text" class="col-xs-12 col-sm-2 control-label">Text</label>
+        <label for="text" class="col-xs-12 col-sm-2 control-label">Text</label>
         <div class="col-xs-12 col-sm-10" ng-if="!preview.preview">
-            <textarea class="form-control" id="trip-text" rows="10" ng-model="preview.model"></textarea>
+            <textarea class="form-control fixed-width-font" id="text" name="text" rows="10" ng-model="preview.model"></textarea>
         </div>
         <div class="col-xs-12 col-sm-10" ng-if="preview.preview">
             <div class="preview" marked="preview.model"></div>
