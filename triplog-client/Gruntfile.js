@@ -281,7 +281,6 @@ module.exports = function (grunt) {
                 {from: '^/trips(/.*)?$', to: '/index.html'},
                 {from: '^/visited-countries$', to: '/index.html'},
                 {from: '^/login$', to: '/index.html'},
-                {from: '^/add-trip$', to: '/index.html'}
             ],
             live: {
                 options: {

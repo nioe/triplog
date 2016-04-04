@@ -1,0 +1,95 @@
+<header>
+    <h1 class="line">Add Step to {{ stepAdd.trip.displayName }}</h1>
+</header>
+
+<form class="edit-step-form" name="stepAdd.form" novalidate>
+    <!-- Step Name -->
+    <div class="form-group" ng-class="{'has-error': stepAdd.form.$submitted && !stepAdd.form.stepName.$valid}">
+        <label for="step-name" class="col-xs-12 col-sm-2 control-label">Name</label>
+        <div class="col-xs-12 col-sm-10">
+            <input type="text" class="form-control" id="step-name" name="stepName" placeholder="Step Name" ng-model="stepAdd.newStep.stepName" required>
+            <p ng-show="stepAdd.form.$submitted && !stepAdd.form.stepName.$valid" class="text-danger small">Name is required</p>
+        </div>
+    </div>
+
+    <!-- From Date -->
+    <div class="form-group" ng-class="{'has-error': stepAdd.form.$submitted && !stepAdd.form.fromDate.$valid}">
+        <label for="from-date" class="col-xs-12 col-sm-2 control-label">From Date</label>
+        <div class="col-xs-12 col-sm-10">
+            <input type="date" class="form-control" id="from-date" name="fromDate" ng-model="stepAdd.newStep.fromDate" required>
+            <p ng-show="stepAdd.form.$submitted && !stepAdd.form.fromDate.$valid" class="text-danger small">From Date is required</p>
+        </div>
+    </div>
+
+    <!-- To Date -->
+    <div class="form-group" ng-class="{'has-error': stepAdd.form.$submitted && !stepAdd.form.toDate.$valid}">
+        <label for="to-date" class="col-xs-12 col-sm-2 control-label">To Date</label>
+        <div class="col-xs-12 col-sm-10">
+            <input type="date" class="form-control" id="to-date" name="toDate" ng-model="stepAdd.newStep.toDate" required>
+            <p ng-show="stepAdd.form.$submitted && !stepAdd.form.toDate.$valid" class="text-danger small">To Date is required</p>
+        </div>
+    </div>
+
+    <!-- Step Lead -->
+    <div class="form-group">
+        <label for="step-lead" class="col-xs-12 col-sm-2 control-label">Lead</label>
+        <div class="col-xs-12 col-sm-10">
+            <textarea class="form-control" id="step-lead" name="stepLead" rows="5" ng-model="stepAdd.newStep.stepLead"></textarea>
+        </div>
+    </div>
+
+    <!-- Step Text -->
+    <markdown-preview model="stepAdd.newStep.stepText"></markdown-preview>
+
+    <!-- GPS Points -->
+    <div class="form-group" ng-class="{'has-error': stepAdd.form.$submitted && !stepAdd.form.gpsPoints.$valid}">
+        <label for="gps-points" class="col-xs-12 col-sm-2 control-label">GPS Points</label>
+        <div class="col-xs-12 col-sm-10">
+            <textarea class="form-control fixed-width-font"
+                      id="gps-points"
+                      name="gpsPoints"
+                      rows="10"
+                      ng-model="stepAdd.newStep.gpsPoints"
+                      ng-blur="stepAdd.prettifyGpsPoints()"
+                      ui-validate="'stepAdd.gpsPointsValidJson()'">
+            </textarea>
+            <p class="text-danger small" ng-show="stepAdd.form.$submitted && !stepAdd.form.gpsPoints.$valid">No valid JSON!</p>
+        </div>
+    </div>
+
+    <!-- Traveled countries -->
+    <div class="form-group">
+        <label for="traveled-countries" class="col-xs-12 col-sm-2 control-label">Traveled countries</label>
+        <div class="col-xs-12 col-sm-10">
+            <ul ng-if="stepAdd.newStep.traveledCountries.length > 0">
+                <li ng-repeat="isoCode in stepAdd.newStep.traveledCountries">
+                    {{ stepAdd.getCountryNameFor(isoCode); }} <span class="icon-delete" ng-click="stepAdd.deleteTraveledCountry(isoCode)"></span>
+                </li>
+            </ul>
+
+            <select class="form-control"
+                    id="traveled-countries"
+                    ng-model="stepAdd.selectedCountry"
+                    ng-options="isoCode as countryName for (isoCode, countryName) in stepAdd.selectableCountries"
+                    ng-change="stepAdd.addTraveledCountry();">
+                <option disabled value="">Select country...</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Publish date -->
+    <div class="form-group">
+        <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Publish Date</label>
+        <div class="col-xs-12 col-sm-10">
+            <input type="datetime-local" class="form-control" id="publish-date" name="publishDate" ng-model="stepAdd.newStep.published">
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-group">
+        <div class="col-xs-12 btn-col right">
+            <button ng-click="stepAdd.cancel()" class="btn-cancel">Cancel</button>
+            <button ng-click="stepAdd.createStep()" type="submit" class="btn-ok">Create</button>
+        </div>
+    </div>
+</form>

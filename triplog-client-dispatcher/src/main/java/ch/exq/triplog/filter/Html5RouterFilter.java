@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
 
-@WebFilter(filterName = "Html5RouterFilter", urlPatterns = {"/index.html", "/trips/*", "/visited-countries", "/login", "/add-trip"})
+@WebFilter(filterName = "Html5RouterFilter", urlPatterns = {"/index.html", "/trips/*", "/visited-countries", "/login"})
 public class Html5RouterFilter implements Filter {
 
     private static final Pattern CRAWLER_AGENT_PATTERN = Pattern.compile("facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet|TelegramBot|WhatsApp");

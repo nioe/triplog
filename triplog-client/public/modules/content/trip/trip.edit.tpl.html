@@ -4,7 +4,7 @@
         <label for="trip-name" class="col-xs-12 col-sm-2 control-label">Name</label>
         <div class="col-xs-12 col-sm-10">
             <input type="text" class="form-control" id="trip-name" name="tripName" placeholder="Trip Name" ng-model="trip.editableTrip.tripName" required>
-            <p ng-show="trip.form.$submitted && !trip.form.tripName.$valid" class="text-danger">Name is required</p>
+            <p ng-show="trip.form.$submitted && !trip.form.tripName.$valid" class="text-danger small">Name is required</p>
         </div>
     </div>
 
@@ -13,7 +13,7 @@
         <label for="trip-date" class="col-xs-12 col-sm-2 control-label">Date</label>
         <div class="col-xs-12 col-sm-10">
             <input type="date" class="form-control" id="trip-date" name="tripDate" placeholder="Trip Name" ng-model="trip.editableTrip.tripDate" required>
-            <p ng-show="trip.form.$submitted && !trip.form.tripDate.$valid" class="text-danger">Date is required</p>
+            <p ng-show="trip.form.$submitted && !trip.form.tripDate.$valid" class="text-danger small">Date is required</p>
         </div>
     </div>
 

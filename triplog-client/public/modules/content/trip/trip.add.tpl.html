@@ -6,7 +6,7 @@
         <label for="trip-name" class="col-xs-12 col-sm-2 control-label">Name</label>
         <div class="col-xs-12 col-sm-10">
             <input type="text" class="form-control" id="trip-name" name="tripName" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripName" required>
-            <p ng-show="tripAdd.form.$submitted && !tripAdd.form.tripName.$valid" class="text-danger">Name is required</p>
+            <p ng-show="tripAdd.form.$submitted && !tripAdd.form.tripName.$valid" class="text-danger samll">Name is required</p>
         </div>
     </div>
 
@@ -15,7 +15,7 @@
         <label for="trip-date" class="col-xs-12 col-sm-2 control-label">Date</label>
         <div class="col-xs-12 col-sm-10">
             <input type="date" class="form-control" id="trip-date" name="tripDate" placeholder="Trip Name" ng-model="tripAdd.newTrip.tripDate" required>
-            <p ng-show="tripAdd.form.$submitted && !tripAdd.form.tripDate.$valid" class="text-danger">Date is required</p>
+            <p ng-show="tripAdd.form.$submitted && !tripAdd.form.tripDate.$valid" class="text-danger samll">Date is required</p>
         </div>
     </div>
 

@@ -351,10 +351,10 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
             name: 'Add step',
             icon: 'add',
             action: function () {
-                console.log('Not yet implemented... :(');
+                $state.go('content.stepAdd', {tripId: trip.tripId});
             },
             active: function () {
-                return false; //TODO Implement function
+                return $state.current.name === 'content.stepAdd';
             },
             disabled: function () {
                 return trip.onlyLocal;

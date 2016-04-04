@@ -8,6 +8,7 @@ function TripsService($rootScope, $q, $log, $http, ProcessQueue, LocalData, Step
     return {
         ensureStepIsFetched: ensureStepIsFetched,
         fetchStep: fetchStep,
+        createStep: createStep,
         updateStep: updateStep,
         deleteStep: deleteStep,
         deletePicture: deletePicture
@@ -34,6 +35,11 @@ function TripsService($rootScope, $q, $log, $http, ProcessQueue, LocalData, Step
             $log.warn('Offline -> Cannot fetch step ' + tripId + '/' + stepId);
             return rejectWithMessage('You seem to be offline and step you want to visit is not yet stored locally... :(', {status: 'offline'});
         }
+    }
+    
+    function createStep(step) {
+        LocalData.addOrReplaceStep(step);
+        ProcessQueue.enqueue('StepsResource', 'create', {tripId: step.tripId}, step);
     }
 
     function updateStep(step) {

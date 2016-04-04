@@ -69,6 +69,15 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
                 pageTitle: 'Trip Overview'
             }
         })
+        .state('content.tripAdd', {
+            url: '/trips/add-trip',
+            templateUrl: require('./content/trip/trip.add.tpl.html'),
+            controller: require('./content/trip/tripAdd.controller'),
+            controllerAs: 'tripAdd',
+            data: {
+                pageTitle: 'Add Trip'
+            }
+        })
         .state('content.trip', {
             url: '/trips/:tripId?edit',
             templateUrl: require('./content/trip/trip.tpl.html'),
@@ -90,14 +99,14 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
                 }
             }
         })
-        .state('content.tripAdd', {
-            url: '/add-trip',
-            templateUrl: require('./content/trip/trip.add.tpl.html'),
-            controller: require('./content/trip/tripAdd.controller'),
-            controllerAs: 'tripAdd',
+        .state('content.stepAdd', {
+            url: '/trips/:tripId/add-step',
+            templateUrl: require('./content/step/step.add.tpl.html'),
             data: {
-                pageTitle: 'Add Trip'
-            }
+                pageTitle: 'Add Step'
+            },
+            controller: require('./content/step/stepAdd.controller'),
+            controllerAs: 'stepAdd'
         })
         .state('content.step', {
             url: '/trips/:tripId/:stepId?edit',

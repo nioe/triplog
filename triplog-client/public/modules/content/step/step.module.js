@@ -12,7 +12,9 @@ module.exports = angular.module('step', [
     // Template module dependencies (created with browserify-ng-html2js)
     require('./step.tpl.html'),
     require('./step.view.tpl.html'),
-    require('./step.edit.tpl.html')
+    require('./step.edit.tpl.html'),
+    require('./step.add.tpl.html')
 ]);
 
 module.exports.controller('StepController', require('./step.controller'));
+module.exports.controller('StepAddController', require('./stepAdd.controller'));
