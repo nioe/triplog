@@ -9,6 +9,7 @@ function StepAddController($state, showModal, StepsService, LocalData, CountrySe
     vm.trip = LocalData.getTrip($state.params.tripId);
     vm.newStep = {
         tripId: vm.trip.tripId,
+        pictures: [],
         traveledCountries: []
     };
 

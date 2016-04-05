@@ -110,8 +110,11 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
             deleteStep(step.tripId, artificialStepId);
         }
 
-        allSteps[step.tripId][step.stepId] = reviseStep(step);
+        var revisedStep = reviseStep(step);
+        allSteps[step.tripId][step.stepId] = revisedStep;
         updateAllSteps(allSteps);
+
+        addOrReplaceStepOnTrip(revisedStep, artificialStepId);
     }
 
     function deleteStep(tripId, stepId) {
@@ -161,6 +164,21 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
 
     function tripsKey() {
         return $rootScope.loggedIn ? LOCAL_STORAGE_KEYS.tripsAdmin : LOCAL_STORAGE_KEYS.trips;
+    }
+
+    function addOrReplaceStepOnTrip(step, artificialStepId) {
+        if (step.onlyLocal || artificialStepId) {
+            var trip = getTrip(step.tripId),
+                steps = trip.steps.filter(function (stepOnTrip) {
+                    return !(stepOnTrip.stepId === artificialStepId || stepOnTrip.stepId === step.stepId);
+                });
+
+            steps.push(step);
+            trip.steps = steps;
+            sortByPropertyDescending(trip.steps, 'fromDate');
+
+            updateTrip(trip);
+        }
     }
 
     function sortByPropertyDescending(arr, property) {
