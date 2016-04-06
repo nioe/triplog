@@ -74,12 +74,17 @@ function StepController($rootScope, $scope, $state, $q, loadStepFromLocalStorage
         vm.getCountryNameFor = CountryService.getCountryNameFor;
 
         vm.prettifyGpsPoints = function () {
-            try {
-                vm.editableStep.gpsPoints = JSON.stringify(JSON.parse(vm.editableStep.gpsPoints), undefined, 4);
-                vm.gpsPointJsonInvalid = false;
-            } catch (error) {
-                vm.gpsPointJsonInvalid = true;
+            var valid = true;
+
+            if (vm.editableStep.gpsPoints) {
+                try {
+                    vm.editableStep.gpsPoints = JSON.stringify(JSON.parse(vm.editableStep.gpsPoints), undefined, 4);
+                } catch (error) {
+                    valid = false;
+                }
             }
+
+            vm.form.gpsPoints.$setValidity('validJson', valid);
         };
 
         vm.reset = function () {
@@ -100,15 +105,13 @@ function StepController($rootScope, $scope, $state, $q, loadStepFromLocalStorage
             });
         };
 
-        vm.saveButtonDisabled = function () {
-            return vm.gpsPointJsonInvalid;
-        };
-
         vm.saveStep = function () {
-            vm.editableStep.gpsPoints = JSON.parse(vm.editableStep.gpsPoints);
+            if (vm.form.$valid) {
+                vm.editableStep.gpsPoints = vm.editableStep.gpsPoints ? JSON.parse(vm.editableStep.gpsPoints) : [];
 
-            StepsService.updateStep(vm.editableStep);
-            $state.go('content.step', {edit: undefined});
+                StepsService.updateStep(vm.editableStep);
+                $state.go('content.step', {edit: undefined});
+            }
         };
 
         vm.showPictureDeleteButton = function () {
