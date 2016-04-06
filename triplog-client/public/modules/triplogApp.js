@@ -117,8 +117,21 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
             controller: require('./content/step/step.controller'),
             controllerAs: 'step',
             resolve: {
-                loadStepFromLocalStorage: function (checkLoginBefore, StepsService, $stateParams) {
+                ensureStepIsFetched: function(checkLoginBefore, StepsService, $stateParams) {
                     return StepsService.ensureStepIsFetched($stateParams.tripId, $stateParams.stepId);
+                },
+                loadStepFromLocalStorage: function (ensureStepIsFetched, LocalData, $stateParams, $q) {
+                    return function() {
+                        return $q(function (resolve, reject) {
+                            var step = LocalData.getStep($stateParams.tripId, $stateParams.stepId);
+
+                            if (step) {
+                                resolve(step);
+                            } else {
+                                reject('Step not found');
+                            }
+                        });
+                    };
                 }
             }
         })

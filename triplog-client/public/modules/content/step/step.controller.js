@@ -3,37 +3,52 @@
 module.exports = StepController;
 
 // @ngInject
-function StepController($rootScope, $scope, $state, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, CountryService, EVENT_NAMES) {
+function StepController($rootScope, $scope, $state, $q, loadStepFromLocalStorage, LocalData, showModal, AlertService, StepsService, CountryService, EVENT_NAMES) {
     var vm = this;
 
-    reloadStep();
-    initEditableStep();
-
-    LocalData.markStepAsRead(vm.step);
-
-    vm.showMap = function () {
-        return $rootScope.isOnline && vm.step.gpsPoints && vm.step.gpsPoints.length > 0;
-    };
-
-    vm.showGallery = function () {
-        return $rootScope.isOnline && vm.galleryPictures && vm.galleryPictures.length > 0;
-    };
-
-    vm.templateToShow = function () {
-        return vm.editMode ? 'step.edit.tpl.html' : 'step.view.tpl.html';
-    };
-
-    // Reload step into memory if local storage changed
-    $scope.$on(EVENT_NAMES.localStorageUpdated, reloadStep);
-
+    reloadStep().then(initController, goToContentNotFoundPage);
 
     /************************************** Private Functions **************************************/
     function reloadStep() {
-        vm.step = loadStepFromLocalStorage();
-        vm.galleryPictures = vm.step.pictures.filter(function (picture) {
-            return picture.shownInGallery;
+        return loadStepFromLocalStorage().then(function (step) {
+            vm.step = step;
+            vm.galleryPictures = vm.step.pictures.filter(function (picture) {
+                return picture.shownInGallery;
+            });
+            $state.current.data.pageTitle = vm.step.stepName;
+        }, function (error) {
+            // If there is already a defined vm.step the user is most likely reading a step which got created right now (id changed)
+            if (vm.step && vm.step.onlyLocal) {
+                $state.go('content.trip', {tripId: $state.params.tripId});
+            } else {
+                return $q.reject(error);
+            }
         });
-        $state.current.data.pageTitle = vm.step.stepName;
+    }
+
+    function goToContentNotFoundPage() {
+        $state.go('content.notFound');
+    }
+
+    function initController() {
+        initEditableStep();
+
+        LocalData.markStepAsRead(vm.step);
+
+        vm.showMap = function () {
+            return $rootScope.isOnline && vm.step.gpsPoints && vm.step.gpsPoints.length > 0;
+        };
+
+        vm.showGallery = function () {
+            return $rootScope.isOnline && vm.galleryPictures && vm.galleryPictures.length > 0;
+        };
+
+        vm.templateToShow = function () {
+            return vm.editMode ? 'step.edit.tpl.html' : 'step.view.tpl.html';
+        };
+
+        // Reload step into memory if local storage changed
+        $scope.$on(EVENT_NAMES.localStorageUpdated, reloadStep);
     }
 
     function initEditableStep() {
