@@ -5,12 +5,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
     var vm = this;
     vm.environment = ENV;
-    vm.trips = loadTripsFromLocalStorage();
 
     vm.navigationIsShown = false;
     vm.isIosFullscreen = $window.navigator.standalone ? true : false;
 
-    createNavigation();
+    loadTripsAndCreateNavigaton();
 
     // React on state changes
     $rootScope.$on('$stateChangeSuccess', createNavigation);
@@ -189,10 +188,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
     function createStepDetailNavBarEntry() {
         var tripId = $state.params.tripId,
-            stepId = $state.params.stepId;
+            stepId = $state.params.stepId,
+            stepIndex = indexOfStepWithId(tripId, stepId);
 
-        if ($rootScope.loggedIn && $state.current.name === 'content.step') {
-            var step = vm.trips[indexOfTripWithId(tripId)].steps[indexOfStepWithId(tripId, stepId)],
+        if ($rootScope.loggedIn && $state.current.name === 'content.step' && stepIndex >= 0) {
+            var step = vm.trips[indexOfTripWithId(tripId)].steps[stepIndex],
                 controls = [];
 
             controls.push({
@@ -222,7 +222,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
                     };
 
                     showModal(deleteStepModalData).then(function () {
-                        $state.go('content.trip', {tripId: tripId}, {reload: true});
+                        $state.go('content.trip', {tripId: tripId});
                         StepsService.deleteStep(tripId, stepId, step.onlyLocal);
                     });
                 },

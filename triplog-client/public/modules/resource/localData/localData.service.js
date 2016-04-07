@@ -41,7 +41,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         return tripsWithGivenId.length > 0 ? tripsWithGivenId[0] : undefined;
     }
 
-    function addOrReplaceTrip(trip, artificialTripId) {
+    function addOrReplaceTrip(trip, artificialTripId, noEvent) {
         if (!$rootScope.loggedIn) {
             $log.warn('You need to be logged in to add trip ' + trip.tripName);
             return;
@@ -53,15 +53,18 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
             });
 
         trips.push(trip);
-        updateTrips(trips);
+        updateTrips(trips, noEvent);
     }
 
-    function updateTrips(trips) {
+    function updateTrips(trips, noEvent) {
         localStorageService.set(tripsKey(), reviseTrips(trips));
-        $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
+
+        if (!noEvent) {
+            $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
+        }
     }
 
-    function updateTrip(trip) {
+    function updateTrip(trip, noEvent) {
         var tripId = trip.tripId;
 
         if (!$rootScope.loggedIn) {
@@ -69,13 +72,13 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
             return;
         }
 
-        deleteTrip(tripId);
-        addOrReplaceTrip(trip);
+        deleteTrip(tripId, true);
+        addOrReplaceTrip(trip, noEvent);
 
         return getTrip(tripId);
     }
 
-    function deleteTrip(tripId) {
+    function deleteTrip(tripId, noEvent) {
         if (!$rootScope.loggedIn) {
             $log.warn('You need to be logged in to delete trip ' + tripId);
             return;
@@ -86,7 +89,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         if (trips) {
             updateTrips(trips.filter(function (trip) {
                 return trip.tripId !== tripId;
-            }));
+            }), noEvent);
         }
     }
 
@@ -99,7 +102,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         return !!getStep(tripId, stepId);
     }
 
-    function addOrReplaceStep(step, artificialStepId) {
+    function addOrReplaceStep(step, artificialStepId, noEvent) {
         var allSteps = loadAllSteps();
 
         if (!allSteps[step.tripId]) {
@@ -107,17 +110,17 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         }
 
         if (artificialStepId) {
-            deleteStep(step.tripId, artificialStepId);
+            deleteStep(step.tripId, artificialStepId, true);
         }
 
         var revisedStep = reviseStep(step);
         allSteps[step.tripId][step.stepId] = revisedStep;
-        updateAllSteps(allSteps);
+        updateAllSteps(allSteps, noEvent);
 
         addOrReplaceStepOnTrip(revisedStep, artificialStepId);
     }
 
-    function deleteStep(tripId, stepId) {
+    function deleteStep(tripId, stepId, noEvent) {
         if (!$rootScope.loggedIn) {
             $log.warn('You need to be logged in to delete step ' + tripId + '/' + stepId);
             return;
@@ -125,7 +128,7 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
 
         var allSteps = loadAllSteps();
         delete allSteps[tripId][stepId];
-        updateAllSteps(allSteps);
+        updateAllSteps(allSteps, noEvent);
 
         removeStepFromTrip(tripId, stepId);
     }
@@ -207,9 +210,12 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         return localStorageService.get(LOCAL_STORAGE_KEYS.steps) || {};
     }
 
-    function updateAllSteps(steps) {
+    function updateAllSteps(steps, noEvent) {
         localStorageService.set(LOCAL_STORAGE_KEYS.steps, steps);
-        $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
+
+        if (!noEvent) {
+            $rootScope.$broadcast(EVENT_NAMES.localStorageUpdated);
+        }
     }
 
     function reviseStep(step) {
