@@ -46,20 +46,20 @@ function TripsService($rootScope, $q, $log, $http, ProcessQueue, LocalData, Step
         LocalData.addOrReplaceStep(step);
 
         if (step.onlyLocal) {
-            createStep(step);
+            ProcessQueue.enqueue('StepsResource', 'create', {tripId: step.tripId}, step);
         } else {
             ProcessQueue.enqueue('StepsResource', 'update', {tripId: step.tripId, stepId: step.stepId}, step);
         }
     }
 
     function deleteStep(tripId, stepId, onlyLocal) {
+        LocalData.deleteStep(tripId, stepId);
+        
         if (onlyLocal) {
             ProcessQueue.remove('StepsResource', 'create', {tripId: tripId}, {tripId: tripId, stepId: stepId});
         } else {
             ProcessQueue.enqueue('StepsResource', 'delete', {tripId: tripId, stepId: stepId});
         }
-
-        LocalData.deleteStep(tripId, stepId);
     }
 
     function deletePicture(tripId, stepId, pictureId) {

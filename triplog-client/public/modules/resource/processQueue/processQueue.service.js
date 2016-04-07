@@ -40,8 +40,6 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
     }
 
     function remove(resourceName, method, config, payload) {
-        console.log(isSimilarTo(createAction(resourceName, method, config, payload)), loadQueueFromLocalStorage()[0]);
-
         saveQueueInLocalStorage(deleteSimilarEntries(loadQueueFromLocalStorage(), createAction(resourceName, method, config, payload)));
     }
 
