@@ -187,75 +187,77 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     }
 
     function createStepDetailNavBarEntry() {
-        var tripId = $state.params.tripId,
-            stepId = $state.params.stepId,
-            stepIndex = indexOfStepWithId(tripId, stepId);
+        if ($rootScope.loggedIn && $state.current.name === 'content.step') {
+            var tripId = $state.params.tripId,
+                stepId = $state.params.stepId,
+                stepIndex = indexOfStepWithId(tripId, stepId);
 
-        if ($rootScope.loggedIn && $state.current.name === 'content.step' && stepIndex >= 0) {
-            var step = vm.trips[indexOfTripWithId(tripId)].steps[stepIndex],
-                controls = [];
+            if (stepIndex >= 0) {
+                var step = vm.trips[indexOfTripWithId(tripId)].steps[stepIndex],
+                    controls = [];
 
-            controls.push({
-                id: 'editStep',
-                name: 'Edit Step',
-                icon: 'edit',
-                action: function () {
-                    $state.go('content.step', {tripId: tripId, stepId: stepId, edit: true});
-                },
-                active: function () {
-                    return $state.current.name === 'content.step' && $state.params.edit;
-                }
-            });
-
-            controls.push({
-                id: 'deleteStep',
-                name: 'Delete Step',
-                icon: 'delete',
-                action: function () {
-                    var deleteStepModalData = {
-                        title: 'Delete step "' + step.stepName + '"',
-                        message: 'Caution: This cannot be undone. All step data including pictures will be deleted!',
-                        okText: 'Delete',
-                        okClass: 'btn-danger',
-                        cancelText: 'Cancel',
-                        cancelClass: 'btn-primary'
-                    };
-
-                    showModal(deleteStepModalData).then(function () {
-                        $state.go('content.trip', {tripId: tripId});
-                        StepsService.deleteStep(tripId, stepId, step.onlyLocal);
-                    });
-                },
-                active: function () {
-                    return false;
-                }
-            });
-
-            controls.push({
-                id: 'uploadPictures',
-                name: 'Upload Pictures',
-                icon: 'camera',
-                action: function () {
-                    if ($rootScope.isOnline) {
-                        showPictureUploadModal(step).then(function () {
-                            StepsService.fetchStep(tripId, stepId);
-                        });
+                controls.push({
+                    id: 'editStep',
+                    name: 'Edit Step',
+                    icon: 'edit',
+                    action: function () {
+                        $state.go('content.step', {tripId: tripId, stepId: stepId, edit: true});
+                    },
+                    active: function () {
+                        return $state.current.name === 'content.step' && $state.params.edit;
                     }
-                },
-                active: function () {
-                    return false;
-                },
-                disabled: function () {
-                    return !$rootScope.isOnline;
-                }
-            });
+                });
 
-            vm.navBarEntries.push({
-                id: stepId,
-                name: step.stepName,
-                icon: 'step',
-                entries: controls
-            });
+                controls.push({
+                    id: 'deleteStep',
+                    name: 'Delete Step',
+                    icon: 'delete',
+                    action: function () {
+                        var deleteStepModalData = {
+                            title: 'Delete step "' + step.stepName + '"',
+                            message: 'Caution: This cannot be undone. All step data including pictures will be deleted!',
+                            okText: 'Delete',
+                            okClass: 'btn-danger',
+                            cancelText: 'Cancel',
+                            cancelClass: 'btn-primary'
+                        };
+
+                        showModal(deleteStepModalData).then(function () {
+                            $state.go('content.trip', {tripId: tripId});
+                            StepsService.deleteStep(tripId, stepId, step.onlyLocal);
+                        });
+                    },
+                    active: function () {
+                        return false;
+                    }
+                });
+
+                controls.push({
+                    id: 'uploadPictures',
+                    name: 'Upload Pictures',
+                    icon: 'camera',
+                    action: function () {
+                        if ($rootScope.isOnline) {
+                            showPictureUploadModal(step).then(function () {
+                                StepsService.fetchStep(tripId, stepId);
+                            });
+                        }
+                    },
+                    active: function () {
+                        return false;
+                    },
+                    disabled: function () {
+                        return !$rootScope.isOnline;
+                    }
+                });
+
+                vm.navBarEntries.push({
+                    id: stepId,
+                    name: step.stepName,
+                    icon: 'step',
+                    entries: controls
+                });
+            }
         }
     }
 
