@@ -5,7 +5,7 @@ module.exports = TripController;
 // @ngInject
 function TripController($rootScope, $scope, $state, $q, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
     var vm = this;
-    
+
     reloadTrip().then(initController, goToContentNotFoundPage);
 
     /************************************** Private Functions **************************************/
@@ -71,12 +71,7 @@ function TripController($rootScope, $scope, $state, $q, loadTripFromLocalStorage
 
         vm.saveTrip = function () {
             if (vm.form.$valid) {
-                if (vm.editableTrip.onlyLocal) {
-                    TripsService.createTrip(vm.editableTrip);
-                } else {
-                    TripsService.updateTrip(vm.editableTrip);
-                }
-                
+                TripsService.updateTrip(vm.editableTrip);
                 $state.go('content.trip', {edit: undefined});
             }
         };

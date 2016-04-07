@@ -43,7 +43,12 @@ function TripsService($rootScope, $q, $log, ProcessQueue, LocalData, TripsResour
 
     function updateTrip(trip) {
         LocalData.updateTrip(trip);
-        ProcessQueue.enqueue('TripsResource', 'update', {tripId: trip.tripId}, trip);
+            createTrip(trip);        
+        if (trip.onlyLocal) {
+        } else {
+            ProcessQueue.enqueue('TripsResource', 'update', {tripId: trip.tripId}, trip);
+        }
+        
     }
 
     function deleteTrip(tripId, onlyLocal) {

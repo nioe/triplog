@@ -126,6 +126,8 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
         var allSteps = loadAllSteps();
         delete allSteps[tripId][stepId];
         updateAllSteps(allSteps);
+
+        removeStepFromTrip(tripId, stepId);
     }
 
     function isStepUnread(step) {
@@ -168,17 +170,23 @@ function LocalDataService($rootScope, $log, $filter, localStorageService, LOCAL_
 
     function addOrReplaceStepOnTrip(step, artificialStepId) {
         if (step.onlyLocal || artificialStepId) {
-            var trip = getTrip(step.tripId),
-                steps = trip.steps.filter(function (stepOnTrip) {
-                    return !(stepOnTrip.stepId === artificialStepId || stepOnTrip.stepId === step.stepId);
-                });
-
-            steps.push(step);
-            trip.steps = steps;
-            sortByPropertyDescending(trip.steps, 'fromDate');
-
+            var trip = getTripWithoutStep(step.tripId, artificialStepId || step.stepId);
+            trip.steps.push(step);
             updateTrip(trip);
         }
+    }
+
+    function removeStepFromTrip(tripId, stepId) {
+        updateTrip(getTripWithoutStep(tripId, stepId));
+    }
+
+    function getTripWithoutStep(tripId, stepId) {
+        var trip = getTrip(tripId);
+        trip.steps = trip.steps.filter(function (stepOnTrip) {
+            return stepOnTrip.stepId !== stepId;
+        });
+
+        return trip;
     }
 
     function sortByPropertyDescending(arr, property) {

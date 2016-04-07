@@ -188,10 +188,11 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     }
 
     function createStepDetailNavBarEntry() {
+        var tripId = $state.params.tripId,
+            stepId = $state.params.stepId;
+
         if ($rootScope.loggedIn && $state.current.name === 'content.step') {
-            var tripId = $state.params.tripId,
-                stepId = $state.params.stepId,
-                step = vm.trips[indexOfTripWithId(tripId)].steps[indexOfStepWithId(tripId, stepId)],
+            var step = vm.trips[indexOfTripWithId(tripId)].steps[indexOfStepWithId(tripId, stepId)],
                 controls = [];
 
             controls.push({
@@ -222,7 +223,7 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
 
                     showModal(deleteStepModalData).then(function () {
                         $state.go('content.trip', {tripId: tripId}, {reload: true});
-                        StepsService.deleteStep(tripId, stepId);
+                        StepsService.deleteStep(tripId, stepId, step.onlyLocal);
                     });
                 },
                 active: function () {

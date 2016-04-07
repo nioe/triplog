@@ -40,6 +40,8 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
     }
 
     function remove(resourceName, method, config, payload) {
+        console.log(isSimilarTo(createAction(resourceName, method, config, payload)), loadQueueFromLocalStorage()[0]);
+
         saveQueueInLocalStorage(deleteSimilarEntries(loadQueueFromLocalStorage(), createAction(resourceName, method, config, payload)));
     }
 
@@ -78,8 +80,15 @@ function ProcessQueueService($rootScope, localStorageService, LOCAL_STORAGE_KEYS
 
     function isSimilarTo(entry1, entry2) {
         return entry1.resourceName === entry2.resourceName &&
-            entry1.method === entry2.method &&
-            entry1.config === entry2.config && (
+            entry1.method === entry2.method && (
+                (
+                    entry1.config === entry2.config
+                ) || (
+                    entry1.config && entry2.config &&
+                    entry1.config.tripId === entry2.config.tripId &&
+                    entry1.config.stepId === entry2.config.stepId
+                )
+            ) && (
                 (
                     entry1.payload === entry2.payload
                 ) || (
