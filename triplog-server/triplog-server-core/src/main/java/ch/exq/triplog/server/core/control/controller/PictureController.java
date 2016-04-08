@@ -14,19 +14,13 @@ import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
-import com.google.common.io.Resources;
 import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 import org.slf4j.Logger;
 
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -80,7 +74,7 @@ public class PictureController {
         String pictureExtension = pictureName.substring(pictureName.lastIndexOf('.'));
         String uniquePictureName = getRandomUUID() + pictureExtension;
 
-        Path picturePath = pictureDAO.savePicture(tripId, stepId, uniquePictureName, addWatermark(content));
+        Path picturePath = pictureDAO.savePicture(tripId, stepId, uniquePictureName, content);
 
         Picture picture = readMetaDataOfPicture(uniquePictureName, picturePath);
         stepController.addPicture(tripId, stepId, picture);
@@ -96,18 +90,6 @@ public class PictureController {
 
         pictureDAO.deletePicture(tripId, stepId, pictureName);
         stepController.deletePicture(tripId, stepId, pictureName);
-    }
-
-    private byte[] addWatermark(byte[] content) throws IOException {
-        final ByteArrayOutputStream contentWithWatermark = new ByteArrayOutputStream();
-        final URL watermarkUrl = Resources.getResource("watermark.png");
-
-        Thumbnails.of(new ByteArrayInputStream(content))
-                .scale(1)
-                .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(watermarkUrl), 0.8f)
-                .toOutputStream(contentWithWatermark);
-
-        return contentWithWatermark.toByteArray();
     }
 
     private Picture readMetaDataOfPicture(String uniquePictureName, Path picturePath) throws IOException {
