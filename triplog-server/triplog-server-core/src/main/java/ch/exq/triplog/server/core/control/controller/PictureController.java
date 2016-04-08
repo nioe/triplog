@@ -48,15 +48,24 @@ public class PictureController {
         this.thumbnailSize = thumbnailSize;
     }
 
-    public File getPicture(String tripId, String stepId, String pictureName) {
+    public File getPicture(String tripId, String stepId, String pictureName) throws IOException {
         File picture = pictureDAO.getPicturePath(tripId, stepId, pictureName).toFile();
-        return picture.exists() ? picture : null;
+
+        if (!picture.exists()) {
+            return null;
+        }
+
+        final File fullSize = new File(pictureName);
+        // Use thumbnailator because it's rotating the picture according to the exif data
+        Thumbnails.of(picture).scale(1).toFile(fullSize);
+
+        return fullSize;
     }
 
     public File getPictureThumbnail(String tripId, String stepId, String pictureName) throws IOException {
-        File picture = getPicture(tripId, stepId, pictureName);
+        File picture = pictureDAO.getPicturePath(tripId, stepId, pictureName).toFile();
 
-        if (picture == null) {
+        if (!picture.exists()) {
             return null;
         }
 

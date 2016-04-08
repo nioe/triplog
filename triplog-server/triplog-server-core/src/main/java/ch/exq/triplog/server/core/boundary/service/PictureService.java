@@ -40,7 +40,7 @@ public class PictureService {
     @GET
     @Path("{pictureName}")
     @Produces("image/*")
-    public Response getPicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) {
+    public Response getPicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) throws IOException {
         File picture = pictureController.getPicture(tripId, stepId, pictureName);
 
         if (picture == null) {
