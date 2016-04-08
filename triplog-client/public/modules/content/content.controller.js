@@ -64,6 +64,13 @@ function ContentController($rootScope, $state, $window, ENV, EVENT_NAMES, loadTr
     vm.openPicture = function (imageName) {
         $rootScope.$broadcast(EVENT_NAMES.triplogOpenPicture, imageName);
     };
+    
+    vm.callActionChecked = function(entry) {
+        if (!(entry.disabled && entry.disabled())) {
+            vm.closeNavigation();
+            entry.action();
+        }
+    };
 
     /************************************** Private Functions **************************************/
     function loadTripsAndCreateNavigaton() {

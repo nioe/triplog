@@ -22,7 +22,7 @@
                     ng-class="{ active: entry.active(), disabled: entry.disabled && entry.disabled() }"
                     ng-if="!entry.entries">
 
-                    <a href ng-click="content.closeNavigation(); entry.action()">
+                    <a href ng-click="content.callActionChecked(entry)">
                         <span class="icon-{{ entry.icon }}"></span> {{ entry.name }}
                     </a>
                 </li>
@@ -44,7 +44,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li ng-class="{ active: dropDownEntry.active(), disabled: dropDownEntry.disabled && dropDownEntry.disabled() }"
                             ng-repeat-start="(dropDownEntryId, dropDownEntry) in entry.entries">
-                            <a href ng-click="content.closeNavigation(); dropDownEntry.action()">
+                            <a href ng-click="content.callActionChecked(dropDownEntry)">
                                 <span class="icon-{{ dropDownEntry.icon }}"></span> {{ dropDownEntry.name }}
                             </a>
                         </li>
