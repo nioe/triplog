@@ -21,6 +21,10 @@
         </dependency>
     </dependencies>
 
+    <properties>
+        <env>dev</env>
+    </properties>
+
     <build>
         <finalName>triplog-client</finalName>
 
@@ -96,6 +100,7 @@
                             <workingDirectory>${project.basedir}</workingDirectory>
                             <arguments>
                                 <argument>dist</argument>
+                                <argument>--${env}</argument>
                             </arguments>
                         </configuration>
                     </execution>
