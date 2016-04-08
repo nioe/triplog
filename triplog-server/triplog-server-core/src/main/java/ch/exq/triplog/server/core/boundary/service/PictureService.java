@@ -93,7 +93,7 @@ public class PictureService {
     @AuthenticationRequired
     public Response deletePicture(@PathParam("tripId") String tripId, @PathParam("stepId") String stepId, @PathParam("pictureName") String pictureName) {
         try {
-            pictureController.delete(tripId, stepId, pictureName);
+            pictureController.deletePicture(tripId, stepId, pictureName);
             return Response.ok().build();
         } catch (IllegalArgumentException ex) {
             return Response.status(NOT_FOUND).entity(ex.getMessage()).build();

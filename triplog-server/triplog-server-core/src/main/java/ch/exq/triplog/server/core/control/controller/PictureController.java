@@ -14,13 +14,19 @@ import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
+import com.google.common.io.Resources;
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.slf4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -74,8 +80,37 @@ public class PictureController {
         String pictureExtension = pictureName.substring(pictureName.lastIndexOf('.'));
         String uniquePictureName = getRandomUUID() + pictureExtension;
 
-        Path picturePath = pictureDAO.savePicture(tripId, stepId, uniquePictureName, content);
+        Path picturePath = pictureDAO.savePicture(tripId, stepId, uniquePictureName, addWatermark(content));
 
+        Picture picture = readMetaDataOfPicture(uniquePictureName, picturePath);
+        stepController.addPicture(tripId, stepId, picture);
+
+        return uniquePictureName;
+    }
+
+    public void deletePicture(String tripId, String stepId, String pictureName) throws IOException, DisplayableException {
+        StepDetail step = stepController.getStep(tripId, stepId, true);
+        if (step == null) {
+            throw new IllegalArgumentException("Given step could not be found!");
+        }
+
+        pictureDAO.deletePicture(tripId, stepId, pictureName);
+        stepController.deletePicture(tripId, stepId, pictureName);
+    }
+
+    private byte[] addWatermark(byte[] content) throws IOException {
+        final ByteArrayOutputStream contentWithWatermark = new ByteArrayOutputStream();
+        final URL watermarkUrl = Resources.getResource("watermark.png");
+
+        Thumbnails.of(new ByteArrayInputStream(content))
+                .scale(1)
+                .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(watermarkUrl), 0.8f)
+                .toOutputStream(contentWithWatermark);
+
+        return contentWithWatermark.toByteArray();
+    }
+
+    private Picture readMetaDataOfPicture(String uniquePictureName, Path picturePath) throws IOException {
         Metadata metadata = null;
         try {
             metadata = ImageMetadataReader.readMetadata(picturePath.toFile());
@@ -90,20 +125,7 @@ public class PictureController {
         } else {
             picture = new Picture(uniquePictureName, extractGpsData(metadata), extractCaptureDate(metadata), pictureSize.getWidth(), pictureSize.getHeight());
         }
-
-        stepController.addPicture(tripId, stepId, picture);
-
-        return uniquePictureName;
-    }
-
-    public void delete(String tripId, String stepId, String pictureName) throws IOException, DisplayableException {
-        StepDetail step = stepController.getStep(tripId, stepId, true);
-        if (step == null) {
-            throw new IllegalArgumentException("Given step could not be found!");
-        }
-
-        pictureDAO.deletePicture(tripId, stepId, pictureName);
-        stepController.deletePicture(tripId, stepId, pictureName);
+        return picture;
     }
 
     private GpsPoint extractGpsData(Metadata metadata) {
