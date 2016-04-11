@@ -12,7 +12,7 @@
     <div class="form-group" ng-class="{'has-error': trip.form.$submitted && !trip.form.tripDate.$valid}">
         <label for="trip-date" class="col-xs-12 col-sm-2 control-label">Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="date" class="form-control" id="trip-date" name="tripDate" placeholder="Trip Name" ng-model="trip.editableTrip.tripDate" required>
+            <input type="date" class="form-control" id="trip-date" name="tripDate" placeholder="Trip Name" ng-model="trip.editableTrip.tripDate" ng-model-options="{timezone: 'UTC'}" required>
             <p ng-show="trip.form.$submitted && !trip.form.tripDate.$valid" class="text-danger small">Date is required</p>
         </div>
     </div>
@@ -40,7 +40,7 @@
     <div class="form-group">
         <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Publish Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="datetime-local" class="form-control" id="publish-date" name="publishDate" ng-model="trip.editableTrip.published">
+            <input type="datetime-local" class="form-control" id="publish-date" name="publishDate" ng-model="trip.editableTrip.published" ng-model-options="{timezone: 'UTC'}">
         </div>
     </div>
 

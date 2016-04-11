@@ -16,7 +16,7 @@
     <div class="form-group" ng-class="{'has-error': step.form.$submitted && !step.form.fromDate.$valid}">
         <label for="from-date" class="col-xs-12 col-sm-2 control-label">From Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="date" class="form-control" id="from-date" name="fromDate" ng-model="step.editableStep.fromDate" required>
+            <input type="date" class="form-control" id="from-date" name="fromDate" ng-model="step.editableStep.fromDate" ng-model-options="{timezone: 'UTC'}" required>
             <p ng-show="step.form.$submitted && !step.form.fromDate.$valid" class="text-danger small">From Date is required</p>
         </div>
     </div>
@@ -25,7 +25,7 @@
     <div class="form-group" ng-class="{'has-error': step.form.$submitted && !step.form.toDate.$valid}">
         <label for="to-date" class="col-xs-12 col-sm-2 control-label">To Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="date" class="form-control" id="to-date" name="toDate" ng-model="step.editableStep.toDate" required>
+            <input type="date" class="form-control" id="to-date" name="toDate" ng-model="step.editableStep.toDate" ng-model-options="{timezone: 'UTC'}" required>
             <p ng-show="step.form.$submitted && !step.form.toDate.$valid" class="text-danger small">To Date is required</p>
         </div>
     </div>
@@ -152,7 +152,7 @@
     <div class="form-group">
         <label for="publish-date" class="col-xs-12 col-sm-2 control-label">Publish Date</label>
         <div class="col-xs-12 col-sm-10">
-            <input type="datetime-local" class="form-control" id="publish-date" name="publishDate" ng-model="step.editableStep.published">
+            <input type="datetime-local" class="form-control" id="publish-date" name="publishDate" ng-model-options="{timezone: 'UTC'}" ng-model="step.editableStep.published">
         </div>
     </div>
 
