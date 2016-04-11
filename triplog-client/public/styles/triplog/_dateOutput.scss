@@ -9,12 +9,12 @@
 .timestamps {
   padding: 20px;
   font-size: .9em;
+  display: table;
 
   .last-updated, .published {
-    margin: 20px auto;
     padding: 0 20px;
     width: 50%;
-    float: left;
+    display: table-cell;
   }
 
   .last-updated {
