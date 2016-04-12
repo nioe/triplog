@@ -37,6 +37,7 @@ public class Html5RouterFilter implements Filter {
                 final URI requestUri = new URI(request.getRequestURL().toString());
                 final URL ogpServiceUrl = new URL(UriBuilder.fromUri(requestUri).replacePath("services/ogp").queryParam("path", servletPath).build().toString());
 
+                servletResponse.setContentType("text/html");
                 servletResponse.getWriter().write(Resources.toString(ogpServiceUrl, Charsets.UTF_8));
             } catch (Exception e) {
                 e.printStackTrace();
