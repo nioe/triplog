@@ -47,6 +47,11 @@
       padding: 20px;
       position: relative;
 
+      &.appearAnimated {
+        -webkit-animation-name: fadeInLeft;
+        animation-name: fadeInLeft;
+      }
+
       &:before {
         position: absolute;
         top: 21px;
@@ -149,9 +154,9 @@
       .timeline-panel {
         float: right;
 
-        .timeline-unread-flag {
-          right: -8px;
-          left: inherit;
+        &.appearAnimated {
+          -webkit-animation-name: fadeInRight;
+          animation-name: fadeInRight;
         }
 
         &:before {
@@ -167,6 +172,11 @@
           left: -14px;
           right: auto;
         }
+
+        .timeline-unread-flag {
+          right: -8px;
+          left: inherit;
+        }
       }
     }
   }
@@ -180,6 +190,26 @@
       .timeline-panel {
         @include calc(width, "100% - 60px");
         padding: 12px;
+        float: right;
+
+        &.appearAnimated {
+          -webkit-animation-name: fadeInRight;
+          animation-name: fadeInRight;
+        }
+
+        &:before {
+          border-left-width: 0;
+          border-right-width: 15px;
+          left: -15px;
+          right: auto;
+        }
+
+        &:after {
+          border-left-width: 0;
+          border-right-width: 14px;
+          left: -14px;
+          right: auto;
+        }
 
         .timeline-unread-flag {
           right: -8px;
@@ -191,24 +221,6 @@
         left: 0;
         margin-left: 0;
         top: 16px;
-      }
-
-      .timeline-panel {
-        float: right;
-      }
-
-      .timeline-panel:before {
-        border-left-width: 0;
-        border-right-width: 15px;
-        left: -15px;
-        right: auto;
-      }
-
-      .timeline-panel:after {
-        border-left-width: 0;
-        border-right-width: 14px;
-        left: -14px;
-        right: auto;
       }
     }
   }

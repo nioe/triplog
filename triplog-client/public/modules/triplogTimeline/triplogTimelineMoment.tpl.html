@@ -1,17 +1,21 @@
 <li>
     <div class="timeline-badge"></div>
-    <div class="timeline-panel" ui-sref="{{ momentSref }}">
-        <div ng-if="picture" class="timeline-picture" style="background-image: url('{{ picture }}');"></div>
-        <div ng-if="unreadFlag" class="timeline-unread-flag">Unread</div>
+    <div class="timeline-panel hiddenBefore"
+         when-visible="timelineMoment.appearAnimated"
+         bind-scroll-to=".content-container"
+         ui-sref="{{ timelineMoment.momentSref }}">
+
+        <div ng-if="timelineMoment.picture" class="timeline-picture" style="background-image: url('{{ timelineMoment.picture }}');"></div>
+        <div ng-if="timelineMoment.unreadFlag" class="timeline-unread-flag">Unread</div>
         <div class="timeline-heading">
-            <div class="timeline-title">{{ momentTitle }}</div>
+            <div class="timeline-title">{{ timelineMoment.momentTitle }}</div>
             <p class="timeline-date">
                 <i></i>
                 <span ng-if="fromDate !== toDate">
-                    <span class="avoid-wrap">{{ fromDate | date:'fullDate'}} &ndash;</span>
-                    <span class="avoid-wrap">{{ toDate | date:'fullDate'}}</span>
+                    <span class="avoid-wrap">{{ timelineMoment.fromDate | date:'fullDate'}} &ndash;</span>
+                    <span class="avoid-wrap">{{ timelineMoment.toDate | date:'fullDate'}}</span>
                 </span>
-                <span ng-if="fromDate === toDate">{{ fromDate | date:'fullDate'}}</span>
+                <span ng-if="fromDate === toDate">{{ timelineMoment.fromDate | date:'fullDate'}}</span>
             </p>
         </div>
         <div class="timeline-body" ng-transclude>

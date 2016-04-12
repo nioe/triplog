@@ -28,6 +28,7 @@
     "leaflet.markercluster": "0.4.0",
     "mapbox.js": "2.3.0",
     "dropzone": "4.3.0",
-    "angular-google-chart": "^0.1.0"
+    "angular-google-chart": "^0.1.0",
+    "angular-scroll-animate": "^0.9.8"
   }
 }

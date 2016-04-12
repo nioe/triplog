@@ -1,5 +1,7 @@
 'use strict';
 
+module.exports = TriplogTimelineMoment;
+
 // @ngInject
 function TriplogTimelineMoment() {
 
@@ -16,8 +18,9 @@ function TriplogTimelineMoment() {
             toDate: '@',
             unreadFlag: '=',
             momentSref: '@'
-        }
+        },
+        controller: require('./triplogTimlineMoment.controller'),
+        controllerAs: 'timelineMoment',
+        bindToController: true
     };
 }
-
-module.exports = TriplogTimelineMoment;

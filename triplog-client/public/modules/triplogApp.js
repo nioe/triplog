@@ -7,6 +7,7 @@ var triplogApp = angular.module('triplogApp', [
     'ngTouch',
     'LocalStorageModule',
     'angular-google-analytics',
+    'angular-scroll-animate',
     require('modules/loadingSpinner').name,
     require('modules/welcome').name,
     require('modules/content').name,
