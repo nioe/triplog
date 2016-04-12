@@ -41,6 +41,9 @@ module.exports = function (grunt) {
                         src: 'public/favicon.ico',
                         dest: 'dist/favicon.ico'
                     }, {
+                        src: 'public/robots.txt',
+                        dest: 'dist/robots.txt'
+                    }, {
                         expand: true,
                         cwd: 'public/bower_components/mapbox.js/images/',
                         src: ['*.svg', '*.png'],
