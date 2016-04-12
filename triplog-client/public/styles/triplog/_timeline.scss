@@ -48,8 +48,8 @@
       position: relative;
 
       &.appearAnimated {
-        -webkit-animation-name: fadeInLeft;
-        animation-name: fadeInLeft;
+        -webkit-animation-name: bounceInLeft;
+        animation-name: bounceInLeft;
       }
 
       &:before {
@@ -155,8 +155,8 @@
         float: right;
 
         &.appearAnimated {
-          -webkit-animation-name: fadeInRight;
-          animation-name: fadeInRight;
+          -webkit-animation-name: bounceInRight;
+          animation-name: bounceInRight;
         }
 
         &:before {
@@ -193,8 +193,8 @@
         float: right;
 
         &.appearAnimated {
-          -webkit-animation-name: fadeInRight;
-          animation-name: fadeInRight;
+          -webkit-animation-name: bounceInRight;
+          animation-name: bounceInRight;
         }
 
         &:before {
