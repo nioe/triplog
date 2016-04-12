@@ -56,9 +56,6 @@ public class Html5RouterFilter implements Filter {
 
     private boolean isCrawler(String userAgent) {
         Matcher crawlerMatcher = CRAWLER_AGENT_PATTERN.matcher(userAgent);
-        final boolean matched = crawlerMatcher.find();
-        System.out.println("User-Agent: " + userAgent + ", isCrawler: " + matched);
-
-        return matched;
+        return crawlerMatcher.find();
     }
 }
