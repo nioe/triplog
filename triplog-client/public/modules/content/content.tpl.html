@@ -1,5 +1,5 @@
-<div class="page content-page" ng-class="{ 'navigation-is-shown': content.navigationIsShown }">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-class="{ 'ios-status-bar': content.isIosFullscreen }">
+<div class="page content-page">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-class="{ 'ios-status-bar': content.isIosFullscreen, 'navigation-is-shown': content.navigationIsShown }">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" ng-class="{ 'active': content.navigationIsShown }"
                     ng-click="content.toggleNavigation()">
@@ -73,7 +73,7 @@
         </div>
     </nav>
 
-    <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen }">
+    <main class="content-container" ng-class="{ 'ios-status-bar-present': content.isIosFullscreen, 'navigation-is-shown': content.navigationIsShown }">
         <div class="container-fluid"
              ng-swipe-left="content.openNavigation()"
              ng-swipe-right="content.closeNavigation()"

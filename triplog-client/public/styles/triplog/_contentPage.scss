@@ -1,8 +1,5 @@
 .content-container {
-  height: 100%;
   padding-top: $navbar-height;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 
   &.ios-status-bar-present {
     @media (max-width: $screen-xs-max) and (orientation: landscape) {
