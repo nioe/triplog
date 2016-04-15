@@ -4,8 +4,10 @@
 function TriplogGalleryController($scope, Lightbox, EVENT_NAMES) {
 
     var vm = this;
-
-    vm.pictures.sort(byCaptureDate);
+    
+    sortPictures();
+    
+    $scope.$watch(vm.pictures, sortPictures);
 
     vm.showFullPicture = function (index) {
         Lightbox.openModal(vm.pictures, index);
@@ -18,6 +20,10 @@ function TriplogGalleryController($scope, Lightbox, EVENT_NAMES) {
             Lightbox.openModal(vm.pictures, pictureIndex);
         }
     });
+    
+    function sortPictures() {
+        vm.sortedPictures = vm.pictures().sort(byCaptureDate);
+    }
 
     function byCaptureDate(picture1, picture2) {
         return picture1.captureDate.localeCompare(picture2.captureDate);

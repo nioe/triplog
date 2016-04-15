@@ -7,7 +7,7 @@ function TriplogGalleryDirective() {
         replace: true,
         templateUrl: 'triplogGallery.tpl.html',
         scope: {
-            pictures: '='
+            pictures: '&'
         },
         controller: require('./triplogGallery.controller'),
         controllerAs: 'triplogGallery',
