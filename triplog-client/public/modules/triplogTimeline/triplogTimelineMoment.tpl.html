@@ -1,9 +1,6 @@
-<li>
+<li ui-sref="{{ timelineMoment.momentSref }}">
     <div class="timeline-badge"></div>
-    <div class="timeline-panel hiddenBefore"
-         when-visible="timelineMoment.appearAnimated"
-         ui-sref="{{ timelineMoment.momentSref }}">
-
+    <div class="timeline-panel hiddenBefore" when-visible="timelineMoment.appearAnimated">
         <div ng-if="timelineMoment.picture" class="timeline-picture" style="background-image: url('{{ timelineMoment.picture }}');"></div>
         <div ng-if="timelineMoment.unreadFlag" class="timeline-unread-flag">Unread</div>
         <div class="timeline-heading">
