@@ -10,14 +10,14 @@ function TriplogGalleryController($scope, Lightbox, EVENT_NAMES) {
     $scope.$watch(vm.pictures, sortPictures);
 
     vm.showFullPicture = function (index) {
-        Lightbox.openModal(vm.pictures, index);
+        Lightbox.openModal(vm.sortedPictures, index);
     };
 
     $scope.$on(EVENT_NAMES.triplogOpenPicture, function (e, pictureName) {
         var pictureIndex = getIndexByPictureName(pictureName);
 
         if (pictureIndex >= 0) {
-            Lightbox.openModal(vm.pictures, pictureIndex);
+            vm.showFullPicture(pictureIndex);
         }
     });
     
@@ -32,7 +32,7 @@ function TriplogGalleryController($scope, Lightbox, EVENT_NAMES) {
     function getIndexByPictureName(pictureName) {
         var pictureIndex = -1;
 
-        vm.pictures.forEach(function (picture, index) {
+        vm.sortedPictures.forEach(function (picture, index) {
             if (picture.name === pictureName) {
                 pictureIndex = index;
             }
