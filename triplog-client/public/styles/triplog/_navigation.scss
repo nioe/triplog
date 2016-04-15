@@ -3,6 +3,7 @@
   opacity: 0.9;
   z-index: 10;
   -webkit-transform: translateZ(0);
+  border: none;
 
   &.ios-status-bar {
     padding-top: $ios-status-bar-height;
