@@ -59,6 +59,8 @@ function StepAddController($state, showModal, StepsService, LocalData, CountrySe
 
     vm.createStep = function () {
         if (vm.form.$valid) {
+            vm.newStep.gpsPoints = vm.newStep.gpsPoints ? JSON.parse(vm.newStep.gpsPoints) : [];
+
             StepsService.createStep(vm.newStep);
             $state.go('content.trip', {tripId: vm.trip.tripId});
         }
