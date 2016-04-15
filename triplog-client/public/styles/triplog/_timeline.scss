@@ -48,8 +48,7 @@
       position: relative;
 
       &.appearAnimated {
-        -webkit-animation-name: bounceInLeft;
-        animation-name: bounceInLeft;
+        @extend .bounceIn;
       }
 
       &:before {
@@ -154,11 +153,6 @@
       .timeline-panel {
         float: right;
 
-        &.appearAnimated {
-          -webkit-animation-name: bounceInRight;
-          animation-name: bounceInRight;
-        }
-
         &:before {
           border-left-width: 0;
           border-right-width: 15px;
@@ -191,11 +185,6 @@
         @include calc(width, "100% - 60px");
         padding: 12px;
         float: right;
-
-        &.appearAnimated {
-          -webkit-animation-name: bounceInRight;
-          animation-name: bounceInRight;
-        }
 
         &:before {
           border-left-width: 0;
