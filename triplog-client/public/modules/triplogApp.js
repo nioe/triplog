@@ -166,8 +166,8 @@ triplogApp.config(function ($locationProvider, $stateProvider, $urlRouterProvide
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
 
-triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document', '$window', 'localStorageService', 'Analytics', 'AlertService', 'ENV',
-    function ($rootScope, $state, $stateParams, $timeout, $document, $window, localStorageService, Analytics, AlertService, ENV) {
+triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$window', 'localStorageService', 'Analytics', 'AlertService', 'ENV',
+    function ($rootScope, $state, $stateParams, $timeout, $window, localStorageService, Analytics, AlertService, ENV) {
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
@@ -217,11 +217,8 @@ triplogApp.run(['$rootScope', '$state', '$stateParams', '$timeout', '$document',
         });
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            // Scroll to top of content container after state change
-            var contentContainer = $document[0].querySelector('.content-container');
-            if (contentContainer) {
-                contentContainer.scrollTop = 0;
-            }
+            // Scroll to top of page after state change
+            $window.scrollTo(0, 0);
 
             // Save current state to local storage
             fromParams.referrerState = undefined;
