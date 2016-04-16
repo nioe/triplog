@@ -17,4 +17,15 @@
       z-index: 1;
     }
   }
+
+  .covered-distance {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0,0,0,.6);
+    z-index: 1;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+  }
 }

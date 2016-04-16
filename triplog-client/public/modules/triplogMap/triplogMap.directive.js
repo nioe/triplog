@@ -15,16 +15,15 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
         },
         link: function (scope, element) {
             L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
-            var map = L.mapbox.map(element[0], null);
+            var mapContainer = element[0],
+                map = L.mapbox.map(mapContainer, null);
             map.scrollWheelZoom.disable();
 
             addLayers(map);
             addFullScreenControl(map);
             addGpsPoints(map, scope.gpsPoints);
             addPictures(map, scope.pictures);
-
-            var coveredDistance = calcDistance();
-            console.log('coveredDistance', coveredDistance.distance + ' ' + coveredDistance.unit);
+            addCoveredDistance(mapContainer);
         }
     };
 
@@ -141,6 +140,13 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
         map.on('exitFullscreen', function () {
             map.scrollWheelZoom.disable();
         });
+    }
+    
+    function addCoveredDistance(mapContainer) {
+        var coveredDistance = calcDistance(),
+            displayText = 'Covered distance: ' + coveredDistance.distance + ' ' + coveredDistance.unit;
+
+        mapContainer.getElementsByClassName('covered-distance')[0].innerText = displayText;
     }
 }
 
