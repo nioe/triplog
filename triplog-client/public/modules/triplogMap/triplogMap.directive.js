@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE, EVENT_NAMES) {
+function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, EVENT_NAMES) {
 
     var polyline;
 
@@ -15,9 +15,10 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE, EV
         },
         link: function (scope, element) {
             L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
-            var map = L.mapbox.map(element[0], MAP_BOX_STYLE);
+            var map = L.mapbox.map(element[0], null);
             map.scrollWheelZoom.disable();
 
+            addLayers(map);
             addFullScreenControl(map);
             addGpsPoints(map, scope.gpsPoints);
             addPictures(map, scope.pictures);
@@ -86,6 +87,18 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLE, EV
         }
 
         return [picture.width * (longEdge / picture.height), longEdge];
+    }
+
+    function addLayers(map) {
+        var layers = {};
+        for (var name in MAP_BOX_STYLES) {
+            if (MAP_BOX_STYLES.hasOwnProperty(name)) {
+                layers[name] = L.mapbox.tileLayer(MAP_BOX_STYLES[name]);
+            }
+        }
+
+        layers.Streets.addTo(map);
+        L.control.layers(layers).addTo(map);
     }
 
     function addGpsPoints(map, gpsPoints) {

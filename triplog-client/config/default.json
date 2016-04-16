@@ -1,7 +1,12 @@
 {
   "REST_URL_PREFIX": "/services",
   "MAP_BOX_ACCESS_TOKEN": "pk.eyJ1IjoibmVvemVyb29uZSIsImEiOiI5YjRmODE4YzM2OGNhOTNhYmE5NjQwYTkwMzlhYzQ2NyJ9.RdoIup-zRJ-ve3e0cWwiKw",
-  "MAP_BOX_STYLE": "mapbox.streets",
+  "MAP_BOX_STYLES": {
+    "Streets": "mapbox.streets",
+    "Satellite": "mapbox.streets-satellite",
+    "Hike": "mapbox.run-bike-hike",
+    "Terrain": "mapbox.outdoors"
+  },
   "SYNC_INTERVAL": 10000,
   "EVENT_NAMES": {
     "onlineStatusChanged": "onlineStatusChanged",
