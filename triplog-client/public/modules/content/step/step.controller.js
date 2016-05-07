@@ -160,6 +160,9 @@ function StepController($rootScope, $scope, $state, $q, loadStepFromLocalStorage
             var editableStep = angular.copy(vm.step);
             editableStep.fromDate = new Date(vm.step.fromDate);
             editableStep.toDate = new Date(vm.step.toDate);
+            editableStep.pictures.sort(function (picture1, picture2) {
+                return picture1.captureDate.localeCompare(picture2.captureDate);
+            });
             editableStep.coverPicture = getCoverPictureIdFromFullUrl(vm.step.coverPicture);
             editableStep.gpsPoints = JSON.stringify(vm.step.gpsPoints, undefined, 4);
             editableStep.published = vm.step.published ? new Date(vm.step.published) : undefined;
