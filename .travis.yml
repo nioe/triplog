@@ -18,4 +18,4 @@ before_install:
 
 after_success:
   - codecov
-  - ./scripts/deploy.sh
+#  - ./scripts/deploy.sh
