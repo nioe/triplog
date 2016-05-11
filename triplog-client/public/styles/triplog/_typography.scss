@@ -29,7 +29,6 @@ body {
         @include column-gap(40px);
         @include column-rule(1px solid dimgrey);
         widows: 5;
-        orphans: 5;
       }
     }
   }
