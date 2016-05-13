@@ -7,11 +7,11 @@
             <div class="timeline-title">{{ timelineMoment.momentTitle }}</div>
             <p class="timeline-date">
                 <i></i>
-                <span ng-if="fromDate !== toDate">
+                <span ng-if="timelineMoment.fromDate !== timelineMoment.toDate">
                     <span class="avoid-wrap">{{ timelineMoment.fromDate | date:'fullDate'}} &ndash;</span>
                     <span class="avoid-wrap">{{ timelineMoment.toDate | date:'fullDate'}}</span>
                 </span>
-                <span ng-if="fromDate === toDate">{{ timelineMoment.fromDate | date:'fullDate'}}</span>
+                <span ng-if="timelineMoment.fromDate === timelineMoment.toDate">{{ timelineMoment.fromDate | date:'fullDate'}}</span>
             </p>
         </div>
         <div class="timeline-body" ng-transclude>
