@@ -1,6 +1,7 @@
 package ch.exq.triplog.server.core.boundary.service;
 
 import ch.exq.triplog.server.common.dto.GpsPoint;
+import ch.exq.triplog.server.common.dto.StepGps;
 import ch.exq.triplog.server.common.dto.Trip;
 import ch.exq.triplog.server.core.boundary.security.AuthTokenHandler;
 import ch.exq.triplog.server.core.boundary.security.AuthenticationRequired;
@@ -49,7 +50,7 @@ public class TripService {
     @Path("{tripId : [0-9a-z-]*}/gpsPoints")
     @Produces(APPLICATION_JSON)
     public Response getAllGpsPointsOfTrip(@PathParam("tripId") String tripId, @HeaderParam(X_AUTH_TOKEN) String xAuthToken) {
-        List<GpsPoint> gpsPoints = tripController.getAllGpsPointsOfTrip(tripId, authTokenHandler.isValidToken(xAuthToken, true));
+        List<StepGps> gpsPoints = tripController.getAllGpsPointsOfTrip(tripId, authTokenHandler.isValidToken(xAuthToken, true));
         if (gpsPoints == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

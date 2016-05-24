@@ -1,9 +1,6 @@
 package ch.exq.triplog.server.core.mapper.mappings;
 
-import ch.exq.triplog.server.common.dto.GpsPoint;
-import ch.exq.triplog.server.common.dto.Picture;
-import ch.exq.triplog.server.common.dto.Step;
-import ch.exq.triplog.server.common.dto.StepDetail;
+import ch.exq.triplog.server.common.dto.*;
 import ch.exq.triplog.server.core.entity.db.GpsPointDBObject;
 import ch.exq.triplog.server.core.entity.db.PictureDBObject;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
@@ -159,5 +156,22 @@ public class StepMappingTest {
         assertThat(actual.getToDate()).isEqualTo(TO_DATE);
         assertThat(actual.getStepLead()).isEqualTo(LEAD);
         assertThat(actual.getCoverPicture()).isEqualTo(COVER_PICTURE);
+    }
+
+    @Test
+    public void should_map_db_object_to_step_gps() throws Exception {
+        // given
+        StepDBObject stepDBObject = new StepDBObject();
+        stepDBObject.setStepId(STEP_ID);
+        stepDBObject.setStepName(STEP_NAME);
+        stepDBObject.setGpsPoints(GPS_POINT_DB_OBJECTS);
+
+        // when
+        StepGps actual = mapper.map(stepDBObject, StepGps.class);
+
+        // then
+        assertThat(actual.getStepId()).isEqualTo(STEP_ID);
+        assertThat(actual.getStepName()).isEqualTo(STEP_NAME);
+        assertThat(actual.getGpsPoints()).containsAll(GPS_POINTS);
     }
 }

@@ -2,6 +2,7 @@ package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.common.comparator.TripDateComparator;
 import ch.exq.triplog.server.common.dto.GpsPoint;
+import ch.exq.triplog.server.common.dto.StepGps;
 import ch.exq.triplog.server.common.dto.Trip;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.TripDAO;
@@ -16,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static ch.exq.triplog.server.core.control.controller.filter.PublishedChecker.shouldBeShown;
 import static ch.exq.triplog.server.util.id.IdGenerator.generateIdWithYear;
@@ -127,12 +129,25 @@ public class TripController {
         return tripResult.getN() == 1 && tripResult.getError() == null;
     }
 
-    // TODO implement method
-    public List<GpsPoint> getAllGpsPointsOfTrip(String tripId, boolean isAuthenticatedUser) {
-        throw new NotImplementedException();
+    public List<StepGps> getAllGpsPointsOfTrip(String tripId, boolean isAuthenticatedUser) {
+        return simplifyGpsPoints(stepController.getAllGpsPointsOfTrip(tripId, isAuthenticatedUser));
     }
 
     private void addStepsToTrip(Trip trip, boolean isAuthenticatedUser) {
         trip.setSteps(stepController.getAllStepsOfTrip(trip.getTripId(), isAuthenticatedUser));
+    }
+
+    private List<StepGps> simplifyGpsPoints(List<StepGps> gpsPoints) {
+        gpsPoints.stream().forEach(stepGps -> {
+            List<GpsPoint> originalGpsPoints = stepGps.getGpsPoints();
+            stepGps.setGpsPoints(
+                    IntStream.range(0, originalGpsPoints.size())
+                            .filter(n -> n == 0 || n == originalGpsPoints.size() - 1 || n % 10 == 0)
+                            .mapToObj(originalGpsPoints::get)
+                            .collect(Collectors.toList())
+            );
+        });
+
+        return gpsPoints;
     }
 }

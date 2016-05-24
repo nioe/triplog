@@ -1,10 +1,7 @@
 package ch.exq.triplog.server.core.control.controller;
 
 import ch.exq.triplog.server.common.comparator.StepFromDateComparator;
-import ch.exq.triplog.server.common.dto.Picture;
-import ch.exq.triplog.server.common.dto.Step;
-import ch.exq.triplog.server.common.dto.StepDetail;
-import ch.exq.triplog.server.common.dto.StepMin;
+import ch.exq.triplog.server.common.dto.*;
 import ch.exq.triplog.server.core.control.exceptions.DisplayableException;
 import ch.exq.triplog.server.core.entity.dao.PictureDAO;
 import ch.exq.triplog.server.core.entity.dao.StepDAO;
@@ -50,8 +47,8 @@ public class StepController {
         }
 
         List<Step> allStepsOfTrip = stepDAO.getAllStepsOfTrip(tripId).stream()
-                .map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .filter(step -> shouldBeShown(step, isAuthenticatedUser))
+                .map(stepDBObject -> mapper.map(stepDBObject, Step.class))
                 .collect(toList());
         allStepsOfTrip.sort(new StepFromDateComparator());
 
@@ -277,5 +274,18 @@ public class StepController {
         }
 
         return new ArrayList<>(currentStep.getPictures());
+    }
+
+    public List<StepGps> getAllGpsPointsOfTrip(String tripId, boolean isAuthenticatedUser) {
+        if (tripDAO.getTripById(tripId) == null) {
+            return null;
+        }
+
+        List<StepGps> allGpsPointsOfTrip = stepDAO.getAllStepsOfTrip(tripId).stream()
+                .filter(step -> shouldBeShown(step, isAuthenticatedUser))
+                .map(stepDBObject -> mapper.map(stepDBObject, StepGps.class))
+                .collect(toList());
+
+        return allGpsPointsOfTrip;
     }
 }
