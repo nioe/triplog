@@ -51,6 +51,24 @@ body {
       width: 100%;
       margin: 5px 0;
     }
+
+    blockquote {
+      border-left: none;
+      font-size: $font-size-base;
+      margin: 10px 0;
+      background-color: $triplog-blue;
+      opacity: 0.9;
+      border-radius: 5px;
+      padding: 5px;
+      color: white;
+
+      h2, h3, h4, h5, h6 {
+        margin-top: 0;
+        text-align: center;
+        border: none;
+        padding: 10px 0;
+      }
+    }
   }
 
   .fixed-width-font {
