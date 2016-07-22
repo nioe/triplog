@@ -15,7 +15,8 @@
     "syncServiceItemsSynced": "syncServiceItemsSynced",
     "localStorageUpdated": "localStorageUpdated",
     "triplogOpenPicture": "triplogOpenPicture",
-    "showLoginModal": "showLoginModal"
+    "showLoginModal": "showLoginModal",
+    "trackClicked": "trackClicked"
   },
   "LOCAL_STORAGE_KEYS": {
     "processQueue": "processQueue",

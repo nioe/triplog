@@ -7,6 +7,7 @@ module.exports = angular.module('trip', [
     require('modules/contentData').name,
     require('modules/triplogDateOutput').name,
     require('modules/config').name,
+    require('modules/triplogMap').name,
 
     // Template module dependencies (created with browserify-ng-html2js)
     require('./trip.tpl.html'),

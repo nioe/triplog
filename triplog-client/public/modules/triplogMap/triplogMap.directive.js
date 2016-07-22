@@ -11,7 +11,9 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
         templateUrl: 'triplogMap.tpl.html',
         scope: {
             gpsPoints: '=',
-            pictures: '='
+            multipleTracks: '=',
+            pictures: '=',
+            showCoveredDistance: '='
         },
         link: function (scope, element) {
             L.mapbox.accessToken = MAP_BOX_ACCESS_TOKEN;
@@ -19,11 +21,16 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
                 map = L.mapbox.map(mapContainer, null);
             map.scrollWheelZoom.disable();
 
+            var bounds = [];
+
             addLayers(map);
             addFullScreenControl(map);
-            addGpsPoints(map, scope.gpsPoints);
-            addPictures(map, scope.pictures);
-            addCoveredDistance(mapContainer);
+            bounds.push(addGpsPoints(map, scope.gpsPoints));
+            bounds.push(addMultipleTracks(map, scope.multipleTracks));
+            bounds.push(addPictures(map, scope.pictures));
+            addCoveredDistance(mapContainer, scope.showCoveredDistance);
+
+            map.fitBounds(bounds);
         }
     };
 
@@ -101,8 +108,47 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
     }
 
     function addGpsPoints(map, gpsPoints) {
-        polyline = L.polyline(gpsPoints, {color: 'red'}).addTo(map);
-        map.fitBounds(polyline.getBounds());
+        if (gpsPoints && gpsPoints.length > 0) {
+            polyline = L.polyline(gpsPoints, {color: 'red', clickable: false}).addTo(map);
+            return polyline.getBounds();
+        }
+    }
+
+    function addMultipleTracks(map, multipleTracks) {
+        if (multipleTracks && multipleTracks.length > 0) {
+            var polylines = multipleTracks.map(toPolylines);
+            addConnections(polylines, multipleTracks);
+
+            var featureGroup = L.featureGroup(polylines);
+
+            featureGroup.addTo(map);
+            return featureGroup.getBounds();
+        }
+    }
+
+    function toPolylines(track, index) {
+        var polyline = L.polyline(track.gpsPoints, {color: index % 2 === 0 ? 'red' : 'orange', opacity: 0.8});
+        polyline.on('click', function () {
+            $rootScope.$broadcast(EVENT_NAMES.trackClicked, track);
+        });
+
+        polyline.bindPopup('<b>' + track.stepName + '</b>');
+        polyline.on('mouseover', function () {
+            this.openPopup();
+        });
+        polyline.on('mouseout', function () {
+            this.closePopup();
+        });
+
+        return polyline;
+    }
+
+    function addConnections(polylines, multipleTracks) {
+        for (var i = 1; i < multipleTracks.length; i++) {
+            var startPoint = multipleTracks[i - 1].gpsPoints.slice(-1)[0];
+            var endPoint = multipleTracks[i].gpsPoints[0];
+            polylines.push(L.polyline([startPoint, endPoint], {color: 'green', opacity: 0.8, 'dashArray': '20, 10', 'clickable': false}));
+        }
     }
 
     function addPictures(map, pictures) {
@@ -124,9 +170,11 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
             });
             map.addLayer(clusterGroup);
 
-            pictureLayer.on('click', function(e) {
+            pictureLayer.on('click', function (e) {
                 $rootScope.$broadcast(EVENT_NAMES.triplogOpenPicture, e.layer.feature.properties.pictureName);
             });
+
+            return pictureLayer.getBounds();
         }
     }
 
@@ -141,8 +189,12 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
             map.scrollWheelZoom.disable();
         });
     }
-    
-    function addCoveredDistance(mapContainer) {
+
+    function addCoveredDistance(mapContainer, showCoveredDistance) {
+        if (showCoveredDistance === false) {
+            return;
+        }
+
         var coveredDistance = calcDistance(),
             displayText = 'Covered distance: ' + coveredDistance.distance + ' ' + coveredDistance.unit;
 

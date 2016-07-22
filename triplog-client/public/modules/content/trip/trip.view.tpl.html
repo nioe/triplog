@@ -3,6 +3,8 @@
     <div class="triplog-text" marked="trip.trip.tripText"></div>
 </article>
 
+<triplog-map ng-if="trip.showMap()" multiple-tracks="trip.gpsTracks" show-covered-distance="false"></triplog-map>
+
 <triplog-timeline ng-if="trip.trip.steps && trip.trip.steps.length > 0">
     <triplog-timeline-moment
             ng-repeat="step in trip.trip.steps"

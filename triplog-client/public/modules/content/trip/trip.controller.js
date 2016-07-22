@@ -3,7 +3,7 @@
 module.exports = TripController;
 
 // @ngInject
-function TripController($rootScope, $scope, $state, $q, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES) {
+function TripController($rootScope, $scope, $state, $q, $http, loadTripFromLocalStorage, showModal, TripsService, LocalData, EVENT_NAMES, REST_URL_PREFIX) {
     var vm = this;
 
     reloadTrip().then(initController, goToContentNotFoundPage);
@@ -29,10 +29,22 @@ function TripController($rootScope, $scope, $state, $q, loadTripFromLocalStorage
         // Reload trips into memory if local storage changed
         $scope.$on(EVENT_NAMES.localStorageUpdated, reloadTrip);
 
-        vm.isUnread = LocalData.isStepUnread;
+        $scope.$on(EVENT_NAMES.trackClicked, function (event, data) {
+            $state.go('content.step', {tripId: vm.trip.tripId, stepId: data.stepId});
+        });
+
+        vm.isUnread = LocalData .isStepUnread;
 
         vm.templateToShow = function () {
             return vm.editMode ? 'trip.edit.tpl.html' : 'trip.view.tpl.html';
+        };
+
+        $http.get(REST_URL_PREFIX + '/trips/' + vm.trip.tripId + '/gpsPoints').then(function(response) {
+            vm.gpsTracks = response.data;
+        });
+
+        vm.showMap = function () {
+            return $rootScope.isOnline && vm.gpsTracks && vm.gpsTracks.length > 0;
         };
     }
 

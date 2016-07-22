@@ -36,7 +36,7 @@ function StepController($rootScope, $scope, $state, $q, loadStepFromLocalStorage
         LocalData.markStepAsRead(vm.step);
 
         vm.showMap = function () {
-            return $rootScope.isOnline && vm.step.gpsPoints && vm.step.gpsPoints.length > 0;
+            return $rootScope.isOnline && ((vm.step.gpsPoints && vm.step.gpsPoints.length > 0) || vm.showGallery());
         };
 
         vm.showGallery = function () {
