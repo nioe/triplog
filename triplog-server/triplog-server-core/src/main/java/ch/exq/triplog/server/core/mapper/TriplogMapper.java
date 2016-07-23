@@ -1,9 +1,6 @@
 package ch.exq.triplog.server.core.mapper;
 
-import ch.exq.triplog.server.core.mapper.mappings.DBObjectToPictureMap;
-import ch.exq.triplog.server.core.mapper.mappings.DBObjectToStepDetailMap;
-import ch.exq.triplog.server.core.mapper.mappings.DBObjectToStepMap;
-import ch.exq.triplog.server.core.mapper.mappings.DBObjectToTripMap;
+import ch.exq.triplog.server.core.mapper.mappings.*;
 import org.modelmapper.ModelMapper;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +17,7 @@ public class TriplogMapper extends ModelMapper {
         //Step
         addMappings(new DBObjectToStepMap());
         addMappings(new DBObjectToStepDetailMap());
+        addMappings(new DBObjectToStepGpsMap());
 
         //Picture
         addMappings(new DBObjectToPictureMap());

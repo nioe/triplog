@@ -16,10 +16,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ch.exq.triplog.server.core.control.controller.filter.PublishedChecker.shouldBeShown;
 import static java.util.stream.Collectors.toList;
@@ -283,8 +280,11 @@ public class StepController {
 
         List<StepGps> allGpsPointsOfTrip = stepDAO.getAllStepsOfTrip(tripId).stream()
                 .filter(step -> shouldBeShown(step, isAuthenticatedUser))
+                .filter(step -> step.getGpsPoints() != null && !step.getGpsPoints().isEmpty())
                 .map(stepDBObject -> mapper.map(stepDBObject, StepGps.class))
                 .collect(toList());
+
+        allGpsPointsOfTrip.sort((step1, step2) -> step1.getFromDate().compareTo(step2.getFromDate()));
 
         return allGpsPointsOfTrip;
     }

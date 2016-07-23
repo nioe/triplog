@@ -165,6 +165,7 @@ public class StepMappingTest {
         stepDBObject.setStepId(STEP_ID);
         stepDBObject.setStepName(STEP_NAME);
         stepDBObject.setGpsPoints(GPS_POINT_DB_OBJECTS);
+        stepDBObject.setFromDate(FROM_DATE);
 
         // when
         StepGps actual = mapper.map(stepDBObject, StepGps.class);
@@ -173,5 +174,6 @@ public class StepMappingTest {
         assertThat(actual.getStepId()).isEqualTo(STEP_ID);
         assertThat(actual.getStepName()).isEqualTo(STEP_NAME);
         assertThat(actual.getGpsPoints()).containsAll(GPS_POINTS);
+        assertThat(actual.getFromDate()).isEqualTo(FROM_DATE);
     }
 }
