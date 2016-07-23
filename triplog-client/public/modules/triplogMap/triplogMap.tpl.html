@@ -1,3 +1,3 @@
 <div class="triplog-map-container">
-    <div ng-hide="showCoveredDistance === false" class="covered-distance">Calculating distance...</div>
+    <div ng-hide="showCoveredDistance === false || !gpsPoints || gpsPoints.length === 0" class="covered-distance">Calculating distance...</div>
 </div>

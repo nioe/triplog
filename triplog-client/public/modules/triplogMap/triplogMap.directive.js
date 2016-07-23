@@ -25,38 +25,14 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
 
             addLayers(map);
             addFullScreenControl(map);
-            bounds.push(addGpsPoints(map, scope.gpsPoints));
+            
+            bounds.push(addGpsPoints(map, scope.gpsPoints, mapContainer, scope.showCoveredDistance));
             bounds.push(addMultipleTracks(map, scope.multipleTracks));
             bounds.push(addPictures(map, scope.pictures));
-            addCoveredDistance(mapContainer, scope.showCoveredDistance);
 
             map.fitBounds(bounds);
         }
     };
-
-
-    function calcDistance() {
-        var latlngs = polyline._latlngs,
-            coveredDistance = 0;
-
-        for (var i = 1; i < latlngs.length; i++) {
-            coveredDistance += latlngs[i - 1].distanceTo(latlngs[i]);
-        }
-
-        if (coveredDistance >= 10000) {
-            // Show distance in km
-            return {
-                distance: Math.round(coveredDistance / 100) / 10,
-                unit: 'km'
-            };
-        } else {
-            // Show distance in m
-            return {
-                distance: Math.round(coveredDistance * 10) / 10,
-                unit: 'm'
-            };
-        }
-    }
 
     function onlyDisplayablePictures(picture) {
         return picture.location && picture.location.lng && picture.location.lat && picture.width && picture.height;
@@ -107,10 +83,36 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
         L.control.layers(layers).addTo(map);
     }
 
-    function addGpsPoints(map, gpsPoints) {
+    function addGpsPoints(map, gpsPoints, mapContainer, showCoveredDistance) {
         if (gpsPoints && gpsPoints.length > 0) {
             polyline = L.polyline(gpsPoints, {color: 'red', clickable: false}).addTo(map);
+
+            addCoveredDistance(polyline, mapContainer, showCoveredDistance);
+            
             return polyline.getBounds();
+        }
+    }
+
+    function calcDistance(polyline) {
+        var latlngs = polyline._latlngs,
+            coveredDistance = 0;
+
+        for (var i = 1; i < latlngs.length; i++) {
+            coveredDistance += latlngs[i - 1].distanceTo(latlngs[i]);
+        }
+
+        if (coveredDistance >= 10000) {
+            // Show distance in km
+            return {
+                distance: Math.round(coveredDistance / 100) / 10,
+                unit: 'km'
+            };
+        } else {
+            // Show distance in m
+            return {
+                distance: Math.round(coveredDistance * 10) / 10,
+                unit: 'm'
+            };
         }
     }
 
@@ -190,12 +192,12 @@ function TriplogMapDirective($rootScope, MAP_BOX_ACCESS_TOKEN, MAP_BOX_STYLES, E
         });
     }
 
-    function addCoveredDistance(mapContainer, showCoveredDistance) {
+    function addCoveredDistance(polyline, mapContainer, showCoveredDistance) {
         if (showCoveredDistance === false) {
             return;
         }
 
-        var coveredDistance = calcDistance(),
+        var coveredDistance = calcDistance(polyline),
             displayText = 'Covered distance: ' + coveredDistance.distance + ' ' + coveredDistance.unit;
 
         mapContainer.getElementsByClassName('covered-distance')[0].innerText = displayText;
