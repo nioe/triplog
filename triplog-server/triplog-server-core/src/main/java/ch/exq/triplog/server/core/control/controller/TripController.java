@@ -10,7 +10,6 @@ import ch.exq.triplog.server.core.entity.db.TripDBObject;
 import ch.exq.triplog.server.core.mapper.TriplogMapper;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 import java.lang.reflect.InvocationTargetException;

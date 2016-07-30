@@ -1,6 +1,5 @@
 package ch.exq.triplog.server.core.mapper.mappings;
 
-import ch.exq.triplog.server.common.dto.Step;
 import ch.exq.triplog.server.common.dto.StepGps;
 import ch.exq.triplog.server.core.entity.db.StepDBObject;
 import org.modelmapper.PropertyMap;

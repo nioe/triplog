@@ -1,6 +1,5 @@
 package ch.exq.triplog.server.core.boundary.service;
 
-import ch.exq.triplog.server.common.dto.GpsPoint;
 import ch.exq.triplog.server.common.dto.StepGps;
 import ch.exq.triplog.server.common.dto.Trip;
 import ch.exq.triplog.server.core.boundary.security.AuthTokenHandler;
