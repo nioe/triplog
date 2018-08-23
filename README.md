@@ -24,7 +24,7 @@ To build and test the project simply run Maven in the root directory. It will in
 mvn clean package
 ```
 ### Frontend ###
-If you are working on the frontend only it might be useful to have live reload in place. Do do so simply run
+If you are working on the frontend only it might be useful to have live reload in place. To do so simply run
 ```shell
 grunt live
 ```
